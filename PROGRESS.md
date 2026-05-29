@@ -34,6 +34,15 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 2: co-occurrence scorer added (feature/phase2-cooc-scorer)
+
+- **Commit**: bbf60b6 on feature/phase2-cooc-scorer (to be merged to main)
+- **Notes**: Fourth Step-2 scorer option: `score(c) = (Σᵢ co(i,c) × raw_idf(i)^α) × raw_idf(c)^γ`.
+  Two dials: COOC_INPUT_EXP (α, input-side) and COOC_OUTPUT_EXP (γ, output-side). Both at 0.0
+  = plain co-occurrence integers; at None = scorer disabled (prior scorers unaffected).
+  Framework checks pass: integer co-occurrence, input-boost direction, output-boost direction,
+  singleton-resistance. Three unported Step-2 scorers now outstanding — see ⚠ open item.
+
 ## 2026-05-29 — Phase 2: lift-with-shrinkage scorer added (feature/phase2-lift-scorer)
 
 - **Commit**: 8dcaa55 on feature/phase2-lift-scorer (to be merged to main)
@@ -51,9 +60,9 @@ Append in chronological order. Never edit prior entries.
   books. BETA sweep (0, 0.3, 0.5, 0.7, 1.0) run; Set 2/Set 3 divergence drops from 8→0
   shared top-15 books at BETA=0.5. Anomaly: BETA≥0.5 on mixed inputs causes singleton
   flooding (over-correction). BETA choice is still pending human review of sweep output.
-- **⚠ Open item — JS parity, TWO unported Step-2 scorers**: site/main.js still runs raw
-  affinity (BETA=0, SHRINK_K=None). Both the BETA scorer and the lift-with-shrinkage scorer
-  are unported. Until main.js is updated to implement whichever scorer is ultimately chosen
+- **⚠ Open item — JS parity, THREE unported Step-2 scorers**: site/main.js still runs raw
+  affinity (BETA=0, SHRINK_K=None, COOC params None). The BETA scorer, lift-with-shrinkage
+  scorer, and co-occurrence scorer are all unported. Until main.js is updated to implement whichever scorer is ultimately chosen
   and parity is re-confirmed, the live site serves raw affinity regardless of what
   phase2_model.py uses. This is a known and deliberate lag — do not ship a new default
   BETA or SHRINK_K without first porting and verifying the JS implementation.
