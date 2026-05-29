@@ -34,6 +34,13 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-28 — Phase 1 complete (canonical book identity signed off)
+
+- **Commit**: 7b5c59d (main)
+- **Branch**: main
+- **Tag**: (none yet)
+- **Notes**: Phase 1 pipeline (`phase1_canonicalize.py`) complete and all 10 verification checks pass. 3,564 rows → 1,229 canonical books; 220 books span both sources; 108 review flags all resolved (102 accepted, 6 rejected); 0 pending proposals. Human-reviewed every FUZZY_TITLE, AUTHOR_VARIANT, SERIES_EXPLODE, MULTI_BOOK_SLOT, NON_BOOK_ENTRY, BLANK_AUTHOR_RECOVERED, and BLANK_AUTHOR_CANON proposal. Outputs in `data/processed/`. Ready for Phase 2 (matching model).
+
 ## 2026-05-28 — ESCALATION (human review of Phase 1 canonical mapping)
 
 - **Last task attempted**: Phase 1 — canonical book identity
