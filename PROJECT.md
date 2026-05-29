@@ -36,7 +36,7 @@ Each row is one book on one person's personal list. Key columns:
 
 - The **same book appears under different title strings** across voters (translated titles, subtitle variants, punctuation). Title strings cannot be trusted as identity.
 - **~140 rows have a blank author.**
-- **Series collapsed into one position** — e.g. one voter's slot is split across the four "Rabbit" novels by Updike *plus* a series-level "Rabbit Angstrom" entry, all under a single position. **Resolved rule (§4):** a recognized series collapses to a single canonical book.
+- **Series collapsed into one position** — e.g. one voter's slot is split across the four "Rabbit" novels by Updike *plus* a series-level "Rabbit Angstrom" entry, all under a single position. **Resolved rule (§4):** each listed volume is its own canonical book; omnibus/series-level entries (e.g. "Rabbit Angstrom") explode into their constituent volumes. Lists may be 11–14 books long. See §4 for details.
 - **Only one of the two sources carries OpenLibrary IDs**, so IDs cannot be assumed present.
 
 ## 4. Phase 1 — Canonical book identity (the foundational task)
@@ -49,7 +49,7 @@ Approach (to be refined with Claude Code during the work):
 
 - Build a canonicalization pipeline that normalizes titles/authors and resolves variants to one ID per book. Where OpenLibrary IDs exist, prefer them as the anchor; backfill the source that lacks them.
 - Define explicit rules for the hazard cases: blank authors, series-under-one-position, translated/subtitled variants.
-  - **Series rule (decided):** a recognized series collapses to a **single canonical book**. When both a series-level entry and its individual volumes appear (e.g. "Rabbit Angstrom" alongside the four Rabbit novels), prefer the series/omnibus identity as the canonical book. Every series collapse is written to the flagged-for-review file for confirmation.
+  - **Series rule (revised — see DECISIONS.md):** each listed volume is its own **separate canonical book**. When a series omnibus entry appears (e.g. "Rabbit Angstrom" alongside the four Rabbit novels), the omnibus explodes into its constituent volumes — the omnibus is not itself a canonical book. Lists become 11–14 books long for voters who listed a full series; this is acceptable. Every multi-book slot is written to the flagged-for-review file for confirmation.
 - **Treat the canonical mapping as a reviewable, human-auditable artifact**, not a hidden intermediate step. The pipeline must output:
   - a clean canonical mapping file (raw row → canonical book ID, with title/author/year),
   - a separate **flagged-for-review list** of low-confidence merges and ambiguous cases (series, blank-author, near-duplicate titles), so a human can eyeball and correct them.
