@@ -1,7 +1,6 @@
 voter_name,canonical_id,sources,positions,voter_types
 A.L. Kennedy,K:1a0c06d3d2a9,Top Ten Books,10,
 A.L. Kennedy,K:8a9c82a087df,Top Ten Books,8,
-A.L. Kennedy,K:b36e75fbcafd,Top Ten Books,5,
 A.L. Kennedy,K:cc83b0188ed4,Top Ten Books,1,
 A.L. Kennedy,K:d47d8cd099f0,Top Ten Books,7,
 A.L. Kennedy,K:ffa3f721b881,Top Ten Books,9,
@@ -9,6 +8,7 @@ A.L. Kennedy,OL:OL2005223W,Top Ten Books,3,
 A.L. Kennedy,OL:OL24156W,Top Ten Books,2,
 A.L. Kennedy,OL:OL2466637W,Top Ten Books,6,
 A.L. Kennedy,OL:OL26437W,Top Ten Books,4,
+A.L. Kennedy,OL:OL32013322W,Top Ten Books,5,
 A.M. Homes,K:23ded9392b69,Top Ten Books,8,
 A.M. Homes,K:2f9cd8e7abef,Top Ten Books,2,
 A.M. Homes,K:47e0fe1f5575,Top Ten Books,1,
@@ -55,10 +55,10 @@ Adam Thirlwell,OL:OL1190289W,Guardian Top 100,2,Author
 Adam Thirlwell,OL:OL1330246W,Guardian Top 100,3,Author
 Adam Thirlwell,OL:OL1715276W,Guardian Top 100,9,Author
 Adam Thirlwell,OL:OL267171W,Guardian Top 100,1,Author
+Adam Thirlwell,OL:OL32013322W,Guardian Top 100,4,Author
 Adam Thirlwell,OL:OL37277W,Guardian Top 100,8,Author
 Adam Thirlwell,OL:OL39360W,Guardian Top 100,5,Author
 Adam Thirlwell,OL:OL498463W,Guardian Top 100,7,Author
-Adam Thirlwell,OL:OL679230W,Guardian Top 100,4,Author
 Adam Thirlwell,OL:OL847902W,Guardian Top 100,6,Author
 Adriana Trigiani,K:338726f56a1d,Top Ten Books,3,
 Adriana Trigiani,K:424e6fcde8db,Top Ten Books,10,
@@ -155,12 +155,12 @@ Alexander McCall Smith,OL:OL3140822W,Top Ten Books,10,
 Alexandra Harris,OL:OL12791W,Guardian Top 100,5,Author/Academic
 Alexandra Harris,OL:OL17063057W,Guardian Top 100,10,Author/Academic
 Alexandra Harris,OL:OL20665410W,Guardian Top 100,9,Author/Academic
+Alexandra Harris,OL:OL32013322W,Guardian Top 100,6,Author/Academic
 Alexandra Harris,OL:OL39316W,Guardian Top 100,2,Author/Academic
 Alexandra Harris,OL:OL39329W,Guardian Top 100,4,Author/Academic
 Alexandra Harris,OL:OL39396W,Guardian Top 100,1,Author/Academic
 Alexandra Harris,OL:OL44994W,Guardian Top 100,3,Author/Academic
 Alexandra Harris,OL:OL509889W,Guardian Top 100,8,Author/Academic
-Alexandra Harris,OL:OL679230W,Guardian Top 100,6,Author/Academic
 Alexandra Harris,OL:OL86318W,Guardian Top 100,7,Author/Academic
 Ali Smith,OL:OL1451547W,Guardian Top 100,8,Author
 Ali Smith,OL:OL16273321W,Guardian Top 100,4,Author
@@ -253,7 +253,7 @@ Andrea Barrett,OL:OL267171W,Top Ten Books,2,
 Andrea Barrett,OL:OL26860869W,Top Ten Books,6,
 Andrea Barrett,OL:OL466942W,Top Ten Books,10,
 Andrew Hudgins,K:312f2e675a9c,Top Ten Books,6,
-Andrew Hudgins,K:620bf0bababe,Top Ten Books,1,
+Andrew Hudgins,K:450eb07e587b,Top Ten Books,1,
 Andrew Hudgins,K:d2d9f9b0f145,Top Ten Books,9,
 Andrew Hudgins,K:d3e96a7e3439,Top Ten Books,4,
 Andrew Hudgins,K:de8ae851971a,Top Ten Books,2,
@@ -332,24 +332,24 @@ Arifa Akbar,OL:OL50548W,Guardian Top 100,5,Journalist
 Arifa Akbar,OL:OL675783W,Guardian Top 100,10,Journalist
 Arifa Akbar,OL:OL697431W,Guardian Top 100,8,Journalist
 Arifa Akbar,OL:OL74666W,Guardian Top 100,9,Journalist
-Arthur Golden,K:0fefe015723f,Top Ten Books,4,
 Arthur Golden,K:57af164fa280,Top Ten Books,8,
-Arthur Golden,K:696b5912f345,Top Ten Books,10,
 Arthur Golden,K:980abe074752,Top Ten Books,1,
 Arthur Golden,K:bbf3fa01dd65,Top Ten Books,9,
 Arthur Golden,OL:OL1337129W,Top Ten Books,6,
 Arthur Golden,OL:OL134601W,Top Ten Books,7,
 Arthur Golden,OL:OL3335245W,Top Ten Books,5,
 Arthur Golden,OL:OL44222301W,Top Ten Books,3,
+Arthur Golden,OL:OL53908W,Top Ten Books,10,
 Arthur Golden,OL:OL627084W,Top Ten Books,2,
+Arthur Golden,OL:OL7982392W,Top Ten Books,4,
 Arthur Phillips,K:22d8a45acf9c,Top Ten Books,9,
 Arthur Phillips,K:655dc7057956,Top Ten Books,1,
 Arthur Phillips,K:6b584d1b9428,Top Ten Books,8,
-Arthur Phillips,K:9eeeeadbc8c1,Top Ten Books,2,
 Arthur Phillips,K:de8ae851971a,Top Ten Books,10,
 Arthur Phillips,K:fbe28ea907ef,Top Ten Books,5,
 Arthur Phillips,OL:OL1190289W,Top Ten Books,6,
 Arthur Phillips,OL:OL14866824W,Top Ten Books,3,
+Arthur Phillips,OL:OL1715276W,Top Ten Books,2,
 Arthur Phillips,OL:OL267171W,Top Ten Books,7,
 Arthur Phillips,OL:OL627081W,Top Ten Books,4,
 Ayelet Waldman,K:02b36d7b19db,Top Ten Books,7,
@@ -365,11 +365,11 @@ Ayelet Waldman,OL:OL457179W,Top Ten Books,4,
 Barry Hannah,K:3b04f3eef439,Top Ten Books,4,
 Barry Hannah,K:3dfab6fbfe3b,Top Ten Books,7,
 Barry Hannah,K:5f7b8a8855e8,Top Ten Books,9,
-Barry Hannah,K:696b5912f345,Top Ten Books,6,
 Barry Hannah,OL:OL10432709W,Top Ten Books,1,
 Barry Hannah,OL:OL1230613W,Top Ten Books,3,
 Barry Hannah,OL:OL267171W,Top Ten Books,10,
 Barry Hannah,OL:OL40879W,Top Ten Books,5,
+Barry Hannah,OL:OL53908W,Top Ten Books,6,
 Barry Hannah,OL:OL62979W,Top Ten Books,8,
 Barry Hannah,OL:OL82929W,Top Ten Books,2,
 Barry Unsworth,K:39ac4c40de96,Top Ten Books,8,
@@ -462,7 +462,6 @@ Blake Morrison,OL:OL32013322W,Guardian Top 100,7,Author
 Blake Morrison,OL:OL34381078W,Guardian Top 100,3,Author
 Blake Morrison,OL:OL81295W,Guardian Top 100,5,Author
 Blake Morrison,OL:OL86318W,Guardian Top 100,4,Author
-Bobbie Ann Mason,K:696b5912f345,Top Ten Books,7,
 Bobbie Ann Mason,K:965aa95cc729,Top Ten Books,5,
 Bobbie Ann Mason,K:fbe28ea907ef,Top Ten Books,1,
 Bobbie Ann Mason,OL:OL102749W,Top Ten Books,9,
@@ -470,6 +469,7 @@ Bobbie Ann Mason,OL:OL190034W,Top Ten Books,10,
 Bobbie Ann Mason,OL:OL34381078W,Top Ten Books,3,
 Bobbie Ann Mason,OL:OL41225848W,Top Ten Books,4,
 Bobbie Ann Mason,OL:OL509919W,Top Ten Books,8,
+Bobbie Ann Mason,OL:OL53908W,Top Ten Books,7,
 Bobbie Ann Mason,OL:OL627084W,Top Ten Books,2,
 Bobbie Ann Mason,OL:OL62979W,Top Ten Books,6,
 Brad Watson,K:0698a31697cc,Top Ten Books,7,
@@ -509,11 +509,11 @@ Carl Hiaasen,K:1dc5ba74ec0c,Top Ten Books,4,
 Carl Hiaasen,K:3a143b2c0545,Top Ten Books,8,
 Carl Hiaasen,K:3b04f3eef439,Top Ten Books,9,
 Carl Hiaasen,K:655dc7057956,Top Ten Books,6,
-Carl Hiaasen,K:696b5912f345,Top Ten Books,2,
 Carl Hiaasen,OL:OL15400582W,Top Ten Books,7,
 Carl Hiaasen,OL:OL16847W,Top Ten Books,10,
 Carl Hiaasen,OL:OL276798W,Top Ten Books,1,
 Carl Hiaasen,OL:OL3335245W,Top Ten Books,3,
+Carl Hiaasen,OL:OL53908W,Top Ten Books,2,
 Carl Hiaasen,OL:OL98459W,Top Ten Books,5,
 Caroline Leavitt,K:3514747cc632,Top Ten Books,2,
 Caroline Leavitt,K:4887539c2e6c,Top Ten Books,6,
@@ -537,13 +537,13 @@ Catherine Taylor,OL:OL751418W,Guardian Top 100,1,Author
 Catherine Taylor,OL:OL81293W,Guardian Top 100,8,Author
 Cathleen Schine,K:1f288c612b3c,Top Ten Books,4,
 Cathleen Schine,K:2269bb9ee4d7,Top Ten Books,10,
-Cathleen Schine,K:696b5912f345,Top Ten Books,7,
 Cathleen Schine,K:906ffc5082cd,Top Ten Books,8,
 Cathleen Schine,K:bbf3fa01dd65,Top Ten Books,2,
 Cathleen Schine,OL:OL190034W,Top Ten Books,1,
 Cathleen Schine,OL:OL267171W,Top Ten Books,3,
 Cathleen Schine,OL:OL41368739W,Top Ten Books,5,
 Cathleen Schine,OL:OL480955W,Top Ten Books,6,
+Cathleen Schine,OL:OL53908W,Top Ten Books,7,
 Cathleen Schine,OL:OL668682W,Top Ten Books,9,
 Charles Palliser,K:20113bd8060f,Top Ten Books,8,
 Charles Palliser,K:2118bf5ef223,Top Ten Books,9,
@@ -615,13 +615,13 @@ Chloe Aridjis,OL:OL38663W,Guardian Top 100,5,Author
 Chloe Aridjis,OL:OL41225848W,Guardian Top 100,10,Author
 Chloe Aridjis,OL:OL44222301W,Guardian Top 100,1,Author
 Chloe Aridjis,OL:OL498556W,Guardian Top 100,4,Author
-Chris Bohjalian,K:696b5912f345,Top Ten Books,8,
 Chris Bohjalian,OL:OL1063588W,Top Ten Books,10,
 Chris Bohjalian,OL:OL1095427W,Top Ten Books,7,
 Chris Bohjalian,OL:OL267096W,Top Ten Books,4,
 Chris Bohjalian,OL:OL3140822W,Top Ten Books,6,
 Chris Bohjalian,OL:OL34381078W,Top Ten Books,5,
 Chris Bohjalian,OL:OL495470W,Top Ten Books,9,
+Chris Bohjalian,OL:OL53908W,Top Ten Books,8,
 Chris Bohjalian,OL:OL86318W,Top Ten Books,2,
 Chris Bohjalian,OL:OL8721462W,Top Ten Books,3,
 Chris Bohjalian,OL:OL93082W,Top Ten Books,1,
@@ -648,12 +648,12 @@ Christobel Kent,OL:OL98587W,Guardian Top 100,4,Author
 Christopher Bollen,K:08cd5694dbf4,Top Ten Books,5,
 Christopher Bollen,K:8f7a8603bc7a,Top Ten Books,9,
 Christopher Bollen,K:99a3f7848da8,Top Ten Books,8,
-Christopher Bollen,K:cb9d628dca7d,Top Ten Books,6,
 Christopher Bollen,OL:OL1992198W,Top Ten Books,7,
 Christopher Bollen,OL:OL34381078W,Top Ten Books,1,
 Christopher Bollen,OL:OL39316W,Top Ten Books,4,
 Christopher Bollen,OL:OL457175W,Top Ten Books,3,
 Christopher Bollen,OL:OL59434W,Top Ten Books,10,
+Christopher Bollen,OL:OL7180368W,Top Ten Books,6,
 Christopher Bollen,OL:OL88881W,Top Ten Books,2,
 Claire Armitstead,OL:OL102749W,Guardian Top 100,10,
 Claire Armitstead,OL:OL1095427W,Guardian Top 100,9,
@@ -694,11 +694,11 @@ Clare Clark,OL:OL464512W,Guardian Top 100,10,Author
 Clare Clark,OL:OL59048W,Guardian Top 100,9,Author
 Clyde Edgerton,K:2ecba695b7ae,Top Ten Books,9,
 Clyde Edgerton,K:3b04f3eef439,Top Ten Books,6,
-Clyde Edgerton,K:696b5912f345,Top Ten Books,4,
 Clyde Edgerton,K:76ef59a89b06,Top Ten Books,8,
 Clyde Edgerton,K:d3e96a7e3439,Top Ten Books,3,
 Clyde Edgerton,K:fbe28ea907ef,Top Ten Books,1,
 Clyde Edgerton,OL:OL44222301W,Top Ten Books,2,
+Clyde Edgerton,OL:OL53908W,Top Ten Books,4,
 Clyde Edgerton,OL:OL82929W,Top Ten Books,7,
 Clyde Edgerton,OL:OL82931W,Top Ten Books,5,
 Colm Tóibín,OL:OL1190289W,Guardian Top 100,3,Author
@@ -821,7 +821,6 @@ David Leavitt,OL:OL20867W,Top Ten Books,2,
 David Leavitt,OL:OL26424W,Top Ten Books,8,
 David Leavitt,OL:OL509889W,Top Ten Books,3,
 David Leavitt,OL:OL627081W,Top Ten Books,4,
-David Lodge,K:b36e75fbcafd,Top Ten Books,8,
 David Lodge,K:d3e96a7e3439,Top Ten Books,3,
 David Lodge,K:de8ae851971a,Top Ten Books,1,
 David Lodge,K:fbe28ea907ef,Top Ten Books,2,
@@ -830,6 +829,7 @@ David Lodge,OL:OL190034W,Top Ten Books,5,
 David Lodge,OL:OL19350876W,Top Ten Books,9,
 David Lodge,OL:OL20867W,Top Ten Books,6,
 David Lodge,OL:OL267096W,Top Ten Books,7,
+David Lodge,OL:OL32013322W,Top Ten Books,8,
 David Lodge,OL:OL86318W,Top Ten Books,4,
 David Means,K:04ef5684be62,Top Ten Books,7,
 David Means,K:6b584d1b9428,Top Ten Books,4,
@@ -1082,13 +1082,13 @@ Ella Creamer,OL:OL39396W,Guardian Top 100,1,Journalist
 Ella Creamer,OL:OL42974304W,Guardian Top 100,9,Journalist
 Ella Creamer,OL:OL50548W,Guardian Top 100,3,Journalist
 Ella Creamer,OL:OL81293W,Guardian Top 100,4,Journalist
-Emma Donoghue,K:050b9552feae,Top Ten Books,1,
 Emma Donoghue,K:0fb96ea874bc,Top Ten Books,10,
 Emma Donoghue,K:45d423f10268,Top Ten Books,6,
 Emma Donoghue,K:6c48d4f8f588,Top Ten Books,2,
 Emma Donoghue,K:9bc0b5729601,Top Ten Books,7,
 Emma Donoghue,K:ced3e731d0b5,Top Ten Books,8,
 Emma Donoghue,K:ec3fd432acea,Top Ten Books,9,
+Emma Donoghue,OL:OL1150725W,Top Ten Books,1,
 Emma Donoghue,OL:OL1846845W,Top Ten Books,5,
 Emma Donoghue,OL:OL190034W,Top Ten Books,3,
 Emma Donoghue,OL:OL8721462W,Top Ten Books,4,
@@ -1104,7 +1104,7 @@ Emma Loffhagen,OL:OL5731542W,Guardian Top 100,2,Journalist
 Emma Loffhagen,OL:OL891786W,Guardian Top 100,3,Journalist
 Erin McGraw,K:1dc9509e5ec7,Top Ten Books,2,
 Erin McGraw,K:3b04f3eef439,Top Ten Books,10,
-Erin McGraw,K:620bf0bababe,Top Ten Books,1,
+Erin McGraw,K:450eb07e587b,Top Ten Books,1,
 Erin McGraw,K:d2d9f9b0f145,Top Ten Books,8,
 Erin McGraw,K:d3e96a7e3439,Top Ten Books,4,
 Erin McGraw,OL:OL10432709W,Top Ten Books,7,
@@ -1176,13 +1176,13 @@ Francine Prose,OL:OL274505W,Top Ten Books,9,
 Fred Chappell,K:0b33bb451da1,Top Ten Books,7,
 Fred Chappell,K:312f2e675a9c,Top Ten Books,10,
 Fred Chappell,K:4915c4a456eb,Top Ten Books,4,
-Fred Chappell,K:696b5912f345,Top Ten Books,8,
 Fred Chappell,K:7d6f4598f836,Top Ten Books,9,
 Fred Chappell,K:c70aa81a21ba,Top Ten Books,6,
 Fred Chappell,K:d3e96a7e3439,Top Ten Books,3,
 Fred Chappell,K:de8ae851971a,Top Ten Books,5,
 Fred Chappell,K:ee34a6c50dbf,Top Ten Books,1,
 Fred Chappell,OL:OL44222301W,Top Ten Books,2,
+Fred Chappell,OL:OL53908W,Top Ten Books,8,
 Freya Johnston,OL:OL11103938W,Guardian Top 100,8,Academic
 Freya Johnston,OL:OL1400708W,Guardian Top 100,6,Academic
 Freya Johnston,OL:OL19350876W,Guardian Top 100,2,Academic
@@ -1237,13 +1237,13 @@ George Pelecanos,OL:OL40879W,Top Ten Books,8,
 George Pelecanos,OL:OL4112928W,Top Ten Books,10,
 George Pelecanos,OL:OL62979W,Top Ten Books,2,
 George Saunders,K:1953ba5c8e84,Top Ten Books,1,
-George Saunders,K:696b5912f345,Top Ten Books,2,
 George Saunders,K:6b584d1b9428,Top Ten Books,7,
 George Saunders,K:9582f8788134,Top Ten Books,9,
-George Saunders,K:b36e75fbcafd,Top Ten Books,4,
 George Saunders,K:ef3be8623dfc,Top Ten Books,6,
 George Saunders,K:fbe28ea907ef,Top Ten Books,5,
 George Saunders,OL:OL267171W,Top Ten Books,3,
+George Saunders,OL:OL32013322W,Top Ten Books,4,
+George Saunders,OL:OL53908W,Top Ten Books,2,
 George Saunders,OL:OL65906W,Top Ten Books,10,
 George Saunders,OL:OL98459W,Top Ten Books,8,
 Guy Gunaratne,OL:OL102389W,Guardian Top 100,10,Author
@@ -1267,7 +1267,6 @@ Ha Jin,OL:OL267096W,Top Ten Books,1,
 Ha Jin,OL:OL267171W,Top Ten Books,3,
 Ha Jin,OL:OL44820011W,Top Ten Books,8,
 Haven Kimmel,K:3dc75f99b576,Top Ten Books,6,
-Haven Kimmel,K:696b5912f345,Top Ten Books,7,
 Haven Kimmel,K:9df5ca05129f,Top Ten Books,10,
 Haven Kimmel,K:aafaa386e9f2,Top Ten Books,4,
 Haven Kimmel,K:b38daef16aea,Top Ten Books,1,
@@ -1276,18 +1275,19 @@ Haven Kimmel,K:fbe28ea907ef,Top Ten Books,3,
 Haven Kimmel,OL:OL39396W,Top Ten Books,5,
 Haven Kimmel,OL:OL495470W,Top Ten Books,8,
 Haven Kimmel,OL:OL50548W,Top Ten Books,9,
+Haven Kimmel,OL:OL53908W,Top Ten Books,7,
 Heidi Julavits,K:111bd5114ad8,Top Ten Books,6,
 Heidi Julavits,K:1fbb54b59724,Top Ten Books,7,
 Heidi Julavits,K:534ca77bf091,Top Ten Books,6,
 Heidi Julavits,K:625b79762741,Top Ten Books,5,
 Heidi Julavits,K:98c8438f910d,Top Ten Books,1,
 Heidi Julavits,K:bd00376b9180,Top Ten Books,10,
-Heidi Julavits,K:cb9d628dca7d,Top Ten Books,3,
 Heidi Julavits,K:da7daa0a88e4,Top Ten Books,9,
 Heidi Julavits,K:f8c105f058d5,Top Ten Books,6,
 Heidi Julavits,OL:OL103113W,Top Ten Books,8,
 Heidi Julavits,OL:OL1230613W,Top Ten Books,4,
 Heidi Julavits,OL:OL20933W,Top Ten Books,2,
+Heidi Julavits,OL:OL7180368W,Top Ten Books,3,
 Hermione Lee,OL:OL112983W,Guardian Top 100,9,Author/Academic
 Hermione Lee,OL:OL12791W,Guardian Top 100,4,Author/Academic
 Hermione Lee,OL:OL166434W,Guardian Top 100,6,Author/Academic
@@ -1338,7 +1338,7 @@ Ian Patterson,OL:OL15210983W,Guardian Top 100,5,Author/Academic
 Ian Patterson,OL:OL190034W,Guardian Top 100,3,Author/Academic
 Ian Patterson,OL:OL2085293W,Guardian Top 100,8,Author/Academic
 Ian Patterson,OL:OL26099415W,Guardian Top 100,2,Author/Academic
-Ian Patterson,OL:OL679230W,Guardian Top 100,4,Author/Academic
+Ian Patterson,OL:OL32013322W,Guardian Top 100,4,Author/Academic
 Ian Patterson,OL:OL724067W,Guardian Top 100,10,Author/Academic
 Ian Rankin,K:9b6c22f83dd1,Top Ten Books,8,
 Ian Rankin,K:bc4aa7549271,Top Ten Books,1,
@@ -1430,8 +1430,8 @@ James Meek,OL:OL66530W,Guardian Top 100,9,Author/Journalist
 James Meek,OL:OL724067W,Guardian Top 100,10,Author/Journalist
 James Meek,OL:OL86318W,Guardian Top 100,6,Author/Journalist
 James Salter,K:1953ba5c8e84,Top Ten Books,7,
+James Salter,K:450eb07e587b,Top Ten Books,1,
 James Salter,K:511f77d53adb,Top Ten Books,4,
-James Salter,K:620bf0bababe,Top Ten Books,1,
 James Salter,K:96f5809e4069,Top Ten Books,2,
 James Salter,K:98c8438f910d,Top Ten Books,3,
 James Salter,K:a452f45af6bc,Top Ten Books,10,
@@ -1480,17 +1480,16 @@ Jem Calder,OL:OL4082696W,Guardian Top 100,7,Author
 Jem Calder,OL:OL40885W,Guardian Top 100,4,Author
 Jem Calder,OL:OL9362446W,Guardian Top 100,5,Author
 Jennifer Egan,K:1d1ae492ede5,Top Ten Books,10,
-Jennifer Egan,K:b36e75fbcafd,Top Ten Books,7,
 Jennifer Egan,OL:OL103066W,Top Ten Books,2,
 Jennifer Egan,OL:OL109724W,Guardian Top 100,9,Author/Journalist
+Jennifer Egan,OL:OL1150725W,Guardian Top 100,3,Author/Journalist
 Jennifer Egan,OL:OL118986W,Top Ten Books,9,
 Jennifer Egan,OL:OL15165350W,Guardian Top 100,2,Author/Journalist
 Jennifer Egan,OL:OL1858631W,Top Ten Books,4,
 Jennifer Egan,OL:OL1921185W,Guardian Top 100;Top Ten Books,8,Author/Journalist
 Jennifer Egan,OL:OL20867W,Guardian Top 100;Top Ten Books,1;5,Author/Journalist
-Jennifer Egan,OL:OL27742818W,Guardian Top 100,3,Author/Journalist
 Jennifer Egan,OL:OL31259W,Top Ten Books,1,
-Jennifer Egan,OL:OL32013322W,Guardian Top 100,5,Author/Journalist
+Jennifer Egan,OL:OL32013322W,Guardian Top 100;Top Ten Books,5;7,Author/Journalist
 Jennifer Egan,OL:OL39396W,Guardian Top 100,6,Author/Journalist
 Jennifer Egan,OL:OL495470W,Guardian Top 100;Top Ten Books,4;6,Author/Journalist
 Jennifer Egan,OL:OL50565W,Guardian Top 100,7,Author/Journalist
@@ -1666,13 +1665,13 @@ Jonathan Franzen,OL:OL34381078W,Top Ten Books,5,
 Jonathan Franzen,OL:OL498463W,Top Ten Books,3,
 Jonathan Franzen,OL:OL627084W,Top Ten Books,8,
 Jonathan Franzen,OL:OL757983W,Top Ten Books,10,
-Jonathan Lethem,K:b36e75fbcafd,Top Ten Books,9,
 Jonathan Lethem,K:c7f77816dbd2,Top Ten Books,3,
 Jonathan Lethem,K:f3bef513288a,Top Ten Books,8,
 Jonathan Lethem,OL:OL1326328W,Top Ten Books,7,
 Jonathan Lethem,OL:OL151411W,Top Ten Books,6,
 Jonathan Lethem,OL:OL166894W,Top Ten Books,10,
 Jonathan Lethem,OL:OL2074162W,Top Ten Books,5,
+Jonathan Lethem,OL:OL32013322W,Top Ten Books,9,
 Jonathan Lethem,OL:OL498463W,Top Ten Books,2,
 Jonathan Lethem,OL:OL733640W,Top Ten Books,4,
 Jonathan Lethem,OL:OL8721462W,Top Ten Books,1,
@@ -1688,22 +1687,22 @@ Jonathan Miles,OL:OL267096W,Top Ten Books,2,
 Jonathan Miles,OL:OL506115W,Top Ten Books,8,
 Jonathan Raban,K:1d1ae492ede5,Top Ten Books,3,
 Jonathan Raban,K:1d2a45e65297,Top Ten Books,10,
-Jonathan Raban,K:696b5912f345,Top Ten Books,8,
 Jonathan Raban,K:7b6996b5e5d9,Top Ten Books,5,
-Jonathan Raban,K:b36e75fbcafd,Top Ten Books,7,
 Jonathan Raban,OL:OL190034W,Top Ten Books,2,
 Jonathan Raban,OL:OL20867W,Top Ten Books,6,
 Jonathan Raban,OL:OL276365W,Top Ten Books,4,
+Jonathan Raban,OL:OL32013322W,Top Ten Books,7,
 Jonathan Raban,OL:OL41368739W,Top Ten Books,1,
+Jonathan Raban,OL:OL53908W,Top Ten Books,8,
 Jonathan Raban,OL:OL5721565W,Top Ten Books,9,
 Josephine Humphreys,K:10150da613f8,Top Ten Books,5,
 Josephine Humphreys,K:2753623cf2c8,Top Ten Books,10,
 Josephine Humphreys,K:3b04f3eef439,Top Ten Books,8,
-Josephine Humphreys,K:696b5912f345,Top Ten Books,2,
 Josephine Humphreys,OL:OL102749W,Top Ten Books,1,
 Josephine Humphreys,OL:OL14868508W,Top Ten Books,6,
 Josephine Humphreys,OL:OL38282W,Top Ten Books,3,
 Josephine Humphreys,OL:OL479009W,Top Ten Books,4,
+Josephine Humphreys,OL:OL53908W,Top Ten Books,2,
 Josephine Humphreys,OL:OL627084W,Top Ten Books,7,
 Josephine Humphreys,OL:OL82931W,Top Ten Books,9,
 Joshua Cohen,OL:OL106079W,Guardian Top 100,9,Author
@@ -1726,10 +1725,10 @@ Josip Novakovich,OL:OL466942W,Top Ten Books,3,
 Josip Novakovich,OL:OL847902W,Top Ten Books,5,
 Josip Novakovich,OL:OL98459W,Top Ten Books,8,
 Joyce Carol Oates,K:655dc7057956,Top Ten Books,5,
-Joyce Carol Oates,K:696b5912f345,Top Ten Books,10,
 Joyce Carol Oates,K:6baf284ba2c5,Top Ten Books,4,
 Joyce Carol Oates,OL:OL102749W,Top Ten Books,9,
 Joyce Carol Oates,OL:OL166894W,Top Ten Books,1,
+Joyce Carol Oates,OL:OL53908W,Top Ten Books,10,
 Joyce Carol Oates,OL:OL733640W,Top Ten Books,6,
 Joyce Carol Oates,OL:OL81293W,Top Ten Books,7,
 Joyce Carol Oates,OL:OL81294W,Top Ten Books,8,
@@ -1819,7 +1818,6 @@ Karen Joy Fowler,OL:OL26733889W,Top Ten Books,8,
 Karen Joy Fowler,OL:OL274505W,Top Ten Books,9,
 Karen Joy Fowler,OL:OL44222301W,Top Ten Books,3,
 Kate Atkinson,K:6417f1b08a9e,Top Ten Books,10,
-Kate Atkinson,K:696b5912f345,Top Ten Books,9,
 Kate Atkinson,K:efbff58fd7a8,Top Ten Books,7,
 Kate Atkinson,OL:OL151411W,Top Ten Books,2,
 Kate Atkinson,OL:OL15165350W,Top Ten Books,3,
@@ -1827,6 +1825,7 @@ Kate Atkinson,OL:OL20867W,Top Ten Books,4,
 Kate Atkinson,OL:OL276365W,Top Ten Books,5,
 Kate Atkinson,OL:OL40756300W,Top Ten Books,1,
 Kate Atkinson,OL:OL501911W,Top Ten Books,8,
+Kate Atkinson,OL:OL53908W,Top Ten Books,9,
 Kate Atkinson,OL:OL98459W,Top Ten Books,6,
 Kate Mosse,OL:OL107195W,Guardian Top 100,9,Author
 Kate Mosse,OL:OL21170W,Guardian Top 100,1,Author
@@ -1894,12 +1893,12 @@ Ken Kalfus,OL:OL86318W,Top Ten Books,4,
 Kent Haruf,K:017afa232b50,Top Ten Books,4,
 Kent Haruf,K:2ecba695b7ae,Top Ten Books,5,
 Kent Haruf,K:3b04f3eef439,Top Ten Books,7,
-Kent Haruf,K:696b5912f345,Top Ten Books,6,
 Kent Haruf,K:6b584d1b9428,Top Ten Books,2,
 Kent Haruf,K:9582f8788134,Top Ten Books,8,
 Kent Haruf,K:fbe28ea907ef,Top Ten Books,3,
 Kent Haruf,OL:OL1230613W,Top Ten Books,9,
 Kent Haruf,OL:OL23205W,Top Ten Books,10,
+Kent Haruf,OL:OL53908W,Top Ten Books,6,
 Kent Haruf,OL:OL82870W,Top Ten Books,1,
 Kevin O'Malley,K:1e0203a3004c,Top Ten Books,3,
 Kevin O'Malley,K:3217b8f0ad67,Top Ten Books,10,
@@ -2002,7 +2001,6 @@ Leah Stewart,OL:OL8662242W,Top Ten Books,5,
 Lee K. Abbott,K:3c196dac60d1,Top Ten Books,7,
 Lee K. Abbott,K:5fcc86b529ea,series_explode,,
 Lee K. Abbott,K:67787770c51b,Top Ten Books,5,
-Lee K. Abbott,K:696b5912f345,Top Ten Books,2,
 Lee K. Abbott,K:751bbe356d28,Top Ten Books,3,
 Lee K. Abbott,K:a63cc765d5fe,Top Ten Books,9,
 Lee K. Abbott,OL:OL1503886W,Top Ten Books,4,
@@ -2011,6 +2009,7 @@ Lee K. Abbott,OL:OL38663W,Top Ten Books,1,
 Lee K. Abbott,OL:OL42718662W,series_explode,,
 Lee K. Abbott,OL:OL463809W,series_explode,,
 Lee K. Abbott,OL:OL463820W,series_explode,,
+Lee K. Abbott,OL:OL53908W,Top Ten Books,2,
 Lee K. Abbott,OL:OL82870W,Top Ten Books,8,
 Lee Smith,K:04ef5684be62,Top Ten Books,1,
 Lee Smith,K:1a7a36a0d16e,Top Ten Books,2,
@@ -2038,8 +2037,8 @@ Liese Spencer,OL:OL190034W,Guardian Top 100,1,Journalist
 Liese Spencer,OL:OL20150260W,Guardian Top 100,8,Journalist
 Liese Spencer,OL:OL26437W,Guardian Top 100,6,Journalist
 Liese Spencer,OL:OL26733889W,Guardian Top 100,4,Journalist
+Liese Spencer,OL:OL32013322W,Guardian Top 100,2,Journalist
 Liese Spencer,OL:OL50548W,Guardian Top 100,3,Journalist
-Liese Spencer,OL:OL679230W,Guardian Top 100,2,Journalist
 Liese Spencer,OL:OL74293W,Guardian Top 100,9,Journalist
 Liese Spencer,OL:OL8721462W,Guardian Top 100,7,Journalist
 Lily King,OL:OL103066W,Guardian Top 100,10,Author
@@ -2086,7 +2085,6 @@ Lorrie Moore,K:04ef5684be62,Top Ten Books,2,
 Lorrie Moore,K:6c48d4f8f588,Top Ten Books,6,
 Lorrie Moore,K:8a974c3db91a,Top Ten Books,5,
 Lorrie Moore,K:906ffc5082cd,Top Ten Books,10,
-Lorrie Moore,K:cb9d628dca7d,Top Ten Books,4,
 Lorrie Moore,K:ee34a6c50dbf,Top Ten Books,3,
 Lorrie Moore,OL:OL1095427W,Top Ten Books,7,
 Lorrie Moore,OL:OL1855887W,Guardian Top 100,5,Author
@@ -2097,17 +2095,17 @@ Lorrie Moore,OL:OL40690787W,Guardian Top 100;Top Ten Books,10;8,Author
 Lorrie Moore,OL:OL50548W,Guardian Top 100,4,Author
 Lorrie Moore,OL:OL55221W,Guardian Top 100,1,Author
 Lorrie Moore,OL:OL59048W,Guardian Top 100,6,Author
-Lorrie Moore,OL:OL7180368W,Guardian Top 100,7,Author
+Lorrie Moore,OL:OL7180368W,Guardian Top 100;Top Ten Books,4;7,Author
 Lorrie Moore,OL:OL82931W,Guardian Top 100,2,Author
 Lorrie Moore,OL:OL931688W,Guardian Top 100,3,Author
-Louis D. Rubin Jr.,K:696b5912f345,Top Ten Books,10,
 Louis D. Rubin Jr.,K:86720a12eae7,Top Ten Books,4,
-Louis D. Rubin Jr.,K:b36e75fbcafd,Top Ten Books,8,
 Louis D. Rubin Jr.,K:d2d9f9b0f145,Top Ten Books,3,
 Louis D. Rubin Jr.,OL:OL102749W,Top Ten Books,9,
 Louis D. Rubin Jr.,OL:OL1190289W,Top Ten Books,1,
 Louis D. Rubin Jr.,OL:OL267171W,Top Ten Books,7,
+Louis D. Rubin Jr.,OL:OL32013322W,Top Ten Books,8,
 Louis D. Rubin Jr.,OL:OL44222301W,Top Ten Books,6,
+Louis D. Rubin Jr.,OL:OL53908W,Top Ten Books,10,
 Louis D. Rubin Jr.,OL:OL733640W,Top Ten Books,5,
 Louis D. Rubin Jr.,OL:OL86318W,Top Ten Books,2,
 Lucas Rijneveld,OL:OL17351965W,Guardian Top 100,6,Author
@@ -2167,13 +2165,13 @@ Madison Smartt Bell,K:326fa432a334,Top Ten Books,10,
 Madison Smartt Bell,K:46a4b1d05491,Top Ten Books,5,
 Madison Smartt Bell,K:51e6b95a9cd3,Top Ten Books,4,
 Madison Smartt Bell,K:55139e036082,Top Ten Books,6,
-Madison Smartt Bell,K:696b5912f345,Top Ten Books,9,
 Madison Smartt Bell,K:78a38f583c34,Top Ten Books,1,
 Madison Smartt Bell,K:87301aefcad9,Top Ten Books,8,
 Madison Smartt Bell,K:9f73cdf60017,Top Ten Books,6,
 Madison Smartt Bell,K:c984175795c3,Top Ten Books,7,
 Madison Smartt Bell,K:f3f337c3afb6,Top Ten Books,4,
 Madison Smartt Bell,OL:OL40879W,Top Ten Books,3,
+Madison Smartt Bell,OL:OL53908W,Top Ten Books,9,
 Maggie O’Farrell,OL:OL1095427W,Guardian Top 100,5,Author
 Maggie O’Farrell,OL:OL16142488W,Guardian Top 100,6,Author
 Maggie O’Farrell,OL:OL19956847W,Guardian Top 100,4,Author
@@ -2444,13 +2442,13 @@ Michael Griffith,OL:OL627084W,Top Ten Books,4,
 Michael Griffith,OL:OL67334W,Top Ten Books,6,
 Mona Simpson,K:102159e87fc4,Top Ten Books,8,
 Mona Simpson,K:1d6d9be6aabe,Top Ten Books,2,
-Mona Simpson,K:696b5912f345,Top Ten Books,10,
 Mona Simpson,K:6b584d1b9428,Top Ten Books,6,
 Mona Simpson,OL:OL1095427W,Top Ten Books,9,
 Mona Simpson,OL:OL1190289W,Top Ten Books,4,
 Mona Simpson,OL:OL20867W,Top Ten Books,7,
 Mona Simpson,OL:OL267171W,Top Ten Books,5,
 Mona Simpson,OL:OL39396W,Top Ten Books,1,
+Mona Simpson,OL:OL53908W,Top Ten Books,10,
 Mona Simpson,OL:OL8721462W,Top Ten Books,3,
 Nadifa Mohamed,OL:OL1052133W,Guardian Top 100,10,Author
 Nadifa Mohamed,OL:OL1858668W,Guardian Top 100,6,Author
@@ -2518,14 +2516,14 @@ Nina Stibbe,OL:OL16847W,Guardian Top 100,7,Author
 Nina Stibbe,OL:OL20509686W,Guardian Top 100,1,Author
 Nina Stibbe,OL:OL228705W,Guardian Top 100,6,Author
 Nina Stibbe,OL:OL23199W,Guardian Top 100,4,Author
+Nina Stibbe,OL:OL32013322W,Guardian Top 100,5,Author
 Nina Stibbe,OL:OL33658335W,Guardian Top 100,8,Author
-Nina Stibbe,OL:OL679230W,Guardian Top 100,5,Author
 Nina Stibbe,OL:OL69271W,Guardian Top 100,2,Author
 Nina Stibbe,OL:OL8662242W,Guardian Top 100,10,Author
-Norman Mailer,K:1cb501ee1776,Top Ten Books,6,
 Norman Mailer,K:d4f54d0b665c,Top Ten Books,10,
 Norman Mailer,OL:OL102749W,Top Ten Books,7,
 Norman Mailer,OL:OL10432709W,Top Ten Books,4,
+Norman Mailer,OL:OL1217995W,Top Ten Books,6,
 Norman Mailer,OL:OL14867081W,Top Ten Books,9,
 Norman Mailer,OL:OL15165350W,Top Ten Books,5,
 Norman Mailer,OL:OL166894W,Top Ten Books,3,
@@ -2583,11 +2581,11 @@ Patrick McGrath,OL:OL34381078W,Top Ten Books,7,
 Patrick McGrath,OL:OL38663W,Top Ten Books,2,
 Patrick McGrath,OL:OL5721394W,Top Ten Books,6,
 Paul Auster,K:009fc9ee2b85,Top Ten Books,9,
-Paul Auster,K:b36e75fbcafd,Top Ten Books,10,
 Paul Auster,OL:OL102749W,Top Ten Books,3,
 Paul Auster,OL:OL1190289W,Top Ten Books,5,
 Paul Auster,OL:OL166894W,Top Ten Books,4,
 Paul Auster,OL:OL267171W,Top Ten Books,2,
+Paul Auster,OL:OL32013322W,Top Ten Books,10,
 Paul Auster,OL:OL44222301W,Top Ten Books,1,
 Paul Auster,OL:OL455305W,Top Ten Books,7,
 Paul Auster,OL:OL498434W,Top Ten Books,8,
@@ -2613,14 +2611,14 @@ Pearl Cleage,OL:OL274505W,Top Ten Books,1,
 Pearl Cleage,OL:OL27778127W,Top Ten Books,3,
 Pearl Cleage,OL:OL3140822W,Top Ten Books,4,
 Percival Everett,K:5e80ea6b9d08,Top Ten Books,9,
-Percival Everett,K:696b5912f345,Top Ten Books,3,
 Percival Everett,K:81ff245a8bfa,Top Ten Books,7,
 Percival Everett,K:90e7c6ad9946,Top Ten Books,5,
-Percival Everett,K:b36e75fbcafd,Top Ten Books,1,
 Percival Everett,K:c38bae3f9782,Top Ten Books,2,
 Percival Everett,K:ddb8f05c3627,Top Ten Books,6,
 Percival Everett,K:ec96ab3c1683,Top Ten Books,8,
+Percival Everett,OL:OL32013322W,Top Ten Books,1,
 Percival Everett,OL:OL495470W,Top Ten Books,4,
+Percival Everett,OL:OL53908W,Top Ten Books,3,
 Percival Everett,OL:OL697429W,Top Ten Books,10,
 Peter Blauner,K:3d8256fe2668,Top Ten Books,8,
 Peter Blauner,K:7c9dee7eea81,Top Ten Books,4,
@@ -2642,13 +2640,13 @@ Peter Cameron,K:f01b5be61f50,Top Ten Books,9,
 Peter Cameron,K:f1ab318088af,Top Ten Books,6,
 Peter Cameron,OL:OL2009202W,Top Ten Books,8,
 Peter Cameron,OL:OL480955W,Top Ten Books,7,
-Peter Carey,K:b36e75fbcafd,Top Ten Books,2,
 Peter Carey,OL:OL1095427W,Top Ten Books,10,
 Peter Carey,OL:OL19350876W,Top Ten Books,1,
 Peter Carey,OL:OL20867W,Top Ten Books,5,
 Peter Carey,OL:OL267096W,Top Ten Books,6,
 Peter Carey,OL:OL274518W,Top Ten Books,8,
 Peter Carey,OL:OL276365W,Top Ten Books,9,
+Peter Carey,OL:OL32013322W,Top Ten Books,2,
 Peter Carey,OL:OL44222301W,Top Ten Books,4,
 Peter Carey,OL:OL46615W,Top Ten Books,7,
 Peter Carey,OL:OL8721462W,Top Ten Books,3,
@@ -2752,11 +2750,11 @@ Richard Powers,OL:OL27448W,Top Ten Books,15,
 Richard Powers,OL:OL86318W,Top Ten Books,20,
 Richard Powers,OL:OL8721462W,Top Ten Books,40,
 Rick Moody,K:26a310599722,Top Ten Books,2,
-Rick Moody,K:b36e75fbcafd,Top Ten Books,4,
 Rick Moody,OL:OL102749W,Top Ten Books,5,
 Rick Moody,OL:OL10432709W,Top Ten Books,6,
 Rick Moody,OL:OL14866824W,Top Ten Books,10,
 Rick Moody,OL:OL19350876W,Top Ten Books,7,
+Rick Moody,OL:OL32013322W,Top Ten Books,4,
 Rick Moody,OL:OL39396W,Top Ten Books,9,
 Rick Moody,OL:OL44222301W,Top Ten Books,3,
 Rick Moody,OL:OL86318W,Top Ten Books,8,
@@ -2766,10 +2764,10 @@ Rishi Dastidar,OL:OL16313W,Guardian Top 100,4,
 Rishi Dastidar,OL:OL1707618W,Guardian Top 100,10,
 Rishi Dastidar,OL:OL20867W,Guardian Top 100,3,
 Rishi Dastidar,OL:OL267096W,Guardian Top 100,2,
+Rishi Dastidar,OL:OL32013322W,Guardian Top 100,5,
 Rishi Dastidar,OL:OL457179W,Guardian Top 100,7,
 Rishi Dastidar,OL:OL464517W,Guardian Top 100,8,
 Rishi Dastidar,OL:OL466942W,Guardian Top 100,9,
-Rishi Dastidar,OL:OL679230W,Guardian Top 100,5,
 Rishi Dastidar,OL:OL754948W,Guardian Top 100,6,
 Robb Forman Dew,K:11db7aaa5eac,Top Ten Books,4,
 Robb Forman Dew,K:4d4b9f43727e,Top Ten Books,7,
@@ -2782,27 +2780,27 @@ Robb Forman Dew,OL:OL26733889W,Top Ten Books,8,
 Robb Forman Dew,OL:OL276798W,Top Ten Books,10,
 Robb Forman Dew,OL:OL468485W,Top Ten Books,3,
 Robert B. Parker,K:04ef5684be62,Top Ten Books,7,
-Robert B. Parker,K:1cb501ee1776,Top Ten Books,9,
-Robert B. Parker,K:696b5912f345,Top Ten Books,4,
 Robert B. Parker,K:a6094632e300,Top Ten Books,1,
 Robert B. Parker,K:a7c3b274f87c,Top Ten Books,6,
 Robert B. Parker,K:fbe28ea907ef,Top Ten Books,3,
+Robert B. Parker,OL:OL1217995W,Top Ten Books,9,
 Robert B. Parker,OL:OL15400582W,Top Ten Books,8,
 Robert B. Parker,OL:OL276470W,Top Ten Books,10,
 Robert B. Parker,OL:OL34381078W,Top Ten Books,2,
 Robert B. Parker,OL:OL47266W,Top Ten Books,5,
+Robert B. Parker,OL:OL53908W,Top Ten Books,4,
 Robert Coover,K:0f8ff0529f09,Top Ten Books,10,
-Robert Coover,K:28a2e6155f0c,Top Ten Books,4,
-Robert Coover,K:5a6159046e9a,Top Ten Books,6,
+Robert Coover,K:58e8ae773c4c,Top Ten Books,5,
 Robert Coover,K:6a405b4c5ae0,Top Ten Books,9,
-Robert Coover,K:7089b76ba44b,Top Ten Books,7,
-Robert Coover,K:84fc253521ec,Top Ten Books,8,
-Robert Coover,K:a31ed17f6b68,Top Ten Books,5,
-Robert Coover,K:b33847395a41,Top Ten Books,2,
-Robert Coover,K:bf220e2eba48,Top Ten Books,5,
-Robert Coover,K:dd5a8c858d90,Top Ten Books,5,
+Robert Coover,K:969b47058d9c,Top Ten Books,8,
+Robert Coover,K:bc4aa7549271,Top Ten Books,5,
+Robert Coover,K:daa94665cde4,Top Ten Books,2,
 Robert Coover,K:ddf7db56b887,Top Ten Books,3,
 Robert Coover,K:e0e175903a2c,Top Ten Books,1,
+Robert Coover,K:ef6aa2e15e06,Top Ten Books,5,
+Robert Coover,OL:OL102749W,Top Ten Books,6,
+Robert Coover,OL:OL44222301W,Top Ten Books,4,
+Robert Coover,OL:OL86318W,Top Ten Books,7,
 Robert Goolrick,K:096e7d480771,Top Ten Books,8,
 Robert Goolrick,K:0e16b3a111b7,Top Ten Books,3,
 Robert Goolrick,K:3d8256fe2668,Top Ten Books,4,
@@ -2817,7 +2815,6 @@ Robert Goolrick,OL:OL42718662W,series_explode,,
 Robert Goolrick,OL:OL463809W,series_explode,,
 Robert Goolrick,OL:OL463820W,series_explode,,
 Robert Morgan,K:13977efd1a72,Top Ten Books,3,
-Robert Morgan,K:696b5912f345,Top Ten Books,8,
 Robert Morgan,K:b88ea723aa90,Top Ten Books,9,
 Robert Morgan,K:c99f3f06678b,Top Ten Books,1,
 Robert Morgan,K:d2d9f9b0f145,Top Ten Books,2,
@@ -2825,10 +2822,11 @@ Robert Morgan,OL:OL20867W,Top Ten Books,5,
 Robert Morgan,OL:OL23205W,Top Ten Books,10,
 Robert Morgan,OL:OL267171W,Top Ten Books,4,
 Robert Morgan,OL:OL40885W,Top Ten Books,7,
+Robert Morgan,OL:OL53908W,Top Ten Books,8,
 Robert Morgan,OL:OL8662242W,Top Ten Books,6,
 Robert Pinsky,K:017afa232b50,Top Ten Books,6,
 Robert Pinsky,K:1953ba5c8e84,Top Ten Books,8,
-Robert Pinsky,K:620bf0bababe,Top Ten Books,2,
+Robert Pinsky,K:450eb07e587b,Top Ten Books,2,
 Robert Pinsky,K:bc4aa7549271,Top Ten Books,3,
 Robert Pinsky,K:c254788e9d13,Top Ten Books,10,
 Robert Pinsky,K:de8ae851971a,Top Ten Books,1,
@@ -2879,7 +2877,6 @@ Roxane Gay,OL:OL2980902W,Guardian Top 100,8,Author
 Roxane Gay,OL:OL4112928W,Guardian Top 100,2,Author
 Roxane Gay,OL:OL50548W,Guardian Top 100,6,Author
 Roxane Gay,OL:OL98491W,Guardian Top 100,4,Author
-Russell Banks,K:696b5912f345,Top Ten Books,3,
 Russell Banks,K:d3e96a7e3439,Top Ten Books,6,
 Russell Banks,K:de8ae851971a,Top Ten Books,5,
 Russell Banks,OL:OL102749W,Top Ten Books,2,
@@ -2888,6 +2885,7 @@ Russell Banks,OL:OL19350876W,Top Ten Books,8,
 Russell Banks,OL:OL267171W,Top Ten Books,7,
 Russell Banks,OL:OL274505W,Top Ten Books,10,
 Russell Banks,OL:OL44222301W,Top Ten Books,1,
+Russell Banks,OL:OL53908W,Top Ten Books,3,
 Russell Banks,OL:OL82870W,Top Ten Books,4,
 Saba Sams,OL:OL1052133W,Guardian Top 100,7,Author
 Saba Sams,OL:OL11081469W,Guardian Top 100,6,Author
@@ -2914,10 +2912,10 @@ Sam Leith,OL:OL106073W,Guardian Top 100,4,Author/Journalist
 Sam Leith,OL:OL20867W,Guardian Top 100,1,Author/Journalist
 Sam Leith,OL:OL21784995W,Guardian Top 100,5,Author/Journalist
 Sam Leith,OL:OL276365W,Guardian Top 100,3,Author/Journalist
+Sam Leith,OL:OL32013322W,Guardian Top 100,7,Author/Journalist
 Sam Leith,OL:OL34381078W,Guardian Top 100,8,Author/Journalist
 Sam Leith,OL:OL38663W,Guardian Top 100,2,Author/Journalist
 Sam Leith,OL:OL627084W,Guardian Top 100,10,Author/Journalist
-Sam Leith,OL:OL679230W,Guardian Top 100,7,Author/Journalist
 Sam Leith,OL:OL98459W,Guardian Top 100,6,Author/Journalist
 Samantha Ellis,OL:OL119436W,Guardian Top 100,10,Author
 Samantha Ellis,OL:OL16520879W,Guardian Top 100,9,Author
@@ -2952,12 +2950,12 @@ Sandra Cisneros,OL:OL798425W,Top Ten Books,1,
 Sandra Newman,OL:OL20867W,Guardian Top 100,2,Author
 Sandra Newman,OL:OL26733889W,Guardian Top 100,4,Author
 Sandra Newman,OL:OL2943602W,Guardian Top 100,7,Author
+Sandra Newman,OL:OL32013322W,Guardian Top 100,1,Author
 Sandra Newman,OL:OL3942386W,Guardian Top 100,3,Author
 Sandra Newman,OL:OL464512W,Guardian Top 100,6,Author
 Sandra Newman,OL:OL495470W,Guardian Top 100,5,Author
 Sandra Newman,OL:OL505583W,Guardian Top 100,10,Author
 Sandra Newman,OL:OL5703422W,Guardian Top 100,8,Author
-Sandra Newman,OL:OL679230W,Guardian Top 100,1,Author
 Sandra Newman,OL:OL98491W,Guardian Top 100,9,Author
 Sara Collins,OL:OL1168083W,Guardian Top 100,5,Author
 Sara Collins,OL:OL15165350W,Guardian Top 100,3,Author
@@ -2987,7 +2985,7 @@ Sarah Bakewell,OL:OL157104W,Guardian Top 100,5,Author
 Sarah Bakewell,OL:OL20867W,Guardian Top 100,8,Author
 Sarah Bakewell,OL:OL267171W,Guardian Top 100,4,Author
 Sarah Bakewell,OL:OL2916988W,Guardian Top 100,10,Author
-Sarah Bakewell,OL:OL679230W,Guardian Top 100,3,Author
+Sarah Bakewell,OL:OL32013322W,Guardian Top 100,3,Author
 Sarah Bakewell,OL:OL88881W,Guardian Top 100,9,Author
 Sarah Churchwell,OL:OL102749W,Guardian Top 100,10,Author/Academic/Journalist
 Sarah Churchwell,OL:OL1095427W,Guardian Top 100,3,Author/Academic/Journalist
@@ -3040,7 +3038,6 @@ Sayaka Murata,OL:OL498556W,Guardian Top 100,3,Author
 Sayaka Murata,OL:OL59038W,Guardian Top 100,5,Author
 Sayaka Murata,OL:OL9907660W,Guardian Top 100,4,Author
 Scott Spencer,K:5fcc86b529ea,series_explode,,
-Scott Spencer,K:696b5912f345,Top Ten Books,4,
 Scott Spencer,K:bc4aa7549271,Top Ten Books,5,
 Scott Spencer,K:c683eff1be4e,Top Ten Books,8,
 Scott Spencer,OL:OL106084W,Top Ten Books,6,
@@ -3050,6 +3047,7 @@ Scott Spencer,OL:OL42718662W,series_explode,,
 Scott Spencer,OL:OL463809W,series_explode,,
 Scott Spencer,OL:OL463820W,series_explode,,
 Scott Spencer,OL:OL50564W,Top Ten Books,7,
+Scott Spencer,OL:OL53908W,Top Ten Books,4,
 Scott Spencer,OL:OL627084W,Top Ten Books,1,
 Scott Spencer,OL:OL8721462W,Top Ten Books,3,
 Scott Turow,K:4c91ce3a8a63,Top Ten Books,7,
@@ -3118,7 +3116,6 @@ Sinéad Gleeson,OL:OL3846785W,Guardian Top 100,9,Author
 Sinéad Gleeson,OL:OL39396W,Guardian Top 100,2,Author
 Sinéad Gleeson,OL:OL457179W,Guardian Top 100,5,Author
 Sinéad Gleeson,OL:OL86318W,Guardian Top 100,1,Author
-Siri Hustvedt,K:144b8fc80005,Top Ten Books,10,
 Siri Hustvedt,K:655dc7057956,Top Ten Books,8,
 Siri Hustvedt,K:7d6f4598f836,Top Ten Books,2,
 Siri Hustvedt,K:b21d24bb8eed,Top Ten Books,4,
@@ -3134,6 +3131,7 @@ Siri Hustvedt,OL:OL41368739W,Top Ten Books,6,
 Siri Hustvedt,OL:OL455305W,Guardian Top 100,7,Author
 Siri Hustvedt,OL:OL500388W,Guardian Top 100,10,Author
 Siri Hustvedt,OL:OL50548W,Guardian Top 100,9,Author
+Siri Hustvedt,OL:OL505583W,Top Ten Books,10,
 Siri Hustvedt,OL:OL86318W,Guardian Top 100,8,Author
 Sophie Mackintosh,OL:OL106073W,Guardian Top 100,8,Author
 Sophie Mackintosh,OL:OL1095427W,Guardian Top 100,3,Author
@@ -3157,7 +3155,6 @@ Stanley Crawford,OL:OL276365W,Top Ten Books,8,
 Stanley Crawford,OL:OL500451W,Top Ten Books,10,
 Stephen King,K:5ea8a38b90a2,Top Ten Books,8,
 Stephen King,K:5f36c5d443e5,Top Ten Books,1,
-Stephen King,K:696b5912f345,Top Ten Books,2,
 Stephen King,K:6e28afa38b7a,Top Ten Books,5,
 Stephen King,K:9b6c22f83dd1,Top Ten Books,7,
 Stephen King,OL:OL102749W,Guardian Top 100,1,Author
@@ -3169,7 +3166,7 @@ Stephen King,OL:OL19350876W,Guardian Top 100,8,Author
 Stephen King,OL:OL19667678W,Guardian Top 100,6,Author
 Stephen King,OL:OL40879W,Top Ten Books,10,
 Stephen King,OL:OL457175W,Guardian Top 100;Top Ten Books,3;5,Author
-Stephen King,OL:OL53908W,Guardian Top 100,7,Author
+Stephen King,OL:OL53908W,Guardian Top 100;Top Ten Books,2;7,Author
 Stephen King,OL:OL82931W,Guardian Top 100;Top Ten Books,3;9,Author
 Stephen King,OL:OL86318W,Guardian Top 100,2,Author
 Steve Yarbrough,OL:OL102749W,Top Ten Books,3,
@@ -3207,10 +3204,10 @@ Stuart Kelly,OL:OL19341943W,Guardian Top 100,10,
 Stuart Kelly,OL:OL20867W,Guardian Top 100,1,
 Stuart Kelly,OL:OL21016756W,Guardian Top 100,6,
 Stuart Kelly,OL:OL26427W,Guardian Top 100,8,
+Stuart Kelly,OL:OL32013322W,Guardian Top 100,2,
 Stuart Kelly,OL:OL32195W,Guardian Top 100,5,
 Stuart Kelly,OL:OL3820668W,Guardian Top 100,7,
 Stuart Kelly,OL:OL482454W,Guardian Top 100,9,
-Stuart Kelly,OL:OL679230W,Guardian Top 100,2,
 Stuart Kelly,OL:OL86318W,Guardian Top 100,4,
 Sue Miller,K:0dc8a61b0116,Top Ten Books,6,
 Sue Miller,K:231bca317353,Top Ten Books,5,
@@ -3239,8 +3236,8 @@ Sukhdev Sandhu,OL:OL118986W,Guardian Top 100,4,Author/Academic
 Sukhdev Sandhu,OL:OL1330246W,Guardian Top 100,6,Author/Academic
 Sukhdev Sandhu,OL:OL1434640W,Guardian Top 100,2,Author/Academic
 Sukhdev Sandhu,OL:OL1793164W,Guardian Top 100,1,Author/Academic
+Sukhdev Sandhu,OL:OL32013322W,Guardian Top 100,9,Author/Academic
 Sukhdev Sandhu,OL:OL44986W,Guardian Top 100,3,Author/Academic
-Sukhdev Sandhu,OL:OL679230W,Guardian Top 100,9,Author/Academic
 Sukhdev Sandhu,OL:OL7922785W,Guardian Top 100,10,Author/Academic
 Susan Minot,K:2ecba695b7ae,Top Ten Books,8,
 Susan Minot,K:6b584d1b9428,Top Ten Books,10,
@@ -3252,7 +3249,6 @@ Susan Minot,OL:OL627084W,Top Ten Books,3,
 Susan Minot,OL:OL66530W,Top Ten Books,7,
 Susan Minot,OL:OL82870W,Top Ten Books,4,
 Susan Minot,OL:OL98491W,Top Ten Books,5,
-Susan Vreeland,K:696b5912f345,Top Ten Books,4,
 Susan Vreeland,K:a138dd8423fd,Top Ten Books,8,
 Susan Vreeland,K:fbe28ea907ef,Top Ten Books,2,
 Susan Vreeland,OL:OL1209288W,Top Ten Books,5,
@@ -3261,6 +3257,7 @@ Susan Vreeland,OL:OL26733889W,Top Ten Books,7,
 Susan Vreeland,OL:OL3140822W,Top Ten Books,3,
 Susan Vreeland,OL:OL34381078W,Top Ten Books,10,
 Susan Vreeland,OL:OL41225848W,Top Ten Books,9,
+Susan Vreeland,OL:OL53908W,Top Ten Books,4,
 Susan Vreeland,OL:OL63072W,Top Ten Books,6,
 Susanna Rustin,OL:OL1095427W,Guardian Top 100,8,Journalist
 Susanna Rustin,OL:OL14868508W,Guardian Top 100,9,Journalist
@@ -3324,12 +3321,12 @@ Thomas Keneally,OL:OL67334W,Top Ten Books,10,
 Thomas Keneally,OL:OL8721462W,Top Ten Books,4,
 Thomas Mallon,K:5fcc86b529ea,series_explode,,
 Thomas Mallon,K:95fdf062893b,Top Ten Books,6,
-Thomas Mallon,K:b36e75fbcafd,Top Ten Books,2,
 Thomas Mallon,K:c04a7bb2098d,Top Ten Books,9,
 Thomas Mallon,OL:OL16313W,Top Ten Books,1,
 Thomas Mallon,OL:OL166894W,Top Ten Books,4,
 Thomas Mallon,OL:OL19350876W,Top Ten Books,3,
 Thomas Mallon,OL:OL26099415W,Top Ten Books,7,
+Thomas Mallon,OL:OL32013322W,Top Ten Books,2,
 Thomas Mallon,OL:OL39329W,Top Ten Books,8,
 Thomas Mallon,OL:OL42718662W,series_explode,,
 Thomas Mallon,OL:OL44986W,Top Ten Books,5,
@@ -3383,9 +3380,9 @@ Tom Wolfe,K:132c540db579,Top Ten Books,7,
 Tom Wolfe,K:3d8256fe2668,Top Ten Books,6,
 Tom Wolfe,K:492220bfdfb3,Top Ten Books,1,
 Tom Wolfe,K:8c937ec47a21,Top Ten Books,8,
-Tom Wolfe,K:bfe6fe716600,Top Ten Books,1,
 Tom Wolfe,K:dc87d80d15af,Top Ten Books,9,
 Tom Wolfe,K:f2fd0db8a049,Top Ten Books,3,
+Tom Wolfe,OL:OL118984W,Top Ten Books,1,
 Tom Wolfe,OL:OL17644895W,Top Ten Books,2,
 Tom Wolfe,OL:OL23205W,Top Ten Books,5,
 Tom Wolfe,OL:OL267096W,Top Ten Books,4,
@@ -3430,34 +3427,34 @@ Valerie Martin,OL:OL40756300W,Top Ten Books,7,
 Valerie Martin,OL:OL500451W,Top Ten Books,9,
 Valerie Martin,OL:OL627084W,Top Ten Books,3,
 Valerie Martin,OL:OL668682W,Top Ten Books,4,
-Vendela Vida,K:050b9552feae,Top Ten Books,4,
 Vendela Vida,K:0bcd22fa5600,Top Ten Books,7,
 Vendela Vida,K:338581d02713,Top Ten Books,9,
-Vendela Vida,K:cb9d628dca7d,Top Ten Books,6,
+Vendela Vida,OL:OL1150725W,Top Ten Books,4,
 Vendela Vida,OL:OL166894W,Top Ten Books,2,
 Vendela Vida,OL:OL26733889W,Top Ten Books,5,
 Vendela Vida,OL:OL34381078W,Top Ten Books,8,
 Vendela Vida,OL:OL627081W,Top Ten Books,3,
+Vendela Vida,OL:OL7180368W,Top Ten Books,6,
 Vendela Vida,OL:OL93082W,Top Ten Books,1,
 Vendela Vida,OL:OL953028W,Top Ten Books,10,
 Wally Lamb,K:132c540db579,Top Ten Books,6,
 Wally Lamb,K:312f2e675a9c,Top Ten Books,4,
 Wally Lamb,K:3b04f3eef439,Top Ten Books,9,
-Wally Lamb,K:696b5912f345,Top Ten Books,5,
 Wally Lamb,K:bc4aa7549271,Top Ten Books,3,
 Wally Lamb,K:de8ae851971a,Top Ten Books,1,
 Wally Lamb,OL:OL23205W,Top Ten Books,8,
 Wally Lamb,OL:OL274505W,Top Ten Books,10,
 Wally Lamb,OL:OL34381078W,Top Ten Books,7,
 Wally Lamb,OL:OL44222301W,Top Ten Books,2,
+Wally Lamb,OL:OL53908W,Top Ten Books,5,
 Walter Kirn,K:2484db8decc1,Top Ten Books,7,
 Walter Kirn,K:2b69cf0b1a11,Top Ten Books,6,
 Walter Kirn,K:3b04f3eef439,Top Ten Books,1,
 Walter Kirn,K:5610cd9f092e,Top Ten Books,2,
-Walter Kirn,K:696b5912f345,Top Ten Books,9,
 Walter Kirn,K:ab3d90b147f7,Top Ten Books,3,
 Walter Kirn,K:f5a6ea3da198,Top Ten Books,8,
 Walter Kirn,OL:OL505439W,Top Ten Books,4,
+Walter Kirn,OL:OL53908W,Top Ten Books,9,
 Walter Kirn,OL:OL627084W,Top Ten Books,5,
 Walter Kirn,OL:OL74676W,Top Ten Books,10,
 William Boyd,K:3b88c3e85b6a,Top Ten Books,8,
@@ -3470,12 +3467,12 @@ William Boyd,OL:OL190034W,Guardian Top 100,3,Author
 William Boyd,OL:OL20938W,Guardian Top 100,7,Author
 William Boyd,OL:OL21170W,Guardian Top 100,10,Author
 William Boyd,OL:OL26424W,Top Ten Books,3,
+William Boyd,OL:OL32013322W,Guardian Top 100,8,Author
 William Boyd,OL:OL41368739W,Guardian Top 100;Top Ten Books,4;5,Author
 William Boyd,OL:OL463834W,Top Ten Books,7,
 William Boyd,OL:OL498463W,Guardian Top 100,9,Author
 William Boyd,OL:OL5721472W,Guardian Top 100;Top Ten Books,6,Author
 William Boyd,OL:OL627081W,Guardian Top 100;Top Ten Books,2;4,Author
-William Boyd,OL:OL679230W,Guardian Top 100,8,Author
 William Boyd,OL:OL86318W,Guardian Top 100,1,Author
 Xan Brooks,OL:OL12791W,Guardian Top 100,5,Author/Journalist
 Xan Brooks,OL:OL14868508W,Guardian Top 100,6,Author/Journalist

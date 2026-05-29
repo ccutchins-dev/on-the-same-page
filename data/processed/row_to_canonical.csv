@@ -3,7 +3,7 @@ d3dbba609ee5981b,Top Ten Books,A.L. Kennedy,1,The Confidence-Man: His Masquerade
 673ae1316217ba0d,Top Ten Books,A.L. Kennedy,2,The Strange Case of Dr. Jekyll and Mr. Hyde,Robert Louis Stevenson,1886,,OL:OL24156W,Dr. Jekyll and Mr. Hyde
 8030d79707ee0c7b,Top Ten Books,A.L. Kennedy,3,The Third Policeman,Flann O'Brien,,,OL:OL2005223W,The Third Policeman
 55efed900b71d349,Top Ten Books,A.L. Kennedy,4,The Prime of Miss Jean Brodie,Muriel Spark,1961,,OL:OL26437W,The Prime of Miss Jean Brodie
-f476e5467af326eb,Top Ten Books,A.L. Kennedy,5,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+f476e5467af326eb,Top Ten Books,A.L. Kennedy,5,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 aad11a01a1fa389d,Top Ten Books,A.L. Kennedy,6,Lanark: A Life in Four Books,Alasdair Gray,1981,,OL:OL2466637W,Lanark
 96a5182139c17ad8,Top Ten Books,A.L. Kennedy,7,The Book of Evidence,John Banville,1989,,K:d47d8cd099f0,The Book of Evidence
 5be4914d3f8f5287,Top Ten Books,A.L. Kennedy,8,The Lost Father,Mona Simpson,1992,,K:8a9c82a087df,The Lost Father
@@ -62,7 +62,7 @@ e74d3200af72c968,Top Ten Books,Joyce Carol Oates,6,The Red and the Black,Stendha
 e448dc4cb833cdb9,Top Ten Books,Joyce Carol Oates,7,The Rainbow,D. H. Lawrence,1915,,OL:OL81293W,The Rainbow
 08305511b391d26f,Top Ten Books,Joyce Carol Oates,8,Women in Love,D. H. Lawrence,1920,,OL:OL81294W,Women in Love
 1d78b73d33578676,Top Ten Books,Joyce Carol Oates,9,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
-31c246a81235cd62,Top Ten Books,Joyce Carol Oates,10,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+31c246a81235cd62,Top Ten Books,Joyce Carol Oates,10,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 0f05e710b7d94e46,Top Ten Books,Kate Atkinson,1,Persuasion,Jane Austen,1817,,OL:OL40756300W,Persuasion
 a2584ea7f94e9510,Top Ten Books,Kate Atkinson,2,Alice's Adventures in Wonderland,Lewis Carroll,1865,,OL:OL151411W,Alice's Adventures in Wonderland
 801bf4e631ac85b8,Top Ten Books,Kate Atkinson,3,Pride and Prejudice,Jane Austen,1813,,OL:OL15165350W,Pride and Prejudice
@@ -71,12 +71,12 @@ be273176bde7bcbb,Top Ten Books,Kate Atkinson,5,The Portrait of a Lady,Henry Jame
 363aaa65b965bbf2,Top Ten Books,Kate Atkinson,6,Slaughterhouse-Five,Kurt Vonnegut,1969,,OL:OL98459W,Slaughterhouse-Five
 d9ceedeabfa1b1b2,Top Ten Books,Kate Atkinson,7,Pricksongs & Descants,Robert Coover,1969,,K:efbff58fd7a8,Pricksongs & Descants
 b1b5df4783354842,Top Ten Books,Kate Atkinson,8,Revolutionary Road,Richard Yates,1961,,OL:OL501911W,Revolutionary Road
-9697396b2363fdc4,Top Ten Books,Kate Atkinson,9,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+9697396b2363fdc4,Top Ten Books,Kate Atkinson,9,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 2fbdfde499d9feae,Top Ten Books,Kate Atkinson,10,The Railway Children,E. Nesbit,1906,,K:6417f1b08a9e,The Railway Children
 afa36fad2a79251b,Top Ten Books,Lorrie Moore,1,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 8292407cffec2639,Top Ten Books,Lorrie Moore,2,Dubliners,James Joyce,1916,,K:04ef5684be62,Dubliners
 77924d0f3733305c,Top Ten Books,Lorrie Moore,3,The Iliad,Homer,,,K:ee34a6c50dbf,The Iliad
-b20c297f5b7c31a2,Top Ten Books,Lorrie Moore,4,The Decameron,Giovanni Boccaccio,1351-53,,K:cb9d628dca7d,The Decameron
+b20c297f5b7c31a2,Top Ten Books,Lorrie Moore,4,The Decameron,Giovanni Boccaccio,1351-53,,OL:OL7180368W,The Decameron of Boccaccio
 9c660a8745b9eb97,Top Ten Books,Lorrie Moore,5,Troilus and Criseyde,Geoffrey Chaucer,1381,,K:8a974c3db91a,Troilus and Criseyde
 c0d59aa1bf1bc8c5,Top Ten Books,Lorrie Moore,6,Romeo and Juliet,William Shakespeare,1595,,K:6c48d4f8f588,Romeo and Juliet
 c1517ab30b7a3b6f,Top Ten Books,Lorrie Moore,7,Jane Eyre,Charlotte Brontë,1847,,OL:OL1095427W,Jane Eyre
@@ -90,9 +90,9 @@ b3c1fd8ff88c36bc,Top Ten Books,Louis D. Rubin Jr.,2,Ulysses,James Joyce,1922,,OL
 21f121bf43284f39,Top Ten Books,Louis D. Rubin Jr.,5,The Red and the Black,Stendhal,1830,,OL:OL733640W,The Red and the Black
 c69324fa995075d4,Top Ten Books,Louis D. Rubin Jr.,6,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 e9ceab813fb1beef,Top Ten Books,Louis D. Rubin Jr.,7,War and Peace,Leo Tolstoy,1869,,OL:OL267171W,War and Peace
-e9671979f436b8e9,Top Ten Books,Louis D. Rubin Jr.,8,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+e9671979f436b8e9,Top Ten Books,Louis D. Rubin Jr.,8,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 6241aeef0813ff8d,Top Ten Books,Louis D. Rubin Jr.,9,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
-276489a45f8a7db8,Top Ten Books,Louis D. Rubin Jr.,10,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+276489a45f8a7db8,Top Ten Books,Louis D. Rubin Jr.,10,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 265d5216dc7c9e67,Top Ten Books,Lydia Millet,1,JR,William Gaddis,1975,,K:4c60eb382dfb,JR
 4bac4c89444b2743,Top Ten Books,Lydia Millet,2,Mrs. Dalloway,Virginia Woolf,1925,,OL:OL26733889W,Mrs Dalloway
 ee50f53c971dfd4d,Top Ten Books,Lydia Millet,3,Voyage of the 'Dawn Treader',C. S. Lewis,1952,,K:dc6a20c417be,Voyage of the 'Dawn Treader'
@@ -124,9 +124,9 @@ b45fff32b60ff1fb,Top Ten Books,Melissa Bank,2,Lolita,Vladimir Nabokov,1955,,OL:O
 d124d46e540c291d,Top Ten Books,Melissa Bank,8,Washington Square,Henry James,1880,,OL:OL40690787W,Washington Square
 10cb53d80c893726,Top Ten Books,Melissa Bank,9,The Remains of the Day,Kazuo Ishiguro,1989,,OL:OL59048W,The Remains of the Day
 3ee1ca542f40a948,Top Ten Books,Melissa Bank,10,Nine Stories,J. D. Salinger,1953,,K:751bbe356d28,Nine Stories
-d57f3f797855e19d,Top Ten Books,Percival Everett,1,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+d57f3f797855e19d,Top Ten Books,Percival Everett,1,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 29b3ee1e7386a652,Top Ten Books,Percival Everett,2,The Way of All Flesh,Samuel Butler,1903,,K:c38bae3f9782,The Way of All Flesh
-912728effaefee0e,Top Ten Books,Percival Everett,3,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+912728effaefee0e,Top Ten Books,Percival Everett,3,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 04b055992c9d66ee,Top Ten Books,Percival Everett,4,Invisible Man,Ralph Ellison,1952,,OL:OL495470W,Invisible Man
 b636742361b247da,Top Ten Books,Percival Everett,5,Cane,Jean Toomer,1923,,K:90e7c6ad9946,Cane
 810c953ceeb242a2,Top Ten Books,Percival Everett,6,A Clockwork Orange,Anthony Burgess,1962,,K:ddb8f05c3627,A Clockwork Orange
@@ -137,10 +137,10 @@ ac0a1044b8ee3f00,Top Ten Books,Percival Everett,9,Bluebeard,Kurt Vonnegut,1987,,
 5da05d7141142dfb,Top Ten Books,Scott Turow,1,A Portrait of the Artist as a Young Man,James Joyce,1916,,OL:OL41225848W,A Portrait of the Artist as a Young Man
 42c4583065f0d6e1,Top Ten Books,Scott Turow,2,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
 f7dc36fc40d74b22,Top Ten Books,Scott Turow,3,Rabbit Angstrom,,,,K:648d96119cba,K:648d96119cba
-ea76b0657f468db2,Top Ten Books,Scott Turow,3,"Rabbit, Run",,1960,,K:7e9d771efef0,K:7e9d771efef0
-e75f1505d8ec9137,Top Ten Books,Scott Turow,3,Rabbit Redux,,1971,,K:e52d3ae438d6,K:e52d3ae438d6
-66da6d95c9d77d6a,Top Ten Books,Scott Turow,3,Rabbit Is Rich,,1981,,K:3c7530217d1d,K:3c7530217d1d
-858779ea14c60900,Top Ten Books,Scott Turow,3,Rabbit at Rest,,1990,,K:f409150e2aca,K:f409150e2aca
+ea76b0657f468db2,Top Ten Books,Scott Turow,3,"Rabbit, Run",,1960,,OL:OL42718662W,"Rabbit, Run"
+e75f1505d8ec9137,Top Ten Books,Scott Turow,3,Rabbit Redux,,1971,,K:5fcc86b529ea,Rabbit Redux
+66da6d95c9d77d6a,Top Ten Books,Scott Turow,3,Rabbit Is Rich,,1981,,OL:OL463820W,Rabbit Is Rich
+858779ea14c60900,Top Ten Books,Scott Turow,3,Rabbit at Rest,,1990,,OL:OL463809W,Rabbit at Rest
 2bbbb2535df1c176,Top Ten Books,Scott Turow,4,Herzog,Saul Bellow,1964,,OL:OL15859552W,Herzog
 68e21dc31d837057,Top Ten Books,Scott Turow,5,Tell Me a Riddle,Tillie Olsen,1961,,K:f4b1dfef3b9c,Tell Me a Riddle
 7aec118b59d41176,Top Ten Books,Scott Turow,6,The Count of Monte Cristo,Alexandre Dumas,1844,,OL:OL43161739W,The Count of Monte Cristo
@@ -291,7 +291,7 @@ d511387ae9ad0afc,Top Ten Books,Andrea Barrett,5,Bleak House,Charles Dickens,1853
 04fd9718110e59ac,Top Ten Books,Andrea Barrett,8,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 e88b19a334f3fe02,Top Ten Books,Andrea Barrett,9,Jane Eyre,Charlotte Brontë,1847,,OL:OL1095427W,Jane Eyre
 570ee9137ca079ad,Top Ten Books,Andrea Barrett,10,The Radetzky March,Joseph Roth,1932,,OL:OL466942W,The Radetzky March
-2e972e5c91696279,Top Ten Books,Andrew Hudgins,1,The Bible,,,,K:620bf0bababe,The Bible
+2e972e5c91696279,Top Ten Books,Andrew Hudgins,1,The Bible,,,,K:450eb07e587b,The Bible
 35a73e61379200ba,Top Ten Books,Andrew Hudgins,2,The Odyssey,Homer,,,K:de8ae851971a,The Odyssey
 d8830edcfb30bc99,Top Ten Books,Andrew Hudgins,3,The Divine Comedy,Dante Alighieri,1321,,OL:OL93082W,The Divine Comedy
 976ef21a44fda8a9,Top Ten Books,Andrew Hudgins,4,The Canterbury Tales,Geoffrey Chaucer,,,K:d3e96a7e3439,The Canterbury Tales
@@ -344,15 +344,15 @@ ca4a674e079b62c1,Top Ten Books,Anthony Walton,10,Invisible Man,Ralph Ellison,195
 60f76ced4881cd2b,Top Ten Books,Arthur Golden,1,"I, Claudius",Robert Graves,1934,,K:980abe074752,"I, Claudius"
 a8f57cc824da6abc,Top Ten Books,Arthur Golden,2,Lolita,Vladimir Nabokov,1955,,OL:OL627084W,Lolita
 a144039dc34e046c,Top Ten Books,Arthur Golden,3,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
-56a1032c0a3da449,Top Ten Books,Arthur Golden,4,The Story of the Stone,Cao Xueqin,,,K:0fefe015723f,The Story of the Stone
+56a1032c0a3da449,Top Ten Books,Arthur Golden,4,The Story of the Stone,Cao Xueqin,,,OL:OL7982392W,"The Story of the Stone, or the Dream of the Red Chamber"
 e8d159e456453943,Top Ten Books,Arthur Golden,5,The Catcher in the Rye,J. D. Salinger,1951,,OL:OL3335245W,The Catcher in the Rye
 3a046f2317dd0dcf,Top Ten Books,Arthur Golden,6,"Right Ho, Jeeves",P. G. Wodehouse,1934,,OL:OL1337129W,"Right Ho, Jeeves"
 dc1a2cdb081add28,Top Ten Books,Arthur Golden,7,Lonesome Dove,Larry McMurtry,1985,,OL:OL134601W,Lonesome Dove
 f6d927889cef4d8f,Top Ten Books,Arthur Golden,8,Eleven Kinds of Loneliness,Richard Yates,1962,,K:57af164fa280,Eleven Kinds of Loneliness
 af9c22ab16ee8bf6,Top Ten Books,Arthur Golden,9,Leaves of Grass,Walt Whitman,1855-91,,K:bbf3fa01dd65,Leaves of Grass
-ca2bc4956cb651e7,Top Ten Books,Arthur Golden,10,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+ca2bc4956cb651e7,Top Ten Books,Arthur Golden,10,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 f9b1a922955fec94,Top Ten Books,Arthur Phillips,1,Stories of Franz Kafka,,1883-1924,,K:655dc7057956,Stories of Franz Kafka
-b40be8b0c437e6c2,Top Ten Books,Arthur Phillips,2,Life: A User’s Manual,Georges Perec,1978,,K:9eeeeadbc8c1,Life: A User’s Manual
+b40be8b0c437e6c2,Top Ten Books,Arthur Phillips,2,Life: A User’s Manual,Georges Perec,1978,,OL:OL1715276W,"Life, a User's Manual"
 5c6b0a8b669d37d7,Top Ten Books,Arthur Phillips,3,The Magic Mountain,Thomas Mann,1924,,OL:OL14866824W,The Magic Mountain
 dac8e2b14ef7c4e6,Top Ten Books,Arthur Phillips,4,Pale Fire,Vladimir Nabokov,1962,,OL:OL627081W,Pale Fire
 d965af0f4bc46495,Top Ten Books,Arthur Phillips,5,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
@@ -376,7 +376,7 @@ a632ef42fc403afc,Top Ten Books,Barry Hannah,2,As I Lay Dying,William Faulkner,19
 067210d20e079539,Top Ten Books,Barry Hannah,3,The Stranger,Albert Camus,1942,,OL:OL1230613W,The Outsider
 8f6745b4b67d2f7b,Top Ten Books,Barry Hannah,4,Stories of Flannery O’Connor,,1925-64,,K:3b04f3eef439,Stories of Flannery O'Connor
 728542e676d92c4b,Top Ten Books,Barry Hannah,5,Blood Meridian: Or the Evening Redness in the West,Cormac McCarthy,1985,,OL:OL40879W,Blood Meridian
-ae097fd6ea7d7122,Top Ten Books,Barry Hannah,6,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+ae097fd6ea7d7122,Top Ten Books,Barry Hannah,6,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 b58bb37b23937499,Top Ten Books,Barry Hannah,7,One Day in the Life of Ivan Denisovich,Alexander Solzhenitsyn,1962,,K:3dfab6fbfe3b,One Day in the Life of Ivan Denisovich
 cf72fbd261d39710,Top Ten Books,Barry Hannah,8,The Sun Also Rises,Ernest Hemingway,1926,,OL:OL62979W,The Sun Also Rises
 5d3bcbbc991d9948,Top Ten Books,Barry Hannah,9,Airships,Barry Hannah,1978,,K:5f7b8a8855e8,Airships
@@ -407,7 +407,7 @@ e3612aeb152023b3,Top Ten Books,Bobbie Ann Mason,2,Lolita,Vladimir Nabokov,1955,,
 0454d28d71534751,Top Ten Books,Bobbie Ann Mason,4,A Portrait of the Artist as a Young Man,James Joyce,1916,,OL:OL41225848W,A Portrait of the Artist as a Young Man
 8b39b12e2b1fb748,Top Ten Books,Bobbie Ann Mason,5,The Rime of the Ancient Mariner,Samuel Taylor Coleridge,1798,,K:965aa95cc729,The Rime of the Ancient Mariner
 db71a75507057f9e,Top Ten Books,Bobbie Ann Mason,6,The Sun Also Rises,Ernest Hemingway,1926,,OL:OL62979W,The Sun Also Rises
-d5c295aa81d58c28,Top Ten Books,Bobbie Ann Mason,7,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+d5c295aa81d58c28,Top Ten Books,Bobbie Ann Mason,7,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 5c5aa298cebe21d9,Top Ten Books,Bobbie Ann Mason,8,Parade's End,Ford Madox Ford,1928,,OL:OL509919W,Parade's End
 eae11903983d8f59,Top Ten Books,Bobbie Ann Mason,9,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 c88530f8d2cfc7c4,Top Ten Books,Bobbie Ann Mason,10,Emma,Jane Austen,1816,,OL:OL190034W,Emma
@@ -495,7 +495,7 @@ c41f8c63b606161d,Top Ten Books,Bret Easton Ellis,8,Rabbit Redux,John Updike,1971
 2fe664287a4f4e24,Top Ten Books,Bret Easton Ellis,9,Vanity Fair,William Makepeace Thackeray,1847-48,,OL:OL16313W,Vanity Fair
 636f8ba5a86507f6,Top Ten Books,Bret Easton Ellis,10,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 1a4fe54b146f77a9,Top Ten Books,Carl Hiaasen,1,Catch-22,Joseph Heller,1962,,OL:OL276798W,Catch-22
-e89ba831954cec75,Top Ten Books,Carl Hiaasen,2,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+e89ba831954cec75,Top Ten Books,Carl Hiaasen,2,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 ce7e6d6fb5334221,Top Ten Books,Carl Hiaasen,3,The Catcher in the Rye,J. D. Salinger,1951,,OL:OL3335245W,The Catcher in the Rye
 d780a5a9173ae0dd,Top Ten Books,Carl Hiaasen,4,The Comedians,Graham Greene,1966,,K:1dc5ba74ec0c,The Comedians
 94b3585c1cac2afb,Top Ten Books,Carl Hiaasen,5,Slaughterhouse-Five,Kurt Vonnegut,1969,,OL:OL98459W,Slaughterhouse-Five
@@ -510,7 +510,7 @@ db20709da5c2f570,Top Ten Books,Carl Hiaasen,8,Ninety-two in the Shade,Thomas McG
 a1733cb3e5597c09,Top Ten Books,Cathleen Schine,4,Phineas Finn: The Irish Member,Anthony Trollope,1869,,K:1f288c612b3c,Phineas Finn: The Irish Member
 920cc15605269781,Top Ten Books,Cathleen Schine,5,Our Mutual Friend,Charles Dickens,1864-65,,OL:OL41368739W,Our Mutual Friend
 89cb29aa868c968f,Top Ten Books,Cathleen Schine,6,Quartet in Autumn,Barbara Pym,1977,,OL:OL480955W,Quartet in Autumn
-6f1ecd887fac5071,Top Ten Books,Cathleen Schine,7,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+6f1ecd887fac5071,Top Ten Books,Cathleen Schine,7,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 6a18feb5889e0700,Top Ten Books,Cathleen Schine,8,Stories of Alice Munro,,,,K:906ffc5082cd,Stories of Alice Munro
 c4ea39571b90fac0,Top Ten Books,Cathleen Schine,9,The Makioka Sisters,Junichiro Tanizaki,1943-48,,OL:OL668682W,The Makioka Sisters
 3bf3f5184d9f0259,Top Ten Books,Cathleen Schine,10,Pictures from an Institution,Randall Jarrell,1954,,K:2269bb9ee4d7,Pictures from an Institution
@@ -541,7 +541,7 @@ c24b5d26b70426c8,Top Ten Books,Chris Bohjalian,4,Anna Karenina,Leo Tolstoy,1877,
 3ddf98e7844e6cd2,Top Ten Books,Chris Bohjalian,5,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
 f749b6ddbec7d387,Top Ten Books,Chris Bohjalian,6,To Kill a Mockingbird,Harper Lee,1960,,OL:OL3140822W,To Kill a Mockingbird
 1195c612db65e719,Top Ten Books,Chris Bohjalian,7,Jane Eyre,Charlotte Brontë,1847,,OL:OL1095427W,Jane Eyre
-c59a461e5ead69cf,Top Ten Books,Chris Bohjalian,8,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+c59a461e5ead69cf,Top Ten Books,Chris Bohjalian,8,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 cea60d15bf2c9c2b,Top Ten Books,Chris Bohjalian,9,Invisible Man,Ralph Ellison,1952,,OL:OL495470W,Invisible Man
 dd3cc90701b930cf,Top Ten Books,Chris Bohjalian,10,Les Misérables,Victor Hugo,1862,,OL:OL1063588W,Les Misérables
 6c032bb130deabd9,Top Ten Books,Christopher Bollen,1,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
@@ -549,7 +549,7 @@ f79dc4442c419c11,Top Ten Books,Christopher Bollen,2,Howards End,E. M. Forster,19
 c82bd5dd6fb01cee,Top Ten Books,Christopher Bollen,3,The Satanic Verses,Salman Rushdie,1988,,OL:OL457175W,The Satanic Verses
 d8e4d3dd5c2ed24d,Top Ten Books,Christopher Bollen,4,The Waves,Virginia Woolf,1931,,OL:OL39316W,The Waves
 e27666d1d34c2fc8,Top Ten Books,Christopher Bollen,5,The Executioner's Song,Norman Mailer,1979,,K:08cd5694dbf4,The Executioner's Song
-1b84089a98a128b2,Top Ten Books,Christopher Bollen,6,The Decameron,Giovanni Boccaccio,1351-53,,K:cb9d628dca7d,The Decameron
+1b84089a98a128b2,Top Ten Books,Christopher Bollen,6,The Decameron,Giovanni Boccaccio,1351-53,,OL:OL7180368W,The Decameron of Boccaccio
 c74fe43ac3188a96,Top Ten Books,Christopher Bollen,7,In Cold Blood,Truman Capote,1966,,OL:OL1992198W,In Cold Blood
 180591c74186b541,Top Ten Books,Christopher Bollen,8,The Quiet American,Graham Greene,1956,,K:99a3f7848da8,The Quiet American
 7ae7cf014e6d3074,Top Ten Books,Christopher Bollen,9,The Bacchae,Euripides,,,K:8f7a8603bc7a,The Bacchae
@@ -567,7 +567,7 @@ af8bce69375722cb,Top Ten Books,Claire Messud,7,Confessions of Zeno,Italo Svevo,1
 42db79fe5d02477a,Top Ten Books,Clyde Edgerton,1,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
 51e10f9f44f24c86,Top Ten Books,Clyde Edgerton,2,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 54441fb348477b47,Top Ten Books,Clyde Edgerton,3,The Canterbury Tales,Geoffrey Chaucer,,,K:d3e96a7e3439,The Canterbury Tales
-38044cc78d3b56e3,Top Ten Books,Clyde Edgerton,4,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+38044cc78d3b56e3,Top Ten Books,Clyde Edgerton,4,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 0795e10cd2449e1b,Top Ten Books,Clyde Edgerton,5,Light in August,William Faulkner,1932,,OL:OL82931W,Light in August
 3cfd2c5aaaec2d42,Top Ten Books,Clyde Edgerton,6,The stories of Flannery O'Connor,,1925-64,,K:3b04f3eef439,Stories of Flannery O'Connor
 8faafd8bc0d8beaa,Top Ten Books,Clyde Edgerton,7,As I Lay Dying,William Faulkner,1930,,OL:OL82929W,As I Lay Dying
@@ -630,7 +630,7 @@ e86df7c4a46ea47b,Top Ten Books,David Lodge,3,The Canterbury Tales,Geoffrey Chauc
 38c4004d6b2aea93,Top Ten Books,David Lodge,5,Emma,Jane Austen,1816,,OL:OL190034W,Emma
 bb3038d103a075c8,Top Ten Books,David Lodge,6,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
 24e090a7e1e421b8,Top Ten Books,David Lodge,7,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
-ed7cc830f6a329e8,Top Ten Books,David Lodge,8,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+ed7cc830f6a329e8,Top Ten Books,David Lodge,8,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 d3be58c5fe776cb9,Top Ten Books,David Lodge,9,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 f8ba330902bdf588,Top Ten Books,David Lodge,10,Alice's Adventures in Wonderland,Lewis Carroll,1865,,OL:OL151411W,Alice's Adventures in Wonderland
 5d990657b0b547b7,Top Ten Books,David Mitchell,1,The Duel,Anton Chekhov .,1891,,K:17da81fb1052,The Duel
@@ -744,7 +744,7 @@ b2c5950e407cf7b7,Top Ten Books,Elizabeth Spencer,7,Where Angels Fear to Tread,E.
 96a6c156d685f5d0,Top Ten Books,Elizabeth Spencer,8,Cold Mountain,Charles Frazier,1997,,K:bf599939f01f,Cold Mountain
 58803f7781387321,Top Ten Books,Elizabeth Spencer,9,Tender Is the Night,F. Scott Fitzgerald,1934,,OL:OL468485W,Tender Is the Night
 9d798dc9c1ff9429,Top Ten Books,Elizabeth Spencer,10,The Professor's House,Willa Cather,1925,,K:9a0ea9d7f91e,The Professor's House
-3d50e14cfea9413c,Top Ten Books,Emma Donoghue,1,Clarissa,Samuel Richardson,1747-48,,K:050b9552feae,Clarissa
+3d50e14cfea9413c,Top Ten Books,Emma Donoghue,1,Clarissa,Samuel Richardson,1747-48,,OL:OL1150725W,Clarissa Harlowe
 00b0cc13293393f9,Top Ten Books,Emma Donoghue,2,Romeo and Juliet,William Shakespeare,1595,,K:6c48d4f8f588,Romeo and Juliet
 bb6ffac03a1d3566,Top Ten Books,Emma Donoghue,3,Emma,Jane Austen,1816,,OL:OL190034W,Emma
 28c08af9e55c4a0d,Top Ten Books,Emma Donoghue,4,Great Expectations,Charles Dickens,1860-61,,OL:OL8721462W,Great Expectations
@@ -754,7 +754,7 @@ cd32c006d2ae4610,Top Ten Books,Emma Donoghue,6,Red Shift,Alan Garner,1973,,K:45d
 a9872142a305328e,Top Ten Books,Emma Donoghue,8,Oldest Living Confederate Widow Tells All,Allan Gurganus,1989,,K:ced3e731d0b5,Oldest Living Confederate Widow Tells All
 20b5a284f034a86e,Top Ten Books,Emma Donoghue,9,The Passion,Jeanette Winterson,1987,,K:ec3fd432acea,The Passion
 2ef1bd5214f330cf,Top Ten Books,Emma Donoghue,10,Ulverton,Adam Thorpe,1992,,K:0fb96ea874bc,Ulverton
-dcfe77613a40536b,Top Ten Books,Erin McGraw,1,The Bible,,,,K:620bf0bababe,The Bible
+dcfe77613a40536b,Top Ten Books,Erin McGraw,1,The Bible,,,,K:450eb07e587b,The Bible
 1d2df4a63cf1241e,Top Ten Books,Erin McGraw,2,"Othello, The Moor of Venice",William Shakespeare,1604,,K:1dc9509e5ec7,"Othello, The Moor of Venice"
 e403e882686200b2,Top Ten Books,Erin McGraw,3,The Divine Comedy,Dante Alighieri,1321,,OL:OL93082W,The Divine Comedy
 15cdca4dbc0483f9,Top Ten Books,Erin McGraw,4,The Canterbury Tales,Geoffrey Chaucer,,,K:d3e96a7e3439,The Canterbury Tales
@@ -792,7 +792,7 @@ ddc89e3a36bc17ac,Top Ten Books,Francine Prose,10,Crime and Punishment,Fyodor Dos
 8c7c7653ffb78f28,Top Ten Books,Fred Chappell,5,The Odyssey,Homer,,,K:de8ae851971a,The Odyssey
 7d0362df0c97456b,Top Ten Books,Fred Chappell,6,The Aeneid,Virgil,,,K:c70aa81a21ba,The Aeneid
 43234f8c33cbebc3,Top Ten Books,Fred Chappell,7,Finnegans Wake,James Joyce,1939,,K:0b33bb451da1,Finnegans Wake
-f3c9abf17e34fdbc,Top Ten Books,Fred Chappell,8,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+f3c9abf17e34fdbc,Top Ten Books,Fred Chappell,8,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 e9b6e2d989518a02,Top Ten Books,Fred Chappell,9,Paradise Lost,John Milton,1667,,K:7d6f4598f836,Paradise Lost
 3ea30e8b8bd09db5,Top Ten Books,Fred Chappell,10,Tom Jones,Henry Fielding,1749,,K:312f2e675a9c,Tom Jones
 159cdcb0cf57d9a3,Top Ten Books,Gail Godwin,1,The Portrait of a Lady,Henry James,1881,,OL:OL276365W,The Portrait of a Lady
@@ -806,9 +806,9 @@ ba6b7c389df9830b,Top Ten Books,Gail Godwin,8,A Portrait of the Artist as a Young
 b73879f732a3b7cc,Top Ten Books,Gail Godwin,9,Seven Gothic Tales,Isak Dinesen,1934,,K:aaeea62a115f,Seven Gothic Tales
 6d3ff245bd7c1e61,Top Ten Books,Gail Godwin,10,Atonement,Ian McEwan,2001,,OL:OL1855944W,Atonement
 d4feacb50843483b,Top Ten Books,George Saunders,1,Dead Souls,Nikolai Gogol,1842,,K:1953ba5c8e84,Dead Souls
-0aa86bd62167514f,Top Ten Books,George Saunders,2,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+0aa86bd62167514f,Top Ten Books,George Saunders,2,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 59c3188504495977,Top Ten Books,George Saunders,3,War and Peace,Leo Tolstoy,1869,,OL:OL267171W,War and Peace
-9a078f18b6a40814,Top Ten Books,George Saunders,4,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+9a078f18b6a40814,Top Ten Books,George Saunders,4,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 fcf8747d0eab2435,Top Ten Books,George Saunders,5,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
 7c3e09307c73e608,Top Ten Books,George Saunders,6,Stories of Isaac Babel,,1894-1940,,K:ef3be8623dfc,Stories of Isaac Babel
 3d79a2bac0cc396e,Top Ten Books,George Saunders,7,Stories of Anton Chekhov,,1860-1904,,K:6b584d1b9428,Stories of Anton Chekhov
@@ -831,13 +831,13 @@ a85f58184573d33e,Top Ten Books,Haven Kimmel,3,Hamlet,William Shakespeare,1600,,K
 766e2b8a7c573bb2,Top Ten Books,Haven Kimmel,4,The Dead,James Joyce,1916,,K:aafaa386e9f2,The Dead
 3cca8a304712a638,Top Ten Books,Haven Kimmel,5,To the Lighthouse,Virginia Woolf,1927,,OL:OL39396W,To the Lighthouse
 51ae9f60cc13503d,Top Ten Books,Haven Kimmel,6,Stories of Nathaniel Hawthorne,,1804-64,,K:3dc75f99b576,Stories of Nathaniel Hawthorne
-59c9c52942348a7e,Top Ten Books,Haven Kimmel,7,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+59c9c52942348a7e,Top Ten Books,Haven Kimmel,7,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 29fa9436c32f8e28,Top Ten Books,Haven Kimmel,8,Invisible Man,Ralph Ellison,1952,,OL:OL495470W,Invisible Man
 bb3b18ee16ddcd6a,Top Ten Books,Haven Kimmel,9,Beloved,Toni Morrison,1987,,OL:OL50548W,Beloved
 ab3717c4e9806949,Top Ten Books,Haven Kimmel,10,"Little, Big",John Crowley,1981,,K:9df5ca05129f,"Little, Big"
 7aa46039b1ef8144,Top Ten Books,Heidi Julavits,1,The Arabian Nights: Tales from a Thousand and One Nights,,,,K:98c8438f910d,The Arabian Nights: Tales from a Thousand and One Nights
 e06641b27841770d,Top Ten Books,Heidi Julavits,2,Daniel Deronda,George Eliot,1874-76,,OL:OL20933W,Daniel Deronda
-22b4658771d26001,Top Ten Books,Heidi Julavits,3,The Decameron,Giovanni Boccaccio,1351-53,,K:cb9d628dca7d,The Decameron
+22b4658771d26001,Top Ten Books,Heidi Julavits,3,The Decameron,Giovanni Boccaccio,1351-53,,OL:OL7180368W,The Decameron of Boccaccio
 ece042ee703e5044,Top Ten Books,Heidi Julavits,4,The Stranger,Albert Camus,1942,,OL:OL1230613W,The Outsider
 f0d1f3c6c84c3ad2,Top Ten Books,Heidi Julavits,5,The Pillow-Book of Sei Shonagon,,1592,,K:625b79762741,The Pillow-Book of Sei Shonagon
 1532c4ef317600ad,Top Ten Books,Heidi Julavits,6,Nothing,Henry Green,1926,,K:111bd5114ad8,Nothing
@@ -901,7 +901,7 @@ b456932847aee450,Top Ten Books,James Lee Burke,7,Mildred Pierce,James M. Cain,19
 d2c49e0f3638406b,Top Ten Books,James Lee Burke,8,The Big Sky,A. B. Guthrie,1947,,K:bf8d0f88d122,The Big Sky
 90b53f715895ffea,Top Ten Books,James Lee Burke,9,The Moon and Sixpence,W. Somerset Maugham,1919,,K:95d47d6a83b3,The Moon and Sixpence
 92ef0ce2aed3fbd6,Top Ten Books,James Lee Burke,10,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
-d96bebb49ad02a66,Top Ten Books,James Salter,1,The Bible,,,,K:620bf0bababe,The Bible
+d96bebb49ad02a66,Top Ten Books,James Salter,1,The Bible,,,,K:450eb07e587b,The Bible
 6cb24442e5bc8c90,Top Ten Books,James Salter,2,Aesop's Fables,,,,K:96f5809e4069,Aesop's Fables
 623680dabace2187,Top Ten Books,James Salter,3,The Arabian Nights: Tales from a Thousand and One Nights,,,,K:98c8438f910d,The Arabian Nights: Tales from a Thousand and One Nights
 65787bc4d6362ba0,Top Ten Books,James Salter,4,The legends of King Arthur and the Knights of the Round Table,,,,K:511f77d53adb,The legends of King Arthur and the Knights of the Round Table
@@ -927,7 +927,7 @@ bbfd8ab86a8bf834,Top Ten Books,Jane Mendelsohn,8,The Metamorphosis,Franz Kafka,1
 62b3f9125b8dfddc,Top Ten Books,Jennifer Egan,4,"Good Morning, Midnight",Jean Rhys,1939,,OL:OL1858631W,"Good Morning, Midnight"
 97af91059f404f05,Top Ten Books,Jennifer Egan,5,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
 1d3dda76536ad731,Top Ten Books,Jennifer Egan,6,Invisible Man,Ralph Ellison,1952,,OL:OL495470W,Invisible Man
-3cb1c76c3f71f807,Top Ten Books,Jennifer Egan,7,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+3cb1c76c3f71f807,Top Ten Books,Jennifer Egan,7,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 c102b9d907741dfa,Top Ten Books,Jennifer Egan,8,Underworld,Don DeLillo,1997,,OL:OL1921185W,Underworld
 aefa44dd2108ae13,Top Ten Books,Jennifer Egan,9,Germinal,Émile Zola,1884,,OL:OL118986W,Germinal
 608119399ee779ea,Top Ten Books,Jennifer Egan,10,Don Juan,Lord Byron,1819,,K:1d1ae492ede5,Don Juan
@@ -1030,7 +1030,7 @@ adb69b426a3332e7,Top Ten Books,Jonathan Lethem,4,The Red and the Black,Stendhal,
 aed8b55ce3b1cc4b,Top Ten Books,Jonathan Lethem,6,Alice's Adventures in Wonderland,Lewis Carroll,1865,,OL:OL151411W,Alice's Adventures in Wonderland
 009a67ed5c9a7a9b,Top Ten Books,Jonathan Lethem,7,The Black Prince,Iris Murdoch,1973,,OL:OL1326328W,The Black Prince
 166c95ded2b29e9d,Top Ten Books,Jonathan Lethem,8,New Grub Street,George Gissing,1891,,K:f3bef513288a,New Grub Street
-57667198ac1acdf8,Top Ten Books,Jonathan Lethem,9,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+57667198ac1acdf8,Top Ten Books,Jonathan Lethem,9,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 691385de477c4747,Top Ten Books,Jonathan Lethem,10,Crime and Punishment,Fyodor Dostoevsky,1866,,OL:OL166894W,Crime and Punishment
 cc8c60a4dede84e4,Top Ten Books,Jonathan Miles,1,Ship of Fools,Katherine Anne Porter,1962,,K:93dc6897f134,Ship of Fools
 3e362acfa3f2d78e,Top Ten Books,Jonathan Miles,2,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
@@ -1048,12 +1048,12 @@ fa1630926d92a74a,Top Ten Books,Jonathan Raban,2,Emma,Jane Austen,1816,,OL:OL1900
 0a3ad32d049615a6,Top Ten Books,Jonathan Raban,4,The Portrait of a Lady,Henry James,1881,,OL:OL276365W,The Portrait of a Lady
 a35216540a6af2b0,Top Ten Books,Jonathan Raban,5,The Last Chronicle of Barset,Anthony Trollope,1867,,K:7b6996b5e5d9,The Last Chronicle of Barset
 73b3f621ca3e6cd9,Top Ten Books,Jonathan Raban,6,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
-a681321d2516c9e2,Top Ten Books,Jonathan Raban,7,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
-ce670c45e79f5d37,Top Ten Books,Jonathan Raban,8,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+a681321d2516c9e2,Top Ten Books,Jonathan Raban,7,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
+ce670c45e79f5d37,Top Ten Books,Jonathan Raban,8,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 4ec2588ee21d5b1a,Top Ten Books,Jonathan Raban,9,A Handful of Dust,Evelyn Waugh,1934,,OL:OL5721565W,A Handful of Dust
 daacdc6e15119433,Top Ten Books,Jonathan Raban,10,Summer Lightning,P. G. Wodehouse,1929,,K:1d2a45e65297,Summer Lightning
 87380cd119eb94b6,Top Ten Books,Josephine Humphreys,1,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
-1b425edddec9dbcd,Top Ten Books,Josephine Humphreys,2,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+1b425edddec9dbcd,Top Ten Books,Josephine Humphreys,2,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 669a453eb0c26f66,Top Ten Books,Josephine Humphreys,3,The Moviegoer,Walker Percy,1961,,OL:OL38282W,The Moviegoer
 f1f8e175ae714d8a,Top Ten Books,Josephine Humphreys,4,Love Medicine,Louise Erdrich,1984,,OL:OL479009W,Love Medicine
 ef9b9d65a86c699a,Top Ten Books,Josephine Humphreys,5,Edisto,Padget Powell,1984,,K:10150da613f8,Edisto
@@ -1134,7 +1134,7 @@ b98bced5efcd8ac9,Top Ten Books,Kent Haruf,1,The Sound and the Fury,William Faulk
 ebae094fa9e43aca,Top Ten Books,Kent Haruf,3,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
 cae7dfa18dc299bc,Top Ten Books,Kent Haruf,4,The Hamlet,William Faulkner,1940,,K:017afa232b50,The Hamlet
 89f4adc32987245d,Top Ten Books,Kent Haruf,5,Stories of Ernest Hemingway,,1899-1961,,K:2ecba695b7ae,Stories of Ernest Hemingway
-f3dd0d46daf468d4,Top Ten Books,Kent Haruf,6,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+f3dd0d46daf468d4,Top Ten Books,Kent Haruf,6,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 8e7c4e25ac9a4d0d,Top Ten Books,Kent Haruf,7,Stories of Flannery O’Connor,,1925-64,,K:3b04f3eef439,Stories of Flannery O'Connor
 3dacef0594ecf3d7,Top Ten Books,Kent Haruf,8,Waiting for Godot,Samuel Beckett,1953,,K:9582f8788134,Waiting for Godot
 66709a1df6cc4172,Top Ten Books,Kent Haruf,9,The Stranger,Albert Camus,1942,,OL:OL1230613W,The Outsider
@@ -1169,7 +1169,7 @@ adf6167978597488,Top Ten Books,Leah Stewart,8,The Remains of the Day,Kazuo Ishig
 73b12a3ef25e52e2,Top Ten Books,Leah Stewart,9,Lucky Jim,Kingsley Amis,1954,,OL:OL1863530W,Lucky Jim
 05b212a1f6c1333a,Top Ten Books,Leah Stewart,10,The Wind-Up Bird Chronicle,Haruki Murakami,1994,,K:338581d02713,The Wind-Up Bird Chronicle
 a2f2310c4155dcdc,Top Ten Books,Lee K. Abbott,1,Heart of Darkness,Joseph Conrad,1899,,OL:OL38663W,Heart of Darkness
-28ed7866c93929e6,Top Ten Books,Lee K. Abbott,2,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+28ed7866c93929e6,Top Ten Books,Lee K. Abbott,2,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 a85cc60222474b59,Top Ten Books,Lee K. Abbott,3,Nine Stories,J. D. Salinger,1953,,K:751bbe356d28,Nine Stories
 8e6acdfd648c61c9,Top Ten Books,Lee K. Abbott,4,"So Long, See You Tomorrow",William Maxwell,1979,,OL:OL1503886W,"So Long, See You Tomorrow"
 4255665040eee040,Top Ten Books,Lee K. Abbott,5,The Ponder Heart,Eudora Welty,1954,,K:67787770c51b,The Ponder Heart
@@ -1224,7 +1224,7 @@ f1893251780b4d5e,Top Ten Books,Madison Smartt Bell,4,"The Beans of Egypt, Maine"
 2d703121ca8c6724,Top Ten Books,Madison Smartt Bell,6,Entered from the Sun,George Garrett,1990,,K:9f73cdf60017,Entered from the Sun
 f8ea2ee884d642fa,Top Ten Books,Madison Smartt Bell,7,Continental Drift,Russell Banks,1985,,K:c984175795c3,Continental Drift
 fb7832c9cc4659fd,Top Ten Books,Madison Smartt Bell,8,Street of Lost Footsteps,Lyonel Trouillot,1998,,K:87301aefcad9,Street of Lost Footsteps
-82effbe0f443aa4d,Top Ten Books,Madison Smartt Bell,9,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+82effbe0f443aa4d,Top Ten Books,Madison Smartt Bell,9,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 acbb44d0ea0c0c1e,Top Ten Books,Madison Smartt Bell,10,The Conference of the Birds,Farid ud,,,K:326fa432a334,The Conference of the Birds
 c22ce92b7bf8213e,Top Ten Books,Maile Meloy,1,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
 7cdb6e1a10a1848d,Top Ten Books,Maile Meloy,2,One Hundred Years of Solitude,Gabriel García Márquez,1967,,OL:OL274505W,One Hundred Years of Solitude
@@ -1355,13 +1355,13 @@ fda09374a77292b6,Top Ten Books,Mona Simpson,5,War and Peace,Leo Tolstoy,1869,,OL
 b96078321f39a53b,Top Ten Books,Mona Simpson,7,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
 f8bd715cf8946fb0,Top Ten Books,Mona Simpson,8,Spring in Fialta,,1936,,K:102159e87fc4,Spring in Fialta
 c37d65122b7b0085,Top Ten Books,Mona Simpson,9,Jane Eyre,Charlotte Brontë,1847,,OL:OL1095427W,Jane Eyre
-30950659baf16399,Top Ten Books,Mona Simpson,10,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+30950659baf16399,Top Ten Books,Mona Simpson,10,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 3cded3e374f7f0a8,Top Ten Books,Norman Mailer,1,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
 52e18852163349b7,Top Ten Books,Norman Mailer,2,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 d4f89f845c58fc2b,Top Ten Books,Norman Mailer,3,Crime and Punishment,Fyodor Dostoevsky,1866,,OL:OL166894W,Crime and Punishment
 be6637b11cf2a830,Top Ten Books,Norman Mailer,4,The Brothers Karamazov,Fyodor Dostoevsky,1880,,OL:OL10432709W,The Brothers Karamazov
 77ff1b0ac0f698a5,Top Ten Books,Norman Mailer,5,Pride and Prejudice,Jane Austen,1813,,OL:OL15165350W,Pride and Prejudice
-27bc925aa8b9af76,Top Ten Books,Norman Mailer,6,The U.S.A. trilogy,John Dos Passos,1938,,K:1cb501ee1776,The U.S.A. trilogy
+27bc925aa8b9af76,Top Ten Books,Norman Mailer,6,The U.S.A. trilogy,John Dos Passos,1938,,OL:OL1217995W,U.s.a.
 a785a555fc80fc4b,Top Ten Books,Norman Mailer,7,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 c4213ee5fd90799a,Top Ten Books,Norman Mailer,8,The Red and the Black,Stendhal,1830,,OL:OL733640W,The Red and the Black
 766e5eb629fb3e94,Top Ten Books,Norman Mailer,9,Buddenbrooks,Thomas Mann,1900,,OL:OL14867081W,Buddenbrooks
@@ -1385,7 +1385,7 @@ fff17972c86dbd7f,Top Ten Books,Paul Auster,6,Ulysses,James Joyce,1922,,OL:OL8631
 36e019ead8b1420d,Top Ten Books,Paul Auster,7,The Scarlet Letter,Nathaniel Hawthorne,1850,,OL:OL455305W,The Scarlet Letter
 98054df82286a5f2,Top Ten Books,Paul Auster,8,The Castle,Franz Kafka,1926,,OL:OL498434W,The Castle
 46d1aade338bf342,Top Ten Books,Paul Auster,9,"Molloy, Malone Dies, and The Unnamable",Samuel Beckett,1951-54,,K:009fc9ee2b85,"Molloy, Malone Dies, and The Unnamable"
-249da7fd128391ab,Top Ten Books,Paul Auster,10,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+249da7fd128391ab,Top Ten Books,Paul Auster,10,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 4f3e08f576ec2f5a,Top Ten Books,Paula Fox,1,War and Peace,Leo Tolstoy,1869,,OL:OL267171W,War and Peace
 2bb693c1ec39c562,Top Ten Books,Paula Fox,2,In Search of Lost Time,Marcel Proust,1913-27,,OL:OL1190289W,In Search of Lost Time
 ed802d49af30b578,Top Ten Books,Paula Fox,3,Tender Is the Night,F. Scott Fitzgerald,1934,,OL:OL468485W,Tender Is the Night
@@ -1427,7 +1427,7 @@ c1d9df2c34b9fd7a,Top Ten Books,Peter Cameron,5,The Towers of Trebizond,Rose Maca
 3dc63190448faff9,Top Ten Books,Peter Cameron,9,What's for Dinner?,James Schuyler,1978,,K:f01b5be61f50,What's for Dinner?
 8f6effd49c2dac12,Top Ten Books,Peter Cameron,10,A Voice Through a Cloud,Denton Welch,1950,,K:2b24f3659ce7,A Voice Through a Cloud
 23df632ed81ce9af,Top Ten Books,Peter Carey,1,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
-bc0b3a324cfb781f,Top Ten Books,Peter Carey,2,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+bc0b3a324cfb781f,Top Ten Books,Peter Carey,2,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 b8e542de27daaff0,Top Ten Books,Peter Carey,3,Great Expectations,Charles Dickens,1860-61,,OL:OL8721462W,Great Expectations
 3831ae2e1612a3c0,Top Ten Books,Peter Carey,4,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 55a48bbeabce61da,Top Ten Books,Peter Carey,5,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
@@ -1478,7 +1478,7 @@ bc66dc44bb87ad7c,Top Ten Books,Richard Powers,40,Great Expectations,Charles Dick
 df8ca300466c47b2,Top Ten Books,Rick Moody,1,The Divine Comedy,Dante Alighieri,1321,,OL:OL93082W,The Divine Comedy
 1801574b98445af5,Top Ten Books,Rick Moody,2,Essays,Michel de Montaigne,1533-92,,K:26a310599722,Essays
 f1859f0e0a1a8485,Top Ten Books,Rick Moody,3,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
-caa0f08b05240903,Top Ten Books,Rick Moody,4,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+caa0f08b05240903,Top Ten Books,Rick Moody,4,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 9fb2b3791f6fa9ac,Top Ten Books,Rick Moody,5,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 96caa93ed542cbb3,Top Ten Books,Rick Moody,6,The Brothers Karamazov,Fyodor Dostoevsky,1880,,OL:OL10432709W,The Brothers Karamazov
 44fabd73e92a5f8d,Top Ten Books,Rick Moody,7,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
@@ -1498,24 +1498,24 @@ c139e5f2ab65e0df,Top Ten Books,Robb Forman Dew,9,Alice's Adventures in Wonderlan
 fba80da8e76065db,Top Ten Books,Robert B. Parker,1,The Bear,William Faulkner,1942,,K:a6094632e300,The Bear
 5b106a92d0d71a7d,Top Ten Books,Robert B. Parker,2,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
 bb1d6d295c4628a3,Top Ten Books,Robert B. Parker,3,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
-20a4c5c981bbe704,Top Ten Books,Robert B. Parker,4,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+20a4c5c981bbe704,Top Ten Books,Robert B. Parker,4,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 2a06069c0bd23127,Top Ten Books,Robert B. Parker,5,The Maltese Falcon,Dashiell Hammett,1930,,OL:OL47266W,The Maltese Falcon
 6ee1f1c3443b523e,Top Ten Books,Robert B. Parker,6,The Love Song of J. Alfred Prufrock,T. S. Eliot,1915,,K:a7c3b274f87c,The Love Song of J. Alfred Prufrock
 e8a8e5a567c05054,Top Ten Books,Robert B. Parker,7,Dubliners,James Joyce,1916,,K:04ef5684be62,Dubliners
 d38e19b94036c092,Top Ten Books,Robert B. Parker,8,The Big Sleep,Raymond Chandler,1939,,OL:OL15400582W,The Big Sleep
-a2766c45fdfaaebe,Top Ten Books,Robert B. Parker,9,The U.S.A. trilogy,John Dos Passos,1938,,K:1cb501ee1776,The U.S.A. trilogy
+a2766c45fdfaaebe,Top Ten Books,Robert B. Parker,9,The U.S.A. trilogy,John Dos Passos,1938,,OL:OL1217995W,U.s.a.
 0b9ff7816744264a,Top Ten Books,Robert B. Parker,10,The Ambassadors,Henry James,1903,,OL:OL276470W,The Ambassadors
 d9458ebed1e9b387,Top Ten Books,Robert Coover,1,The Epic of Gilgamesh,,,,K:e0e175903a2c,The Epic of Gilgamesh
-19c297e7f42392b4,Top Ten Books,Robert Coover,2,Metamorphoses,,,,K:b33847395a41,Metamorphoses
+19c297e7f42392b4,Top Ten Books,Robert Coover,2,Metamorphoses,,,,K:daa94665cde4,Metamorphoses
 05f2ff758c2631a1,Top Ten Books,Robert Coover,3,The Celestina,,1499,,K:ddf7db56b887,The Celestina
-060dd4d0b7e4fdcf,Top Ten Books,Robert Coover,4,Don Quijote,,,,K:28a2e6155f0c,Don Quijote
+060dd4d0b7e4fdcf,Top Ten Books,Robert Coover,4,Don Quijote,,,,OL:OL44222301W,Don Quixote
 86a2646d7576ea96,Top Ten Books,Robert Coover,5,The Collected Shakespeare,,,,K:cc2184405545,K:cc2184405545
-5e1215efef38f848,Top Ten Books,Robert Coover,5,The Tempest,,1610,,K:dd5a8c858d90,The Tempest
-7050571b2e425bff,Top Ten Books,Robert Coover,5,King Lear,,1605,,K:bf220e2eba48,King Lear
-e2c0afa5c3a62baa,Top Ten Books,Robert Coover,5,A Midsummer Night's Dream,,1595,,K:a31ed17f6b68,A Midsummer Night's Dream
-6bf252c0fe220628,Top Ten Books,Robert Coover,6,Moby-Dick,,1851,,K:5a6159046e9a,Moby-Dick
-aab7772e925e2f91,Top Ten Books,Robert Coover,7,Ulysses,,1922,,K:7089b76ba44b,Ulysses
-671b7063f748ad03,Top Ten Books,Robert Coover,8,Ficciones,,1944,,K:84fc253521ec,Ficciones
+5e1215efef38f848,Top Ten Books,Robert Coover,5,The Tempest,,1610,,K:ef6aa2e15e06,The Tempest
+7050571b2e425bff,Top Ten Books,Robert Coover,5,King Lear,,1605,,K:bc4aa7549271,King Lear
+e2c0afa5c3a62baa,Top Ten Books,Robert Coover,5,A Midsummer Night's Dream,,1595,,K:58e8ae773c4c,A Midsummer Night’s Dream
+6bf252c0fe220628,Top Ten Books,Robert Coover,6,Moby-Dick,,1851,,OL:OL102749W,Moby-Dick
+aab7772e925e2f91,Top Ten Books,Robert Coover,7,Ulysses,,1922,,OL:OL86318W,Ulysses
+671b7063f748ad03,Top Ten Books,Robert Coover,8,Ficciones,,1944,,K:969b47058d9c,Ficciones
 c1fd43eebfc4c10b,Top Ten Books,Robert Coover,9,Whoroscope,,,,K:6a405b4c5ae0,Whoroscope
 a32011f5f0dbb3d6,Top Ten Books,Robert Coover,10,El Señor Presidente,,,,K:0f8ff0529f09,El Señor Presidente
 824fb95eb6563b38,Top Ten Books,Robert Goolrick,1,In Search of Lost Time,Marcel Proust,1913-27,,OL:OL1190289W,In Search of Lost Time
@@ -1539,11 +1539,11 @@ f81a3975345bbb32,Top Ten Books,Robert Morgan,1,"Look Homeward, Angel",Thomas Wol
 0df8ce2a22ad0524,Top Ten Books,Robert Morgan,5,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
 1885c8745004e1bc,Top Ten Books,Robert Morgan,6,David Copperfield,Charles Dickens,1849-50,,OL:OL8662242W,David Copperfield
 33cf06992abbb199,Top Ten Books,Robert Morgan,7,Suttree,Cormac McCarthy,1979,,OL:OL40885W,Suttree
-faef5d8845855f1a,Top Ten Books,Robert Morgan,8,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+faef5d8845855f1a,Top Ten Books,Robert Morgan,8,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 4e33c2a07ffd3648,Top Ten Books,Robert Morgan,9,The Wings of the Dove,Henry James,1902,,K:b88ea723aa90,The Wings of the Dove
 023020f00b4493a2,Top Ten Books,Robert Morgan,10,The Grapes of Wrath,John Steinbeck,1939,,OL:OL23205W,The Grapes of Wrath
 24567033bc20ce2b,Top Ten Books,Robert Pinsky,1,The Odyssey,Homer,,,K:de8ae851971a,The Odyssey
-8fbca6cdf54c1e46,Top Ten Books,Robert Pinsky,2,The Bible,,,,K:620bf0bababe,The Bible
+8fbca6cdf54c1e46,Top Ten Books,Robert Pinsky,2,The Bible,,,,K:450eb07e587b,The Bible
 b246f2501f4e2e23,Top Ten Books,Robert Pinsky,3,King Lear,William Shakespeare,1605,,K:bc4aa7549271,King Lear
 9c0bd76da93ac3a3,Top Ten Books,Robert Pinsky,4,The Divine Comedy,Dante Alighieri,1321,,OL:OL93082W,The Divine Comedy
 c8592512ba7dc1ab,Top Ten Books,Robert Pinsky,5,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
@@ -1588,7 +1588,7 @@ a6ce318076fcb22e,Top Ten Books,Roxana Robinson,8,Rabbit Is Rich,John Updike,1981
 d2e9c424a2d26f3d,Top Ten Books,Roxana Robinson,10,Disgrace,J. M. Coetzee,1999,,OL:OL500451W,Disgrace
 e51ae6c6ab489603,Top Ten Books,Russell Banks,1,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 051a74a78d151c32,Top Ten Books,Russell Banks,2,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
-a30240bff3387cca,Top Ten Books,Russell Banks,3,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+a30240bff3387cca,Top Ten Books,Russell Banks,3,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 d26d5bc24b6ddb22,Top Ten Books,Russell Banks,4,The Sound and the Fury,William Faulkner,1929,,OL:OL82870W,The Sound and the Fury
 fcadfc5ef2f8f509,Top Ten Books,Russell Banks,5,The Odyssey,Homer,,,K:de8ae851971a,The Odyssey
 cd5137f422bc2201,Top Ten Books,Russell Banks,6,The Canterbury Tales,Geoffrey Chaucer,,,K:d3e96a7e3439,The Canterbury Tales
@@ -1619,7 +1619,7 @@ d4df0f2e47d92240,Top Ten Books,Sara Gruen,5,Jane Eyre,Charlotte Brontë,1847,,OL
 4ea16694d90eeac8,Top Ten Books,Scott Spencer,1,Lolita,Vladimir Nabokov,1955,,OL:OL627084W,Lolita
 e6ea3911d8adcb77,Top Ten Books,Scott Spencer,2,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 c96ebfe7990d6ec4,Top Ten Books,Scott Spencer,3,Great Expectations,Charles Dickens,1860-61,,OL:OL8721462W,Great Expectations
-41c6ccfe3db0b53e,Top Ten Books,Scott Spencer,4,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+41c6ccfe3db0b53e,Top Ten Books,Scott Spencer,4,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 f04dfddc5e7fd57f,Top Ten Books,Scott Spencer,5,King Lear,William Shakespeare,1605,,K:bc4aa7549271,King Lear
 04713717cb71d2be,Top Ten Books,Scott Spencer,6,The Power and the Glory,Graham Greene,1940,,OL:OL106084W,The Power and the Glory
 1af5ffa1981e83c3,Top Ten Books,Scott Spencer,7,Song of Solomon,Toni Morrison,1977,,OL:OL50564W,Song of Solomon
@@ -1662,7 +1662,7 @@ cc1750480f680746,Top Ten Books,Siri Hustvedt,3,Middlemarch,George Eliot,1871-72,
 cd04ef1ebe9ce315,Top Ten Books,Siri Hustvedt,7,To the Lighthouse,Virginia Woolf,1927,,OL:OL39396W,To the Lighthouse
 297c29d7f48a3ff3,Top Ten Books,Siri Hustvedt,8,Stories of Franz Kafka,,1883-1924,,K:655dc7057956,Stories of Franz Kafka
 68a029335ae11efd,Top Ten Books,Siri Hustvedt,9,The Golden Bowl,Henry James,1904,,OL:OL26099415W,The Golden Bowl
-b505305fe0ad3534,Top Ten Books,Siri Hustvedt,10,Nightwood,,,,K:144b8fc80005,Nightwood
+b505305fe0ad3534,Top Ten Books,Siri Hustvedt,10,Nightwood,,,,OL:OL505583W,Nightwood
 d1807732f6564538,Top Ten Books,Stanley Crawford,1,Gulliver's Travels,Jonathan Swift,,,OL:OL20600W,Gulliver's Travels
 f470197b87b09319,Top Ten Books,Stanley Crawford,2,Plays of Molière,,1622-73,,K:30ead11b9ea3,Plays of Molière
 e4a5377b935842cc,Top Ten Books,Stanley Crawford,3,Emma,Jane Austen,1816,,OL:OL190034W,Emma
@@ -1674,7 +1674,7 @@ e4a5377b935842cc,Top Ten Books,Stanley Crawford,3,Emma,Jane Austen,1816,,OL:OL19
 202810e918e63973,Top Ten Books,Stanley Crawford,9,The Stranger,Albert Camus,1942,,OL:OL1230613W,The Outsider
 ee2ac30904f1ea2e,Top Ten Books,Stanley Crawford,10,Disgrace,J. M. Coetzee,1999,,OL:OL500451W,Disgrace
 5a6e499815e7fec9,Top Ten Books,Stephen King,1,The Golden Argosy,"Van H. Cartmell & Charles Grayson, editors",,,K:5f36c5d443e5,The Golden Argosy
-86034e062d97f423,Top Ten Books,Stephen King,2,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+86034e062d97f423,Top Ten Books,Stephen King,2,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 c3f5e04504f888c9,Top Ten Books,Stephen King,3,The Satanic Verses,Salman Rushdie,1988,,OL:OL457175W,The Satanic Verses
 209409abd1576a57,Top Ten Books,Stephen King,4,McTeague,Frank Norris,1899,,OL:OL1794911W,McTeague
 dab5259602fe9cbf,Top Ten Books,Stephen King,5,Lord of the Flies,William Golding,1955,,K:6e28afa38b7a,Lord of the Flies
@@ -1716,7 +1716,7 @@ a2b8fc2d9268f8eb,Top Ten Books,Susan Minot,10,Stories of Anton Chekhov,,1860-190
 31e3d2ff234a1d78,Top Ten Books,Susan Vreeland,1,The Grapes of Wrath,John Steinbeck,1939,,OL:OL23205W,The Grapes of Wrath
 3a4068b8ca174fcb,Top Ten Books,Susan Vreeland,2,Hamlet,William Shakespeare,1600,,K:fbe28ea907ef,Hamlet
 9ff9769a90992ac0,Top Ten Books,Susan Vreeland,3,To Kill a Mockingbird,Harper Lee,1960,,OL:OL3140822W,To Kill a Mockingbird
-ad5cde920cc5db4c,Top Ten Books,Susan Vreeland,4,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+ad5cde920cc5db4c,Top Ten Books,Susan Vreeland,4,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 4da12befbfec0482,Top Ten Books,Susan Vreeland,5,All Quiet on the Western Front,Erich Maria Remarque,1929,,OL:OL1209288W,All Quiet on the Western Front
 84ed6a770920b19b,Top Ten Books,Susan Vreeland,6,A Farewell to Arms,Ernest Hemingway,1929,,OL:OL63072W,A Farewell to Arms
 bfc3fc422e967cf6,Top Ten Books,Susan Vreeland,7,Mrs. Dalloway,Virginia Woolf,1925,,OL:OL26733889W,Mrs Dalloway
@@ -1734,7 +1734,7 @@ d9b6c4f9f0686882,Top Ten Books,Thomas Keneally,8,The Great Gatsby,F. Scott Fitzg
 2a3540bef1e18182,Top Ten Books,Thomas Keneally,9,Voss,Patrick White,1957,,K:a80f75f0262c,Voss
 a3311f991f476189,Top Ten Books,Thomas Keneally,10,The Tin Drum,Günter Grass,1959,,OL:OL67334W,The Tin Drum
 0c5d8e2a2903cf5e,Top Ten Books,Thomas Mallon,1,Vanity Fair,William Makepeace Thackeray,1847-48,,OL:OL16313W,Vanity Fair
-4770cda331083d82,Top Ten Books,Thomas Mallon,2,Tristram Shandy,Laurence Sterne,1759-67,,K:b36e75fbcafd,Tristram Shandy
+4770cda331083d82,Top Ten Books,Thomas Mallon,2,Tristram Shandy,Laurence Sterne,1759-67,,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 fdfe793fded43098,Top Ten Books,Thomas Mallon,3,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 0e1b51e88eef529b,Top Ten Books,Thomas Mallon,4,Crime and Punishment,Fyodor Dostoevsky,1866,,OL:OL166894W,Crime and Punishment
 dda37dfec17d44ff,Top Ten Books,Thomas Mallon,5,Jude the Obscure,Thomas Hardy,1895,,OL:OL44986W,Jude the Obscure
@@ -1782,7 +1782,7 @@ e95fa967131ac9dc,Top Ten Books,Tom Perrotta,9,"Rabbit, Run",John Updike,1960,,OL
 3aee2ae3f099142c,Top Ten Books,Tom Perrotta,9,Rabbit at Rest,John Updike,1990,,OL:OL463809W,Rabbit at Rest
 a9c87decde5a0eca,Top Ten Books,Tom Perrotta,10,Stories of Raymond Carver,,1938-88,,K:a7d082925dfc,Stories of Raymond Carver
 bd3c12cb7b3a7731,Top Ten Books,Tom Wolfe,1,L'Assommoir (The Dram Shop),,1877,,K:492220bfdfb3,L'Assommoir (The Dram Shop)
-aabf7c8ada0264e5,Top Ten Books,Tom Wolfe,1,Nana,,1880,,K:bfe6fe716600,Nana
+aabf7c8ada0264e5,Top Ten Books,Tom Wolfe,1,Nana,,1880,,OL:OL118984W,Nana
 963d5db77673d432,Top Ten Books,Tom Wolfe,2,Cousin Bette,Honoré de Balzac,1847,,OL:OL17644895W,Cousin Bette
 927ef565034255bf,Top Ten Books,Tom Wolfe,3,Bel-Ami,Guy de Maupassant,1885,,K:f2fd0db8a049,Bel-Ami
 b3b2ca79d2f10528,Top Ten Books,Tom Wolfe,4,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
@@ -1816,9 +1816,9 @@ cc0880f289fe97d2,Top Ten Books,Valerie Martin,10,Waiting for Godot,Samuel Becket
 6bd64ea07768d398,Top Ten Books,Vendela Vida,1,The Divine Comedy,Dante Alighieri,1321,,OL:OL93082W,The Divine Comedy
 2f038b0b43570574,Top Ten Books,Vendela Vida,2,Crime and Punishment,Fyodor Dostoevsky,1866,,OL:OL166894W,Crime and Punishment
 61fb486cd1c49acf,Top Ten Books,Vendela Vida,3,Pale Fire,Vladimir Nabokov,1962,,OL:OL627081W,Pale Fire
-a1c72c46ccdbc4fd,Top Ten Books,Vendela Vida,4,Clarissa,Samuel Richardson,1747-48,,K:050b9552feae,Clarissa
+a1c72c46ccdbc4fd,Top Ten Books,Vendela Vida,4,Clarissa,Samuel Richardson,1747-48,,OL:OL1150725W,Clarissa Harlowe
 1aa5fb5051a73787,Top Ten Books,Vendela Vida,5,Mrs. Dalloway,Virginia Woolf,1925,,OL:OL26733889W,Mrs Dalloway
-4dbdd1ba28bf0fbb,Top Ten Books,Vendela Vida,6,The Decameron,Giovanni Boccaccio,1351-53,,K:cb9d628dca7d,The Decameron
+4dbdd1ba28bf0fbb,Top Ten Books,Vendela Vida,6,The Decameron,Giovanni Boccaccio,1351-53,,OL:OL7180368W,The Decameron of Boccaccio
 9a4c05066eb1a2b0,Top Ten Books,Vendela Vida,7,Hedda Gabler,Henrik Ibsen,1890,,K:0bcd22fa5600,Hedda Gabler
 9f99451930348785,Top Ten Books,Vendela Vida,8,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
 6da636b31693fd66,Top Ten Books,Vendela Vida,9,The Wind-Up Bird Chronicle,Haruki Murakami,1994,,K:338581d02713,The Wind-Up Bird Chronicle
@@ -1827,7 +1827,7 @@ e197b7d6936864ee,Top Ten Books,Wally Lamb,1,The Odyssey,Homer,,,K:de8ae851971a,T
 d2358846d48a6f03,Top Ten Books,Wally Lamb,2,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 3ba051bd5859340d,Top Ten Books,Wally Lamb,3,King Lear,William Shakespeare,1605,,K:bc4aa7549271,King Lear
 041d7bfa42b43597,Top Ten Books,Wally Lamb,4,Tom Jones,Henry Fielding,1749,,K:312f2e675a9c,Tom Jones
-1d31736b91108f22,Top Ten Books,Wally Lamb,5,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+1d31736b91108f22,Top Ten Books,Wally Lamb,5,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 2c5a73cebbaef499,Top Ten Books,Wally Lamb,6,Sister Carrie,Theodore Dreiser,1900,,K:132c540db579,Sister Carrie
 243e2a34af6e16cf,Top Ten Books,Wally Lamb,7,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
 f0ed269247eed549,Top Ten Books,Wally Lamb,8,The Grapes of Wrath,John Steinbeck,1939,,OL:OL23205W,The Grapes of Wrath
@@ -1841,7 +1841,7 @@ b0d842452375af32,Top Ten Books,Walter Kirn,3,Norwood,Charles Portis,1966,,K:ab3d
 10532a62a9120fbb,Top Ten Books,Walter Kirn,6,The Postman Always Rings Twice,James M. Cain,1934,,K:2b69cf0b1a11,The Postman Always Rings Twice
 b42c9724badfa2f2,Top Ten Books,Walter Kirn,7,Jesus' Son,Denis Johnson,1992,,K:2484db8decc1,Jesus' Son
 0634e425ebe42489,Top Ten Books,Walter Kirn,8,Miss Lonelyhearts,Nathanael West,1933,,K:f5a6ea3da198,Miss Lonelyhearts
-efeb61173582ca90,Top Ten Books,Walter Kirn,9,Adventures of Huckleberry Finn,Mark Twain,1884,,K:696b5912f345,Adventures of Huckleberry Finn
+efeb61173582ca90,Top Ten Books,Walter Kirn,9,Adventures of Huckleberry Finn,Mark Twain,1884,,OL:OL53908W,Huckleberry Finn
 0edfc07707e8371f,Top Ten Books,Walter Kirn,10,Portnoy's Complaint,Philip Roth,1969,,OL:OL74676W,Portnoy's Complaint
 536aaaeb0947b0d3,Guardian Top 100,Maggie O’Farrell,1,Old Filth Trilogy,Jane Gardam,,OL26504281W,OL:OL26504281W,Old Filth Trilogy
 bc25f7847cf0876f,Guardian Top 100,Maggie O’Farrell,2,The Color Purple,Alice Walker,1982,OL273644W,OL:OL273644W,The Color Purple
@@ -2039,11 +2039,11 @@ bb88d998dd8b9407,Guardian Top 100,Benjamin Myers,10,The Slaves of Solitude,Patri
 b5704b8304074fad,Guardian Top 100,Sam Leith,4,The End of the Affair,Graham Greene,1951,OL106073W,OL:OL106073W,The End of the Affair
 fb6d6cc9b6b97d66,Guardian Top 100,Sam Leith,5,If on a Winter's Night a Traveller,Italo Calvino,,OL34026241W,OL:OL21784995W,If on a Winter's Night a Traveller
 7ad8e202058e86d2,Guardian Top 100,Sam Leith,6,Slaughterhouse-Five,Kurt Vonnegut,,OL98459W,OL:OL98459W,Slaughterhouse-Five
-5e191f493e857e10,Guardian Top 100,Sam Leith,7,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+5e191f493e857e10,Guardian Top 100,Sam Leith,7,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 8bda8c25b49f92d9,Guardian Top 100,Sam Leith,8,The Great Gatsby,F Scott Fitzgerald,1925,OL468431W,OL:OL34381078W,The Great Gatsby
 a492a4ad98ee8645,Guardian Top 100,Sam Leith,9,Moby-Dick,Herman Melville,1851,OL102749W,OL:OL102749W,Moby-Dick
 45188c1899166450,Guardian Top 100,Sam Leith,10,Lolita,Vladimir Nabokov,1955,OL627084W,OL:OL627084W,Lolita
-f580dca13ae1b2d8,Guardian Top 100,Sandra Newman,1,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+f580dca13ae1b2d8,Guardian Top 100,Sandra Newman,1,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 9dd2775cd99b6ca8,Guardian Top 100,Sandra Newman,2,Middlemarch,George Eliot,1871,OL20867W,OL:OL20867W,Middlemarch
 337051fefc7d9cad,Guardian Top 100,Sandra Newman,3,Palm-Wine Drinkard,Amos Tutuola,,OL3942386W,OL:OL3942386W,Palm-Wine Drinkard
 f3f53a5f59c17764,Guardian Top 100,Sandra Newman,4,Mrs Dalloway,Virginia Woolf,1925,OL39349W,OL:OL26733889W,Mrs Dalloway
@@ -2117,7 +2117,7 @@ b202cb88af03a617,Guardian Top 100,Rishi Dastidar,1,The Golden Gate,Vikram Seth,,
 6335540fc7660145,Guardian Top 100,Rishi Dastidar,2,Anna Karenina,Leo Tolstoy,1878,OL267096W,OL:OL267096W,Anna Karenina
 4f8ba75ac17a0c84,Guardian Top 100,Rishi Dastidar,3,Middlemarch,George Eliot,1871,OL25411286W,OL:OL20867W,Middlemarch
 d12ea8a00b593f2e,Guardian Top 100,Rishi Dastidar,4,Vanity Fair,William Makepeace Thackeray,1848,OL16313W,OL:OL16313W,Vanity Fair
-51b2bb5634a40f6d,Guardian Top 100,Rishi Dastidar,5,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+51b2bb5634a40f6d,Guardian Top 100,Rishi Dastidar,5,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 82e025b5067e6722,Guardian Top 100,Rishi Dastidar,6,Wittgenstein's Mistress,David Markson,,OL754948W,OL:OL754948W,Wittgenstein's Mistress
 6e5b2dae58c1b32d,Guardian Top 100,Rishi Dastidar,7,Midnight's Children,Salman Rushdie,1981,OL457179W,OL:OL457179W,Midnight's Children
 3d1df76afb0fa5d9,Guardian Top 100,Rishi Dastidar,8,A Place of Greater Safety,Hilary Mantel,,OL464517W,OL:OL464517W,A Place of Greater Safety
@@ -2189,7 +2189,7 @@ dd87c440c0881eeb,Guardian Top 100,Blake Morrison,3,The Great Gatsby,F Scott Fitz
 cabfc5094667900c,Guardian Top 100,Blake Morrison,4,Ulysses,James Joyce,1914,OL86318W,OL:OL86318W,Ulysses
 6a696afd8c04ec21,Guardian Top 100,Blake Morrison,5,Sons and Lovers,D. H. Lawrence,,OL81295W,OL:OL81295W,Sons and Lovers
 3fd20d7f4676c9ac,Guardian Top 100,Blake Morrison,6,Nineteen Eighty-Four,George Orwell,1949,OL1168083W,OL:OL1168083W,Nineteen Eighty-Four
-a70fe7fc24f47146,Guardian Top 100,Blake Morrison,7,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,The Life and Opinions of Tristram Shandy
+a70fe7fc24f47146,Guardian Top 100,Blake Morrison,7,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 e4e57955f38ae19f,Guardian Top 100,Blake Morrison,8,Emma,Jane Austen,1815,OL66513W,OL:OL190034W,Emma
 62495cd5a17786b7,Guardian Top 100,Blake Morrison,9,Gulliver's Travels,Jonathan Swift,,OL20600W,OL:OL20600W,Gulliver's Travels
 a34c7576713a3fa7,Guardian Top 100,Blake Morrison,10,Robinson Crusoe,Daniel Defoe,,OL45089W,OL:OL27217159W,Robinson Crusoe
@@ -2327,7 +2327,7 @@ f86f04f189e4908a,Guardian Top 100,John Mullan,1,Emma,Jane Austen,1815,OL66513W,O
 e0bf73f36a21f691,Guardian Top 100,John Mullan,2,Great Expectations,Charles Dickens,1861,OL8721462W,OL:OL8721462W,Great Expectations
 b2b1fc79f3dad0a0,Guardian Top 100,John Mullan,3,Middlemarch,George Eliot,1871,OL25411286W,OL:OL20867W,Middlemarch
 ced90775f0ea46d9,Guardian Top 100,John Mullan,4,Anna Karenina,Leo Tolstoy,1878,OL267096W,OL:OL267096W,Anna Karenina
-92c741e599e5d42d,Guardian Top 100,John Mullan,5,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,The Life and Opinions of Tristram Shandy
+92c741e599e5d42d,Guardian Top 100,John Mullan,5,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 3b0c71711253a714,Guardian Top 100,John Mullan,6,In Search of Lost Time,Marcel Proust,1913-27,OL1190289W,OL:OL1190289W,In Search of Lost Time
 6283e18dde8b138a,Guardian Top 100,John Mullan,7,Madame Bovary,Gustave Flaubert,1856,OL893707W,OL:OL19350876W,Madame Bovary
 e1f4f10ab5b449e3,Guardian Top 100,John Mullan,8,Ulysses,James Joyce,1914,OL86318W,OL:OL86318W,Ulysses
@@ -2376,7 +2376,7 @@ bb435ac8e477fcaf,Guardian Top 100,Amit Chaudhuri,7,Sport and a Pastime,James Sal
 904e35aae5b5e991,Guardian Top 100,Ian Patterson,1,In Search of Lost Time,Marcel Proust,1913-27,OL1190289W,OL:OL1190289W,In Search of Lost Time
 1adc441c3ea16f71,Guardian Top 100,Ian Patterson,2,The Golden Bowl,Henry James,1904,OL276338W,OL:OL26099415W,The Golden Bowl
 69e7d21b691595a3,Guardian Top 100,Ian Patterson,3,Emma,Jane Austen,1815,OL66513W,OL:OL190034W,Emma
-84be39ea09c1499b,Guardian Top 100,Ian Patterson,4,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+84be39ea09c1499b,Guardian Top 100,Ian Patterson,4,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 ca9f3bede953168e,Guardian Top 100,Ian Patterson,5,Molloy,Samuel Beckett,,OL15210983W,OL:OL15210983W,Molloy
 7778198da7e409a0,Guardian Top 100,Ian Patterson,6,The Man Without Qualities,Robert Musil,1930-43,OL1330246W,OL:OL1330246W,The Man Without Qualities
 3b7d99e1a73540fa,Guardian Top 100,Ian Patterson,7,Caught,Henry Green,,OL10429255W,OL:OL10429255W,Caught
@@ -2480,7 +2480,7 @@ e965621da61f3250,Guardian Top 100,William Boyd,3,Emma,Jane Austen,1815,OL190034W
 3ddf88f667b7b945,Guardian Top 100,William Boyd,5,Our Mutual Friend,Charles Dickens,1864-5,OL41368739W,OL:OL41368739W,Our Mutual Friend
 b09afe8f145176a5,Guardian Top 100,William Boyd,6,Scoop,Evelyn Waugh,,OL5721472W,OL:OL5721472W,Scoop
 d4703cb6e16796c8,Guardian Top 100,William Boyd,7,Mill on the Floss,George Eliot,,OL20938W,OL:OL20938W,Mill on the Floss
-dfe01e7dca117fa2,Guardian Top 100,William Boyd,8,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+dfe01e7dca117fa2,Guardian Top 100,William Boyd,8,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 968b988df6d2fce5,Guardian Top 100,William Boyd,9,The Trial,Franz Kafka,1925,OL498463W,OL:OL498463W,The Trial
 19ff292016320dd3,Guardian Top 100,William Boyd,10,Wuthering Heights,Emily Brontë,1847,OL21177W,OL:OL21170W,Wuthering Heights
 6b80a199e5eef4ac,Guardian Top 100,Siri Hustvedt,1,Wuthering Heights,Emily Brontë,1847,OL21177W,OL:OL21170W,Wuthering Heights
@@ -2618,7 +2618,7 @@ b81debf51dc54013,Guardian Top 100,Colum McCann,2,Proxopera,Benedict Kiely,,OL125
 4cf67e7c91c67c3f,Guardian Top 100,Colum McCann,3,At Swim-Two-Birds,Flann O'Brien,,OL2005224W,OL:OL2005224W,At Swim-Two-Birds
 da3308cd71ac7eb9,Guardian Top 100,Colum McCann,4,Song of Solomon,Toni Morrison,1977,OL50564W,OL:OL50564W,Song of Solomon
 0905cafa352fa060,Guardian Top 100,Colum McCann,5,Coming Through Slaughter,Michael Ondaatje,,OL12104489W,OL:OL12104489W,Coming Through Slaughter
-d3132d40e618d24a,Guardian Top 100,Colum McCann,6,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL32013322W,OL:OL32013322W,The Life and Opinions of Tristram Shandy
+d3132d40e618d24a,Guardian Top 100,Colum McCann,6,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL32013322W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 f3f45d9c3d0db979,Guardian Top 100,Colum McCann,7,Nineteen Eighty-Four,George Orwell,1949,OL1168083W,OL:OL1168083W,Nineteen Eighty-Four
 e744b3318a770519,Guardian Top 100,Colum McCann,8,The Grapes of Wrath,John Steinbeck,,OL23205W,OL:OL23205W,The Grapes of Wrath
 0b3756de57b55683,Guardian Top 100,Colum McCann,9,Ragtime,EL Doctorow,1975,OL55239W,OL:OL55239W,Ragtime
@@ -2665,7 +2665,7 @@ d1e529f32de507ad,Guardian Top 100,Joe Dunthorne,7,Ragtime,EL Doctorow,1975,OL552
 42577102427614e0,Guardian Top 100,Joe Dunthorne,10,The Third Policeman,Flann O'Brien,,OL2005223W,OL:OL2005223W,The Third Policeman
 85fc2fb04cdb44c2,Guardian Top 100,Sarah Bakewell,1,The Magic Mountain,Thomas Mann,1924,OL14866824W,OL:OL14866824W,The Magic Mountain
 7de7006357a6c393,Guardian Top 100,Sarah Bakewell,2,In Search of Lost Time,Marcel Proust,1913-27,OL1190289W,OL:OL1190289W,In Search of Lost Time
-b2e8e8eea9028d05,Guardian Top 100,Sarah Bakewell,3,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+b2e8e8eea9028d05,Guardian Top 100,Sarah Bakewell,3,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 117ee3729e224f5f,Guardian Top 100,Sarah Bakewell,4,War and Peace,Leo Tolstoy,1869,OL36765642W,OL:OL267171W,War and Peace
 942e8c7e41745f11,Guardian Top 100,Sarah Bakewell,5,Life and Fate,Vasily Grossman,1980,OL157104W,OL:OL157104W,Life and Fate
 2167b292c31886bb,Guardian Top 100,Sarah Bakewell,6,Nineteen Eighty-Four,George Orwell,1949,OL1168083W,OL:OL1168083W,Nineteen Eighty-Four
@@ -2751,7 +2751,7 @@ a5349b1259fc153b,Guardian Top 100,Sukhdev Sandhu,5,A House for Mr Biswas,VS Naip
 7dfe7fba256c83d0,Guardian Top 100,Sukhdev Sandhu,6,The Man Without Qualities,Robert Musil,1930-43,OL20498876W,OL:OL1330246W,The Man Without Qualities
 d7ac38b6180bfb1c,Guardian Top 100,Sukhdev Sandhu,7,Swami and Friends,R. K. Narayan,,OL43348053W,OL:OL1057179W,Swami and Friends
 3007e9a75941df0d,Guardian Top 100,Sukhdev Sandhu,8,Too Loud a Solitude,Bohumil Hrabal,,OL25110842W,OL:OL11728724W,Too Loud a Solitude
-092d5f9395b32959,Guardian Top 100,Sukhdev Sandhu,9,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+092d5f9395b32959,Guardian Top 100,Sukhdev Sandhu,9,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 bb5b9a20b26f0216,Guardian Top 100,Sukhdev Sandhu,10,The Fish Can Sing,Halldór Laxness,,OL7922785W,OL:OL7922785W,The Fish Can Sing
 c6c5366880d8a43c,Guardian Top 100,Lisa Tuttle,1,The Handmaid's Tale,Margaret Atwood,1985,OL675783W,OL:OL675783W,The Handmaid's Tale
 f5ceb420898d2f71,Guardian Top 100,Lisa Tuttle,2,Sentimental Education,Gustave Flaubert,1869,OL893802W,OL:OL893802W,Sentimental Education
@@ -2786,7 +2786,7 @@ b443ebf6127fa6e2,Guardian Top 100,Sayaka Murata,8,Ice,Anna Kavan,,OL11334034W,OL
 fab4e4905ed28b9a,Guardian Top 100,Adam Thirlwell,1,War and Peace,Leo Tolstoy,1869,OL36765642W,OL:OL267171W,War and Peace
 770609dd76a24319,Guardian Top 100,Adam Thirlwell,2,In Search of Lost Time,Marcel Proust,1913-27,OL1190289W,OL:OL1190289W,In Search of Lost Time
 a65119dabd5475bc,Guardian Top 100,Adam Thirlwell,3,The Man Without Qualities,Robert Musil,1930-43,OL1330246W,OL:OL1330246W,The Man Without Qualities
-d641781fe2a8afcd,Guardian Top 100,Adam Thirlwell,4,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+d641781fe2a8afcd,Guardian Top 100,Adam Thirlwell,4,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 4c001f644ab80945,Guardian Top 100,Adam Thirlwell,5,Orlando,Virginia Woolf,1928,OL39360W,OL:OL39360W,Orlando
 81cf4ab9d413adc3,Guardian Top 100,Adam Thirlwell,6,I Served the King of England,Bohumil Hrabal,,OL847902W,OL:OL847902W,I Served the King of England
 f23dae674d0f1282,Guardian Top 100,Adam Thirlwell,7,The Trial,Franz Kafka,1925,OL498463W,OL:OL498463W,The Trial
@@ -3025,9 +3025,9 @@ e994f666720a3021,Guardian Top 100,Tessa Hadley,7,Parade's End,Ford Madox Ford,,O
 bab7c06d12c65841,Guardian Top 100,Tessa Hadley,10,The Death of the Heart,Elizabeth Bowen,,OL724067W,OL:OL724067W,The Death of the Heart
 d6028211517362d2,Guardian Top 100,Jennifer Egan,1,Middlemarch,George Eliot,1871,OL25411286W,OL:OL20867W,Middlemarch
 998cd0b9715d9cdb,Guardian Top 100,Jennifer Egan,2,Pride and Prejudice,Jane Austen,1710,OL66554W,OL:OL15165350W,Pride and Prejudice
-7a5aefc6894f867c,Guardian Top 100,Jennifer Egan,3,"Clarissa, Or, the History of a Young Lady",Samuel Richardson,,OL27742818W,OL:OL27742818W,"Clarissa, Or, the History of a Young Lady"
+7a5aefc6894f867c,Guardian Top 100,Jennifer Egan,3,"Clarissa, Or, the History of a Young Lady",Samuel Richardson,,OL27742818W,OL:OL1150725W,Clarissa Harlowe
 97c9cee35134ac08,Guardian Top 100,Jennifer Egan,4,Invisible Man,Ralph Ellison,1952,OL495470W,OL:OL495470W,Invisible Man
-672051c84ff3f271,Guardian Top 100,Jennifer Egan,5,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL40811147W,OL:OL32013322W,The Life and Opinions of Tristram Shandy
+672051c84ff3f271,Guardian Top 100,Jennifer Egan,5,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL40811147W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 cf867a911c9239c4,Guardian Top 100,Jennifer Egan,6,To the Lighthouse,Virginia Woolf,1927,OL39396W,OL:OL39396W,To the Lighthouse
 694f39e977ae9815,Guardian Top 100,Jennifer Egan,7,The Bluest Eye,Toni Morrison,1970,OL50565W,OL:OL50565W,The Bluest Eye
 b3235ea333a6a207,Guardian Top 100,Jennifer Egan,8,Underworld,Don DeLillo,,OL1921185W,OL:OL1921185W,Underworld
@@ -3047,7 +3047,7 @@ d9d3bbb71d7c72bb,Guardian Top 100,Xan Brooks,9,Blood Meridian,Cormac McCarthy,19
 9bb2c496c35fbfec,Guardian Top 100,Nina Stibbe,2,The Country Girls,Edna O'Brien,,OL69271W,OL:OL69271W,The Country Girls
 76ca6c95d29a997d,Guardian Top 100,Nina Stibbe,3,The God of Small Things,Arundhati Roy,1997,OL1052133W,OL:OL1052133W,The God of Small Things
 118ed945d48367e7,Guardian Top 100,Nina Stibbe,4,Cannery Row,John Steinbeck,,OL23199W,OL:OL23199W,Cannery Row
-7778da1441bcdd86,Guardian Top 100,Nina Stibbe,5,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+7778da1441bcdd86,Guardian Top 100,Nina Stibbe,5,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 32a5590ea1724e06,Guardian Top 100,Nina Stibbe,6,Go Tell It on the Mountain,James Baldwin,1953,OL228705W,OL:OL228705W,Go Tell It on the Mountain
 ba636f5e9619c177,Guardian Top 100,Nina Stibbe,7,Money,Martin Amis,,OL16847W,OL:OL16847W,Money
 2b1e70d4e21b1325,Guardian Top 100,Nina Stibbe,8,"The Fortnight in September,",R. C. Sherriff,,OL33658335W,OL:OL33658335W,"The Fortnight in September,"
@@ -3068,7 +3068,7 @@ bbd0230221b77403,Guardian Top 100,Charlotte Higgins,1,Middlemarch,George Eliot,1
 539628e54d0d68fe,Guardian Top 100,Charlotte Higgins,3,In Search of Lost Time,Marcel Proust,1913-27,OL1190289W,OL:OL1190289W,In Search of Lost Time
 42c32332a10d324d,Guardian Top 100,Charlotte Higgins,4,Bleak House,Charles Dickens,1852-3,OL14868508W,OL:OL14868508W,Bleak House
 6fcee8cc4a55d28b,Guardian Top 100,Charlotte Higgins,5,Emma,Jane Austen,1815,OL66513W,OL:OL190034W,Emma
-c404930ca5350015,Guardian Top 100,Charlotte Higgins,6,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,The Life and Opinions of Tristram Shandy
+c404930ca5350015,Guardian Top 100,Charlotte Higgins,6,The Life and Opinions of Tristram Shandy,Laurence Sterne,,OL5475773W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 3d8897dee98409fb,Guardian Top 100,Charlotte Higgins,7,Villette,Charlotte Brontë,,OL1095403W,OL:OL1095403W,Villette
 6726078871717a31,Guardian Top 100,Charlotte Higgins,8,Vanity Fair,William Makepeace Thackeray,1848,OL16313W,OL:OL16313W,Vanity Fair
 f09996cc643f06f8,Guardian Top 100,Charlotte Higgins,9,The Portrait of a Lady,Henry James,1881,OL276365W,OL:OL276365W,The Portrait of a Lady
@@ -3164,7 +3164,7 @@ d06e32a50253a935,Guardian Top 100,Ian McEwan,8,The Magic Mountain,Thomas Mann,19
 b76d37ce94c79251,Guardian Top 100,Ian McEwan,9,Our Mutual Friend,Charles Dickens,1864-5,OL41368739W,OL:OL41368739W,Our Mutual Friend
 070f6ca73149af6a,Guardian Top 100,Ian McEwan,10,Rabbit at Rest,John Updike,,OL463809W,OL:OL463809W,Rabbit at Rest
 514827cc03edb3dc,Guardian Top 100,Stuart Kelly,1,Middlemarch,George Eliot,1871,OL25411286W,OL:OL20867W,Middlemarch
-6cfa18831a7855fd,Guardian Top 100,Stuart Kelly,2,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+6cfa18831a7855fd,Guardian Top 100,Stuart Kelly,2,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 064a67c03eaccda1,Guardian Top 100,Stuart Kelly,3,Moby-Dick,Herman Melville,1851,OL102749W,OL:OL102749W,Moby-Dick
 651418f78ee9fae0,Guardian Top 100,Stuart Kelly,4,Ulysses,James Joyce,1914,OL86318W,OL:OL86318W,Ulysses
 2e1436d45c5a26a5,Guardian Top 100,Stuart Kelly,5,House of Leaves,Mark Z. Danielewski,,OL32195W,OL:OL32195W,House of Leaves
@@ -3268,7 +3268,7 @@ e53a98d35e6f2822,Guardian Top 100,Alexandra Harris,2,The Waves,Virginia Woolf,19
 95941ca38c15a607,Guardian Top 100,Alexandra Harris,3,The Return of the Native,Thomas Hardy,1878,OL44994W,OL:OL44994W,The Return of the Native
 cec1e8ff1fc66d5f,Guardian Top 100,Alexandra Harris,4,Jacob's Room,Virginia Woolf,1922,OL39329W,OL:OL39329W,Jacob's Room
 fb72d454be7eba19,Guardian Top 100,Alexandra Harris,5,My Ántonia,Willa Cather,1918,OL12791W,OL:OL12791W,My Ántonia
-59c67d79e7a2908d,Guardian Top 100,Alexandra Harris,6,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+59c67d79e7a2908d,Guardian Top 100,Alexandra Harris,6,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 971b595f82edabd9,Guardian Top 100,Alexandra Harris,7,Ulysses,James Joyce,1914,OL86318W,OL:OL86318W,Ulysses
 07af8220283bbfd8,Guardian Top 100,Alexandra Harris,8,The Good Soldier,Ford Madox Ford,1915,OL509889W,OL:OL509889W,The Good Soldier
 553744b981dd39fd,Guardian Top 100,Alexandra Harris,9,The Mirror and the Light,Hilary Mantel,,OL20665410W,OL:OL20665410W,The Mirror and the Light
@@ -3414,7 +3414,7 @@ b291634ddec0824a,Guardian Top 100,Ella Creamer,6,The Road to the City,Natalia Gi
 d5f4adeeaa39071c,Guardian Top 100,Ella Creamer,9,Moderato Cantabile,Marguerite Duras,,OL42974304W,OL:OL42974304W,Moderato Cantabile
 c8150638c5a483f9,Guardian Top 100,Ella Creamer,10,The Discomfort of Evening,Lucas Rijneveld,,OL19740451W,OL:OL19740451W,The Discomfort of Evening
 04f9d217cfeac5d8,Guardian Top 100,Liese Spencer,1,Emma,Jane Austen,1815,OL66513W,OL:OL190034W,Emma
-a34b80d6534975d8,Guardian Top 100,Liese Spencer,2,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman"
+a34b80d6534975d8,Guardian Top 100,Liese Spencer,2,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,OL679230W,OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman"
 b83533bfa64e3d2d,Guardian Top 100,Liese Spencer,3,Beloved,Toni Morrison,1987,OL50548W,OL:OL50548W,Beloved
 00eddeb94b14cb81,Guardian Top 100,Liese Spencer,4,Mrs Dalloway,Virginia Woolf,1925,OL39349W,OL:OL26733889W,Mrs Dalloway
 3cc27176b69fd7d3,Guardian Top 100,Liese Spencer,5,Crime and Punishment,Fyodor Dostoevsky,1866,OL166894W,OL:OL166894W,Crime and Punishment
