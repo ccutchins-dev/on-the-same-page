@@ -35,12 +35,14 @@ SHRINK_K        = None  # Step 2 lift-with-shrinkage scorer (overrides BETA path
                         # None = disabled (use BETA scorer); 0 = pure lift baseline;
                         # >0 = score = 1 + (lift−1) × m_b/(m_b+K)
                         # lift = (matched_rate) / (population_rate) = (m_b/M) / (n_b/N)
-COOC_INPUT_EXP  = None  # Co-occurrence scorer — input-side rarity exponent (α):
+COOC_INPUT_EXP  = 1.0   # Co-occurrence scorer — input-side rarity exponent (α):
                         # None = scorer disabled; 0.0 = on, all inputs weighted equally;
                         # >0 = rare input books weighted by raw_idf(i)^α
-COOC_OUTPUT_EXP = None  # Co-occurrence scorer — output-side rarity exponent (γ):
+                        # 1.0 is the chosen production default (co-occurrence sweep)
+COOC_OUTPUT_EXP = 1.0   # Co-occurrence scorer — output-side rarity exponent (γ):
                         # None = no output boost; 0.0 = on, no rarity boost applied;
                         # >0 = candidate books boosted by raw_idf(c)^γ
+                        # 1.0 is the chosen production default (co-occurrence sweep)
                         # Activation: scorer fires when either param is not None.
 DEFAULT_TOP_BOOKS  = 50
 DEFAULT_TOP_VOTERS = 20
@@ -288,10 +290,14 @@ def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
         alpha = cooc_input_exp  if cooc_input_exp  is not None else 0.0
         gamma = cooc_output_exp if cooc_output_exp is not None else 0.0
         book_scores = _cooc_score(model, input_set, alpha, gamma)
+        # Three-level sort: score desc, idf weight desc, cid asc (stable tiebreak).
+        # The cid tiebreak ensures equal-score equal-idf ties (e.g. multiple n=1 books)
+        # resolve identically in Python and JS regardless of iteration order.
         ranked_books = sorted(
             book_scores,
             key=lambda b: (-round(book_scores[b], 6),
-                           -book_info.get(b, {}).get("weight", 0.0)),
+                           -book_info.get(b, {}).get("weight", 0.0),
+                           b),
         )
     elif shrink_k is not None:
         M_matched = len(voter_sim)
