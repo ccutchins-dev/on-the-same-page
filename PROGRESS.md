@@ -34,6 +34,16 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Evaluation harness (evaluate.py)
+
+- **Commit**: ee35ceb on feature/evaluate-harness (to be merged to main)
+- **Usage**: `python3 evaluate.py` (α=γ=1.0 by default); `--alpha / --gamma` to sweep;
+  `--validate-only` for just the sanity checks
+- **Baseline (α=1.0, γ=1.0)**: LOO recall@10=31.9% (38×random), RW-recall@10=23.2%,
+  MRR=0.162; curve K=1→8 rises from 26.9%→32.1%. Unrecommendable=34.6% (1218/3525),
+  includes all 770 singleton pairs + 448 non-singletons with no co-voter overlap.
+- **Differentiation diagnostic**: 12.5% mean top-10 overlap between random voter pairs.
+
 ## 2026-05-29 — Phase 3 update: co-occurrence scorer live, rarity controls, live recompute
 
 - **Commit**: f5b7136 (to be merged to main from feature/phase3-cooc-live)

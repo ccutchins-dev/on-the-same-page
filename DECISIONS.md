@@ -288,3 +288,37 @@ the prior one.
 - **JS parity open item status**: co-occurrence scorer closed. BETA and lift unported by
   design (evaluation tools, not shipping). No remaining unported scorer open items.
 - **Trigger**: Five scorer sweeps; user approved co-occurrence α=γ=1.0 for production.
+
+## 2026-05-29 — Evaluation harness design choices
+
+- **Voter exclusion (LOO correctness)**: When evaluating voter v, v is removed from the
+  model's voter_books. Without exclusion, v's own co-occurrences trivially rank their held-out
+  books highly (data leakage). n_voters and IDF weights are frozen at full-dataset values
+  so the rarity signal is not biased by excluding one voter.
+
+- **Unrecommendable definition**: a held-out book h is unrecommendable iff no voter w≠v has
+  h AND shares any input book with v. Singletons (n_voters=1) are always unrecommendable
+  after v is excluded. Some non-singletons are also unrecommendable (their co-voters share
+  no input books). In the baseline: 770 singleton pairs + 448 non-singleton pairs = 1218/3525
+  (34.6%) are unrecommendable. Recall metrics computed on recommendable subset only;
+  unrecommendable rate reported as a separate measurement ("the ceiling").
+
+- **recall@10 as leading metric**: matches the 10-item result list shown to users; the
+  natural unit for "did the model surface this book?" in the deployed context.
+
+- **Rarity-weighted recall@10**: weights each trial by raw_idf(n_h), so recovering a
+  distinctive book counts more than recovering canon. This is the anti-popularity-bias
+  metric — a model that only surfaces Middlemarch variants will score low despite high
+  unweighted recall. Computed on recommendable books only; unrecommendable singletons
+  (already excluded) are noted as "the impossible long tail" in the panel.
+
+- **Differentiation diagnostic uses full model (not LOO)**: measures production
+  recommendation divergence between different inputs. LOO would be inconsistent with the
+  deployment context (users are not excluded from the full dataset). This is the only
+  place in the harness that does not use a LOO model; stated explicitly in the output.
+
+- **K-curve composition reporting**: recall dips from K to K+1 are NOT automatically
+  flagged as harness errors. Target-set composition changes with K (fewer held-out books,
+  shifted rarity mix), so a dip can be real rather than noise.
+
+- **Trigger**: first quantitative evaluation of the scorer; replaces eyeballing sweep tables.
