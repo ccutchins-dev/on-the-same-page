@@ -34,6 +34,17 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — PPMI+SVD embedding recommender (feature/embedding-recommender)
+
+- **Commit**: d1bbf1b on feature/embedding-recommender (to be merged to main)
+- **Deps**: `pip3 install numpy scipy` (numpy 2.0.2, scipy 1.13.1)
+- **Usage**: `python3 evaluate.py --embed --d 30` (add `--input-rarity` to tune query weighting)
+- **Baseline d=30, input_rarity=0**: LOO recall@10=7.4%, RW-recall@10=5.2%, MRR=0.0398.
+  Zero-vector=21.9% (vs co-occurrence unrecommendable 34.6% → structural improvement confirmed).
+  Overfitting gap=+30pp (training 37.0% vs LOO 7.0% on recoverable subset) — motivates sweep.
+- **Validation**: all 4 checks pass. Charlotte's Web (n=2, Adriana Trigiani) was unrecommendable
+  under co-occurrence; now reachable at rank=46 in the embedding harness.
+
 ## 2026-05-29 — Evaluation harness (evaluate.py)
 
 - **Commit**: ee35ceb on feature/evaluate-harness (to be merged to main)

@@ -322,3 +322,39 @@ the prior one.
   shifted rarity mix), so a dip can be real rather than noise.
 
 - **Trigger**: first quantitative evaluation of the scorer; replaces eyeballing sweep tables.
+
+## 2026-05-29 — PPMI+SVD embedding recommender design choices
+
+- **Why embeddings over co-occurrence**: the co-occurrence harness showed 34.6% of held-out
+  books were structurally unrecommendable (no co-occurrence path to any input book after voter
+  exclusion). Embeddings reduce this to 21.9% (only true singletons remain zero-vector) because
+  a non-singleton book retains a vector from its other voters' listmates even after the test
+  voter is excluded. Books with no direct co-occurrence path to inputs become reachable by latent
+  space proximity. Confirmed by concrete validation: Charlotte's Web (n=2) unrecommendable under
+  co-occurrence for Adriana Trigiani → rank=46 in embedding harness.
+
+- **PPMI (not raw counts or TF-IDF)**: (1) positive clamp removes high-variance negative PMI,
+  which is unreliable at this sparsity (88.6% of co-occurrence pairs appear exactly once);
+  (2) PMI naturally controls for popularity — a popular-×-popular pair has high raw count but
+  low PMI because P(a)·P(b) is also large; standard for small/sparse corpora.
+  No add-k smoothing: at this density, smoothing uniformly lowers all PMI values without
+  changing relative ordering — deliberate omission.
+
+- **Truncated SVD via ARPACK (scipy.sparse.linalg.svds)**: O(nnz×d×iter) vs O(n³) for full SVD.
+  Book vectors = U·diag(s) (left singular vectors × singular values), not just U — the singular
+  values encode variance magnitude and are needed for correct geometric distances.
+
+- **L2-normalisation**: makes cosine similarity = dot product; standard for embedding retrieval.
+
+- **No recommendable-subset filter in embedding harness**: zero-vector books (singletons of
+  the test voter) counted as misses in the denominator. More conservative than the old filter;
+  the structural improvement is visible as 34.6% → 21.9% zero-vector rate. The two harnesses
+  use different denominators and are not directly numerically comparable — this is documented.
+
+- **Overfitting guard on recoverable subset (n_voters≥2)**: comparing training vs LOO recall
+  must exclude zero-vector books from BOTH sides. Without this filter, the gap is confounded
+  by the structural singleton penalty (LOO denominator includes singletons, full-model does not).
+  Baseline gap = +30pp at d=30, which motivates a dimensionality sweep.
+
+- **Dependency on numpy/scipy**: appropriate for embedding work; not a stdlib-only regime
+  (that constraint applied to Phase 1 canonical pipeline only).
