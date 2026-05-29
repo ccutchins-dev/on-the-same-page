@@ -34,6 +34,18 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 3 update: co-occurrence scorer live, rarity controls, live recompute
+
+- **Commit**: f5b7136 (to be merged to main from feature/phase3-cooc-live)
+- **Branch**: feature/phase3-cooc-live
+- **How to run**: `python3 -m http.server 8000` from repo root → `http://localhost:8000/site/`
+- **Notes**: main.js now implements the co-occurrence scorer (α=γ=1.0). Parity verified: 9
+  input-set × parameter settings, 15 books each + 20 co= counts. Rarity tuning: collapsed
+  `<details>` with two number inputs; expanding shows co= and n= diagnostic columns. Live
+  recompute on book add/remove and on α/γ change; layout shift on first book selected.
+  Run button and stale-graying removed. ⚠ JS parity open item CLOSED for co-occurrence scorer;
+  BETA and lift remain Python-only by design — no remaining unported scorer open items.
+
 ## 2026-05-29 — Phase 2: co-occurrence scorer added (feature/phase2-cooc-scorer)
 
 - **Commit**: bbf60b6 on feature/phase2-cooc-scorer (to be merged to main)
