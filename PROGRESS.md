@@ -34,6 +34,13 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 3 complete (website)
+
+- **Commit**: (to be merged to main from feature/phase3-site)
+- **Branch**: feature/phase3-site
+- **How to run**: `python3 -m http.server 8000` from repo root, then open `http://localhost:8000/site/`
+- **Notes**: Static site in `site/` (index.html, style.css, main.js). Loads `data/model_data.json` (~207 KB) and runs the same rarity+position-weighted soft-kNN algorithm client-side. 15-point browser verification passed (autocomplete, duplicate prevention, stale graying, mobile layout, algorithm parity). Parity check: JS and Python produce identical 50-book ranking for Middlemarch + The Confidence-Man input. Also applied 6-decimal rounding to `phase2_model.py` sort key for guaranteed JS/Python float determinism.
+
 ## 2026-05-29 — Phase 2b complete (position factor)
 
 - **Commit**: 8ac2398 on feature/phase2-position (to be merged to main)
