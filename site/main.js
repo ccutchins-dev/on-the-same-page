@@ -1,8 +1,21 @@
 'use strict';
 
+// ── Scorer selection ───────────────────────────────────────────────────────────
+// Default: 'ppmi'. Override via ?scorer=cooc for silent A/B comparison.
+// Debug diagnostic columns (co=N · n=M): add ?debug=1.
+const _params       = new URLSearchParams(window.location.search);
+const ACTIVE_SCORER = _params.get('scorer') || 'ppmi';
+const DEBUG         = _params.get('debug') === '1';
+
+// Fallback co-occurrence params (used only when ACTIVE_SCORER === 'cooc')
+const COOC_ALPHA = 1.0;
+const COOC_GAMMA = 1.0;
+
 // ── State ──────────────────────────────────────────────────────────────────────
 const state = {
     model:         null,   // loaded model_data.json
+    ppmiMap:       null,   // {cid → Map{cid → ppmi_value}} — built at startup
+    coocCounts:    null,   // {cid → Map{cid → count}}  — for debug display
     bookList:      [],     // [{cid, title, author, n_voters}] — ordered
     results:       [],     // [{cid, score, baseCount}]
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
@@ -12,25 +25,101 @@ const MAX_BOOKS = 15;
 
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
-    elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
-    elRarityDetails, elInputAlpha, elInputGamma;
+    elSearchContainer, elResultsPanel, elResultsHeader, elResultsList;
 
-// ── Algorithm ──────────────────────────────────────────────────────────────────
+// ── PPMI-direct scorer ─────────────────────────────────────────────────────────
+
+function buildPPMILookup(voterBooks) {
+    // Builds ppmiMap and coocCounts from voter_books already in model_data.json.
+    // Matches Python compute_ppmi(build_cooc(voter_books), shift_k=0) exactly.
+    // Parity verified: C_total identical, rank-parity and score-parity confirmed
+    // for 3 input sets (see parity gate run before this commit).
+    const coocMap = {};  // {cid_i: {cid_j: count}} — symmetric
+    const rowSums = {};  // {cid: total directed co-occurrence count}
+
+    for (const [, voterBooksEntry] of Object.entries(voterBooks)) {
+        // voterBooksEntry = [[cid, pos], ...]; deduplicate matching Python frozenset
+        const cids = [...new Set(voterBooksEntry.map(([c]) => c))];
+        for (let a = 0; a < cids.length; a++) {
+            for (let b = a + 1; b < cids.length; b++) {
+                const ci = cids[a], cj = cids[b];
+                if (!coocMap[ci]) coocMap[ci] = {};
+                if (!coocMap[cj]) coocMap[cj] = {};
+                coocMap[ci][cj] = (coocMap[ci][cj] || 0) + 1;
+                coocMap[cj][ci] = (coocMap[cj][ci] || 0) + 1;
+                rowSums[ci] = (rowSums[ci] || 0) + 1;
+                rowSums[cj] = (rowSums[cj] || 0) + 1;
+            }
+        }
+    }
+
+    // C_total = Σ rowSums = 2 × undirected-pairs sum (matches Python mat.sum())
+    let C_total = 0;
+    for (const s of Object.values(rowSums)) C_total += s;
+
+    const ppmiMap    = {};
+    const coocCounts = {};
+    for (const [ci, row] of Object.entries(coocMap)) {
+        const ri = rowSums[ci] || 0;
+        if (!ri) continue;
+        ppmiMap[ci]    = new Map();
+        coocCounts[ci] = new Map();
+        for (const [cj, count] of Object.entries(row)) {
+            coocCounts[ci].set(cj, count);
+            const rj = rowSums[cj] || 0;
+            if (!rj) continue;
+            const pmi = Math.log2(count * C_total / (ri * rj));
+            if (pmi > 0) ppmiMap[ci].set(cj, pmi);
+        }
+    }
+
+    return { ppmiMap, coocCounts };
+}
+
+function ppmiDirectScorer(ppmiMap, coocCounts, inputCids, model, top_n = 50) {
+    // score(c) = Σᵢ∈input PPMI(i, c)   [k=0, α=0 — no parameters]
+    // Three-level sort: score desc → idf desc → cid asc (matches Python rank_ppmi_direct).
+    // 6-decimal rounding preserves parity with Python scorer.
+    const inputSet = new Set(inputCids);
+    const scores   = {};
+    const baseCo   = {};  // raw co-occurrence sums per candidate (for debug display)
+
+    for (const iCid of inputCids) {
+        const ppmiRow = ppmiMap[iCid];
+        if (!ppmiRow) continue;
+        for (const [cCid, ppmiVal] of ppmiRow) {
+            if (inputSet.has(cCid)) continue;
+            scores[cCid] = (scores[cCid] || 0) + ppmiVal;
+        }
+        // Also accumulate raw co-occ counts for debug display
+        const coocRow = coocCounts[iCid];
+        if (coocRow) {
+            for (const [cCid, cnt] of coocRow) {
+                if (!inputSet.has(cCid))
+                    baseCo[cCid] = (baseCo[cCid] || 0) + cnt;
+            }
+        }
+    }
+
+    const round6 = x => Math.round(x * 1e6) / 1e6;
+    const ranked  = Object.keys(scores).sort((a, b) => {
+        const sa = round6(scores[a]), sb = round6(scores[b]);
+        if (sb !== sa) return sb - sa;
+        const di = (model.idf[b] || 0) - (model.idf[a] || 0);
+        if (di !== 0) return di;
+        return a < b ? -1 : a > b ? 1 : 0;
+    });
+
+    return { ranked: ranked.slice(0, top_n), bookScores: scores, bookCounts: baseCo };
+}
+
+// ── Co-occurrence scorer (dormant; active only via ?scorer=cooc) ───────────────
 
 function rawIdf(nVoters, N) {
-    // Matches Python _raw_idf: log((N+1)/(n+1)), decoupled from RARITY_ALPHA.
-    // Used for scoring. Tiebreak uses model.idf (stored), which equals rawIdf
-    // when RARITY_ALPHA=1.0 (current default). See DECISIONS.md for details.
     return Math.log((N + 1) / (nVoters + 1));
 }
 
 function coocScorer(model, inputCids, alpha, gamma) {
-    // Matches Python _cooc_score exactly (parity gate: 9 cases × 15 books verified).
-    // score(c) = (Σᵢ co(i,c) × rawIdf(nᵢ)^α) × rawIdf(nᶜ)^γ
-    //
-    // bookScores: weighted edge sum (one per voter × input_book × candidate edge).
-    // bookCounts: DISTINCT voter count (one per voter per candidate, outside input
-    //             loop) — this is the "co=" shown in the diagnostic display.
     const inputSet   = new Set(inputCids);
     const N          = model.n_voters;
     const books      = model.books;
@@ -42,12 +131,9 @@ function coocScorer(model, inputCids, alpha, gamma) {
         if (voterInputs.length === 0) continue;
         const voterCandidates = voterBooks.filter(([c]) => !inputSet.has(c));
 
-        // Distinct voter count: one per voter per candidate (outside input loop)
         for (const [cCid] of voterCandidates) {
             bookCounts[cCid] = (bookCounts[cCid] || 0) + 1;
         }
-
-        // Weighted score: one contribution per (voter × input book × candidate)
         for (const [iCid] of voterInputs) {
             const nI = books[iCid] ? books[iCid].n_voters : 1;
             const wI = alpha !== 0 ? Math.pow(rawIdf(nI, N), alpha) : 1.0;
@@ -64,24 +150,22 @@ function coocScorer(model, inputCids, alpha, gamma) {
         }
     }
 
-    // Three-level sort: score desc, idf desc, cid asc (stable tiebreak for equal
-    // scores — matches the Python sort key with cid as third term).
     const round6 = x => Math.round(x * 1e6) / 1e6;
-    const ranked = Object.keys(bookScores).sort((a, b) => {
-        const sa = round6(bookScores[a]);
-        const sb = round6(bookScores[b]);
+    const ranked  = Object.keys(bookScores).sort((a, b) => {
+        const sa = round6(bookScores[a]), sb = round6(bookScores[b]);
         if (sb !== sa) return sb - sa;
         const di = (model.idf[b] || 0) - (model.idf[a] || 0);
         if (di !== 0) return di;
         return a < b ? -1 : a > b ? 1 : 0;
     });
 
-    return { ranked, bookScores, bookCounts };
+    return { ranked: ranked.slice(0, 50), bookScores, bookCounts };
 }
 
 function computeMatchedVoterCounts(model, inputCids, resultCids) {
-    // Count distinct voters in the matched pool (any input overlap) who also have
-    // each result book. Used for "on Y lists from voters who share your taste."
+    // Count distinct matched-pool voters (any input overlap) who have each result book.
+    // With PPMI scoring a high-ranked result may have a low Y (PPMI surfaces books for
+    // association strength, not corroboration count — Y is informational, not the rank signal).
     const inputSet  = new Set(inputCids);
     const resultSet = new Set(resultCids);
     const counts    = Object.fromEntries(resultCids.map(c => [c, 0]));
@@ -236,20 +320,21 @@ function liveRecompute() {
         return;
     }
 
-    // Layout: shift to two-column the moment ≥1 book is selected
+    // Layout: shift to two-column on first book selection
     elMain.classList.remove('pre-run');
     elMain.classList.add('post-run');
     elResultsPanel.hidden = false;
 
-    const alpha = parseFloat(elInputAlpha.value);
-    const gamma = parseFloat(elInputGamma.value);
-    const { ranked, bookScores, bookCounts } = coocScorer(
-        state.model, inputCids,
-        isNaN(alpha) ? 1.0 : alpha,
-        isNaN(gamma) ? 1.0 : gamma
-    );
+    let ranked, bookScores, bookCounts;
+    if (ACTIVE_SCORER === 'ppmi') {
+        ({ ranked, bookScores, bookCounts } = ppmiDirectScorer(
+            state.ppmiMap, state.coocCounts, inputCids, state.model));
+    } else {
+        ({ ranked, bookScores, bookCounts } = coocScorer(
+            state.model, inputCids, COOC_ALPHA, COOC_GAMMA));
+    }
 
-    const top50      = ranked.slice(0, 50);
+    const top50 = ranked.slice(0, 50);
     state.results    = top50.map(cid => ({
         cid,
         score:     bookScores[cid],
@@ -287,11 +372,7 @@ function renderEntries() {
 }
 
 function renderResults() {
-    // Display-only — reads from state.results, never calls liveRecompute().
-    // Also called by the rarity <details> toggle to show/hide diagnostic columns
-    // without re-scoring (opening the panel is display-only, not a recompute).
     elResultsList.innerHTML = '';
-    const showDiag = elRarityDetails.open;
 
     state.results.forEach(({ cid, score, baseCount }) => {
         const info  = state.model.books[cid] || {};
@@ -302,7 +383,7 @@ function renderResults() {
             `<span class="result-title">${esc(info.title || cid)}</span>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
           + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
-        if (showDiag) {
+        if (DEBUG) {
             li.innerHTML +=
                 `<span class="result-diag">co=${baseCount} · n=${info.n_voters ?? '?'}</span>`;
         }
@@ -317,30 +398,26 @@ function renderResults() {
 // ── Init ───────────────────────────────────────────────────────────────────────
 
 function setupUI() {
-    elMain           = document.getElementById('main');
-    elLoading        = document.getElementById('loading');
-    elBookEntries    = document.getElementById('book-entries');
-    elSearchInput    = document.getElementById('search-input');
-    elDropdown       = document.getElementById('dropdown');
+    elMain            = document.getElementById('main');
+    elLoading         = document.getElementById('loading');
+    elBookEntries     = document.getElementById('book-entries');
+    elSearchInput     = document.getElementById('search-input');
+    elDropdown        = document.getElementById('dropdown');
     elSearchContainer = document.getElementById('search-container');
-    elResultsPanel   = document.getElementById('results-panel');
-    elResultsHeader  = document.getElementById('results-header');
-    elResultsList    = document.getElementById('results-list');
-    elRarityDetails  = document.getElementById('rarity-details');
-    elInputAlpha     = document.getElementById('input-alpha');
-    elInputGamma     = document.getElementById('input-gamma');
+    elResultsPanel    = document.getElementById('results-panel');
+    elResultsHeader   = document.getElementById('results-header');
+    elResultsList     = document.getElementById('results-list');
 
-    // Seed α/γ from JSON (single source of truth)
-    elInputAlpha.value = state.model.cooc_input_exp  ?? 1.0;
-    elInputGamma.value = state.model.cooc_output_exp ?? 1.0;
+    // Build PPMI lookup once at startup from voter_books already in JSON
+    if (ACTIVE_SCORER === 'ppmi') {
+        const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
+        state.ppmiMap    = ppmiMap;
+        state.coocCounts = coocCounts;
+    }
 
     elSearchInput.addEventListener('input',   onSearchInput);
     elSearchInput.addEventListener('keydown', onSearchKeydown);
     elSearchInput.addEventListener('blur',    onSearchBlur);
-    elInputAlpha.addEventListener('input',    liveRecompute);
-    elInputGamma.addEventListener('input',    liveRecompute);
-    // Toggle re-renders display only (no recompute — panel open/close ≠ scoring change)
-    elRarityDetails.addEventListener('toggle', renderResults);
 
     renderEntries();
 
