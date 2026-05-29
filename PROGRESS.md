@@ -34,6 +34,15 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 2: lift-with-shrinkage scorer added (feature/phase2-lift-scorer)
+
+- **Commit**: 8dcaa55 on feature/phase2-lift-scorer (to be merged to main)
+- **Notes**: Third selectable Step-2 scorer: `score = 1 + (lift-1) × m_b/(m_b+K)` where
+  lift = (matched rate)/(population rate). K sweep (0,5,10,20,50) run. Key findings:
+  K=5-10 resolves Set 2/Set 1/Set 4 well (canon-appropriate, less singleton flood). Set 3
+  (all-rare) remains m_b=1-dominated at all K — root cause is small matched pool size, not
+  scorer design. Two unported Step-2 scorers now outstanding in JS. See ⚠ open item above.
+
 ## 2026-05-29 — Phase 2: BETA scorer added (feature/phase2-beta-scorer)
 
 - **Commit**: acae4ff on feature/phase2-beta-scorer (to be merged to main)
@@ -42,10 +51,12 @@ Append in chronological order. Never edit prior entries.
   books. BETA sweep (0, 0.3, 0.5, 0.7, 1.0) run; Set 2/Set 3 divergence drops from 8→0
   shared top-15 books at BETA=0.5. Anomaly: BETA≥0.5 on mixed inputs causes singleton
   flooding (over-correction). BETA choice is still pending human review of sweep output.
-- **⚠ Open item — JS parity for BETA>0**: site/main.js still runs raw affinity (BETA=0).
-  If a non-zero BETA is chosen, main.js must be updated to apply the same normalization
-  and site/script parity must be re-confirmed before the site reflects the new default.
-  Until that lands, the live site serves BETA=0 regardless of what phase2_model.py uses.
+- **⚠ Open item — JS parity, TWO unported Step-2 scorers**: site/main.js still runs raw
+  affinity (BETA=0, SHRINK_K=None). Both the BETA scorer and the lift-with-shrinkage scorer
+  are unported. Until main.js is updated to implement whichever scorer is ultimately chosen
+  and parity is re-confirmed, the live site serves raw affinity regardless of what
+  phase2_model.py uses. This is a known and deliberate lag — do not ship a new default
+  BETA or SHRINK_K without first porting and verifying the JS implementation.
 
 ## 2026-05-29 — Phase 1 cleanup complete (duplicate canonical merge)
 
