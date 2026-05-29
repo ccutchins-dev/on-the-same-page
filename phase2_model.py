@@ -31,6 +31,10 @@ POSITION_WEIGHT = 0.1   # position factor band: 1.0 at pos 1, (1-PW) at pos 10; 
 BETA            = 0.0   # Step 2 popularity-normalization exponent:
                         # 0 = raw affinity (current behavior); >0 penalizes popular books
                         # score(book) = affinity / n_voters^BETA
+SHRINK_K        = None  # Step 2 lift-with-shrinkage scorer (overrides BETA path when set):
+                        # None = disabled (use BETA scorer); 0 = pure lift baseline;
+                        # >0 = score = 1 + (lift−1) × m_b/(m_b+K)
+                        # lift = (matched_rate) / (population_rate) = (m_b/M) / (n_b/N)
 DEFAULT_TOP_BOOKS  = 50
 DEFAULT_TOP_VOTERS = 20
 
@@ -140,6 +144,28 @@ def _count_voters(data_dir):
 
 # ── Core algorithm ────────────────────────────────────────────────────────────
 
+def _lift_score(m_b, M, n_b, N, K):
+    """
+    Shrunk observed-vs-expected lift for Step 2 book scoring.
+
+    score = 1 + (lift - 1) × shrinkage_factor
+    lift             = (m_b / M) / (n_b / N)  — observed rate / expected rate
+    shrinkage_factor = m_b / (m_b + K)         — 1.0 when K=0 (pure lift)
+
+    m_b: unweighted count of matched voters who have this book. Step 1 similarity
+    scores determine pool membership only; they do not feed into the lift calculation
+    (clean base-rate interpretation). Weighted alternative exists — see DECISIONS.md.
+
+    K=0: pure lift (no shrinkage; singletons ride their full lift).
+    K>0: deviation from no-signal baseline (lift=1) pulled toward zero by evidence count.
+    """
+    if M == 0 or n_b == 0 or N == 0:
+        return 0.0
+    lift   = (m_b / M) / (n_b / N)
+    shrink = m_b / (m_b + K) if K > 0 else 1.0
+    return 1.0 + (lift - 1.0) * shrink
+
+
 def _norm_score(affinity, n_voters, beta):
     """
     Popularity-normalized affinity for Step 2 book ranking.
@@ -153,21 +179,21 @@ def _norm_score(affinity, n_voters, beta):
 
 def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
               top_voters=DEFAULT_TOP_VOTERS, position_weight=POSITION_WEIGHT,
-              beta=BETA):
+              beta=BETA, shrink_k=SHRINK_K):
     """
     Stable interface:
         input_ids       — iterable of 1–10 canonical_id strings
         position_weight — overrides POSITION_WEIGHT; 0 recovers pre-position behavior
-        beta            — overrides BETA; 0 = raw affinity (current baseline);
-                          >0 = affinity / n_voters^beta (popularity-normalized)
+        beta            — overrides BETA; 0 = raw affinity baseline;
+                          >0 = affinity / n_voters^beta (BETA scorer)
+        shrink_k        — overrides SHRINK_K; when not None, activates the lift scorer
+                          (overrides the beta path entirely):
+                          0 = pure lift; >0 = shrunk lift with this K
         returns         — (ranked_book_ids, ranked_voter_names)
 
-    Algorithm (rarity-weighted soft-kNN with position factor):
-        Step 1: score each voter by Σ IDF_weight(b) × position_factor(pos(b))
-                over shared books. position_factor = 1.0 at pos 1, (1-pw) at pos 10.
-        Step 2: aggregate affinity for each candidate book by summing voter similarity
-                scores; apply popularity normalization via _norm_score(aff, n, beta);
-                tiebreak by rarity. Excludes books already in input_ids.
+    Step 2 scorer selection (in priority order):
+        shrink_k is not None → lift-with-shrinkage scorer
+        else                 → BETA scorer (beta=0 is raw affinity)
     """
     input_set     = frozenset(input_ids)
     book_info     = model.book_info
@@ -186,25 +212,42 @@ def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
 
     ranked_voters = sorted(voter_sim, key=lambda v: -voter_sim[v])
 
-    # Step 2 — book affinity (unchanged; position affects only voter_sim scores)
-    book_affinity = defaultdict(float)
+    # Step 2 — book affinity accumulation
+    # book_matched_count is the unweighted evidence count for the lift scorer.
+    book_affinity      = defaultdict(float)
+    book_matched_count = defaultdict(int)
     for voter, sim in voter_sim.items():
         for b in model.voter_books[voter]:
             if b not in input_set:
                 book_affinity[b] += sim
+                if shrink_k is not None:
+                    book_matched_count[b] += 1
 
-    # Round to 6 decimals before sort. For BETA=0 this preserves JS parity (the
-    # site runs raw affinity). For BETA>0 the site cannot reproduce these scores
-    # until main.js is updated — see PROGRESS.md open item.
-    ranked_books = sorted(
-        book_affinity,
-        key=lambda b: (
-            -round(_norm_score(book_affinity[b],
-                               book_info.get(b, {}).get("n_voters", 1),
-                               beta), 6),
-            -book_info.get(b, {}).get("weight", 0.0),
-        ),
-    )
+    # Step 2 sort — branch on scorer selection.
+    # Round to 6 decimals before sort.
+    # BETA=0 / shrink_k=None: JS parity preserved (site runs raw affinity).
+    # BETA>0 or shrink_k set: site cannot reproduce until main.js ported — see PROGRESS.md.
+    if shrink_k is not None:
+        M_matched = len(voter_sim)
+        ranked_books = sorted(
+            book_affinity,
+            key=lambda b: (
+                -round(_lift_score(book_matched_count[b], M_matched,
+                                   book_info.get(b, {}).get("n_voters", 1),
+                                   model.n_voters, shrink_k), 6),
+                -book_info.get(b, {}).get("weight", 0.0),
+            ),
+        )
+    else:
+        ranked_books = sorted(
+            book_affinity,
+            key=lambda b: (
+                -round(_norm_score(book_affinity[b],
+                                   book_info.get(b, {}).get("n_voters", 1),
+                                   beta), 6),
+                -book_info.get(b, {}).get("weight", 0.0),
+            ),
+        )
 
     return ranked_books[:top_books], ranked_voters[:top_voters]
 
@@ -260,7 +303,7 @@ def run_verify(model):
     bi = model.book_info
     pw = POSITION_WEIGHT
     print(f"Model: {model.n_voters} voters · {len(bi)} books")
-    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}  BETA={BETA}\n")
+    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}  BETA={BETA}  SHRINK_K={SHRINK_K}\n")
 
     # ── Dominance invariant check ─────────────────────────────────────────────
     min_book_weight = min(info["weight"] for info in bi.values())
@@ -459,6 +502,7 @@ def export_model_data(model, out_path=None):
         "alpha":          model.alpha,
         "position_weight": POSITION_WEIGHT,
         "beta":           BETA,
+        "shrink_k":       SHRINK_K,
         "books": {
             cid: {
                 "title":    info["title"],

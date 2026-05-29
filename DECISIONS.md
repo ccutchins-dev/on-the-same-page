@@ -211,3 +211,32 @@ the prior one.
   serves BETA=0 (raw affinity) until main.js is ported and parity re-confirmed. Recorded as
   open item in PROGRESS.md.
 - **Trigger**: Alpha sweep revealed structural Step 2 bias; BETA sweep to inform final choice.
+
+## 2026-05-29 — Phase 2: lift-with-shrinkage Step-2 scorer
+
+- **Context**: The BETA sweep proved fixed-exponent normalization has no global threshold:
+  BETA's failure mode is distinguishing a book backed by 1 matched voter from one backed by 20.
+  The lift scorer replaces the exponent with a base-rate comparison and conditions on evidence.
+- **Decision**: Third selectable scorer: `score(b) = 1 + (lift(b) - 1) × m_b/(m_b+K)`.
+  `lift(b) = (m_b/M) / (n_b/N)` — observed rate among matched voters over expected rate across
+  all voters. Shrinkage factor `m_b/(m_b+K)` pulls deviations from the no-signal baseline (1.0)
+  toward zero proportionally to how little evidence backs the book.
+  SHRINK_K=None (default) leaves the BETA scorer path unchanged; shrink_k=0 is pure lift
+  baseline; shrink_k>0 activates shrinkage.
+- **Unweighted m_b — deliberate fork**: m_b is the simple count of matched voters who have
+  the book, not a similarity-weighted sum. Unweighted gives a clean base-rate interpretation
+  of lift (Step 1 scores determine pool membership only, not the lift calculation). The
+  weighted alternative — m_b = Σ voter_sim[v] for matched voters with the book, normalized
+  over total pool similarity — would preserve more of Step 1's rarity weighting by crediting
+  strongly-matched voters' preferences more. This would matter if Set 1/Set 4 surface books
+  from incidental weak matches (voters who only matched on a common book). Deferred until that
+  failure mode is observed empirically.
+- **Sweep findings**: K=0 (pure lift) already produces 2 shared books between Set 2 and Set 3
+  top-15 (vs 8 for raw affinity), but both sets flood with singletons — not the target. K=5-10
+  resolves Set 2 and Set 1 well (more corroborated, canon-appropriate results) but Set 3
+  persists with m_b=1 books across all K. Root cause: Set 3's matched pool (~10 voters) is so
+  small that nearly every candidate book has m_b=1; shrinkage cannot differentiate among
+  equally-evidence-poor books. Set 3 is limited by pool size, not by the scorer design.
+- **JS parity**: lift scorer produces scores the site (main.js) cannot reproduce. Two unported
+  Step-2 scorers now outstanding (BETA and lift). Site serves raw affinity until main.js updated.
+- **Trigger**: BETA sweep; user identified fixed-exponent's evidence blindness as root cause.
