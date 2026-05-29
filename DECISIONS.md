@@ -240,3 +240,27 @@ the prior one.
 - **JS parity**: lift scorer produces scores the site (main.js) cannot reproduce. Two unported
   Step-2 scorers now outstanding (BETA and lift). Site serves raw affinity until main.js updated.
 - **Trigger**: BETA sweep; user identified fixed-exponent's evidence blindness as root cause.
+
+## 2026-05-29 — Phase 2: co-occurrence scorer with two independent rarity dials
+
+- **Context**: Raw affinity, BETA, and lift all conflated two separate rarity effects (signal
+  from rare inputs, and distinctiveness of rare candidates) into a single mechanism. None had a
+  usable global parameter because the effects interact. This scorer separates them explicitly.
+- **Decision**: `score(c) = (Σᵢ co(i,c) × raw_idf(i)^α) × raw_idf(c)^γ`. Two independent
+  tunable parameters: COOC_INPUT_EXP (α, input-side) and COOC_OUTPUT_EXP (γ, output-side),
+  each with a clear off value (0.0 = no effect) and a None sentinel for scorer deactivation.
+  raw_idf decoupled from RARITY_ALPHA — clean separation of concerns.
+- **Singleton-flood resistance via base score**: a singleton (n=1) has base ≤ |input_set|
+  (at most one co-occurrence per input book). A book with b co-occurrences only loses to a
+  singleton when `(idf_singleton/idf_book)^γ > b`, requiring implausibly large γ for any
+  book with b≥3. Resistance is structural, not a separate shrinkage parameter.
+- **Unweighted co-occurrence base — intentional, different reason from lift scorer**: the lift
+  scorer's unweighted m_b was a noted deficiency (discards Step-1 per-voter weighting). Here,
+  decoupling from voter_sim is correct by design: the scorer asks "how often do readers of
+  input book i also read candidate c?" — a book-level question. The alpha parameter recovers
+  the input-level rarity signal at the right abstraction. Per-voter weighting would conflate
+  the two levels and recreate the opacity of the prior scorers.
+- **JS parity**: THREE unported Step-2 scorers now outstanding (BETA, lift, co-occurrence).
+  Site serves raw affinity until main.js is updated to whichever scorer is chosen.
+- **Trigger**: Lift-scorer sweep showed Set 3 is pool-size-limited, not scorer-limited;
+  user requested a legible framework separating the two rarity effects.
