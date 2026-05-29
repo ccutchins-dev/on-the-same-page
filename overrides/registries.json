@@ -26,5 +26,11 @@
       "note": "Ferrante Neapolitan Quartet — if a series-level entry appears."
     }
   },
-  "manual_canonical": {}
+  "manual_canonical": {},
+  "drop_titles": [
+    "Sullivan's Travels",
+    "The Lady Eve",
+    "The Palm Beach Story",
+    "The Collected Shakespeare"
+  ]
 }

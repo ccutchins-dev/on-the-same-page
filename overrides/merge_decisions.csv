@@ -1,1 +1,109 @@
 proposal_id,decision,note
+0ff3a422a7c69892,accept,Absalom typo (Abalom)
+888756892b024eb9,accept,Fahrenheit typo (Farenheit)
+9349c6784e652588,accept,Independent typo (Independant)
+a728f2d9401b0331,accept,Notes from the Underground vs Notes from Underground – function word variant
+925056c0357215d5,reject,Mr. Bridge and Mrs. Bridge are genuinely different books
+98f6dc53bb415da3,reject,Bear – Marian Engel vs William Faulkner – different books same title
+d6529874f4b75f31,reject,Blindness – Henry Green vs Jose Saramago – different books same title
+65bc3d9e51aa2bca,reject,Paradise – Gurnah vs Morrison – different books same title
+957776aa7823a7c5,reject,The Hamlet – Faulkner novel vs Shakespeare play
+b3e6679c17f9f676,reject,The Light Years – Howard vs Salter – different books same title
+d1b4453e3f231195,accept,The Tale of Genji – Murasaki Shikibu name reversed (Japanese naming)
+f9cb5991888586f5,accept,Ulysses – James Joyc is a typo for James Joyce
+a2d386a17c597d6b,accept,One Thousand and One Nights – Anonymous vs Scheherazade attribution variant
+0a76193df2c37458,accept,A Rabbit Omnibus (Needham standalone) – explode to 4 Rabbit volumes
+4a3f6c4ad9760e1a,accept,Rabbit Angstrom slot – explode to 4 volumes
+c42e9c3769782b4e,accept,Rabbit Angstrom slot – explode to 4 volumes
+d5099b1acb64d48f,accept,Rabbit Angstrom slot – explode to 4 volumes
+33db0f065d7c5dc3,accept,Rabbit Angstrom slot – explode to 4 volumes
+08ecf63dfd3631ec,accept,Rabbit Angstrom slot – explode to 4 volumes
+7056683a69d5c864,accept,Rabbit Angstrom slot – explode to 4 volumes
+5fa6b951c115b9ce,accept,Rabbit Angstrom slot – explode to 4 volumes
+b4aa1762e0fdbaae,accept,Rabbit Angstrom slot – explode to 4 volumes
+c76e5ee49956b894,accept,Rabbit Angstrom slot – explode to 4 volumes
+6a09fa2178b7c767,accept,Rabbit Angstrom slot – explode to 4 volumes
+cd45a77b550142c8,accept,Rabbit Angstrom slot – explode to 4 volumes
+f7c001f378198772,accept,Sullivan's Travels – Preston Sturges film not a book
+1db7131b47e99fa4,accept,The Collected Shakespeare – un-enumerable omnibus container (drop; keep 3 named plays)
+0b171c9e79b51bfa,accept,The Lady Eve – Preston Sturges film not a book
+152e1a0f539b58f3,accept,The Palm Beach Story – Preston Sturges film not a book
+014037d3e98df0d1,accept,Almost Paradise and Shining Through – two separate books (Susan Isaacs)
+5ee4dcc62c4fbdba,accept,Appointment in Samarra and BUtterfield 8 – two separate O'Hara novels
+9135e029f1ef36d2,accept,Garrett Elizabethan trilogy – three separate books
+ce5d6d10ecca9166,accept,L'Assommoir and Nana – two separate Zola novels
+fee3c3d146f7b981,accept,Waugh Sword of Honour trilogy – three separate books (no omnibus listed)
+08e99ee4f530f4e7,accept,Mrs. Bridge and Mr. Bridge – two separate books (confirmed distinct)
+e00e2db9f5a952bd,accept,Mrs. Bridge and Mr. Bridge – two separate books (confirmed distinct)
+65eaadf1ab63c5e6,accept,Mrs. Bridge and Mr. Bridge – two separate books (confirmed distinct)
+95af88d8fe8c1767,accept,Ferrante Neapolitan Quartet – four separate books (no omnibus listed)
+8178ca798bca51a6,accept,Lodge campus trilogy – three separate books (no omnibus listed)
+6af3cf873b6943fd,accept,Henry Green trio (Nothing / Doting / Blindness) – three separate books
+b2ae22937e952d11,accept,Trigiani slot (Sullivan's Travels / Lady Eve / Palm Beach Story) – films handled via NON_BOOK_ENTRY
+ddf3950aad5ed863,accept,Chute trilogy (Beans of Egypt Maine etc.) – three separate books
+dfc123761227a3cf,accept,Pinter plays (Birthday Party / Homecoming) – two separate plays
+58d04456e1ce0e13,accept,Coover Shakespeare slot – Collected Shakespeare dropped via NON_BOOK_ENTRY; 3 plays remain
+1bccf02135afad7e,accept,A Midsummer Night's Dream – author-less canonical entry (Shakespeare play)
+a17946ec850be218,accept,Aesop's Fables – author-less canonical
+8918af83c7c6b421,accept,Bertha – author-less canonical (standalone work)
+7e1f15ca2a787d6b,accept,Bhagavadgita – author-less canonical
+3b5a5e494fa7611d,accept,Changing Places (blank-author) – separate blank-author cluster; will be orphaned after series explode if applicable
+e2df6aca803a8d7c,accept,Don Quijote (blank-author variant) – author-less canonical; separate from authored Don Quixote
+99355b7f561fdf27,accept,Duty of Delight – author-less canonical
+eb84506ae768dacf,accept,El Senor Presidente – author-less canonical
+620454063046391a,accept,Ficciones (blank-author) – author-less canonical
+f97c4e30200fcb8f,accept,Grimm's Fairy Tales – author-less canonical
+e9a98d459269b48f,accept,King Lear – author-less canonical (Shakespeare play)
+a7f68be920e47d69,accept,L'Assommoir blank-author variant – author-less canonical
+676975f3c2aeaed7,accept,Mahabharata – author-less canonical
+243edee62193da38,accept,Metamorphoses – author-less canonical
+818d1cea7bd94c1c,accept,Moby-Dick (blank-author) – author-less canonical; separate from authored cluster
+07707e03b2e92462,accept,Nana blank-author variant – author-less canonical
+c2b808151fd20890,accept,Nightwood (blank-author) – author-less canonical
+787ecbd213a9a7c9,accept,Officers and Gentlemen (blank-author) – will be in voter's set via Sword of Honour multi-slot
+c4b7f54bfa6e6352,accept,Rabbit Angstrom (blank-author) – will be orphaned after series explode for Turow slot
+e9c2929a7a80981e,accept,Rabbit Is Rich (blank-author) – will be orphaned after series explode
+a7fb3a333d5da64a,accept,Rabbit Redux (blank-author) – will be orphaned after series explode
+0a8799b79f46bf8d,accept,Rabbit at Rest (blank-author) – will be orphaned after series explode
+4dd2147afef35f17,accept,Rabbit Run (blank-author) – will be orphaned after series explode
+07acc0965cc894cc,accept,Small World (blank-author) – author-less canonical
+ecf8291aacec0d3d,accept,Snowblind – author-less canonical
+fa1a0cde0ae4ac52,accept,Spring in Fialta – author-less canonical
+9c92a20c90a59993,accept,Tennessee Williams Plays – author-less canonical
+d5941e2a083f6d0a,accept,The Arabian Nights – author-less canonical
+f627dba4a2139be8,accept,The Bible – author-less canonical
+234eb8ebae76f9d6,accept,The Book of Mark. – author-less canonical
+48d19cf69875d85f,accept,The Celestina – author-less canonical
+7c0a265cffa3fa0e,accept,The Collected Shakespeare (blank-author) – also dropped via NON_BOOK_ENTRY; no conflict
+8dde81850cf309ea,accept,The Epic of Gilgamesh – author-less canonical
+6c86ae9a4562b2af,accept,The I Ching – author-less canonical
+ca45fe41ecb7650c,accept,The Pillow-Book of Sei Shonagon – author-less canonical
+453b8b8aca30a9b3,accept,The Studs Lonigan trilogy – author-less canonical
+4a713290a80b9d2c,accept,The Tempest – author-less canonical (Shakespeare play)
+382d1a240faf7d68,accept,The Zoo Story – author-less canonical (Albee play)
+5c30b79fe7582dee,accept,The haiku of Matsuo Basho – author-less canonical
+c979f094d2462484,accept,The legends of King Arthur – author-less canonical
+0ac5d5da54fc093f,accept,Ulysses (blank-author variant) – author-less canonical; separate from authored Ulysses
+d53cc068e4cf6d8b,accept,Unconditional Surrender (blank-author) – author-less canonical
+3b7c601a082adc52,accept,Whoroscope – author-less canonical (Beckett poem)
+9808528af879a27a,accept,Stories of Anton Chekhov – author recovered from title
+af1aecb2a1634f11,accept,Stories of Flannery O'Connor – author recovered from title
+21167a2cc8f69d73,accept,Stories of Franz Kafka – author recovered from title
+513aa7efb46309ba,accept,Stories of Isaac Babel – author recovered from title
+9d7db2bf3fb07ff8,accept,Stories of Eudora Welty – author recovered from title
+de7b244311400695,accept,Stories of Raymond Carver – author recovered from title
+cb97c5545d6b13be,accept,The stories of John Cheever – author recovered from title
+75d4f553c8b9d0a6,accept,Stories of Alice Munro – author recovered from title
+a7759a967a59df92,accept,Stories of Grace Paley – author recovered from title
+3a547ebc5261fec5,accept,Stories of Ernest Hemingway – author recovered from title
+f6cc32fa83049ad3,accept,Stories of William Trevor – author recovered from title
+4a4bc7d2118d7c5d,accept,Stories of Carson McCullers – author recovered from title
+c9bd7b01fcf1844a,accept,Stories of Mavis Gallant – author recovered from title
+bd18d91e18e240e7,accept,Stories of Nathaniel Hawthorne – author recovered from title
+1444cdb9ca4e0b59,accept,Collected Poems of Elizabeth Bishop – author recovered from title
+20d29b3587839c92,accept,Collected Stories of Elizabeth Bowen – author recovered from title
+3661874bba1e6c20,accept,Plays of Molière – author recovered from title
+b3bcafa535df8c83,accept,Poems of Emily Dickinson – author recovered from title
+6595af6e96ca363d,accept,The Selected Poems of Pablo Neruda – author recovered from title
+39c6eb2b826f51be,accept,The stories of Andre Dubus – author recovered from title
+4cc754c21f1dbd7d,accept,Works of William Shakespeare – author recovered from title

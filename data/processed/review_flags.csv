@@ -1,180 +1,109 @@
 proposal_id,reason,tier,status,left_row_id,left_title,left_author,left_olid,right_row_id,right_title,right_author,right_olid,similarity,group_members,suggested_action,decision
-925056c0357215d5,SHORT_TOKEN_DISCRIMINATOR,REJECT,pending,091d906267851c41,Mrs. Bridge,Evan S. Connell,,7c7fd769759f6787,Mr. Bridge,Evan S. Connell,,0.947,,reject,pending
-0ff3a422a7c69892,FUZZY_TITLE,T3,pending,2371dd8e663d2910,"Absalom, Absalom!",William Faulkner,,b0ad4460a00b087a,"Absalom, Abalom!",William Faulkner,,0.966,,review,pending
-888756892b024eb9,FUZZY_TITLE,T3,pending,724747c8746fd086,Fahrenheit 451,Ray Bradbury,,fb484d615e4a2fe2,Farenheit 451,Ray Bradbury,OL103123W,0.963,,review,pending
-9349c6784e652588,FUZZY_TITLE,T3,pending,b3f8096bbeabdf9e,Independent People,Halldór Laxness,,e59f41f22a758e49,Independant People,Halldór Laxness,OL757983W,0.944,,review,pending
-a728f2d9401b0331,FUZZY_TITLE,T3,pending,17a569968b734f90,Notes from the Underground,Fyodor Dostoevsky,,601e97e2c3e04989,Notes from Underground,Fyodor Dostoevsky,,0.917,,review,pending
-98f6dc53bb415da3,AUTHOR_VARIANT,T4,pending,2187c81356f220ca,Bear,Marian Engel,OL5280446W,0be16b33a305a06e,The Bear,William Faulkner,,0.154,,review,pending
-d6529874f4b75f31,AUTHOR_VARIANT,T4,pending,b00a01e252e30793,Blindness,Henry Green,,010e4e6a0b4437a9,Blindness,José Saramago,OL27420W,0.154,,review,pending
-a2d386a17c597d6b,AUTHOR_VARIANT,T4,pending,2adbb8092a7a1e33,One Thousand and One Nights,Anonymous,OL24598751W,5e4fc873ef40e24b,One Thousand and One Nights,Scheherazade,OL8061279W,0.095,,review,pending
-65bc3d9e51aa2bca,AUTHOR_VARIANT,T4,pending,66ba2239a09b6b89,Paradise,Abdulrazak Gurnah,OL3958403W,72fa7e4d5c9b1469,Paradise,Toni Morrison,,0.286,,review,pending
-957776aa7823a7c5,AUTHOR_VARIANT,T4,pending,e2fb6bc4510e6eec,The Hamlet,William Faulkner,,2da4e2359893d792,Hamlet,William Shakespeare,,0.421,,review,pending
-b3e6679c17f9f676,AUTHOR_VARIANT,T4,pending,39e1d9b7d6bf19ad,The Light Years,Elizabeth Jane Howard,OL2824299W,6d736a1d4cef2293,Light Years,James Salter,,0.333,,review,pending
-d1b4453e3f231195,AUTHOR_VARIANT,T4,pending,5c019ad6b8d92660,The Tale of Genji,Shikibu Murasaki,,0eec4496474b2845,The Tale of Genji,Murasaki Shikibu,OL2564006W,0.400,,review,pending
-f9cb5991888586f5,AUTHOR_VARIANT,T4,pending,4c09dd3ac6f67618,Ulysses,James Joyc,,699b2d8905dc0211,Ulysses,James Joyce,,0.889,,review,pending
-4a847236de382ff2,BLANK_AUTHOR_CANON,T5,pending,e2c0afa5c3a62baa,A Midsummer Night's Dream,,,,,,,,,confirm as author-less canonical entry,pending
-e170b95eb779712f,BLANK_AUTHOR_CANON,T5,pending,6cb24442e5bc8c90,Aesop's Fables,,,,,,,,,confirm as author-less canonical entry,pending
-7fb6a40ce4e9aa0e,BLANK_AUTHOR_CANON,T5,pending,8cf45d89815d08e1,Bertha,,,,,,,,,confirm as author-less canonical entry,pending
-5a980ef7c0ba3446,BLANK_AUTHOR_CANON,T5,pending,a0d33470c8cd9d32,Bhagavadgita,,,,,,,,,confirm as author-less canonical entry,pending
-efba3c594a9dca7c,BLANK_AUTHOR_CANON,T5,pending,6a017df1eb049399,Changing Places,,,,,,,,,confirm as author-less canonical entry,pending
-73f710706a3eeda9,BLANK_AUTHOR_CANON,T5,pending,060dd4d0b7e4fdcf,Don Quijote,,,,,,,,,confirm as author-less canonical entry,pending
-7c4bf3a16be39df4,BLANK_AUTHOR_CANON,T5,pending,1a51c8f4e99dd9c5,Duty of Delight: The Diaries of Dorothy Day,,,,,,,,,confirm as author-less canonical entry,pending
-c8cbe2772ef5f492,BLANK_AUTHOR_CANON,T5,pending,a32011f5f0dbb3d6,El Señor Presidente,,,,,,,,,confirm as author-less canonical entry,pending
-68181c427fe308d9,BLANK_AUTHOR_CANON,T5,pending,671b7063f748ad03,Ficciones,,,,,,,,,confirm as author-less canonical entry,pending
-b6d8e5b33b9c5809,BLANK_AUTHOR_CANON,T5,pending,2c3e0dc4be914fc4,Grimm's Fairy Tales,,,,,,,,,confirm as author-less canonical entry,pending
-91c59466306f319e,BLANK_AUTHOR_CANON,T5,pending,eda979d6b0ab4914,Grimm's Fairy Tales,,,,,,,,,confirm as author-less canonical entry,pending
-4659f073c006045e,BLANK_AUTHOR_CANON,T5,pending,7050571b2e425bff,King Lear,,,,,,,,,confirm as author-less canonical entry,pending
-ade592bfbbf71541,BLANK_AUTHOR_CANON,T5,pending,bd3c12cb7b3a7731,L'Assommoir (The Dram Shop),,,,,,,,,confirm as author-less canonical entry,pending
-744a6154db5a9e11,BLANK_AUTHOR_CANON,T5,pending,5d72879afe67d864,Mahabharata,,,,,,,,,confirm as author-less canonical entry,pending
-79b007dfe8ee32aa,BLANK_AUTHOR_CANON,T5,pending,19c297e7f42392b4,Metamorphoses,,,,,,,,,confirm as author-less canonical entry,pending
-6a6daeaad8f43605,BLANK_AUTHOR_CANON,T5,pending,6bf252c0fe220628,Moby-Dick,,,,,,,,,confirm as author-less canonical entry,pending
-b06030073c700ba5,BLANK_AUTHOR_CANON,T5,pending,aabf7c8ada0264e5,Nana,,,,,,,,,confirm as author-less canonical entry,pending
-636ed2acba72eda1,BLANK_AUTHOR_CANON,T5,pending,b505305fe0ad3534,Nightwood,,,,,,,,,confirm as author-less canonical entry,pending
-41706955a5c31f50,BLANK_AUTHOR_CANON,T5,pending,2e37a52dcef4e1e4,Officers and Gentlemen,,,,,,,,,confirm as author-less canonical entry,pending
-ec99a56f8ae40473,BLANK_AUTHOR_CANON,T5,pending,f7dc36fc40d74b22,Rabbit Angstrom,,,,,,,,,confirm as author-less canonical entry,pending
-53c90d9ab4a7e7f2,BLANK_AUTHOR_CANON,T5,pending,66da6d95c9d77d6a,Rabbit Is Rich,,,,,,,,,confirm as author-less canonical entry,pending
-3b431b8fe582f709,BLANK_AUTHOR_CANON,T5,pending,e75f1505d8ec9137,Rabbit Redux,,,,,,,,,confirm as author-less canonical entry,pending
-3d3dd0bc3c0e49f7,BLANK_AUTHOR_CANON,T5,pending,858779ea14c60900,Rabbit at Rest,,,,,,,,,confirm as author-less canonical entry,pending
-943f8524e5298c6f,BLANK_AUTHOR_CANON,T5,pending,ea76b0657f468db2,"Rabbit, Run",,,,,,,,,confirm as author-less canonical entry,pending
-2a229f3b64ee5b4c,BLANK_AUTHOR_CANON,T5,pending,66ccc2e199c35b9b,Small World,,,,,,,,,confirm as author-less canonical entry,pending
-051e752c1df308a0,BLANK_AUTHOR_CANON,T5,pending,b23e800e5fbcc4e5,Snowblind: A Brief Career in the Cocaine Trade by Robert Sabbag,,,,,,,,,confirm as author-less canonical entry,pending
-18c8922de57ab202,BLANK_AUTHOR_CANON,T5,pending,f8bd715cf8946fb0,Spring in Fialta,,,,,,,,,confirm as author-less canonical entry,pending
-cebfe0b498b506e9,BLANK_AUTHOR_CANON,T5,pending,46b7b2c94b75cef1,Tennessee Williams: Plays 1937–1955,,,,,,,,,confirm as author-less canonical entry,pending
-b4edb8e658d62f54,BLANK_AUTHOR_CANON,T5,pending,49a5e73375e86e6f,The Arabian Nights: Tales from a Thousand and One Nights,,,,,,,,,confirm as author-less canonical entry,pending
-c22903b4475682d0,BLANK_AUTHOR_CANON,T5,pending,7aa46039b1ef8144,The Arabian Nights: Tales from a Thousand and One Nights,,,,,,,,,confirm as author-less canonical entry,pending
-cc8ea10b68ba07ef,BLANK_AUTHOR_CANON,T5,pending,623680dabace2187,The Arabian Nights: Tales from a Thousand and One Nights,,,,,,,,,confirm as author-less canonical entry,pending
-7904449739bc88c7,BLANK_AUTHOR_CANON,T5,pending,2e972e5c91696279,The Bible,,,,,,,,,confirm as author-less canonical entry,pending
-8d8b659c1d5090ba,BLANK_AUTHOR_CANON,T5,pending,dcfe77613a40536b,The Bible,,,,,,,,,confirm as author-less canonical entry,pending
-7cc4904d121637aa,BLANK_AUTHOR_CANON,T5,pending,d96bebb49ad02a66,The Bible,,,,,,,,,confirm as author-less canonical entry,pending
-50e6b942c4b2a09d,BLANK_AUTHOR_CANON,T5,pending,8fbca6cdf54c1e46,The Bible,,,,,,,,,confirm as author-less canonical entry,pending
-e619b0c5b81d071d,BLANK_AUTHOR_CANON,T5,pending,a3f562a18d3cacee,The Book of Mark.,,,,,,,,,confirm as author-less canonical entry,pending
-983f842afd3f2ad5,BLANK_AUTHOR_CANON,T5,pending,05f2ff758c2631a1,The Celestina,,,,,,,,,confirm as author-less canonical entry,pending
-629f5528549a1170,BLANK_AUTHOR_CANON,T5,pending,86a2646d7576ea96,The Collected Shakespeare,,,,,,,,,confirm as author-less canonical entry,pending
-b15b6c98fbdd4736,BLANK_AUTHOR_CANON,T5,pending,d9458ebed1e9b387,The Epic of Gilgamesh,,,,,,,,,confirm as author-less canonical entry,pending
-95e8628d003c0a28,BLANK_AUTHOR_CANON,T5,pending,0b6399bc1ca2d0d3,The I Ching (Book of Changes),,,,,,,,,confirm as author-less canonical entry,pending
-4514a457a48304e2,BLANK_AUTHOR_CANON,T5,pending,f0d1f3c6c84c3ad2,The Pillow-Book of Sei Shonagon,,,,,,,,,confirm as author-less canonical entry,pending
-5fe7e1d45a77cd4d,BLANK_AUTHOR_CANON,T5,pending,1d9e38b6abe4380f,The Studs Lonigan trilogy,,,,,,,,,confirm as author-less canonical entry,pending
-8fe363179d0a75b6,BLANK_AUTHOR_CANON,T5,pending,5e1215efef38f848,The Tempest,,,,,,,,,confirm as author-less canonical entry,pending
-4d95d90ba0f7ebc9,BLANK_AUTHOR_CANON,T5,pending,601c1e85bc5f43ae,The Zoo Story,,,,,,,,,confirm as author-less canonical entry,pending
-7b9b4cf5caedef95,BLANK_AUTHOR_CANON,T5,pending,0cb817cd42f8abff,The haiku of Matsuo Basho,,,,,,,,,confirm as author-less canonical entry,pending
-41dd06f129f93d51,BLANK_AUTHOR_CANON,T5,pending,65787bc4d6362ba0,The legends of King Arthur and the Knights of the Round Table,,,,,,,,,confirm as author-less canonical entry,pending
-00a8c522777521d6,BLANK_AUTHOR_CANON,T5,pending,aab7772e925e2f91,Ulysses,,,,,,,,,confirm as author-less canonical entry,pending
-dd2effe26ebb929b,BLANK_AUTHOR_CANON,T5,pending,033ce0c03e742cb9,Unconditional Surrender,,,,,,,,,confirm as author-less canonical entry,pending
-6a4cbd51ec811668,BLANK_AUTHOR_CANON,T5,pending,c1fd43eebfc4c10b,Whoroscope,,,,,,,,,confirm as author-less canonical entry,pending
-63020bdc46aca54c,BLANK_AUTHOR_RECOVERED,T5,pending,527f14784004d2bc,Collected Poems of Elizabeth Bishop,,,,,Elizabeth Bishop,,,,set author to: Elizabeth Bishop,pending
-ac780dd3c027eca2,BLANK_AUTHOR_RECOVERED,T5,pending,9a4c9bec0ff40c97,Collected Stories of Elizabeth Bowen,,,,,Elizabeth Bowen,,,,set author to: Elizabeth Bowen,pending
-ee1cfaeb87966b37,BLANK_AUTHOR_RECOVERED,T5,pending,f470197b87b09319,Plays of Molière,,,,,Molière,,,,set author to: Molière,pending
-b110505159b7c768,BLANK_AUTHOR_RECOVERED,T5,pending,3bd285db1721fb4b,Poems of Emily Dickinson,,,,,Emily Dickinson,,,,set author to: Emily Dickinson,pending
-2b0eb503fdb11934,BLANK_AUTHOR_RECOVERED,T5,pending,5976ae27925a885a,Stories of Alice Munro,,,,,Alice Munro,,,,set author to: Alice Munro,pending
-daa2af88e8498cba,BLANK_AUTHOR_RECOVERED,T5,pending,6a18feb5889e0700,Stories of Alice Munro,,,,,Alice Munro,,,,set author to: Alice Munro,pending
-cd180059e7a92920,BLANK_AUTHOR_RECOVERED,T5,pending,a7e348bb794a4c28,Stories of Alice Munro,,,,,Alice Munro,,,,set author to: Alice Munro,pending
-640514b926fe8bbf,BLANK_AUTHOR_RECOVERED,T5,pending,48b33aff9f423eb0,Stories of Alice Munro,,,,,Alice Munro,,,,set author to: Alice Munro,pending
-b0ee57c1fa8b49eb,BLANK_AUTHOR_RECOVERED,T5,pending,023ed1276502c9f0,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-a1b69f1f17791914,BLANK_AUTHOR_RECOVERED,T5,pending,11c557b823c8f0f2,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-909e20f6c327fcc9,BLANK_AUTHOR_RECOVERED,T5,pending,4c8e62f24cc9a352,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-05f3c9775f88a10b,BLANK_AUTHOR_RECOVERED,T5,pending,ec49e89a56bb69e7,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-aa64c87a886a29a6,BLANK_AUTHOR_RECOVERED,T5,pending,52c4f4a266e62823,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-63578c28fcbf6943,BLANK_AUTHOR_RECOVERED,T5,pending,a720a1ded0d2e656,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-ac6595793bbee07a,BLANK_AUTHOR_RECOVERED,T5,pending,3d79a2bac0cc396e,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-c11cc341e4d5fe06,BLANK_AUTHOR_RECOVERED,T5,pending,856b5fb085166a3d,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-4f12ba46df3169a4,BLANK_AUTHOR_RECOVERED,T5,pending,1a79457cc43ce73d,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-5c456b6bf4581b69,BLANK_AUTHOR_RECOVERED,T5,pending,164df1ee68fbb30b,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-0876363a2f41e795,BLANK_AUTHOR_RECOVERED,T5,pending,3590533e75603562,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-ed4bd5876d77ee88,BLANK_AUTHOR_RECOVERED,T5,pending,4bd50ed7cc6e1913,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-eba60874e6e649b8,BLANK_AUTHOR_RECOVERED,T5,pending,a2b8fc2d9268f8eb,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-11f5e0343376bed0,BLANK_AUTHOR_RECOVERED,T5,pending,48ef1cfb4e960d6b,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-dc2ae62c83bed922,BLANK_AUTHOR_RECOVERED,T5,pending,6820a2da17ef2dd8,Stories of Carson McCullers,,,,,Carson McCullers,,,,set author to: Carson McCullers,pending
-bde75e9b911b220d,BLANK_AUTHOR_RECOVERED,T5,pending,06c2cd81b8a9cd6c,Stories of Ernest Hemingway,,,,,Ernest Hemingway,,,,set author to: Ernest Hemingway,pending
-c194bc06a6f2f982,BLANK_AUTHOR_RECOVERED,T5,pending,89f4adc32987245d,Stories of Ernest Hemingway,,,,,Ernest Hemingway,,,,set author to: Ernest Hemingway,pending
-d5fe73b994d02bcc,BLANK_AUTHOR_RECOVERED,T5,pending,c60e3b01b8fc1ebb,Stories of Ernest Hemingway,,,,,Ernest Hemingway,,,,set author to: Ernest Hemingway,pending
-d653c07319f25a98,BLANK_AUTHOR_RECOVERED,T5,pending,3b6accea77e758dd,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,pending
-5144f9c99da948cd,BLANK_AUTHOR_RECOVERED,T5,pending,fd47c7ff91399196,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,pending
-130f06bdccb6b759,BLANK_AUTHOR_RECOVERED,T5,pending,3f23b8b81fbf396f,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,pending
-1c9538383de728ff,BLANK_AUTHOR_RECOVERED,T5,pending,9c997e6166723678,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,pending
-4878bba23fcbc469,BLANK_AUTHOR_RECOVERED,T5,pending,6fab74fba30baa03,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,pending
-26ceafefdd018513,BLANK_AUTHOR_RECOVERED,T5,pending,856d6c943c0895d9,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-a247e0d0cb79fa1d,BLANK_AUTHOR_RECOVERED,T5,pending,610ca11cca19c63a,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-c4caa0f13ea21087,BLANK_AUTHOR_RECOVERED,T5,pending,553c37be431b17bb,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-aa49a9882040368b,BLANK_AUTHOR_RECOVERED,T5,pending,6f6f15ba0a5df552,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-808ae07b4972fcf3,BLANK_AUTHOR_RECOVERED,T5,pending,3806e3ccaeb4aa5f,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-5e2c6de1629848d9,BLANK_AUTHOR_RECOVERED,T5,pending,b8e477d0b134dd7a,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-537c8731fd09abe2,BLANK_AUTHOR_RECOVERED,T5,pending,deb22aa0abf83175,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-fd1773e2e13039d1,BLANK_AUTHOR_RECOVERED,T5,pending,d4d1cf49004d8d17,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-618aa67fd0fce6fb,BLANK_AUTHOR_RECOVERED,T5,pending,fc7032f36f1ebf02,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-e91a2d9a947bea1f,BLANK_AUTHOR_RECOVERED,T5,pending,756bd019cf99fcc8,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-703893e24ee1ad05,BLANK_AUTHOR_RECOVERED,T5,pending,9fced9231c10cbd4,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-376f79b3be52876c,BLANK_AUTHOR_RECOVERED,T5,pending,7653e1d91841831a,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-040a985828b0390f,BLANK_AUTHOR_RECOVERED,T5,pending,dda70ffab8d90adc,Stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-ceaf70662a16be13,BLANK_AUTHOR_RECOVERED,T5,pending,8f6745b4b67d2f7b,Stories of Flannery O’Connor,,,,,Flannery O’Connor,,,,set author to: Flannery O’Connor,pending
-9f111197644d3c62,BLANK_AUTHOR_RECOVERED,T5,pending,27b1172ff2a0d4eb,Stories of Flannery O’Connor,,,,,Flannery O’Connor,,,,set author to: Flannery O’Connor,pending
-b64dfe7fb1ea1426,BLANK_AUTHOR_RECOVERED,T5,pending,8e7c4e25ac9a4d0d,Stories of Flannery O’Connor,,,,,Flannery O’Connor,,,,set author to: Flannery O’Connor,pending
-694b43c3d863dec3,BLANK_AUTHOR_RECOVERED,T5,pending,f0fc44ec5ce14fa7,Stories of Flannery O’Connor,,,,,Flannery O’Connor,,,,set author to: Flannery O’Connor,pending
-2059a10c0d5fb4c0,BLANK_AUTHOR_RECOVERED,T5,pending,b1463de197cb4845,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,pending
-bde3ab63fd15f04d,BLANK_AUTHOR_RECOVERED,T5,pending,f9b1a922955fec94,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,pending
-d7853dd290c39929,BLANK_AUTHOR_RECOVERED,T5,pending,5333886973c26e6b,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,pending
-22ae78e24801d55a,BLANK_AUTHOR_RECOVERED,T5,pending,a7097c4855518dc1,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,pending
-d7fb701f2c07aff6,BLANK_AUTHOR_RECOVERED,T5,pending,297c29d7f48a3ff3,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,pending
-119cbc10c9ae6b03,BLANK_AUTHOR_RECOVERED,T5,pending,a6cc8ea32b65b894,Stories of Grace Paley,,,,,Grace Paley,,,,set author to: Grace Paley,pending
-2777f91bfb859d3c,BLANK_AUTHOR_RECOVERED,T5,pending,954a5fdea2815f1c,Stories of Grace Paley,,,,,Grace Paley,,,,set author to: Grace Paley,pending
-54fa10041de170d6,BLANK_AUTHOR_RECOVERED,T5,pending,b8b16624a0645ffe,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-0a966a01dff560d2,BLANK_AUTHOR_RECOVERED,T5,pending,7c3e09307c73e608,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-af43398cd758608e,BLANK_AUTHOR_RECOVERED,T5,pending,6a68862a4c65c192,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-347ba36d38b16da4,BLANK_AUTHOR_RECOVERED,T5,pending,ecf0749b260df9fd,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-358401b70c7a93f1,BLANK_AUTHOR_RECOVERED,T5,pending,b63040162d8e2cd4,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-6dcf0bb5c94c25d9,BLANK_AUTHOR_RECOVERED,T5,pending,83e7e01ae141c771,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-4cb84718e2a6d5b0,BLANK_AUTHOR_RECOVERED,T5,pending,13d75c9a255152e3,Stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-6b7889446471e2cd,BLANK_AUTHOR_RECOVERED,T5,pending,7d0db2ac61ebe072,Stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-a15ed84e24b159c3,BLANK_AUTHOR_RECOVERED,T5,pending,dfed2c52a936349b,Stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-ba10b5d70281e66b,BLANK_AUTHOR_RECOVERED,T5,pending,5b97b0285ee91895,Stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-bb87415318697b3d,BLANK_AUTHOR_RECOVERED,T5,pending,0714e0c5ac378ac4,Stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-0689926fcd77b4c8,BLANK_AUTHOR_RECOVERED,T5,pending,7d7e333bb2d0439d,Stories of Mavis Gallant,,,,,Mavis Gallant,,,,set author to: Mavis Gallant,pending
-f20b3f93e3b78a01,BLANK_AUTHOR_RECOVERED,T5,pending,5a5acd7dd84951a8,Stories of Mavis Gallant,,,,,Mavis Gallant,,,,set author to: Mavis Gallant,pending
-d4f4608626b439a3,BLANK_AUTHOR_RECOVERED,T5,pending,51ae9f60cc13503d,Stories of Nathaniel Hawthorne,,,,,Nathaniel Hawthorne,,,,set author to: Nathaniel Hawthorne,pending
-19fe0b2452682819,BLANK_AUTHOR_RECOVERED,T5,pending,43b6c77c91564c70,Stories of Raymond Carver,,,,,Raymond Carver,,,,set author to: Raymond Carver,pending
-908e8ba01c6306c7,BLANK_AUTHOR_RECOVERED,T5,pending,45622d31ecfdb685,Stories of Raymond Carver,,,,,Raymond Carver,,,,set author to: Raymond Carver,pending
-c977823175e36492,BLANK_AUTHOR_RECOVERED,T5,pending,a9c87decde5a0eca,Stories of Raymond Carver,,,,,Raymond Carver,,,,set author to: Raymond Carver,pending
-98004ca7fcccb565,BLANK_AUTHOR_RECOVERED,T5,pending,a68b13bc99baa0e1,Stories of William Trevor,,,,,William Trevor,,,,set author to: William Trevor,pending
-7d80f75dea2f2915,BLANK_AUTHOR_RECOVERED,T5,pending,3f3145df8bb05853,Stories of William Trevor,,,,,William Trevor,,,,set author to: William Trevor,pending
-583beaffb8c274d3,BLANK_AUTHOR_RECOVERED,T5,pending,9e86a8568dd4ce6b,The Selected Poems of Pablo Neruda,,,,,Pablo Neruda,,,,set author to: Pablo Neruda,pending
-568dedac9c02015b,BLANK_AUTHOR_RECOVERED,T5,pending,cd69c4ba006736ca,The poems of Emily Dickinson,,,,,Emily Dickinson,,,,set author to: Emily Dickinson,pending
-31ef6a26b25eb9e1,BLANK_AUTHOR_RECOVERED,T5,pending,4f70724beea06bd0,The stories of Andre Dubus,,,,,Andre Dubus,,,,set author to: Andre Dubus,pending
-2c4206a811f9ab83,BLANK_AUTHOR_RECOVERED,T5,pending,3d482604aff79308,The stories of Andre Dubus,,,,,Andre Dubus,,,,set author to: Andre Dubus,pending
-9bd3ebedbc9eeb0c,BLANK_AUTHOR_RECOVERED,T5,pending,3571df49e61d7729,The stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-9e37f41f5ec5ac39,BLANK_AUTHOR_RECOVERED,T5,pending,0d283f891a971ac2,The stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-ead05c247c84c053,BLANK_AUTHOR_RECOVERED,T5,pending,b94859d0290522c4,The stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-362c8e04070bcb0c,BLANK_AUTHOR_RECOVERED,T5,pending,4e7d9aa40511bc6d,The stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,pending
-0b0ee006faeacfff,BLANK_AUTHOR_RECOVERED,T5,pending,7f2a07a5df955e5e,The stories of Ernest Hemingway,,,,,Ernest Hemingway,,,,set author to: Ernest Hemingway,pending
-d8c509682c6d0fca,BLANK_AUTHOR_RECOVERED,T5,pending,3cfd2c5aaaec2d42,The stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-50dc4fb536205f42,BLANK_AUTHOR_RECOVERED,T5,pending,3ae717ee83551c72,The stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-de86583ec2140be7,BLANK_AUTHOR_RECOVERED,T5,pending,7264e14eb78e2f9a,The stories of Flannery O'Connor,,,,,Flannery O'Connor,,,,set author to: Flannery O'Connor,pending
-8e9c8d6f93a2479f,BLANK_AUTHOR_RECOVERED,T5,pending,e8cffac02d8434da,The stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,pending
-a6c213270d330f33,BLANK_AUTHOR_RECOVERED,T5,pending,f25f4e85998a77eb,The stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-5f16ce96d55f0520,BLANK_AUTHOR_RECOVERED,T5,pending,8966b5ae76e90f13,The stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,pending
-7f205b6edac1b958,BLANK_AUTHOR_RECOVERED,T5,pending,0e1e7464362236d8,The stories of Raymond Carver,,,,,Raymond Carver,,,,set author to: Raymond Carver,pending
-dd09748b7853f5e0,BLANK_AUTHOR_RECOVERED,T5,pending,2372132e0f90da76,Works of William Shakespeare,,,,,William Shakespeare,,,,set author to: William Shakespeare,pending
-014037d3e98df0d1,MULTI_BOOK_SLOT,T6,pending,833c7d7ac1c94a49,Almost Paradise,Susan Isaacs,,,,,,,Almost Paradise | Shining Through,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-5ee4dcc62c4fbdba,MULTI_BOOK_SLOT,T6,pending,d13c3643892315da,Appointment in Samarra,John O'Hara,,,,,,,Appointment in Samarra | BUtterfield 8,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-9135e029f1ef36d2,MULTI_BOOK_SLOT,T6,pending,10a760314c964f6a,Death of the Fox,George Garrett,,,,,,,Death of the Fox | The Succession | Entered from the Sun,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-ce5d6d10ecca9166,MULTI_BOOK_SLOT,T6,pending,bd3c12cb7b3a7731,L'Assommoir (The Dram Shop),,,,,,,,L'Assommoir (The Dram Shop) | Nana,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-fee3c3d146f7b981,MULTI_BOOK_SLOT,T6,pending,bdaa9eca5a4ccc5e,Men at Arms,Evelyn Waugh,,,,,,,Men at Arms | Officers and Gentlemen | Unconditional Surrender,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-08e99ee4f530f4e7,MULTI_BOOK_SLOT,T6,pending,091d906267851c41,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-e00e2db9f5a952bd,MULTI_BOOK_SLOT,T6,pending,95d7b4418a03204d,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-65eaadf1ab63c5e6,MULTI_BOOK_SLOT,T6,pending,56b9a6b58d3664bf,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-95af88d8fe8c1767,MULTI_BOOK_SLOT,T6,pending,dfe9706fe61b0c34,My Brilliant Friend,Elena Ferrante,,,,,,,My Brilliant Friend | The Story of a New Name | Those Who Leave and Those Who Stay | The Story of a Lost Child,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-8178ca798bca51a6,MULTI_BOOK_SLOT,T6,pending,11803c38e5d68252,Nice Work,David Lodge,,,,,,,Nice Work | Changing Places | Small World,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-6af3cf873b6943fd,MULTI_BOOK_SLOT,T6,pending,1532c4ef317600ad,Nothing,Henry Green,,,,,,,Nothing | Doting | Blindness,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-b2ae22937e952d11,MULTI_BOOK_SLOT,T6,pending,2bb71385862ded01,Sullivan's Travels,Preston Sturges,,,,,,,Sullivan's Travels | The Lady Eve | The Palm Beach Story,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-ddf3950aad5ed863,MULTI_BOOK_SLOT,T6,pending,f1893251780b4d5e,"The Beans of Egypt, Maine",Carolyn Chute,,,,,,,"The Beans of Egypt, Maine | Letourneau's Used Auto Parts | Merry Men",each title treated as separate canonical book; confirm or identify if any should collapse,pending
-dfc123761227a3cf,MULTI_BOOK_SLOT,T6,pending,0ec56eb1677bcab0,The Birthday Party,Harold Pinter,,,,,,,The Birthday Party | The Homecoming,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-58d04456e1ce0e13,MULTI_BOOK_SLOT,T6,pending,86a2646d7576ea96,The Collected Shakespeare,,,,,,,,The Collected Shakespeare | The Tempest | King Lear | A Midsummer Night's Dream,each title treated as separate canonical book; confirm or identify if any should collapse,pending
-4a3f6c4ad9760e1a,SERIES_EXPLODE,T6,pending,f1c91716bf9bb2b7,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-c42e9c3769782b4e,SERIES_EXPLODE,T6,pending,f7dc36fc40d74b22,Rabbit Angstrom,,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-d5099b1acb64d48f,SERIES_EXPLODE,T6,pending,cba4cbe155e36a74,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-33db0f065d7c5dc3,SERIES_EXPLODE,T6,pending,04e5c1d34aaa017e,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-08ecf63dfd3631ec,SERIES_EXPLODE,T6,pending,2a6996bd0bd58d8c,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-7056683a69d5c864,SERIES_EXPLODE,T6,pending,578285f6ef521943,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-5fa6b951c115b9ce,SERIES_EXPLODE,T6,pending,0b079699c2dcae53,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-b4aa1762e0fdbaae,SERIES_EXPLODE,T6,pending,c9737fe61b48dd82,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-c76e5ee49956b894,SERIES_EXPLODE,T6,pending,65b00acd5723aad8,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-6a09fa2178b7c767,SERIES_EXPLODE,T6,pending,9790d19da7699e1a,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
-cd45a77b550142c8,SERIES_EXPLODE,T6,pending,6803631b007c5ffe,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; volume entries in this slot remain as-is",pending
+925056c0357215d5,SHORT_TOKEN_DISCRIMINATOR,REJECT,reject,091d906267851c41,Mrs. Bridge,Evan S. Connell,,7c7fd769759f6787,Mr. Bridge,Evan S. Connell,,0.947,,reject,reject
+0ff3a422a7c69892,FUZZY_TITLE,T3,applied,2371dd8e663d2910,"Absalom, Absalom!",William Faulkner,,b0ad4460a00b087a,"Absalom, Abalom!",William Faulkner,,0.966,,review,accept
+888756892b024eb9,FUZZY_TITLE,T3,applied,724747c8746fd086,Fahrenheit 451,Ray Bradbury,,fb484d615e4a2fe2,Farenheit 451,Ray Bradbury,OL103123W,0.963,,review,accept
+9349c6784e652588,FUZZY_TITLE,T3,applied,b3f8096bbeabdf9e,Independent People,Halldór Laxness,,e59f41f22a758e49,Independant People,Halldór Laxness,OL757983W,0.944,,review,accept
+a728f2d9401b0331,FUZZY_TITLE,T3,applied,17a569968b734f90,Notes from the Underground,Fyodor Dostoevsky,,601e97e2c3e04989,Notes from Underground,Fyodor Dostoevsky,,0.917,,review,accept
+98f6dc53bb415da3,AUTHOR_VARIANT,T4,reject,2187c81356f220ca,Bear,Marian Engel,OL5280446W,0be16b33a305a06e,The Bear,William Faulkner,,0.154,,review,reject
+d6529874f4b75f31,AUTHOR_VARIANT,T4,reject,b00a01e252e30793,Blindness,Henry Green,,010e4e6a0b4437a9,Blindness,José Saramago,OL27420W,0.154,,review,reject
+a2d386a17c597d6b,AUTHOR_VARIANT,T4,applied,2adbb8092a7a1e33,One Thousand and One Nights,Anonymous,OL24598751W,5e4fc873ef40e24b,One Thousand and One Nights,Scheherazade,OL8061279W,0.095,,review,accept
+65bc3d9e51aa2bca,AUTHOR_VARIANT,T4,reject,66ba2239a09b6b89,Paradise,Abdulrazak Gurnah,OL3958403W,72fa7e4d5c9b1469,Paradise,Toni Morrison,,0.286,,review,reject
+957776aa7823a7c5,AUTHOR_VARIANT,T4,reject,e2fb6bc4510e6eec,The Hamlet,William Faulkner,,2da4e2359893d792,Hamlet,William Shakespeare,,0.421,,review,reject
+b3e6679c17f9f676,AUTHOR_VARIANT,T4,reject,39e1d9b7d6bf19ad,The Light Years,Elizabeth Jane Howard,OL2824299W,6d736a1d4cef2293,Light Years,James Salter,,0.333,,review,reject
+d1b4453e3f231195,AUTHOR_VARIANT,T4,applied,5c019ad6b8d92660,The Tale of Genji,Shikibu Murasaki,,0eec4496474b2845,The Tale of Genji,Murasaki Shikibu,OL2564006W,0.400,,review,accept
+f9cb5991888586f5,AUTHOR_VARIANT,T4,applied,4c09dd3ac6f67618,Ulysses,James Joyc,,699b2d8905dc0211,Ulysses,James Joyce,,0.889,,review,accept
+1bccf02135afad7e,BLANK_AUTHOR_CANON,T5,applied,e2c0afa5c3a62baa,A Midsummer Night's Dream,,,,,,,,,confirm as author-less canonical entry,accept
+a17946ec850be218,BLANK_AUTHOR_CANON,T5,applied,6cb24442e5bc8c90,Aesop's Fables,,,,,,,,,confirm as author-less canonical entry,accept
+8918af83c7c6b421,BLANK_AUTHOR_CANON,T5,applied,8cf45d89815d08e1,Bertha,,,,,,,,,confirm as author-less canonical entry,accept
+7e1f15ca2a787d6b,BLANK_AUTHOR_CANON,T5,applied,a0d33470c8cd9d32,Bhagavadgita,,,,,,,,,confirm as author-less canonical entry,accept
+3b5a5e494fa7611d,BLANK_AUTHOR_CANON,T5,applied,6a017df1eb049399,Changing Places,,,,,,,,,confirm as author-less canonical entry,accept
+e2df6aca803a8d7c,BLANK_AUTHOR_CANON,T5,applied,060dd4d0b7e4fdcf,Don Quijote,,,,,,,,,confirm as author-less canonical entry,accept
+99355b7f561fdf27,BLANK_AUTHOR_CANON,T5,applied,1a51c8f4e99dd9c5,Duty of Delight: The Diaries of Dorothy Day,,,,,,,,,confirm as author-less canonical entry,accept
+eb84506ae768dacf,BLANK_AUTHOR_CANON,T5,applied,a32011f5f0dbb3d6,El Señor Presidente,,,,,,,,,confirm as author-less canonical entry,accept
+620454063046391a,BLANK_AUTHOR_CANON,T5,applied,671b7063f748ad03,Ficciones,,,,,,,,,confirm as author-less canonical entry,accept
+f97c4e30200fcb8f,BLANK_AUTHOR_CANON,T5,applied,2c3e0dc4be914fc4,Grimm's Fairy Tales,,,,,,,,,confirm as author-less canonical entry,accept
+e9a98d459269b48f,BLANK_AUTHOR_CANON,T5,applied,7050571b2e425bff,King Lear,,,,,,,,,confirm as author-less canonical entry,accept
+a7f68be920e47d69,BLANK_AUTHOR_CANON,T5,applied,bd3c12cb7b3a7731,L'Assommoir (The Dram Shop),,,,,,,,,confirm as author-less canonical entry,accept
+676975f3c2aeaed7,BLANK_AUTHOR_CANON,T5,applied,5d72879afe67d864,Mahabharata,,,,,,,,,confirm as author-less canonical entry,accept
+243edee62193da38,BLANK_AUTHOR_CANON,T5,applied,19c297e7f42392b4,Metamorphoses,,,,,,,,,confirm as author-less canonical entry,accept
+818d1cea7bd94c1c,BLANK_AUTHOR_CANON,T5,applied,6bf252c0fe220628,Moby-Dick,,,,,,,,,confirm as author-less canonical entry,accept
+07707e03b2e92462,BLANK_AUTHOR_CANON,T5,applied,aabf7c8ada0264e5,Nana,,,,,,,,,confirm as author-less canonical entry,accept
+c2b808151fd20890,BLANK_AUTHOR_CANON,T5,applied,b505305fe0ad3534,Nightwood,,,,,,,,,confirm as author-less canonical entry,accept
+787ecbd213a9a7c9,BLANK_AUTHOR_CANON,T5,applied,2e37a52dcef4e1e4,Officers and Gentlemen,,,,,,,,,confirm as author-less canonical entry,accept
+c4b7f54bfa6e6352,BLANK_AUTHOR_CANON,T5,applied,f7dc36fc40d74b22,Rabbit Angstrom,,,,,,,,,confirm as author-less canonical entry,accept
+e9c2929a7a80981e,BLANK_AUTHOR_CANON,T5,applied,66da6d95c9d77d6a,Rabbit Is Rich,,,,,,,,,confirm as author-less canonical entry,accept
+a7fb3a333d5da64a,BLANK_AUTHOR_CANON,T5,applied,e75f1505d8ec9137,Rabbit Redux,,,,,,,,,confirm as author-less canonical entry,accept
+0a8799b79f46bf8d,BLANK_AUTHOR_CANON,T5,applied,858779ea14c60900,Rabbit at Rest,,,,,,,,,confirm as author-less canonical entry,accept
+4dd2147afef35f17,BLANK_AUTHOR_CANON,T5,applied,ea76b0657f468db2,"Rabbit, Run",,,,,,,,,confirm as author-less canonical entry,accept
+07acc0965cc894cc,BLANK_AUTHOR_CANON,T5,applied,66ccc2e199c35b9b,Small World,,,,,,,,,confirm as author-less canonical entry,accept
+ecf8291aacec0d3d,BLANK_AUTHOR_CANON,T5,applied,b23e800e5fbcc4e5,Snowblind: A Brief Career in the Cocaine Trade by Robert Sabbag,,,,,,,,,confirm as author-less canonical entry,accept
+fa1a0cde0ae4ac52,BLANK_AUTHOR_CANON,T5,applied,f8bd715cf8946fb0,Spring in Fialta,,,,,,,,,confirm as author-less canonical entry,accept
+9c92a20c90a59993,BLANK_AUTHOR_CANON,T5,applied,46b7b2c94b75cef1,Tennessee Williams: Plays 1937–1955,,,,,,,,,confirm as author-less canonical entry,accept
+d5941e2a083f6d0a,BLANK_AUTHOR_CANON,T5,applied,49a5e73375e86e6f,The Arabian Nights: Tales from a Thousand and One Nights,,,,,,,,,confirm as author-less canonical entry,accept
+f627dba4a2139be8,BLANK_AUTHOR_CANON,T5,applied,2e972e5c91696279,The Bible,,,,,,,,,confirm as author-less canonical entry,accept
+234eb8ebae76f9d6,BLANK_AUTHOR_CANON,T5,applied,a3f562a18d3cacee,The Book of Mark.,,,,,,,,,confirm as author-less canonical entry,accept
+48d19cf69875d85f,BLANK_AUTHOR_CANON,T5,applied,05f2ff758c2631a1,The Celestina,,,,,,,,,confirm as author-less canonical entry,accept
+7c0a265cffa3fa0e,BLANK_AUTHOR_CANON,T5,applied,86a2646d7576ea96,The Collected Shakespeare,,,,,,,,,confirm as author-less canonical entry,accept
+8dde81850cf309ea,BLANK_AUTHOR_CANON,T5,applied,d9458ebed1e9b387,The Epic of Gilgamesh,,,,,,,,,confirm as author-less canonical entry,accept
+6c86ae9a4562b2af,BLANK_AUTHOR_CANON,T5,applied,0b6399bc1ca2d0d3,The I Ching (Book of Changes),,,,,,,,,confirm as author-less canonical entry,accept
+ca45fe41ecb7650c,BLANK_AUTHOR_CANON,T5,applied,f0d1f3c6c84c3ad2,The Pillow-Book of Sei Shonagon,,,,,,,,,confirm as author-less canonical entry,accept
+453b8b8aca30a9b3,BLANK_AUTHOR_CANON,T5,applied,1d9e38b6abe4380f,The Studs Lonigan trilogy,,,,,,,,,confirm as author-less canonical entry,accept
+4a713290a80b9d2c,BLANK_AUTHOR_CANON,T5,applied,5e1215efef38f848,The Tempest,,,,,,,,,confirm as author-less canonical entry,accept
+382d1a240faf7d68,BLANK_AUTHOR_CANON,T5,applied,601c1e85bc5f43ae,The Zoo Story,,,,,,,,,confirm as author-less canonical entry,accept
+5c30b79fe7582dee,BLANK_AUTHOR_CANON,T5,applied,0cb817cd42f8abff,The haiku of Matsuo Basho,,,,,,,,,confirm as author-less canonical entry,accept
+c979f094d2462484,BLANK_AUTHOR_CANON,T5,applied,65787bc4d6362ba0,The legends of King Arthur and the Knights of the Round Table,,,,,,,,,confirm as author-less canonical entry,accept
+0ac5d5da54fc093f,BLANK_AUTHOR_CANON,T5,applied,aab7772e925e2f91,Ulysses,,,,,,,,,confirm as author-less canonical entry,accept
+d53cc068e4cf6d8b,BLANK_AUTHOR_CANON,T5,applied,033ce0c03e742cb9,Unconditional Surrender,,,,,,,,,confirm as author-less canonical entry,accept
+3b7c601a082adc52,BLANK_AUTHOR_CANON,T5,applied,c1fd43eebfc4c10b,Whoroscope,,,,,,,,,confirm as author-less canonical entry,accept
+1444cdb9ca4e0b59,BLANK_AUTHOR_RECOVERED,T5,applied,527f14784004d2bc,Collected Poems of Elizabeth Bishop,,,,,Elizabeth Bishop,,,,set author to: Elizabeth Bishop,accept
+20d29b3587839c92,BLANK_AUTHOR_RECOVERED,T5,applied,9a4c9bec0ff40c97,Collected Stories of Elizabeth Bowen,,,,,Elizabeth Bowen,,,,set author to: Elizabeth Bowen,accept
+3661874bba1e6c20,BLANK_AUTHOR_RECOVERED,T5,applied,f470197b87b09319,Plays of Molière,,,,,Molière,,,,set author to: Molière,accept
+b3bcafa535df8c83,BLANK_AUTHOR_RECOVERED,T5,applied,3bd285db1721fb4b,Poems of Emily Dickinson,,,,,Emily Dickinson,,,,set author to: Emily Dickinson,accept
+75d4f553c8b9d0a6,BLANK_AUTHOR_RECOVERED,T5,applied,5976ae27925a885a,Stories of Alice Munro,,,,,Alice Munro,,,,set author to: Alice Munro,accept
+9808528af879a27a,BLANK_AUTHOR_RECOVERED,T5,applied,023ed1276502c9f0,Stories of Anton Chekhov,,,,,Anton Chekhov,,,,set author to: Anton Chekhov,accept
+4a4bc7d2118d7c5d,BLANK_AUTHOR_RECOVERED,T5,applied,6820a2da17ef2dd8,Stories of Carson McCullers,,,,,Carson McCullers,,,,set author to: Carson McCullers,accept
+3a547ebc5261fec5,BLANK_AUTHOR_RECOVERED,T5,applied,06c2cd81b8a9cd6c,Stories of Ernest Hemingway,,,,,Ernest Hemingway,,,,set author to: Ernest Hemingway,accept
+9d7db2bf3fb07ff8,BLANK_AUTHOR_RECOVERED,T5,applied,3b6accea77e758dd,Stories of Eudora Welty,,,,,Eudora Welty,,,,set author to: Eudora Welty,accept
+af1aecb2a1634f11,BLANK_AUTHOR_RECOVERED,T5,applied,8f6745b4b67d2f7b,Stories of Flannery O’Connor,,,,,Flannery O’Connor,,,,set author to: Flannery O’Connor,accept
+21167a2cc8f69d73,BLANK_AUTHOR_RECOVERED,T5,applied,b1463de197cb4845,Stories of Franz Kafka,,,,,Franz Kafka,,,,set author to: Franz Kafka,accept
+a7759a967a59df92,BLANK_AUTHOR_RECOVERED,T5,applied,a6cc8ea32b65b894,Stories of Grace Paley,,,,,Grace Paley,,,,set author to: Grace Paley,accept
+513aa7efb46309ba,BLANK_AUTHOR_RECOVERED,T5,applied,b8b16624a0645ffe,Stories of Isaac Babel,,,,,Isaac Babel,,,,set author to: Isaac Babel,accept
+c9bd7b01fcf1844a,BLANK_AUTHOR_RECOVERED,T5,applied,7d7e333bb2d0439d,Stories of Mavis Gallant,,,,,Mavis Gallant,,,,set author to: Mavis Gallant,accept
+bd18d91e18e240e7,BLANK_AUTHOR_RECOVERED,T5,applied,51ae9f60cc13503d,Stories of Nathaniel Hawthorne,,,,,Nathaniel Hawthorne,,,,set author to: Nathaniel Hawthorne,accept
+de7b244311400695,BLANK_AUTHOR_RECOVERED,T5,applied,43b6c77c91564c70,Stories of Raymond Carver,,,,,Raymond Carver,,,,set author to: Raymond Carver,accept
+f6cc32fa83049ad3,BLANK_AUTHOR_RECOVERED,T5,applied,a68b13bc99baa0e1,Stories of William Trevor,,,,,William Trevor,,,,set author to: William Trevor,accept
+6595af6e96ca363d,BLANK_AUTHOR_RECOVERED,T5,applied,9e86a8568dd4ce6b,The Selected Poems of Pablo Neruda,,,,,Pablo Neruda,,,,set author to: Pablo Neruda,accept
+39c6eb2b826f51be,BLANK_AUTHOR_RECOVERED,T5,applied,4f70724beea06bd0,The stories of Andre Dubus,,,,,Andre Dubus,,,,set author to: Andre Dubus,accept
+cb97c5545d6b13be,BLANK_AUTHOR_RECOVERED,T5,applied,f25f4e85998a77eb,The stories of John Cheever,,,,,John Cheever,,,,set author to: John Cheever,accept
+4cc754c21f1dbd7d,BLANK_AUTHOR_RECOVERED,T5,applied,2372132e0f90da76,Works of William Shakespeare,,,,,William Shakespeare,,,,set author to: William Shakespeare,accept
+014037d3e98df0d1,MULTI_BOOK_SLOT,T6,applied,833c7d7ac1c94a49,Almost Paradise,Susan Isaacs,,,,,,,Almost Paradise | Shining Through,each title is its own canonical book; confirm or classify,accept
+5ee4dcc62c4fbdba,MULTI_BOOK_SLOT,T6,applied,d13c3643892315da,Appointment in Samarra,John O'Hara,,,,,,,Appointment in Samarra | BUtterfield 8,each title is its own canonical book; confirm or classify,accept
+9135e029f1ef36d2,MULTI_BOOK_SLOT,T6,applied,10a760314c964f6a,Death of the Fox,George Garrett,,,,,,,Death of the Fox | The Succession | Entered from the Sun,each title is its own canonical book; confirm or classify,accept
+ce5d6d10ecca9166,MULTI_BOOK_SLOT,T6,applied,bd3c12cb7b3a7731,L'Assommoir (The Dram Shop),,,,,,,,L'Assommoir (The Dram Shop) | Nana,each title is its own canonical book; confirm or classify,accept
+fee3c3d146f7b981,MULTI_BOOK_SLOT,T6,applied,bdaa9eca5a4ccc5e,Men at Arms,Evelyn Waugh,,,,,,,Men at Arms | Officers and Gentlemen | Unconditional Surrender,each title is its own canonical book; confirm or classify,accept
+08e99ee4f530f4e7,MULTI_BOOK_SLOT,T6,applied,091d906267851c41,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title is its own canonical book; confirm or classify,accept
+e00e2db9f5a952bd,MULTI_BOOK_SLOT,T6,applied,95d7b4418a03204d,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title is its own canonical book; confirm or classify,accept
+65eaadf1ab63c5e6,MULTI_BOOK_SLOT,T6,applied,56b9a6b58d3664bf,Mrs. Bridge,Evan S. Connell,,,,,,,Mrs. Bridge | Mr. Bridge,each title is its own canonical book; confirm or classify,accept
+95af88d8fe8c1767,MULTI_BOOK_SLOT,T6,applied,dfe9706fe61b0c34,My Brilliant Friend,Elena Ferrante,,,,,,,My Brilliant Friend | The Story of a New Name | Those Who Leave and Those Who Stay | The Story of a Lost Child,each title is its own canonical book; confirm or classify,accept
+8178ca798bca51a6,MULTI_BOOK_SLOT,T6,applied,11803c38e5d68252,Nice Work,David Lodge,,,,,,,Nice Work | Changing Places | Small World,each title is its own canonical book; confirm or classify,accept
+6af3cf873b6943fd,MULTI_BOOK_SLOT,T6,applied,1532c4ef317600ad,Nothing,Henry Green,,,,,,,Nothing | Doting | Blindness,each title is its own canonical book; confirm or classify,accept
+b2ae22937e952d11,MULTI_BOOK_SLOT,T6,applied,2bb71385862ded01,Sullivan's Travels,Preston Sturges,,,,,,,Sullivan's Travels | The Lady Eve | The Palm Beach Story,each title is its own canonical book; confirm or classify,accept
+ddf3950aad5ed863,MULTI_BOOK_SLOT,T6,applied,f1893251780b4d5e,"The Beans of Egypt, Maine",Carolyn Chute,,,,,,,"The Beans of Egypt, Maine | Letourneau's Used Auto Parts | Merry Men",each title is its own canonical book; confirm or classify,accept
+dfc123761227a3cf,MULTI_BOOK_SLOT,T6,applied,0ec56eb1677bcab0,The Birthday Party,Harold Pinter,,,,,,,The Birthday Party | The Homecoming,each title is its own canonical book; confirm or classify,accept
+58d04456e1ce0e13,MULTI_BOOK_SLOT,T6,applied,86a2646d7576ea96,The Collected Shakespeare,,,,,,,,The Collected Shakespeare | The Tempest | King Lear | A Midsummer Night's Dream,each title is its own canonical book; confirm or classify,accept
+f7c001f378198772,NON_BOOK_ENTRY,T6,applied,2bb71385862ded01,Sullivan's Travels,Preston Sturges,,,,,,,Sullivan's Travels,remove from dataset (non-book / un-enumerable container),accept
+1db7131b47e99fa4,NON_BOOK_ENTRY,T6,applied,86a2646d7576ea96,The Collected Shakespeare,,,,,,,,The Collected Shakespeare,remove from dataset (non-book / un-enumerable container),accept
+0b171c9e79b51bfa,NON_BOOK_ENTRY,T6,applied,7c2d36c80145138e,The Lady Eve,Preston Sturges,,,,,,,The Lady Eve,remove from dataset (non-book / un-enumerable container),accept
+152e1a0f539b58f3,NON_BOOK_ENTRY,T6,applied,45646225699b5762,The Palm Beach Story,Preston Sturges,,,,,,,The Palm Beach Story,remove from dataset (non-book / un-enumerable container),accept
+0a76193df2c37458,SERIES_EXPLODE,T6,applied,7601e05acea5a371,A Rabbit Omnibus,John Updike,OL43317320W,,,,,,A Rabbit Omnibus,"standalone omnibus: explode into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'",accept
+4a3f6c4ad9760e1a,SERIES_EXPLODE,T6,applied,f1c91716bf9bb2b7,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+c42e9c3769782b4e,SERIES_EXPLODE,T6,applied,f7dc36fc40d74b22,Rabbit Angstrom,,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+d5099b1acb64d48f,SERIES_EXPLODE,T6,applied,cba4cbe155e36a74,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+33db0f065d7c5dc3,SERIES_EXPLODE,T6,applied,04e5c1d34aaa017e,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+08ecf63dfd3631ec,SERIES_EXPLODE,T6,applied,2a6996bd0bd58d8c,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+7056683a69d5c864,SERIES_EXPLODE,T6,applied,578285f6ef521943,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+5fa6b951c115b9ce,SERIES_EXPLODE,T6,applied,0b079699c2dcae53,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+b4aa1762e0fdbaae,SERIES_EXPLODE,T6,applied,c9737fe61b48dd82,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+c76e5ee49956b894,SERIES_EXPLODE,T6,applied,65b00acd5723aad8,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+6a09fa2178b7c767,SERIES_EXPLODE,T6,applied,9790d19da7699e1a,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept
+cd45a77b550142c8,SERIES_EXPLODE,T6,applied,6803631b007c5ffe,Rabbit Angstrom,John Updike,,,,,,,"Rabbit Angstrom | Rabbit, Run | Rabbit Redux | Rabbit Is Rich | Rabbit at Rest","explode 'Rabbit Angstrom' into volumes: 'Rabbit, Run', 'Rabbit Redux', 'Rabbit Is Rich', 'Rabbit at Rest'; other listed volumes remain as-is",accept

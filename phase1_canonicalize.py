@@ -4,18 +4,17 @@ Phase 1 canonicalization pipeline for Kindred Lists.
 Usage:
     python phase1_canonicalize.py            # run pipeline
     python phase1_canonicalize.py --verify   # run + automated checks
-    python phase1_canonicalize.py --report   # print count summary only
 
 Inputs (read-only):
     input_data/combined_voters.csv
-    overrides/registries.json
-    overrides/merge_decisions.csv
+    overrides/registries.json     (author_aliases, series_registry, drop_titles, manual_canonical)
+    overrides/merge_decisions.csv (proposal_id, decision, note)
 
 Outputs (data/processed/):
-    canonical_books.csv
-    voter_books.csv
-    review_flags.csv
-    row_to_canonical.csv
+    canonical_books.csv     canonical_id -> title/author/year/n_voters
+    voter_books.csv         voter_name x canonical_id (long form; deduped)
+    review_flags.csv        proposals for human review
+    row_to_canonical.csv    every raw row -> its canonical_id
 """
 
 import argparse
@@ -25,14 +24,14 @@ import json
 import re
 import sys
 import unicodedata
-from collections import defaultdict
+from collections import Counter, defaultdict
 from difflib import SequenceMatcher
 from pathlib import Path
 
-INPUT_CSV = Path("input_data/combined_voters.csv")
+INPUT_CSV  = Path("input_data/combined_voters.csv")
 REGISTRIES = Path("overrides/registries.json")
-DECISIONS = Path("overrides/merge_decisions.csv")
-OUT_DIR = Path("data/processed")
+DECISIONS  = Path("overrides/merge_decisions.csv")
+OUT_DIR    = Path("data/processed")
 
 FUNCTION_WORDS = frozenset(
     "of and the a an in to for on his her its at by with from as is was are were".split()
@@ -46,81 +45,83 @@ def _remove_diacritics(s):
     return "".join(c for c in unicodedata.normalize("NFD", s)
                    if unicodedata.category(c) != "Mn")
 
-_CURLY_MAP = str.maketrans("‘’“”′″", "''\"\"''")
-_ABBREV_DOT = re.compile(r'\b(mr|mrs|ms|dr|st|jr|sr)\.',  re.I)
-_LEADING_ARTICLE = re.compile(r'^(the|a|an)\s+', re.I)
-_AMPERSAND = re.compile(r'\s*&\s*')
-_NON_ALNUM = re.compile(r'[^a-z0-9]+')
+_CURLY_MAP   = str.maketrans("‘’“”′″", "''\"\"''")
+_ABBREV_DOT  = re.compile(r'\b(mr|mrs|ms|dr|st|jr|sr)\.', re.I)
+_LEADING_ART = re.compile(r'^(the|a|an)\s+', re.I)
+_AMPERSAND   = re.compile(r'\s*&\s*')
+_NON_ALNUM   = re.compile(r'[^a-z0-9]+')
 
 
-def norm_title(raw: str):
-    """Return (title_key, title_key_no_subtitle, dropped_subtitle)."""
+def norm_title(raw):
+    """Return (title_key, dropped_subtitle_or_None)."""
     s = unicodedata.normalize("NFKC", raw or "")
     s = s.translate(_CURLY_MAP)
     s = s.casefold()
     s = _remove_diacritics(s)
     s = _AMPERSAND.sub(" and ", s)
-    # drop post-colon subtitle
     subtitle = None
     if ":" in s:
         before, after = s.split(":", 1)
         subtitle = after.strip() or None
         s = before
-    s = _LEADING_ARTICLE.sub("", s)
-    # keep abbreviation tokens, drop trailing dot only
+    s = _LEADING_ART.sub("", s)
     s = _ABBREV_DOT.sub(lambda m: m.group(1).lower(), s)
     s = _NON_ALNUM.sub(" ", s)
-    # normalize known American/British spelling variants
     s = re.sub(r'\bgrey\b', 'gray', s)
     s = s.strip()
-    return s, s, subtitle
+    return s, subtitle
 
 
-def norm_author(raw: str):
+def norm_author(raw):
     """Return (surname_key, full_key)."""
     s = unicodedata.normalize("NFKC", raw or "")
     s = s.translate(_CURLY_MAP)
     s = s.casefold()
     s = _remove_diacritics(s)
-    # drop editorial noise
     s = re.sub(r'\(ed\.?\)|,\s*editors?|et al\.?', '', s, flags=re.I)
     s = _NON_ALNUM.sub(" ", s).strip()
     tokens = s.split()
-    surname = tokens[-1] if tokens else ""
-    return surname, s
+    return (tokens[-1] if tokens else ""), s
 
 
-def token_sort_ratio(a: str, b: str) -> float:
-    a_sorted = " ".join(sorted(a.split()))
-    b_sorted = " ".join(sorted(b.split()))
-    return SequenceMatcher(None, a_sorted, b_sorted).ratio()
+def token_sort_ratio(a, b):
+    return SequenceMatcher(None,
+                           " ".join(sorted(a.split())),
+                           " ".join(sorted(b.split()))).ratio()
 
 
-SHORT_NON_FUNCTION = re.compile(r'^[a-z0-9]{1,4}$')
+_SHORT_NON_FUNC = re.compile(r'^[a-z0-9]{1,4}$')
 
-def short_token_discriminator(key_a: str, key_b: str) -> bool:
-    """Return True if the pair differs on a short non-function-word token — likely distinct books."""
-    ta, tb = set(key_a.split()), set(key_b.split())
-    diff = ta.symmetric_difference(tb)
-    return any(
-        SHORT_NON_FUNCTION.match(t) and t not in FUNCTION_WORDS
-        for t in diff
-    )
+def short_token_discriminator(key_a, key_b):
+    diff = set(key_a.split()).symmetric_difference(set(key_b.split()))
+    for t in diff:
+        if _SHORT_NON_FUNC.match(t) and t not in FUNCTION_WORDS:
+            return True
+    return False
+
+
+_COLLECTED_PAT = re.compile(
+    r'^(?:the\s+)?(?:stories|story|poems|collected\s+stories|collected\s+poems|'
+    r'selected\s+poems|plays|complete\s+stories|selected\s+stories|works)\s+of\s+(.+)$',
+    re.I
+)
+
+def extract_collected_author(title):
+    m = _COLLECTED_PAT.match(title.strip())
+    return m.group(1).strip().rstrip(".") if m else None
 
 
 # ---------------------------------------------------------------------------
-# Stable row ID
+# Stable IDs
 # ---------------------------------------------------------------------------
 
-def make_row_id(row: dict) -> str:
-    key = "|".join([
-        row["source"], row["voter_name"], row["position"],
-        row["book_title"], row["book_author"]
-    ])
+def make_row_id(row):
+    key = "|".join([row["source"], row["voter_name"], row["position"],
+                    row["book_title"], row["book_author"]])
     return hashlib.sha1(key.encode()).hexdigest()[:16]
 
 
-def make_proposal_id(*parts) -> str:
+def make_proposal_id(*parts):
     return hashlib.sha1("|".join(str(p) for p in parts).encode()).hexdigest()[:16]
 
 
@@ -130,26 +131,26 @@ def make_proposal_id(*parts) -> str:
 
 class UnionFind:
     def __init__(self):
-        self._parent = {}
+        self._p = {}
 
     def find(self, x):
-        if x not in self._parent:
-            self._parent[x] = x
-        while self._parent[x] != x:
-            self._parent[x] = self._parent[self._parent[x]]
-            x = self._parent[x]
+        if x not in self._p:
+            self._p[x] = x
+        while self._p[x] != x:
+            self._p[x] = self._p[self._p[x]]
+            x = self._p[x]
         return x
 
     def union(self, a, b):
         ra, rb = self.find(a), self.find(b)
         if ra != rb:
-            self._parent[rb] = ra
+            self._p[rb] = ra
 
     def groups(self):
-        result = defaultdict(list)
-        for x in self._parent:
-            result[self.find(x)].append(x)
-        return dict(result)
+        out = defaultdict(list)
+        for x in self._p:
+            out[self.find(x)].append(x)
+        return dict(out)
 
 
 # ---------------------------------------------------------------------------
@@ -157,7 +158,8 @@ class UnionFind:
 # ---------------------------------------------------------------------------
 
 def load_overrides():
-    regs = {"author_aliases": {}, "series_registry": {}, "manual_canonical": {}}
+    regs = {"author_aliases": {}, "series_registry": {},
+            "manual_canonical": {}, "drop_titles": []}
     if REGISTRIES.exists():
         with open(REGISTRIES) as f:
             regs.update(json.load(f))
@@ -165,105 +167,101 @@ def load_overrides():
     if DECISIONS.exists():
         with open(DECISIONS, newline="") as f:
             for row in csv.DictReader(f):
-                if row.get("proposal_id"):
-                    decisions[row["proposal_id"]] = row["decision"].strip()
+                pid = row.get("proposal_id", "").strip()
+                if pid:
+                    decisions[pid] = row.get("decision", "").strip()
     return regs, decisions
 
 
-_COLLECTED_PATTERN = re.compile(
-    r'^(?:the\s+)?(?:stories|story|poems|collected\s+stories|collected\s+poems|'
-    r'selected\s+poems|plays|complete\s+stories|selected\s+stories|works)\s+of\s+(.+)$',
-    re.I
-)
+def find_volume_cid(vtk, vsk, canonical_meta, norm_title_fn, norm_author_fn):
+    """Find the canonical_id best matching (volume_title_key, author_surname_key)."""
+    best_cid, best_n = None, -1
+    for cid, cm in canonical_meta.items():
+        if norm_title_fn(cm["canonical_title"])[0] == vtk:
+            cm_sk = norm_author_fn(cm["canonical_author"])[0]
+            n = cm.get("_n_rows", 0)
+            if cm_sk == vsk and n > best_n:
+                best_n, best_cid = n, cid
+    if best_cid:
+        return best_cid
+    # Fallback: title only
+    for cid, cm in canonical_meta.items():
+        if norm_title_fn(cm["canonical_title"])[0] == vtk:
+            n = cm.get("_n_rows", 0)
+            if n > best_n:
+                best_n, best_cid = n, cid
+    return best_cid
 
 
-def extract_collected_author(title: str):
-    m = _COLLECTED_PATTERN.match(title.strip())
-    if m:
-        name = m.group(1).strip().rstrip(".")
-        return name
-    return None
-
-
-def run(verify: bool = False, report_only: bool = False):
+def run(verify=False):
     regs, accepted_decisions = load_overrides()
-    aliases = regs["author_aliases"]
-    series_reg = {norm_title(k)[0]: v for k, v in regs["series_registry"].items()}
-    manual_canonical = regs["manual_canonical"]
+    aliases     = regs["author_aliases"]
+    series_reg  = {norm_title(k)[0]: v for k, v in regs["series_registry"].items()}
+    drop_title_keys = {norm_title(t)[0] for t in regs.get("drop_titles", [])}
 
     # -----------------------------------------------------------------------
-    # 1. Load rows, mint row_ids, compute norm keys
+    # 1. Load rows
     # -----------------------------------------------------------------------
     rows = []
     with open(INPUT_CSV, newline="", encoding="utf-8") as f:
         for raw in csv.DictReader(f):
             rid = make_row_id(raw)
-            tk, tk_ns, subtitle = norm_title(raw["book_title"])
+            tk, subtitle = norm_title(raw["book_title"])
             surname, full_auth = norm_author(raw["book_author"])
-            # apply author alias
             surname = aliases.get(surname, surname)
-            rows.append({
-                **raw,
-                "row_id": rid,
-                "title_key": tk,
-                "title_key_ns": tk_ns,
-                "subtitle": subtitle,
-                "surname_key": surname,
-                "full_auth_key": full_auth,
-            })
-
+            rows.append({**raw, "row_id": rid, "title_key": tk,
+                         "subtitle": subtitle, "surname_key": surname,
+                         "full_auth_key": full_auth})
     row_by_id = {r["row_id"]: r for r in rows}
 
     # -----------------------------------------------------------------------
-    # 2. Build union-find: T0 (shared OLID), then T1/T2 (title+author exact)
+    # 2. Union-Find: T0 OLID → T1/T2 exact (title+author) → T1b blank-author
     # -----------------------------------------------------------------------
     uf = UnionFind()
     for r in rows:
-        uf.find(r["row_id"])  # ensure every row is registered
+        uf.find(r["row_id"])
 
-    # T0: group by OLID
+    # T0: shared OLID
     olid_groups = defaultdict(list)
     for r in rows:
         if r["openLibraryId"].strip():
             olid_groups[r["openLibraryId"].strip()].append(r["row_id"])
-    for olid, ids in olid_groups.items():
+    for ids in olid_groups.values():
         for rid in ids[1:]:
             uf.union(ids[0], rid)
 
-    # T1/T2: group by (title_key, surname_key) — exact match
-    # T2 is implicit: we dropped the subtitle before creating title_key, so two rows
-    # that differ only in subtitle already share the same title_key.
+    # T1/T2: exact (title_key, surname_key) — both non-blank
     exact_groups = defaultdict(list)
     for r in rows:
         if r["title_key"] and r["surname_key"]:
             exact_groups[(r["title_key"], r["surname_key"])].append(r["row_id"])
-    for (tk, sk), ids in exact_groups.items():
+    for ids in exact_groups.values():
         for rid in ids[1:]:
             uf.union(ids[0], rid)
 
-    # Apply accepted overrides (merge_decisions with decision=accept)
-    # For accepted fuzzy proposals we store (row_id_a, row_id_b) pairs encoded in proposal_id
-    # We can't recover the pair from just the hash, so we store them in the review_flags
-    # and re-apply on re-run. For first run there are none yet.
-    # (On subsequent runs: accepted proposals are re-generated and then applied here.)
-    # We'll apply them after generating proposals — see end of this function.
+    # T1b: blank-author rows share title_key → merge together
+    blank_title_groups = defaultdict(list)
+    for r in rows:
+        if not r["surname_key"] and r["title_key"]:
+            blank_title_groups[r["title_key"]].append(r["row_id"])
+    for ids in blank_title_groups.values():
+        for rid in ids[1:]:
+            uf.union(ids[0], rid)
 
     # -----------------------------------------------------------------------
-    # 3. Detect multi-book slots (series/grouped entries)
+    # 3. Detect multi-book slots
     # -----------------------------------------------------------------------
     slot_books = defaultdict(list)
     for r in rows:
-        slot_key = (r["source"], r["voter_name"], r["position"])
-        slot_books[slot_key].append(r)
-
+        slot_books[(r["source"], r["voter_name"], r["position"])].append(r)
     multi_slots = {k: v for k, v in slot_books.items() if len(v) > 1}
 
     # -----------------------------------------------------------------------
-    # 4. Generate review proposals (T3–T6) — do NOT apply them
+    # 4. Generate proposals (T3–T6)  [canonical_map not yet built]
     # -----------------------------------------------------------------------
     proposals = []
 
-    # T3 Fuzzy title — block by surname, then score within block
+    # T3: fuzzy title (same surname block)
     surname_blocks = defaultdict(list)
     for r in rows:
         if r["surname_key"]:
@@ -271,7 +269,6 @@ def run(verify: bool = False, report_only: bool = False):
 
     seen_fuzzy = set()
     for surname, block in surname_blocks.items():
-        # Only look at distinct title_key representatives (one row per title_key)
         seen_tk = {}
         for r in block:
             if r["title_key"] not in seen_tk:
@@ -280,46 +277,35 @@ def run(verify: bool = False, report_only: bool = False):
         for i in range(len(tks)):
             for j in range(i + 1, len(tks)):
                 a_tk, b_tk = tks[i], tks[j]
-                if a_tk == b_tk:
-                    continue
-                # Skip pairs already merged by T0/T1/T2
                 ra = seen_tk[a_tk]["row_id"]
                 rb = seen_tk[b_tk]["row_id"]
                 if uf.find(ra) == uf.find(rb):
                     continue
-                pair_key = tuple(sorted([a_tk, b_tk]))
-                if pair_key in seen_fuzzy:
+                pair = tuple(sorted([a_tk, b_tk]))
+                if pair in seen_fuzzy:
                     continue
-                seen_fuzzy.add(pair_key)
-
+                seen_fuzzy.add(pair)
                 ratio = token_sort_ratio(a_tk, b_tk)
                 if ratio < 0.90:
                     continue
-
                 trap = short_token_discriminator(a_tk, b_tk)
-                reason = "SHORT_TOKEN_DISCRIMINATOR" if trap else "FUZZY_TITLE"
-                tier = "REJECT" if trap else "T3"
                 pid = make_proposal_id("T3", a_tk, b_tk, surname)
-
                 proposals.append({
                     "proposal_id": pid,
-                    "reason": reason,
-                    "tier": tier,
-                    "left_row_id": ra,
-                    "left_title": seen_tk[a_tk]["book_title"],
+                    "reason": "SHORT_TOKEN_DISCRIMINATOR" if trap else "FUZZY_TITLE",
+                    "tier": "REJECT" if trap else "T3",
+                    "left_row_id": ra, "left_title": seen_tk[a_tk]["book_title"],
                     "left_author": seen_tk[a_tk]["book_author"],
                     "left_olid": seen_tk[a_tk]["openLibraryId"],
-                    "right_row_id": rb,
-                    "right_title": seen_tk[b_tk]["book_title"],
+                    "right_row_id": rb, "right_title": seen_tk[b_tk]["book_title"],
                     "right_author": seen_tk[b_tk]["book_author"],
                     "right_olid": seen_tk[b_tk]["openLibraryId"],
-                    "similarity": f"{ratio:.3f}",
-                    "group_members": "",
+                    "similarity": f"{ratio:.3f}", "group_members": "",
                     "suggested_action": "reject" if trap else "review",
                     "decision": accepted_decisions.get(pid, "pending"),
                 })
 
-    # T4 Author variant — near-equal title_key, surnames differ by small edit
+    # T4: author variant (same title_key, different non-blank surnames)
     title_blocks = defaultdict(list)
     for r in rows:
         if r["title_key"]:
@@ -327,266 +313,318 @@ def run(verify: bool = False, report_only: bool = False):
 
     seen_auth = set()
     for tk, block in title_blocks.items():
-        surnames = set(r["surname_key"] for r in block if r["surname_key"])
-        if len(surnames) <= 1:
-            continue
-        # Multiple authors for same normalized title — propose author alias
         reps = {}
         for r in block:
             if r["surname_key"] and r["surname_key"] not in reps:
                 reps[r["surname_key"]] = r
-        surnames_sorted = sorted(reps.keys())
-        for i in range(len(surnames_sorted)):
-            for j in range(i + 1, len(surnames_sorted)):
-                sa, sb = surnames_sorted[i], surnames_sorted[j]
-                if uf.find(reps[sa]["row_id"]) == uf.find(reps[sb]["row_id"]):
+        surnames = sorted(reps.keys())
+        for i in range(len(surnames)):
+            for j in range(i + 1, len(surnames)):
+                sa, sb = surnames[i], surnames[j]
+                ra, rb = reps[sa]["row_id"], reps[sb]["row_id"]
+                if uf.find(ra) == uf.find(rb):
                     continue
-                pair_key = tuple(sorted([sa + "|" + tk, sb + "|" + tk]))
-                if pair_key in seen_auth:
+                pair = tuple(sorted([sa + "|" + tk, sb + "|" + tk]))
+                if pair in seen_auth:
                     continue
-                seen_auth.add(pair_key)
+                seen_auth.add(pair)
                 edit = SequenceMatcher(None, sa, sb).ratio()
                 pid = make_proposal_id("T4", tk, sa, sb)
                 proposals.append({
-                    "proposal_id": pid,
-                    "reason": "AUTHOR_VARIANT",
-                    "tier": "T4",
-                    "left_row_id": reps[sa]["row_id"],
-                    "left_title": reps[sa]["book_title"],
-                    "left_author": reps[sa]["book_author"],
-                    "left_olid": reps[sa]["openLibraryId"],
-                    "right_row_id": reps[sb]["row_id"],
-                    "right_title": reps[sb]["book_title"],
-                    "right_author": reps[sb]["book_author"],
-                    "right_olid": reps[sb]["openLibraryId"],
-                    "similarity": f"{edit:.3f}",
-                    "group_members": "",
+                    "proposal_id": pid, "reason": "AUTHOR_VARIANT", "tier": "T4",
+                    "left_row_id": ra, "left_title": reps[sa]["book_title"],
+                    "left_author": reps[sa]["book_author"], "left_olid": reps[sa]["openLibraryId"],
+                    "right_row_id": rb, "right_title": reps[sb]["book_title"],
+                    "right_author": reps[sb]["book_author"], "right_olid": reps[sb]["openLibraryId"],
+                    "similarity": f"{edit:.3f}", "group_members": "",
                     "suggested_action": "review",
                     "decision": accepted_decisions.get(pid, "pending"),
                 })
 
-    # T5 Blank-author recovery
+    # T5: blank-author recovery
+    seen_blank = set()
     for r in rows:
-        if r["surname_key"]:
-            continue  # has an author
-        title = r["book_title"]
-        recovered = extract_collected_author(title)
-        if recovered:
-            pid = make_proposal_id("T5", r["row_id"], "recovered")
-            proposals.append({
-                "proposal_id": pid,
-                "reason": "BLANK_AUTHOR_RECOVERED",
-                "tier": "T5",
-                "left_row_id": r["row_id"],
-                "left_title": title,
-                "left_author": "",
-                "left_olid": r["openLibraryId"],
-                "right_row_id": "",
-                "right_title": "",
-                "right_author": recovered,
-                "right_olid": "",
-                "similarity": "",
-                "group_members": "",
-                "suggested_action": f"set author to: {recovered}",
-                "decision": accepted_decisions.get(pid, "pending"),
-            })
-        else:
-            pid = make_proposal_id("T5", r["row_id"], "canon")
-            proposals.append({
-                "proposal_id": pid,
-                "reason": "BLANK_AUTHOR_CANON",
-                "tier": "T5",
-                "left_row_id": r["row_id"],
-                "left_title": title,
-                "left_author": "",
-                "left_olid": r["openLibraryId"],
-                "right_row_id": "",
-                "right_title": "",
-                "right_author": "",
-                "right_olid": "",
-                "similarity": "",
-                "group_members": "",
-                "suggested_action": "confirm as author-less canonical entry",
-                "decision": accepted_decisions.get(pid, "pending"),
-            })
-
-    # T6 Multi-book slots (series explode / non-series / non-books)
-    seen_slots = set()
-    for slot_key, slot_rows in multi_slots.items():
-        source, voter, pos = slot_key
-        titles_in_slot = [r["book_title"] for r in slot_rows]
-        # Identify if any title is a known series container
-        series_containers = []
-        volume_titles = []
-        for r in slot_rows:
-            if r["title_key"] in series_reg:
-                series_containers.append(r)
-            else:
-                volume_titles.append(r)
-
-        if series_containers:
-            reason = "SERIES_EXPLODE"
-            container = series_containers[0]
-            entry = series_reg[container["title_key"]]
-            suggested = (f"explode '{container['book_title']}' into volumes: "
-                         + ", ".join(f"'{v}'" for v in entry["canonical_volumes"])
-                         + "; volume entries in this slot remain as-is")
-        else:
-            # Check for non-book signals (films etc.)
-            is_nonbook = any(
-                r["source_url"] == "" or "film" in r["book_title"].lower()
-                for r in slot_rows
-            )
-            # Heuristic: if titles look like films (no obvious author match), flag NON_BOOK_ENTRY
-            # We'll flag all non-series multi-book slots for human review
-            reason = "MULTI_BOOK_SLOT"
-            suggested = ("each title treated as separate canonical book; "
-                         "confirm or identify if any should collapse")
-
-        pid = make_proposal_id("T6", source, voter, pos, "|".join(sorted(titles_in_slot)))
-        if pid in seen_slots:
+        if r["surname_key"] or r["title_key"] in seen_blank:
             continue
-        seen_slots.add(pid)
-
+        seen_blank.add(r["title_key"])
+        recovered = extract_collected_author(r["book_title"])
+        reason = "BLANK_AUTHOR_RECOVERED" if recovered else "BLANK_AUTHOR_CANON"
+        pid = make_proposal_id("T5", r["title_key"], reason)
+        action = (f"set author to: {recovered}" if recovered
+                  else "confirm as author-less canonical entry")
         proposals.append({
-            "proposal_id": pid,
-            "reason": reason,
-            "tier": "T6",
-            "left_row_id": slot_rows[0]["row_id"],
-            "left_title": slot_rows[0]["book_title"],
-            "left_author": slot_rows[0]["book_author"],
-            "left_olid": slot_rows[0]["openLibraryId"],
-            "right_row_id": "",
-            "right_title": "",
-            "right_author": "",
-            "right_olid": "",
-            "similarity": "",
-            "group_members": " | ".join(titles_in_slot),
-            "suggested_action": suggested,
+            "proposal_id": pid, "reason": reason, "tier": "T5",
+            "left_row_id": r["row_id"], "left_title": r["book_title"],
+            "left_author": "", "left_olid": r["openLibraryId"],
+            "right_row_id": "", "right_title": "",
+            "right_author": recovered or "", "right_olid": "",
+            "similarity": "", "group_members": "",
+            "suggested_action": action,
             "decision": accepted_decisions.get(pid, "pending"),
         })
 
-    # Apply accepted merge decisions (pairs stored in review_flags on earlier runs)
-    # On first run there are no accepted decisions, so this is a no-op.
+    # T6a: multi-book slots
+    seen_slots = set()
+    for slot_key, slot_rows in multi_slots.items():
+        source, voter, pos = slot_key
+        titles = [r["book_title"] for r in slot_rows]
+        containers = [r for r in slot_rows if r["title_key"] in series_reg]
+        if containers:
+            reason = "SERIES_EXPLODE"
+            c = containers[0]
+            entry = series_reg[c["title_key"]]
+            action = (f"explode '{c['book_title']}' into volumes: "
+                      + ", ".join(f"'{v}'" for v in entry["canonical_volumes"])
+                      + "; other listed volumes remain as-is")
+            rep_row = c
+        else:
+            reason = "MULTI_BOOK_SLOT"
+            action = "each title is its own canonical book; confirm or classify"
+            rep_row = slot_rows[0]
+        pid = make_proposal_id("T6", source, voter, pos, "|".join(sorted(titles)))
+        if pid in seen_slots:
+            continue
+        seen_slots.add(pid)
+        proposals.append({
+            "proposal_id": pid, "reason": reason, "tier": "T6",
+            "left_row_id": rep_row["row_id"], "left_title": rep_row["book_title"],
+            "left_author": rep_row["book_author"], "left_olid": rep_row["openLibraryId"],
+            "right_row_id": "", "right_title": "", "right_author": "", "right_olid": "",
+            "similarity": "", "group_members": " | ".join(titles),
+            "suggested_action": action,
+            "decision": accepted_decisions.get(pid, "pending"),
+        })
+
+    # T6b: standalone omnibus rows (single-book slots matching series_registry)
+    for r in rows:
+        if r["title_key"] not in series_reg:
+            continue
+        slot_key = (r["source"], r["voter_name"], r["position"])
+        if slot_key in multi_slots:
+            continue  # already covered by T6a
+        pid = make_proposal_id("T6_standalone", r["row_id"], r["title_key"])
+        if any(p["proposal_id"] == pid for p in proposals):
+            continue
+        entry = series_reg[r["title_key"]]
+        action = ("standalone omnibus: explode into volumes: "
+                  + ", ".join(f"'{v}'" for v in entry["canonical_volumes"]))
+        proposals.append({
+            "proposal_id": pid, "reason": "SERIES_EXPLODE", "tier": "T6",
+            "left_row_id": r["row_id"], "left_title": r["book_title"],
+            "left_author": r["book_author"], "left_olid": r["openLibraryId"],
+            "right_row_id": "", "right_title": "", "right_author": "", "right_olid": "",
+            "similarity": "", "group_members": r["book_title"],
+            "suggested_action": action,
+            "decision": accepted_decisions.get(pid, "pending"),
+        })
+
+    # -----------------------------------------------------------------------
+    # 5. Apply accepted T3/T4 merges to union-find (pair-based accepts)
+    # -----------------------------------------------------------------------
     for prop in proposals:
         if prop["decision"] == "accept" and prop["right_row_id"]:
             uf.union(prop["left_row_id"], prop["right_row_id"])
 
     # -----------------------------------------------------------------------
-    # 5. Assign canonical IDs & pick representatives
+    # 6. Build canonical_map and raw canonical_meta
     # -----------------------------------------------------------------------
     groups = uf.groups()
-    # root -> list of row_ids
-    canonical_map = {}  # row_id -> canonical_id
-    canonical_meta = {}  # canonical_id -> {title, author, year, olids, row_ids, tiers}
+    canonical_map   = {}
+    canonical_meta  = {}
 
     for root, members in groups.items():
         member_rows = [row_by_id[rid] for rid in members]
-
-        # Collect OLIDs in this cluster
         olids = sorted(set(r["openLibraryId"].strip() for r in member_rows
                            if r["openLibraryId"].strip()))
-
-        # Canonical ID
         if olids:
             cid = "OL:" + olids[0]
         else:
-            # Derive from most-common title_key + surname_key
-            from collections import Counter
-            tk_counts = Counter(r["title_key"] for r in member_rows if r["title_key"])
-            sk_counts = Counter(r["surname_key"] for r in member_rows if r["surname_key"])
-            rep_tk = tk_counts.most_common(1)[0][0] if tk_counts else "unknown"
-            rep_sk = sk_counts.most_common(1)[0][0] if sk_counts else ""
+            tk_c = Counter(r["title_key"] for r in member_rows if r["title_key"])
+            sk_c = Counter(r["surname_key"] for r in member_rows if r["surname_key"])
+            rep_tk = tk_c.most_common(1)[0][0] if tk_c else "unknown"
+            rep_sk = sk_c.most_common(1)[0][0] if sk_c else ""
             cid = "K:" + hashlib.sha1(f"{rep_tk}|{rep_sk}".encode()).hexdigest()[:12]
 
-        # Override if manual_canonical set
+        # manual override
         for rid in members:
-            if rid in manual_canonical:
-                cid = manual_canonical[rid]
+            if rid in regs["manual_canonical"]:
+                cid = regs["manual_canonical"][rid]
                 break
 
-        # Representative title: prefer OLID-anchored row's raw title
         olid_rows = [r for r in member_rows if r["openLibraryId"].strip()]
-        from collections import Counter
-        if olid_rows:
-            title_counts = Counter(r["book_title"] for r in olid_rows)
-        else:
-            title_counts = Counter(r["book_title"] for r in member_rows)
-        rep_title = title_counts.most_common(1)[0][0] if title_counts else ""
+        title_pool = olid_rows if olid_rows else member_rows
+        title_c  = Counter(r["book_title"] for r in title_pool)
+        auth_c   = Counter(r["book_author"] for r in member_rows if r["book_author"].strip())
+        year_c   = Counter(r["year"].strip() for r in member_rows
+                           if re.match(r'^\d{4}$', r["year"].strip()))
 
-        # Representative author: most frequent non-blank
-        auth_counts = Counter(r["book_author"] for r in member_rows if r["book_author"].strip())
-        rep_auth = auth_counts.most_common(1)[0][0] if auth_counts else ""
-
-        # Representative year: modal clean 4-digit year
-        clean_years = [r["year"].strip() for r in member_rows
-                       if re.match(r'^\d{4}$', r["year"].strip())]
-        rep_year = Counter(clean_years).most_common(1)[0][0] if clean_years else ""
-
-        # How was this cluster derived?
-        if olids:
-            derived = "olid_anchor"
-        else:
-            derived = "title_author_exact"
+        rep_title  = title_c.most_common(1)[0][0] if title_c else ""
+        rep_author = auth_c.most_common(1)[0][0] if auth_c else ""
+        rep_year   = year_c.most_common(1)[0][0] if year_c else ""
 
         for rid in members:
             canonical_map[rid] = cid
         canonical_meta[cid] = {
             "canonical_id": cid,
             "canonical_title": rep_title,
-            "canonical_author": rep_auth,
+            "canonical_author": rep_author,
             "canonical_year": rep_year,
-            "n_rows": len(members),
             "source_olids": ";".join(olids),
-            "derived_from": derived,
+            "derived_from": "olid_anchor" if olids else "title_author_exact",
             "row_ids": members,
+            "_n_rows": len(members),
         }
 
     # -----------------------------------------------------------------------
-    # 6. Build voter_books: voter_name -> {canonical_id -> metadata}
+    # 7. NON_BOOK_ENTRY proposals (per canonical_id, keyed by title_key)
+    # -----------------------------------------------------------------------
+    seen_nonbook = set()
+    for cid, cm in canonical_meta.items():
+        tk = norm_title(cm["canonical_title"])[0]
+        if tk not in drop_title_keys or tk in seen_nonbook:
+            continue
+        seen_nonbook.add(tk)
+        rep_rid = cm["row_ids"][0]
+        rep_row = row_by_id[rep_rid]
+        pid = make_proposal_id("NON_BOOK", tk)
+        proposals.append({
+            "proposal_id": pid, "reason": "NON_BOOK_ENTRY", "tier": "T6",
+            "left_row_id": rep_rid, "left_title": cm["canonical_title"],
+            "left_author": cm["canonical_author"], "left_olid": rep_row["openLibraryId"],
+            "right_row_id": "", "right_title": "", "right_author": "", "right_olid": "",
+            "similarity": "", "group_members": cm["canonical_title"],
+            "suggested_action": f"remove from dataset (non-book / un-enumerable container)",
+            "decision": accepted_decisions.get(pid, "pending"),
+        })
+
+    # -----------------------------------------------------------------------
+    # 8. Post-processing: build explode_ops, drop_cids, recovered_authors
+    # -----------------------------------------------------------------------
+
+    # Accepted SERIES_EXPLODE → (voter -> remove_cids, add_volume_cids)
+    # We also need to know which slot rows belong to each proposal.
+    voter_explode = defaultdict(lambda: [set(), set()])  # voter -> [remove, add]
+
+    for prop in proposals:
+        if prop["decision"] != "accept" or prop["reason"] != "SERIES_EXPLODE":
+            continue
+        left_rid = prop["left_row_id"]
+        if left_rid not in row_by_id:
+            continue
+        left_row = row_by_id[left_rid]
+        omnibus_tk = left_row["title_key"]
+        if omnibus_tk not in series_reg:
+            continue
+        entry = series_reg[omnibus_tk]
+        vsk = norm_author(entry.get("canonical_author", ""))[0]
+        slot_key = (left_row["source"], left_row["voter_name"], left_row["position"])
+
+        # All rows in this slot (or just the one row if standalone)
+        slot_rows = multi_slots.get(slot_key, [left_row])
+
+        # canonical_ids currently associated with these rows
+        slot_cids = {canonical_map[r["row_id"]] for r in slot_rows}
+
+        # Volume canonical_ids to add
+        volume_cids = set()
+        for vol_title in entry["canonical_volumes"]:
+            vtk = norm_title(vol_title)[0]
+            vcid = find_volume_cid(vtk, vsk, canonical_meta, norm_title, norm_author)
+            if vcid:
+                volume_cids.add(vcid)
+
+        voter = left_row["voter_name"]
+        voter_explode[voter][0].update(slot_cids)
+        voter_explode[voter][1].update(volume_cids)
+
+    # Accepted NON_BOOK_ENTRY + drop_titles → canonical_ids to drop
+    drop_cids = set()
+    for cid, cm in canonical_meta.items():
+        if norm_title(cm["canonical_title"])[0] in drop_title_keys:
+            drop_cids.add(cid)
+    for prop in proposals:
+        if prop["decision"] == "accept" and prop["reason"] == "NON_BOOK_ENTRY":
+            rid = prop["left_row_id"]
+            if rid in canonical_map:
+                drop_cids.add(canonical_map[rid])
+
+    # Accepted BLANK_AUTHOR_RECOVERED → canonical_id -> recovered_author
+    recovered_authors = {}
+    for prop in proposals:
+        if prop["decision"] == "accept" and prop["reason"] == "BLANK_AUTHOR_RECOVERED":
+            rid = prop["left_row_id"]
+            if rid in canonical_map:
+                cid = canonical_map[rid]
+                recovered_authors[cid] = prop["right_author"]
+
+    # Apply recovered_authors to canonical_meta
+    for cid, auth in recovered_authors.items():
+        if cid in canonical_meta:
+            canonical_meta[cid]["canonical_author"] = auth
+
+    # -----------------------------------------------------------------------
+    # 9. Build voter_books with explodes and drops applied
     # -----------------------------------------------------------------------
     voter_books_raw = defaultdict(lambda: defaultdict(lambda: {
         "sources": set(), "positions": set(), "voter_types": set()
     }))
     for r in rows:
         cid = canonical_map[r["row_id"]]
-        voter = r["voter_name"]
-        vb = voter_books_raw[voter][cid]
+        vb = voter_books_raw[r["voter_name"]][cid]
         vb["sources"].add(r["source"])
         vb["positions"].add(r["position"])
         vb["voter_types"].add(r["voter_type"])
 
+    for voter, (remove_cids, add_cids) in voter_explode.items():
+        for rcid in remove_cids:
+            voter_books_raw[voter].pop(rcid, None)
+        for acid in add_cids:
+            if acid not in drop_cids:
+                vb = voter_books_raw[voter][acid]
+                vb["sources"].add("series_explode")
+
+    for voter in list(voter_books_raw.keys()):
+        for dcid in list(drop_cids):
+            voter_books_raw[voter].pop(dcid, None)
+
     # -----------------------------------------------------------------------
-    # 7. Write outputs
+    # 10. Recompute n_voters; filter orphaned (0-voter) canonical books
+    # -----------------------------------------------------------------------
+    cid_voters = defaultdict(set)
+    for voter, books in voter_books_raw.items():
+        for cid in books:
+            cid_voters[cid].add(voter)
+
+    # Remove canonical_ids that are now orphaned (exploded/dropped away entirely)
+    canonical_meta = {cid: cm for cid, cm in canonical_meta.items()
+                      if cid_voters.get(cid) and cid not in drop_cids}
+
+    # -----------------------------------------------------------------------
+    # 11. Write outputs
     # -----------------------------------------------------------------------
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # canonical_books.csv
-    # compute n_voters per canonical
-    cid_voters = defaultdict(set)
-    for r in rows:
-        cid_voters[canonical_map[r["row_id"]]].add(r["voter_name"])
-
-    canon_rows = sorted(canonical_meta.values(), key=lambda x: -cid_voters[x["canonical_id"]].__len__())
+    canon_sorted = sorted(canonical_meta.values(),
+                          key=lambda x: -len(cid_voters[x["canonical_id"]]))
     with open(OUT_DIR / "canonical_books.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=[
             "canonical_id", "canonical_title", "canonical_author", "canonical_year",
             "n_rows", "n_voters", "source_olids", "derived_from"
         ])
         w.writeheader()
-        for cm in canon_rows:
+        for cm in canon_sorted:
+            cid = cm["canonical_id"]
             w.writerow({
-                "canonical_id": cm["canonical_id"],
+                "canonical_id": cid,
                 "canonical_title": cm["canonical_title"],
                 "canonical_author": cm["canonical_author"],
                 "canonical_year": cm["canonical_year"],
-                "n_rows": cm["n_rows"],
-                "n_voters": len(cid_voters[cm["canonical_id"]]),
+                "n_rows": cm["_n_rows"],
+                "n_voters": len(cid_voters[cid]),
                 "source_olids": cm["source_olids"],
                 "derived_from": cm["derived_from"],
             })
 
-    # voter_books.csv
     with open(OUT_DIR / "voter_books.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=[
             "voter_name", "canonical_id", "sources", "positions", "voter_types"
@@ -594,16 +632,17 @@ def run(verify: bool = False, report_only: bool = False):
         w.writeheader()
         for voter in sorted(voter_books_raw):
             for cid in sorted(voter_books_raw[voter]):
+                if cid not in canonical_meta:
+                    continue
                 vb = voter_books_raw[voter][cid]
                 w.writerow({
                     "voter_name": voter,
                     "canonical_id": cid,
                     "sources": ";".join(sorted(vb["sources"])),
-                    "positions": ";".join(sorted(vb["positions"])),
+                    "positions": ";".join(sorted(str(p) for p in vb["positions"])),
                     "voter_types": ";".join(sorted(t for t in vb["voter_types"] if t)),
                 })
 
-    # review_flags.csv
     with open(OUT_DIR / "review_flags.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=[
             "proposal_id", "reason", "tier", "status",
@@ -613,10 +652,9 @@ def run(verify: bool = False, report_only: bool = False):
         ])
         w.writeheader()
         for p in sorted(proposals, key=lambda x: (x["tier"], x["reason"], x["left_title"])):
-            p["status"] = "auto-merged" if p["decision"] == "accept" else p["decision"]
+            p["status"] = "applied" if p["decision"] == "accept" else p["decision"]
             w.writerow(p)
 
-    # row_to_canonical.csv
     with open(OUT_DIR / "row_to_canonical.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=[
             "row_id", "source", "voter_name", "position",
@@ -626,120 +664,139 @@ def run(verify: bool = False, report_only: bool = False):
         w.writeheader()
         for r in rows:
             cid = canonical_map[r["row_id"]]
+            ct = canonical_meta.get(cid, {}).get("canonical_title", cid)
             w.writerow({
-                "row_id": r["row_id"],
-                "source": r["source"],
-                "voter_name": r["voter_name"],
-                "position": r["position"],
-                "book_title": r["book_title"],
-                "book_author": r["book_author"],
-                "year": r["year"],
-                "openLibraryId": r["openLibraryId"],
-                "canonical_id": cid,
-                "canonical_title": canonical_meta[cid]["canonical_title"],
+                "row_id": r["row_id"], "source": r["source"],
+                "voter_name": r["voter_name"], "position": r["position"],
+                "book_title": r["book_title"], "book_author": r["book_author"],
+                "year": r["year"], "openLibraryId": r["openLibraryId"],
+                "canonical_id": cid, "canonical_title": ct,
             })
 
     # -----------------------------------------------------------------------
-    # 8. Count report
+    # 12. Count report
     # -----------------------------------------------------------------------
-    n_canonical = len(canonical_meta)
-    n_pending = sum(1 for p in proposals if p["decision"] == "pending")
+    n_pending  = sum(1 for p in proposals if p["decision"] == "pending")
     n_accepted = sum(1 for p in proposals if p["decision"] == "accept")
+    n_rejected = sum(1 for p in proposals if p["decision"] == "reject")
     bridge_count = sum(
-        1 for cm in canonical_meta.values()
-        if any(row_by_id[rid]["source"] == "Top Ten Books" for rid in cm["row_ids"])
-        and any(row_by_id[rid]["source"] == "Guardian Top 100" for rid in cm["row_ids"])
+        1 for cid, cm in canonical_meta.items()
+        if any(row_by_id[rid]["source"] == "Top Ten Books"
+               for rid in cm["row_ids"] if rid in row_by_id)
+        and any(row_by_id[rid]["source"] == "Guardian Top 100"
+                for rid in cm["row_ids"] if rid in row_by_id)
     )
     print(f"Input rows   : {len(rows)}")
-    print(f"Canonical bks: {n_canonical}")
+    print(f"Canonical bks: {len(canonical_meta)}")
     print(f"Cross-source : {bridge_count} canonical books span both sources")
     print(f"Review flags : {len(proposals)} total  "
-          f"({n_pending} pending / {n_accepted} accepted)")
-    reasons = defaultdict(int)
-    for p in proposals:
-        reasons[p["reason"]] += 1
-    for r, c in sorted(reasons.items()):
-        print(f"  {r}: {c}")
+          f"({n_pending} pending / {n_accepted} accepted / {n_rejected} rejected)")
+    by_reason = Counter(p["reason"] for p in proposals)
+    for r, c in sorted(by_reason.items()):
+        d = Counter(p["decision"] for p in proposals if p["reason"] == r)
+        print(f"  {r}: {c}  ({dict(d)})")
 
     # -----------------------------------------------------------------------
-    # 9. Automated verification
+    # 13. Automated verification
     # -----------------------------------------------------------------------
-    if verify:
-        print("\n--- VERIFICATION ---")
-        errors = []
+    if not verify:
+        return
 
-        # Conservation: every row has exactly one canonical_id
-        if len(canonical_map) != len(rows):
-            errors.append(f"FAIL conservation: {len(canonical_map)} mapped vs {len(rows)} rows")
+    print("\n--- VERIFICATION ---")
+    errors = []
+
+    # Conservation: every raw row maps to exactly one canonical_id
+    if len(canonical_map) != len(rows):
+        errors.append(f"FAIL conservation: {len(canonical_map)} mapped vs {len(rows)} rows")
+    else:
+        print("PASS conservation (all rows mapped)")
+
+    # No silent fuzzy: no cluster has multiple title_keys without an OLID or accepted override.
+    # Build set of title_key pairs covered by accepted pair-based proposals (T3/T4).
+    accepted_tk_pairs = set()
+    for prop in proposals:
+        if prop["decision"] == "accept" and prop.get("right_row_id"):
+            lrid, rrid = prop["left_row_id"], prop["right_row_id"]
+            ltk = row_by_id[lrid]["title_key"] if lrid in row_by_id else ""
+            rtk = row_by_id[rrid]["title_key"] if rrid in row_by_id else ""
+            if ltk != rtk:
+                accepted_tk_pairs.add((min(ltk, rtk), max(ltk, rtk)))
+
+    bad = 0
+    for cid, cm in canonical_meta.items():
+        mrows = [row_by_id[rid] for rid in cm["row_ids"] if rid in row_by_id]
+        tkeys = sorted(set(r["title_key"] for r in mrows))
+        olids = set(r["openLibraryId"].strip() for r in mrows if r["openLibraryId"].strip())
+        if len(tkeys) > 1 and not olids:
+            # Check whether every cross-title-key pair has an accepted proposal
+            all_covered = all(
+                (min(a, b), max(a, b)) in accepted_tk_pairs
+                for i, a in enumerate(tkeys)
+                for b in tkeys[i+1:]
+            )
+            if not all_covered:
+                bad += 1
+                if bad <= 3:
+                    errors.append(f"SUSPECT cluster {cid}: title_keys={tkeys}")
+    if bad:
+        errors.append(f"FAIL no-silent-fuzzy: {bad} suspect clusters")
+    else:
+        print("PASS no-silent-fuzzy")
+
+    # Trap regression: Mr. Bridge and Mrs. Bridge must differ
+    mr  = [canonical_map[r["row_id"]] for r in rows if r["book_title"] == "Mr. Bridge"]
+    mrs = [canonical_map[r["row_id"]] for r in rows if r["book_title"] == "Mrs. Bridge"]
+    if mr and mrs and set(mr) & set(mrs):
+        errors.append("FAIL trap: Mr. Bridge and Mrs. Bridge share a canonical_id")
+    elif mr and mrs:
+        print(f"PASS trap: Mr. Bridge ({mr[0]}) != Mrs. Bridge ({mrs[0]})")
+
+    # No phantom omnibus: Rabbit Angstrom and A Rabbit Omnibus must not appear in canonical_books
+    phantoms = [cid for cid, cm in canonical_meta.items()
+                if norm_title(cm["canonical_title"])[0] in ("rabbit angstrom", "rabbit omnibus")]
+    if phantoms:
+        errors.append(f"FAIL phantom omnibus: {phantoms} still in canonical_books")
+    else:
+        print("PASS no phantom omnibus (Rabbit Angstrom / A Rabbit Omnibus gone)")
+
+    # Cross-source bridge
+    if bridge_count == 0:
+        errors.append("FAIL bridge: no canonical books span both sources")
+    else:
+        print(f"PASS bridge: {bridge_count} books span both sources")
+
+    # Translation OLIDs stay single
+    for olid, label in [("OL1230613W", "Camus"), ("OL24156W", "Jekyll"),
+                        ("OL151411W", "Alice"), ("OL15202030W", "Hunchback")]:
+        hits = [cid for cid, cm in canonical_meta.items()
+                if olid in cm["source_olids"].split(";")]
+        if len(hits) != 1:
+            errors.append(f"FAIL translation OLID {olid} ({label}): {len(hits)} clusters")
         else:
-            print("PASS conservation (all 3564 rows mapped)")
+            print(f"PASS translation OLID {olid} ({label})")
 
-        # No silent fuzzy: no cluster contains rows auto-merged by non-T0/T1/T2 path
-        # (We can't retroactively detect which tier merged within union-find, but we can
-        # check that no cluster contains rows that differ on title_key+surname_key AND
-        # have no shared OLID AND no accepted override linking them.)
-        fuzzy_violations = 0
-        for cid, cm in canonical_meta.items():
-            member_rows = [row_by_id[rid] for rid in cm["row_ids"]]
-            title_keys = set(r["title_key"] for r in member_rows)
-            surnames = set(r["surname_key"] for r in member_rows if r["surname_key"])
-            olids = set(r["openLibraryId"].strip() for r in member_rows if r["openLibraryId"].strip())
-            if len(title_keys) > 1 and not olids:
-                # Multiple title keys in one cluster with no OLID — unexpected
-                fuzzy_violations += 1
-                if fuzzy_violations <= 3:
-                    errors.append(f"SUSPECT: cluster {cid} has title_keys {title_keys} with no OLID anchor")
-        if fuzzy_violations:
-            errors.append(f"FAIL no-silent-fuzzy: {fuzzy_violations} suspect clusters")
-        else:
-            print("PASS no-silent-fuzzy (no title-variant clusters without OLID anchor or override)")
+    # Dorian Gray/Grey: should be ONE cluster
+    dorian = [cid for cid, cm in canonical_meta.items()
+              if "dorian" in norm_title(cm["canonical_title"])[0]]
+    if len(dorian) > 1:
+        errors.append(f"FAIL Dorian Gray/Grey still split: {dorian}")
+    elif dorian:
+        print(f"PASS Dorian Gray/Grey merged: {dorian[0]}")
 
-        # Trap regression: Mr. Bridge and Mrs. Bridge must have different canonical_ids
-        mr_ids = [canonical_map[r["row_id"]] for r in rows if r["book_title"] == "Mr. Bridge"]
-        mrs_ids = [canonical_map[r["row_id"]] for r in rows if r["book_title"] == "Mrs. Bridge"]
-        if mr_ids and mrs_ids and set(mr_ids) & set(mrs_ids):
-            errors.append("FAIL trap: Mr. Bridge and Mrs. Bridge share a canonical_id")
-        elif mr_ids and mrs_ids:
-            print(f"PASS trap: Mr. Bridge ({mr_ids[0]}) != Mrs. Bridge ({mrs_ids[0]})")
-        else:
-            print("INFO: Mr/Mrs Bridge not found (titles may have been normalized away)")
-
-        # Cross-source bridge
-        if bridge_count == 0:
-            errors.append("FAIL bridge: no canonical books span both sources — backfill broken")
-        else:
-            print(f"PASS bridge: {bridge_count} canonical books span both sources")
-
-        # 4 translation OLIDs stay single (each maps to exactly one cluster)
-        translation_olids = {
-            "OL1230613W": "Camus Stranger/Outsider",
-            "OL24156W": "Jekyll & Hyde",
-            "OL151411W": "Alice",
-            "OL15202030W": "Hunchback Notre-Dame",
-        }
-        for olid, label in translation_olids.items():
-            matching = [cid for cid, cm in canonical_meta.items()
-                        if olid in cm["source_olids"].split(";")]
-            if len(matching) != 1:
-                errors.append(f"FAIL translation OLID {olid} ({label}): found in {len(matching)} clusters")
-            else:
-                print(f"PASS translation OLID {olid} ({label}): single cluster {matching[0]}")
-
-        if errors:
-            print("\nERRORS:")
-            for e in errors:
-                print(" ", e)
-            sys.exit(1)
-        else:
-            print("\nAll checks passed.")
+    if errors:
+        print("\nERRORS:")
+        for e in errors:
+            print(" ", e)
+        sys.exit(1)
+    else:
+        print("\nAll checks passed.")
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--verify", action="store_true")
-    parser.add_argument("--report", action="store_true")
-    args = parser.parse_args()
-    run(verify=args.verify, report_only=args.report)
+    p = argparse.ArgumentParser()
+    p.add_argument("--verify", action="store_true")
+    args = p.parse_args()
+    run(verify=args.verify)
 
 
 if __name__ == "__main__":

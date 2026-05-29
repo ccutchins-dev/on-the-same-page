@@ -20,7 +20,7 @@ c5eca15689e70c11,Top Ten Books,Caroline Leavitt,8,The Great Gatsby,F. Scott Fitz
 a3f76e622f0039d4,Top Ten Books,Caroline Leavitt,9,The World According to Garp,John Irving,1978,,K:79ce80bb8360,The World According to Garp
 d01fa7ebec2bb8d1,Top Ten Books,Caroline Leavitt,10,Wuthering Heights,Emily Bronte,1847,,OL:OL21170W,Wuthering Heights
 387b9d430794211d,Top Ten Books,David Means,1,The Brothers Karamazov,Fyodor Dostoevsky,1880,,OL:OL10432709W,The Brothers Karamazov
-b3f8096bbeabdf9e,Top Ten Books,David Means,2,Independent People,Halldór Laxness,1934,,K:ab9b9cd974ed,Independent People
+b3f8096bbeabdf9e,Top Ten Books,David Means,2,Independent People,Halldór Laxness,1934,,OL:OL757983W,Independant People
 7bb8c2e5e10d11eb,Top Ten Books,David Means,3,A Sportsman's Notebook,Ivan Turgenev,1852,,K:7caeae871bb0,A Sportsman's Notebook
 023ed1276502c9f0,Top Ten Books,David Means,4,Stories of Anton Chekhov,,1860-1904,,K:6b584d1b9428,Stories of Anton Chekhov
 851ba953e1b11702,Top Ten Books,David Means,5,The Trial,Franz Kafka,1925,,OL:OL498463W,The Trial
@@ -37,7 +37,7 @@ ddf8bf0d571d5b4f,Top Ten Books,G.D. Gearino,4,The Heart Is a Lonely Hunter,Carso
 e82b747381672275,Top Ten Books,G.D. Gearino,6,Hombre,Elmore Leonard,1961,,K:f0a6ce516e75,Hombre
 c5d79ccf2a159b84,Top Ten Books,G.D. Gearino,7,Oryx and Crake,Margaret Atwood,2003,,K:dc15508e1ca2,Oryx and Crake
 65b1ff7c2405ad1b,Top Ten Books,G.D. Gearino,8,Montana 1948,Larry Watson,1993,,K:d27ac1dd1b67,Montana 1948
-f1c91716bf9bb2b7,Top Ten Books,G.D. Gearino,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+f1c91716bf9bb2b7,Top Ten Books,G.D. Gearino,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 77a8b59f6406942c,Top Ten Books,G.D. Gearino,9,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 07e74d29766b2bc4,Top Ten Books,G.D. Gearino,9,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 bec7af1a8a394564,Top Ten Books,G.D. Gearino,9,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -56,7 +56,7 @@ fbd7c1eba601c0d9,Top Ten Books,George Pelecanos,8,Blood Meridian: Or the Evening
 767cb13b02041acc,Top Ten Books,Joyce Carol Oates,1,Crime and Punishment,Fyodor Dostoevsky,1866,,OL:OL166894W,Crime and Punishment
 747cbc868802291b,Top Ten Books,Joyce Carol Oates,2,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
 1c1adce526d2cb68,Top Ten Books,Joyce Carol Oates,3,The Sound and the Fury,William Faulkner,1929,,OL:OL82870W,The Sound and the Fury
-3bd285db1721fb4b,Top Ten Books,Joyce Carol Oates,4,Poems of Emily Dickinson,,1830-86,,K:6baf284ba2c5,The poems of Emily Dickinson
+3bd285db1721fb4b,Top Ten Books,Joyce Carol Oates,4,Poems of Emily Dickinson,,1830-86,,K:6baf284ba2c5,Poems of Emily Dickinson
 b1463de197cb4845,Top Ten Books,Joyce Carol Oates,5,Stories of Franz Kafka,,1883-1924,,K:655dc7057956,Stories of Franz Kafka
 e74d3200af72c968,Top Ten Books,Joyce Carol Oates,6,The Red and the Black,Stendhal,1830,,OL:OL733640W,The Red and the Black
 e448dc4cb833cdb9,Top Ten Books,Joyce Carol Oates,7,The Rainbow,D. H. Lawrence,1915,,OL:OL81293W,The Rainbow
@@ -136,11 +136,11 @@ ac0a1044b8ee3f00,Top Ten Books,Percival Everett,9,Bluebeard,Kurt Vonnegut,1987,,
 3841b0ec9f01523b,Top Ten Books,Percival Everett,10,Nights at the Circus,Angela Carter,1984,,OL:OL697429W,Nights at the Circus
 5da05d7141142dfb,Top Ten Books,Scott Turow,1,A Portrait of the Artist as a Young Man,James Joyce,1916,,OL:OL41225848W,A Portrait of the Artist as a Young Man
 42c4583065f0d6e1,Top Ten Books,Scott Turow,2,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
-f7dc36fc40d74b22,Top Ten Books,Scott Turow,3,Rabbit Angstrom,,,,K:648d96119cba,Rabbit Angstrom
-ea76b0657f468db2,Top Ten Books,Scott Turow,3,"Rabbit, Run",,1960,,K:7e9d771efef0,"Rabbit, Run"
-e75f1505d8ec9137,Top Ten Books,Scott Turow,3,Rabbit Redux,,1971,,K:e52d3ae438d6,Rabbit Redux
-66da6d95c9d77d6a,Top Ten Books,Scott Turow,3,Rabbit Is Rich,,1981,,K:3c7530217d1d,Rabbit Is Rich
-858779ea14c60900,Top Ten Books,Scott Turow,3,Rabbit at Rest,,1990,,K:f409150e2aca,Rabbit at Rest
+f7dc36fc40d74b22,Top Ten Books,Scott Turow,3,Rabbit Angstrom,,,,K:648d96119cba,K:648d96119cba
+ea76b0657f468db2,Top Ten Books,Scott Turow,3,"Rabbit, Run",,1960,,K:7e9d771efef0,K:7e9d771efef0
+e75f1505d8ec9137,Top Ten Books,Scott Turow,3,Rabbit Redux,,1971,,K:e52d3ae438d6,K:e52d3ae438d6
+66da6d95c9d77d6a,Top Ten Books,Scott Turow,3,Rabbit Is Rich,,1981,,K:3c7530217d1d,K:3c7530217d1d
+858779ea14c60900,Top Ten Books,Scott Turow,3,Rabbit at Rest,,1990,,K:f409150e2aca,K:f409150e2aca
 2bbbb2535df1c176,Top Ten Books,Scott Turow,4,Herzog,Saul Bellow,1964,,OL:OL15859552W,Herzog
 68e21dc31d837057,Top Ten Books,Scott Turow,5,Tell Me a Riddle,Tillie Olsen,1961,,K:f4b1dfef3b9c,Tell Me a Riddle
 7aec118b59d41176,Top Ten Books,Scott Turow,6,The Count of Monte Cristo,Alexandre Dumas,1844,,OL:OL43161739W,The Count of Monte Cristo
@@ -184,7 +184,7 @@ f7f51e8377303b28,Top Ten Books,Adam Haslett,2,Paradise Lost,John Milton,1667,,K:
 2ee20d4595797079,Top Ten Books,Adam Haslett,4,"Absalom, Absalom!",William Faulkner,1936,,K:d2d9f9b0f145,"Absalom, Absalom!"
 352e1bdbeff57677,Top Ten Books,Adam Haslett,5,In Search of Lost Time,Marcel Proust,1913-27,,OL:OL1190289W,In Search of Lost Time
 051bbbcdc01171ea,Top Ten Books,Adam Haslett,6,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
-d9ca7f97ccf932c2,Top Ten Books,Adam Haslett,7,Independent People,Halldór Laxness,1934,,K:ab9b9cd974ed,Independent People
+d9ca7f97ccf932c2,Top Ten Books,Adam Haslett,7,Independent People,Halldór Laxness,1934,,OL:OL757983W,Independant People
 ced018a59e16c9c0,Top Ten Books,Adam Haslett,8,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 4b0ebb78dcb5b0a1,Top Ten Books,Adam Haslett,9,Long Day’s Journey into Night,Eugene O’Neill,1956,,K:8ea95c8da16e,Long Day’s Journey into Night
 913f0ecf8e95faa8,Top Ten Books,Adam Haslett,10,The Prelude,William Wordsworth,,,K:efb5a50a426d,The Prelude
@@ -196,9 +196,9 @@ ced018a59e16c9c0,Top Ten Books,Adam Haslett,8,Moby-Dick,Herman Melville,1851,,OL
 45098d9232267f2c,Top Ten Books,Adriana Trigiani,6,Blithe Spirit,Noël Coward,1941,,K:b874087092e5,Blithe Spirit
 c431d12beb24f1f8,Top Ten Books,Adriana Trigiani,7,Death of a Salesman,Arthur Miller,1949,,K:76ef59a89b06,Death of a Salesman
 43d28405eaad6780,Top Ten Books,Adriana Trigiani,8,Pride and Prejudice,Jane Austen,1813,,OL:OL15165350W,Pride and Prejudice
-2bb71385862ded01,Top Ten Books,Adriana Trigiani,9,Sullivan's Travels,Preston Sturges,1941,,K:3bfa59d800c0,Sullivan's Travels
-7c2d36c80145138e,Top Ten Books,Adriana Trigiani,9,The Lady Eve,Preston Sturges,1941,,K:40bee612acba,The Lady Eve
-45646225699b5762,Top Ten Books,Adriana Trigiani,9,The Palm Beach Story,Preston Sturges,1942,,K:30e8803d77f0,The Palm Beach Story
+2bb71385862ded01,Top Ten Books,Adriana Trigiani,9,Sullivan's Travels,Preston Sturges,1941,,K:3bfa59d800c0,K:3bfa59d800c0
+7c2d36c80145138e,Top Ten Books,Adriana Trigiani,9,The Lady Eve,Preston Sturges,1941,,K:40bee612acba,K:40bee612acba
+45646225699b5762,Top Ten Books,Adriana Trigiani,9,The Palm Beach Story,Preston Sturges,1942,,K:30e8803d77f0,K:30e8803d77f0
 b2d248248b08845f,Top Ten Books,Adriana Trigiani,10,When I Grow Too Old to Dream,Oscar Hammerstein,1935,,K:424e6fcde8db,When I Grow Too Old to Dream
 b4957233237fc08d,Top Ten Books,Alan Furst,1,Seven Pillars of Wisdom,T. E. Lawrence,1925,,K:155118d6152f,Seven Pillars of Wisdom
 c7820849bc9eaabf,Top Ten Books,Alan Furst,2,A Dance to the Music of Time,Anthony Powell,1951-75,,OL:OL2074162W,A Dance to the Music of Time
@@ -228,7 +228,7 @@ a97bd9686472dba9,Top Ten Books,Alice Hoffman,4,Pride and Prejudice,Jane Austen,1
 8a404d5b6ef3a014,Top Ten Books,Alice Hoffman,6,The Sound and the Fury,William Faulkner,1929,,OL:OL82870W,The Sound and the Fury
 49e42b958e3cc26d,Top Ten Books,Alice Hoffman,7,One Hundred Years of Solitude,Gabriel García Márquez,1967,,OL:OL274505W,One Hundred Years of Solitude
 a6cc8ea32b65b894,Top Ten Books,Alice Hoffman,8,Stories of Grace Paley,,,,K:910a38647a5c,Stories of Grace Paley
-724747c8746fd086,Top Ten Books,Alice Hoffman,9,Fahrenheit 451,Ray Bradbury,1953,,K:a5ad8b76cc3f,Fahrenheit 451
+724747c8746fd086,Top Ten Books,Alice Hoffman,9,Fahrenheit 451,Ray Bradbury,1953,,OL:OL103123W,Farenheit 451
 2c3e0dc4be914fc4,Top Ten Books,Alice Hoffman,10,Grimm's Fairy Tales,,1812-14,,K:a452f45af6bc,Grimm's Fairy Tales
 2a7018dc0500c4ff,Top Ten Books,Alix Ohlin,1,The Prime of Miss Jean Brodie,Muriel Spark,1961,,OL:OL26437W,The Prime of Miss Jean Brodie
 eac6d507b0d105cc,Top Ten Books,Alix Ohlin,2,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
@@ -487,7 +487,7 @@ cb1dec6d25e4a34d,Top Ten Books,Bret Easton Ellis,4,Lolita,Vladimir Nabokov,1955,
 2199e7bb79d48597,Top Ten Books,Bret Easton Ellis,5,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
 27f58b080a73bfc1,Top Ten Books,Bret Easton Ellis,6,Madame Bovary,Gustave Flaubert,1857,,OL:OL19350876W,Madame Bovary
 e85112c1e44db05c,Top Ten Books,Bret Easton Ellis,7,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
-cba4cbe155e36a74,Top Ten Books,Bret Easton Ellis,8,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+cba4cbe155e36a74,Top Ten Books,Bret Easton Ellis,8,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 606674beab9ea561,Top Ten Books,Bret Easton Ellis,8,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 c41f8c63b606161d,Top Ten Books,Bret Easton Ellis,8,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 54205aae0301b077,Top Ten Books,Bret Easton Ellis,8,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -967,7 +967,7 @@ d389d3460dc90049,Top Ten Books,Jim Crace,9,Beloved,Toni Morrison,1987,,OL:OL5054
 54fd200b5077dea5,Top Ten Books,Jim Harrison,3,Wuthering Heights,Emily Brontë,1847,,OL:OL21170W,Wuthering Heights
 8df6c6cc77c9a132,Top Ten Books,Jim Harrison,4,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
 f4479d25f10a5604,Top Ten Books,Jim Harrison,5,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
-685ba137e4c5722d,Top Ten Books,Jim Harrison,6,Independent People,Halldór Laxness,1934,,K:ab9b9cd974ed,Independent People
+685ba137e4c5722d,Top Ten Books,Jim Harrison,6,Independent People,Halldór Laxness,1934,,OL:OL757983W,Independant People
 96e8441c69dc4465,Top Ten Books,Jim Harrison,7,"Absalom, Absalom!",William Faulkner,1936,,K:d2d9f9b0f145,"Absalom, Absalom!"
 ee59e5008fbf3a97,Top Ten Books,Jim Harrison,8,One Hundred Years of Solitude,Gabriel García Márquez,1967,,OL:OL274505W,One Hundred Years of Solitude
 7bf17d759334e65d,Top Ten Books,Jim Harrison,9,Tropic of Cancer,Henry Miller,1934,,K:1deae2d6a81c,Tropic of Cancer
@@ -993,7 +993,7 @@ fbd3cfbf4b48a7b8,Top Ten Books,Jodi Picoult,6,The Life of Pi,Yann Martel,2001,,K
 0f2d910155f39b82,Top Ten Books,Jodi Picoult,9,Pride and Prejudice,Jane Austen,1813,,OL:OL15165350W,Pride and Prejudice
 51a095f498b20903,Top Ten Books,Jodi Picoult,10,Romeo and Juliet,William Shakespeare,1595,,K:6c48d4f8f588,Romeo and Juliet
 4c4f2e4c91c38a7b,Top Ten Books,John Banville,1,"Ill Seen, Ill Said",Samuel Beckett,1981,,K:186d7e7da316,"Ill Seen, Ill Said"
-601e97e2c3e04989,Top Ten Books,John Banville,2,Notes from Underground,Fyodor Dostoevsky,1864,,K:90f491dd973b,Notes from Underground
+601e97e2c3e04989,Top Ten Books,John Banville,2,Notes from Underground,Fyodor Dostoevsky,1864,,OL:OL21025633W,Notes From the Underground
 bb2bbba3c0aa6718,Top Ten Books,John Banville,3,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
 f9eb992be358b958,Top Ten Books,John Banville,4,Doctor Faustus,Thomas Mann,1947,,K:fed4131b3954,Doctor Faustus
 5b8c7fc08ede7e5f,Top Ten Books,John Banville,5,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
@@ -1017,11 +1017,11 @@ e5383f3359248e04,Top Ten Books,John Irving,9,The Deptford trilogy,Robertson Davi
 33110ababe1575b4,Top Ten Books,Jonathan Franzen,3,The Trial,Franz Kafka,1925,,OL:OL498463W,The Trial
 9de7fdec3126c1aa,Top Ten Books,Jonathan Franzen,4,In Search of Lost Time,Marcel Proust,1913-27,,OL:OL1190289W,In Search of Lost Time
 c1758f675dd5d920,Top Ten Books,Jonathan Franzen,5,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
-b0ad4460a00b087a,Top Ten Books,Jonathan Franzen,6,"Absalom, Abalom!",William Faulkner,1936,,K:1769a9a7c61f,"Absalom, Abalom!"
+b0ad4460a00b087a,Top Ten Books,Jonathan Franzen,6,"Absalom, Abalom!",William Faulkner,1936,,K:d2d9f9b0f145,"Absalom, Absalom!"
 4617509cb7e3e993,Top Ten Books,Jonathan Franzen,7,The Charterhouse of Parma,Stendhal,1839,,K:969799e0bdc1,The Charterhouse of Parma
 8b2c250691990d22,Top Ten Books,Jonathan Franzen,8,Lolita,Vladimir Nabokov,1955,,OL:OL627084W,Lolita
 bc5efa2b4c1ede37,Top Ten Books,Jonathan Franzen,9,The Man Who Loved Children,Christina Stead,1940,,K:c7f77816dbd2,The Man Who Loved Children
-ae50448d46970406,Top Ten Books,Jonathan Franzen,10,Independent People,Halldór Laxness,1934,,K:ab9b9cd974ed,Independent People
+ae50448d46970406,Top Ten Books,Jonathan Franzen,10,Independent People,Halldór Laxness,1934,,OL:OL757983W,Independant People
 aed7b00f9f21e829,Top Ten Books,Jonathan Lethem,1,Great Expectations,Charles Dickens,1860-61,,OL:OL8721462W,Great Expectations
 0034039ba8b53885,Top Ten Books,Jonathan Lethem,2,The Trial,Franz Kafka,1925,,OL:OL498463W,The Trial
 1353129313fcf4c8,Top Ten Books,Jonathan Lethem,3,The Man Who Loved Children,Christina Stead,1940,,K:c7f77816dbd2,The Man Who Loved Children
@@ -1089,7 +1089,7 @@ fea82ceb6ebff8e0,Top Ten Books,Julian Barnes,4,Anna Karenina,Leo Tolstoy,1877,,O
 6aba62b831568e51,Top Ten Books,Julian Barnes,6,The Custom of the Country,Edith Wharton,1913,,OL:OL98585W,The Custom of the Country
 c844f8d5764f8240,Top Ten Books,Julian Barnes,7,The Good Soldier,Ford Madox Ford,1915,,OL:OL509889W,The Good Soldier
 e4f20729bee2cc66,Top Ten Books,Julian Barnes,8,The Leopard,Giuseppe Tomasi di Lampedusa,1958,,OL:OL2386322W,The Leopard
-04e5c1d34aaa017e,Top Ten Books,Julian Barnes,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+04e5c1d34aaa017e,Top Ten Books,Julian Barnes,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 5d906f82f06d13b3,Top Ten Books,Julian Barnes,9,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 66370d003d1ece42,Top Ten Books,Julian Barnes,9,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 ccacb9691fa01969,Top Ten Books,Julian Barnes,9,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1098,7 +1098,7 @@ ee48dcc8b5433595,Top Ten Books,Julian Barnes,9,Rabbit at Rest,John Updike,1990,,
 90dfc1fb8522d474,Top Ten Books,Karen Joy Fowler,1,Middlemarch,George Eliot,1871-72,,OL:OL20867W,Middlemarch
 acb0b2bc6a0c189b,Top Ten Books,Karen Joy Fowler,2,The Tempest,William Shakespeare,1610,,K:ef6aa2e15e06,The Tempest
 fe59eb807225ceb4,Top Ten Books,Karen Joy Fowler,3,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
-5c019ad6b8d92660,Top Ten Books,Karen Joy Fowler,4,The Tale of Genji,Shikibu Murasaki,,,K:7ccdaf0c7636,The Tale of Genji
+5c019ad6b8d92660,Top Ten Books,Karen Joy Fowler,4,The Tale of Genji,Shikibu Murasaki,,,OL:OL2564006W,The Tale of Genji
 bf6a735b3a7c620b,Top Ten Books,Karen Joy Fowler,5,A Midsummer Night’s Dream,William Shakespeare,1595,,K:58e8ae773c4c,A Midsummer Night’s Dream
 8d34ed16cdd00907,Top Ten Books,Karen Joy Fowler,6,Emma,Jane Austen,1816,,OL:OL190034W,Emma
 104287f1add9ab90,Top Ten Books,Karen Joy Fowler,7,Jane Eyre,Charlotte Brontë,1847,,OL:OL1095427W,Jane Eyre
@@ -1121,7 +1121,7 @@ d5eee29e13e13f1a,Top Ten Books,Ken Kalfus,3,War and Peace,Leo Tolstoy,1869,,OL:O
 6752c7281f699858,Top Ten Books,Ken Kalfus,4,Ulysses,James Joyce,1922,,OL:OL86318W,Ulysses
 c9bcf7df3ee5318e,Top Ten Books,Ken Kalfus,5,The Magic Mountain,Thomas Mann,1924,,OL:OL14866824W,The Magic Mountain
 efd4b33a266245f3,Top Ten Books,Ken Kalfus,6,Ficciones,Jorge Luis Borges,1944,,K:969b47058d9c,Ficciones
-2a6996bd0bd58d8c,Top Ten Books,Ken Kalfus,7,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+2a6996bd0bd58d8c,Top Ten Books,Ken Kalfus,7,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 a880b90dbd51cc51,Top Ten Books,Ken Kalfus,7,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 4db4fba58a1b1522,Top Ten Books,Ken Kalfus,7,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 00aba2d0d1d11f9d,Top Ten Books,Ken Kalfus,7,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1173,7 +1173,7 @@ a2f2310c4155dcdc,Top Ten Books,Lee K. Abbott,1,Heart of Darkness,Joseph Conrad,1
 a85cc60222474b59,Top Ten Books,Lee K. Abbott,3,Nine Stories,J. D. Salinger,1953,,K:751bbe356d28,Nine Stories
 8e6acdfd648c61c9,Top Ten Books,Lee K. Abbott,4,"So Long, See You Tomorrow",William Maxwell,1979,,OL:OL1503886W,"So Long, See You Tomorrow"
 4255665040eee040,Top Ten Books,Lee K. Abbott,5,The Ponder Heart,Eudora Welty,1954,,K:67787770c51b,The Ponder Heart
-578285f6ef521943,Top Ten Books,Lee K. Abbott,6,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+578285f6ef521943,Top Ten Books,Lee K. Abbott,6,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 631b312487438ed8,Top Ten Books,Lee K. Abbott,6,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 b2e8da2d8358362d,Top Ten Books,Lee K. Abbott,6,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 b78f1f0ae5d1df00,Top Ten Books,Lee K. Abbott,6,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1509,7 +1509,7 @@ d9458ebed1e9b387,Top Ten Books,Robert Coover,1,The Epic of Gilgamesh,,,,K:e0e175
 19c297e7f42392b4,Top Ten Books,Robert Coover,2,Metamorphoses,,,,K:b33847395a41,Metamorphoses
 05f2ff758c2631a1,Top Ten Books,Robert Coover,3,The Celestina,,1499,,K:ddf7db56b887,The Celestina
 060dd4d0b7e4fdcf,Top Ten Books,Robert Coover,4,Don Quijote,,,,K:28a2e6155f0c,Don Quijote
-86a2646d7576ea96,Top Ten Books,Robert Coover,5,The Collected Shakespeare,,,,K:cc2184405545,The Collected Shakespeare
+86a2646d7576ea96,Top Ten Books,Robert Coover,5,The Collected Shakespeare,,,,K:cc2184405545,K:cc2184405545
 5e1215efef38f848,Top Ten Books,Robert Coover,5,The Tempest,,1610,,K:dd5a8c858d90,The Tempest
 7050571b2e425bff,Top Ten Books,Robert Coover,5,King Lear,,1605,,K:bf220e2eba48,King Lear
 e2c0afa5c3a62baa,Top Ten Books,Robert Coover,5,A Midsummer Night's Dream,,1595,,K:a31ed17f6b68,A Midsummer Night's Dream
@@ -1526,7 +1526,7 @@ be4db9502310c1a7,Top Ten Books,Robert Goolrick,4,Appointment in Samarra,John O�
 1b86249683cef44c,Top Ten Books,Robert Goolrick,6,The Heart of the Matter,Graham Greene,1948,,K:aa9d8baf7d95,The Heart of the Matter
 793dd0d07729b600,Top Ten Books,Robert Goolrick,7,To Kill a Mockingbird,Harper Lee,1960,,OL:OL3140822W,To Kill a Mockingbird
 63b6d0c9a9693926,Top Ten Books,Robert Goolrick,8,The Once and Future King,T.H. White,1958,,K:096e7d480771,The Once and Future King
-0b079699c2dcae53,Top Ten Books,Robert Goolrick,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+0b079699c2dcae53,Top Ten Books,Robert Goolrick,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 8d81b0dea0ddd888,Top Ten Books,Robert Goolrick,9,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 bbe3e9edeb41481d,Top Ten Books,Robert Goolrick,9,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 a04e05d2e6fd9802,Top Ten Books,Robert Goolrick,9,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1579,7 +1579,7 @@ f0fc44ec5ce14fa7,Top Ten Books,Ron Rash,8,Stories of Flannery O’Connor,,1925-6
 03b198da8cfb4686,Top Ten Books,Roxana Robinson,5,A Room with a View,E. M. Forster,1908,,K:ac5b6d062e10,A Room with a View
 046f6b16dc8f2815,Top Ten Books,Roxana Robinson,6,The Raj Quartet,Paul Scott,1966-75,,K:5ea8a38b90a2,The Raj Quartet
 50c461010ec16099,Top Ten Books,Roxana Robinson,7,The Leopard,Giuseppe Tomasi di Lampedusa,1958,,OL:OL2386322W,The Leopard
-c9737fe61b48dd82,Top Ten Books,Roxana Robinson,8,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+c9737fe61b48dd82,Top Ten Books,Roxana Robinson,8,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 73dc459f4655440b,Top Ten Books,Roxana Robinson,8,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 e012fead349147ce,Top Ten Books,Roxana Robinson,8,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 a6ce318076fcb22e,Top Ten Books,Roxana Robinson,8,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1625,7 +1625,7 @@ f04dfddc5e7fd57f,Top Ten Books,Scott Spencer,5,King Lear,William Shakespeare,160
 1af5ffa1981e83c3,Top Ten Books,Scott Spencer,7,Song of Solomon,Toni Morrison,1977,,OL:OL50564W,Song of Solomon
 3d4cc9e01c9b6f90,Top Ten Books,Scott Spencer,8,"Enemies, A Love Story",Isaac Bashevis Singer,1972,,K:c683eff1be4e,"Enemies, A Love Story"
 d082bcc938da57c8,Top Ten Books,Scott Spencer,9,Anna Karenina,Leo Tolstoy,1877,,OL:OL267096W,Anna Karenina
-65b00acd5723aad8,Top Ten Books,Scott Spencer,10,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+65b00acd5723aad8,Top Ten Books,Scott Spencer,10,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 8c001a4d1dfb63d2,Top Ten Books,Scott Spencer,10,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 79d543cf9cd66ea3,Top Ten Books,Scott Spencer,10,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 75b07819fb94001a,Top Ten Books,Scott Spencer,10,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1645,7 +1645,7 @@ c450bd159efeacb9,Top Ten Books,Sheila Heti,4,Those Who Leave and Those Who Stay,
 0b6399bc1ca2d0d3,Top Ten Books,Sheila Heti,10,The I Ching (Book of Changes),,,,K:045ff572e567,The I Ching (Book of Changes)
 36ac9292b7a9466c,Top Ten Books,Sherman Alexie,1,Invisible Man,Ralph Ellison,1952,,OL:OL495470W,Invisible Man
 a7a4af76d1a8d80b,Top Ten Books,Sherman Alexie,2,Howl,Allen Ginsberg,1956,,K:dd91428bf960,Howl
-cd69c4ba006736ca,Top Ten Books,Sherman Alexie,3,The poems of Emily Dickinson,,1830-86,,K:6baf284ba2c5,The poems of Emily Dickinson
+cd69c4ba006736ca,Top Ten Books,Sherman Alexie,3,The poems of Emily Dickinson,,1830-86,,K:6baf284ba2c5,Poems of Emily Dickinson
 56833b78e987fa18,Top Ten Books,Sherman Alexie,4,The Things They Carried,Tim O'Brien,1990,,K:936c038de83f,The Things They Carried
 a65a6698b71e785f,Top Ten Books,Sherman Alexie,5,Don Quixote,Miguel de Cervantes,,,OL:OL44222301W,Don Quixote
 7711bd6ce01450b3,Top Ten Books,Sherman Alexie,6,Ceremony,Leslie Marmon Silko,1977,,OL:OL7972956W,Ceremony
@@ -1742,7 +1742,7 @@ dda37dfec17d44ff,Top Ten Books,Thomas Mallon,5,Jude the Obscure,Thomas Hardy,189
 fdf3a0785ebf3f85,Top Ten Books,Thomas Mallon,7,The Golden Bowl,Henry James,1904,,OL:OL26099415W,The Golden Bowl
 b956ef42fbdc3ea4,Top Ten Books,Thomas Mallon,8,Jacob's Room,Virginia Woolf,1922,,OL:OL39329W,Jacob's Room
 8c0dbe38526c7b8a,Top Ten Books,Thomas Mallon,9,Eugénie Grandet,Honoré de Balzac,1833,,K:c04a7bb2098d,Eugénie Grandet
-9790d19da7699e1a,Top Ten Books,Thomas Mallon,10,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+9790d19da7699e1a,Top Ten Books,Thomas Mallon,10,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 584f36b8b6f2c395,Top Ten Books,Thomas Mallon,10,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 b29463cb2f114570,Top Ten Books,Thomas Mallon,10,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 f74f7f6b5d6a4fcb,Top Ten Books,Thomas Mallon,10,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -1760,7 +1760,7 @@ b23e800e5fbcc4e5,Top Ten Books,Tom Bissell,10,Snowblind: A Brief Career in the C
 a7fd8c5be19de21f,Top Ten Books,Tom LeClair,1,Gravity's Rainbow,Thomas Pynchon,1973,,OL:OL2636675W,Gravity's Rainbow
 36f1e2b0321b1e03,Top Ten Books,Tom LeClair,2,"Absalom, Absalom!",William Faulkner,1936,,K:d2d9f9b0f145,"Absalom, Absalom!"
 619b57e7b7757538,Top Ten Books,Tom LeClair,3,Moby-Dick,Herman Melville,1851,,OL:OL102749W,Moby-Dick
-4c09dd3ac6f67618,Top Ten Books,Tom LeClair,4,Ulysses,James Joyc,1922,,K:0729d1e9cf3e,Ulysses
+4c09dd3ac6f67618,Top Ten Books,Tom LeClair,4,Ulysses,James Joyc,1922,,OL:OL86318W,Ulysses
 c7627d2ff0c39171,Top Ten Books,Tom LeClair,5,Endgame,Samuel Beckett,1957,,K:2953c272b0db,Endgame
 0a650a3a7dc62ee1,Top Ten Books,Tom LeClair,6,Wise Blood,Flannery O'Connor,1952,,OL:OL19667678W,Wise Blood
 72fa7e4d5c9b1469,Top Ten Books,Tom LeClair,7,Paradise,Toni Morrison,1997,,K:ff6d975a1944,Paradise
@@ -1775,7 +1775,7 @@ d76e5273ab30a098,Top Ten Books,Tom Perrotta,3,Père Goriot,Honoré de Balzac,183
 390c633b124a05ff,Top Ten Books,Tom Perrotta,6,My Ántonia,Willa Cather,1918,,OL:OL12791W,My Ántonia
 24a85296531bcadc,Top Ten Books,Tom Perrotta,7,Sister Carrie,Theodore Dreiser,1900,,K:132c540db579,Sister Carrie
 820834e216daf0c8,Top Ten Books,Tom Perrotta,8,The Great Gatsby,F. Scott Fitzgerald,1925,,OL:OL34381078W,The Great Gatsby
-6803631b007c5ffe,Top Ten Books,Tom Perrotta,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,Rabbit Angstrom
+6803631b007c5ffe,Top Ten Books,Tom Perrotta,9,Rabbit Angstrom,John Updike,,,K:b9e39aa2c2ee,K:b9e39aa2c2ee
 e95fa967131ac9dc,Top Ten Books,Tom Perrotta,9,"Rabbit, Run",John Updike,1960,,OL:OL42718662W,"Rabbit, Run"
 4471ea34e2ca417e,Top Ten Books,Tom Perrotta,9,Rabbit Redux,John Updike,1971,,K:5fcc86b529ea,Rabbit Redux
 50c66402acdf325b,Top Ten Books,Tom Perrotta,9,Rabbit Is Rich,John Updike,1981,,OL:OL463820W,Rabbit Is Rich
@@ -2307,7 +2307,7 @@ cdceb17e570279be,Guardian Top 100,Andrew Solomon,10,Sense and Sensibility,Jane A
 656d9545d6d066d5,Guardian Top 100,Mazen Maarouf,2,Promise at Dawn,Romain Gary,,OL28192620W,OL:OL28192620W,Promise at Dawn
 9a042045e7bbc0e8,Guardian Top 100,Mazen Maarouf,3,In Diamond Square,Mercè Rodoreda,,OL23105227W,OL:OL23105227W,In Diamond Square
 6f24c46746639980,Guardian Top 100,Mazen Maarouf,4,Don Quixote,Miguel de Cervantes,1605/15,OL503666W,OL:OL44222301W,Don Quixote
-5e4fc873ef40e24b,Guardian Top 100,Mazen Maarouf,5,One Thousand and One Nights,Scheherazade,,OL8061279W,OL:OL8061279W,One Thousand and One Nights
+5e4fc873ef40e24b,Guardian Top 100,Mazen Maarouf,5,One Thousand and One Nights,Scheherazade,,OL8061279W,OL:OL24598751W,One Thousand and One Nights
 b2662906d76f616f,Guardian Top 100,Mazen Maarouf,6,Things Fall Apart,Chinua Achebe,1958,OL891786W,OL:OL891786W,Things Fall Apart
 4896f7d528776de1,Guardian Top 100,Mazen Maarouf,7,June Rain,Jabbour Douaihy,,OL25437676W,OL:OL25437676W,June Rain
 c6a1d16d76044f47,Guardian Top 100,Mazen Maarouf,8,Chronicle of a Death Foretold,Gabriel García Márquez,,OL26201952W,OL:OL26201952W,Chronicle of a Death Foretold
@@ -3009,7 +3009,7 @@ e137be83d0b8fd21,Guardian Top 100,Alex Needham,3,Hurricane Season,Fernanda Melch
 5e9c88cec8a04e24,Guardian Top 100,Alex Needham,4,The Line of Beauty,Alan Hollinghurst,2004,OL1993508W,OL:OL1993508W,The Line of Beauty
 950b9f58aa9123b3,Guardian Top 100,Alex Needham,5,Middlemarch,George Eliot,1871,OL25411286W,OL:OL20867W,Middlemarch
 73cbf870d6275830,Guardian Top 100,Alex Needham,6,Mansfield Park,Jane Austen,1814,OL66530W,OL:OL66530W,Mansfield Park
-7601e05acea5a371,Guardian Top 100,Alex Needham,7,A Rabbit Omnibus,John Updike,,OL43317320W,OL:OL43317320W,A Rabbit Omnibus
+7601e05acea5a371,Guardian Top 100,Alex Needham,7,A Rabbit Omnibus,John Updike,,OL43317320W,OL:OL43317320W,OL:OL43317320W
 4a63361f24674d6f,Guardian Top 100,Alex Needham,8,Austerlitz,WG Sebald,2001,OL46615W,OL:OL46615W,Austerlitz
 ace08dabfdde2e3c,Guardian Top 100,Alex Needham,9,The Golden Notebook,Doris Lessing,1962,OL31259W,OL:OL31259W,The Golden Notebook
 e9812545184de08b,Guardian Top 100,Alex Needham,10,Senseless,Paul Golding,,OL5869550W,OL:OL5869550W,Senseless
