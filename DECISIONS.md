@@ -140,3 +140,55 @@ the prior one.
 - **Decision**: Round affinity to 6 decimal places before comparing in the sort key, in both `phase2_model.py` and `site/main.js`. Verified: 50-result parity check (same input in Python and Node.js) passes with exact order match.
 - **Alternatives considered**: Accept float divergence (could silently flip near-ties). No visible ordering change from the rounding in any existing verify case.
 - **Trigger**: Phase 3 plan review; user requirement to match exactly.
+
+## 2026-05-29 — Phase 1 cleanup: T7/T8 proposal tiers and author_corrections
+
+- **Context**: The site surfaced a Moby-Dick duplicate (blank-author cluster separate from the
+  Melville cluster). Phase 1's conservative design never merged blank-author rows with authored
+  rows — correct for genuinely author-less works (Bible, Mahabharata) but wrong for books where
+  the blank author is just a missing attribution.
+- **Decision**: Added three new proposal tiers to `phase1_canonicalize.py` (proposal-only, never
+  auto-merge): T7 (blank↔authored, identical title_key), T7b (blank↔authored, fuzzy ≥0.85), T8
+  (authored↔authored title variant — prefix/containment/punctuation, same surname). Applied 24
+  accepted merges; 1,229 → 1,209 canonical books.
+- **Alternatives considered**: Only patching the Moby-Dick case (too narrow); auto-merging all
+  T7 pairs (unsafe — the Bible/Mahabharata cases require human review to distinguish genuine
+  author-less works from attribution errors).
+- **Rationale**: The original Phase 1 was deliberately conservative; this cleanup uses the same
+  proposal-and-review mechanism to extend coverage without breaking the audit trail.
+- **Trigger**: Site review surfaced the Moby-Dick split; user requested broad hunt.
+
+## 2026-05-29 — T8 is PROPOSAL-ONLY permanently (never auto-merge)
+
+- **Context**: Title containment ("Tristram Shandy" ⊂ "Life and Opinions of Tristram Shandy,
+  Gentleman") correctly identifies title variants, but also catches trap pairs (Molloy ⊂ Molloy
+  Malone Dies and the Unnamable). Auto-merging would silently combine a volume with an omnibus.
+- **Decision**: T8 generates proposals every run but never fires the union-find without an
+  accepted merge_decisions.csv entry. This is enforced by code structure, not just convention.
+- **Trigger**: Phase 1 cleanup plan review.
+
+## 2026-05-29 — U.S.A. trilogy: series-level merge (volumes absent from data)
+
+- **Context**: "The U.S.A. trilogy" and "U.s.a." (Dos Passos) are the same series-level entry
+  listed two ways. The three constituent volumes (The 42nd Parallel, 1919, The Big Money) do not
+  appear separately anywhere in the data.
+- **Decision**: Merge as one canonical, not via series-explode. Contrast with Rabbit Angstrom:
+  there, all four volumes were present separately, so the omnibus exploded to the volumes.
+  Here, there is nothing to explode to, so the series-level entry is the correct canonical.
+- **Rationale**: Consistent with the series-explode rule — explode only when constituent volumes
+  exist in the data. When they don't, the omnibus/series entry is kept as-is.
+- **Trigger**: Phase 1 cleanup; identified during T8 scan.
+
+## 2026-05-29 — The Bible / Homer misattribution: source-error correction
+
+- **Context**: One voter listed "The Bible" with "Homer" as author — a clear data entry error.
+  The T7 merge would absorb this voter into The Bible canonical but the Counter logic picks
+  "Homer" as canonical_author because it is the only non-blank surname in the merged cluster.
+- **Decision**: Use a new `author_corrections` field in `overrides/registries.json` to explicitly
+  clear the canonical_author for the merged Bible cluster (K:450eb07e587b → ""). This is a
+  source-error correction, not a title variant or blank-author recovery — it removes an incorrect
+  attribution rather than supplying a missing one.
+- **Alternatives considered**: Reject the T7 merge and leave the Homer voter stranded (loses 1
+  voter from The Bible count); add Homer to author_aliases (would corrupt The Iliad/Odyssey).
+- **Trigger**: Phase 1 cleanup; discovered when the Homer attribution won the canonical_author
+  slot after the T7 merge.

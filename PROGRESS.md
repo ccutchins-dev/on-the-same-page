@@ -34,6 +34,12 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 1 cleanup complete (duplicate canonical merge)
+
+- **Commit**: fbf37cb on feature/phase1-cleanup (to be merged to main)
+- **Branch**: feature/phase1-cleanup
+- **Notes**: Added T7/T7b (blank↔authored same or near title) and T8 (title variant) proposal tiers to phase1_canonicalize.py. After sign-off: 24 merges applied, canonical count 1,229 → 1,209. Key fixes: Moby-Dick (41→42), Ulysses (57→58), Tristram Shandy 3-way (→28), Clarissa 3-way (→4), Huckleberry Finn (28+3→30), Don Quixote/Quijote (24→25), Bible/Homer source-error correction. All 10 phase1 --verify checks pass; all 5 phase2 --verify cases pass; Mr./Mrs. Bridge still distinct. model_data.json re-exported (205.5 KB, 1,209 books).
+
 ## 2026-05-29 — Phase 3 complete (website)
 
 - **Commit**: (to be merged to main from feature/phase3-site)
