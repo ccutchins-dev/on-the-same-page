@@ -906,6 +906,237 @@ def print_embedding_panel(d, input_rarity, loo_trials, n_zero_vec,
             print(f"  {K:>2}  {n_total_k:>7}  {zero_pct:>8.1f}%  (no trials)")
 
 
+# ── PPMI-direct harness ───────────────────────────────────────────────────────
+
+def _ppmi_row_zero(ppmi_csr, row_idx):
+    """True if row row_idx is all-zero in the sparse matrix."""
+    row = ppmi_csr.getrow(row_idx)
+    return row.nnz == 0
+
+
+def cooc_loo_all(base_model, alpha, gamma):
+    """
+    Co-occurrence LOO with ALL books in denominator (unrecommendable = rank None),
+    matching the embedding/PPMI-direct harness denominator for fair comparison.
+    """
+    from evaluate import _EvalModel
+    voter_books    = base_model.voter_books
+    book_info      = base_model.book_info
+    btv            = build_book_to_voters(voter_books)
+    loo_models     = {v: _EvalModel(base_model, v) for v in voter_books}
+    N              = base_model.n_voters
+    trials         = []
+
+    for voter, books in voter_books.items():
+        loo = loo_models[voter]
+        bl  = list(books)
+        for h in bl:
+            inp  = frozenset(b for b in bl if b != h)
+            n_h  = book_info.get(h, {}).get("n_voters", 1)
+            if is_recommendable(btv, voter_books, voter, inp, h):
+                ranked, _ = recommend(loo, list(inp),
+                                       cooc_input_exp=alpha, cooc_output_exp=gamma,
+                                       top_books=TOP_BOOKS)
+                r = rank_of(ranked, h)
+                trials.append({"recommendable": True, "rank": r, "n_voters": n_h})
+            else:
+                trials.append({"recommendable": True, "rank": None, "n_voters": n_h})
+    return trials
+
+
+def run_ppmi_direct_validation(voter_books, book_info, book_list, book_idx,
+                                 fold_ppmi, shift_k):
+    """Four PPMI-direct validation checks."""
+    import numpy as np
+    from embeddings import rank_ppmi_direct, build_cooc, compute_ppmi
+
+    N = len(voter_books)
+    print("\n──── PPMI-Direct Harness Validation ────────────────────────────────────")
+
+    # 1. Random baseline — rank candidates by random scores (ignores PPMI signal)
+    print("\n1. Random baseline (random scores, real PPMI matrix):")
+    voters_list = list(voter_books.keys())
+    sample_v    = voters_list[:min(200, len(voters_list))]
+    rng         = random.Random(42)
+    rand_hits   = rand_total = 0
+    for voter in sample_v:
+        bl = list(voter_books[voter])
+        if len(bl) < 2:
+            continue
+        h   = bl[0]
+        inp = frozenset(b for b in bl if b != h)
+        # Rank by random score, not PPMI
+        candidates = [b for b in book_list if b not in inp and b != h]
+        rng.shuffle(candidates)
+        r = rank_of(candidates, h)
+        rand_hits  += 1 if (r is not None and r <= 10) else 0
+        rand_total += 1
+    rand_r10 = rand_hits / rand_total if rand_total else 0.0
+    ok = "✓" if rand_r10 < 0.05 else "⚠"
+    print(f"   Random R@10: {100*rand_r10:.2f}%  (expected ~0.83%)  {ok}")
+
+    # 2. Sanity check — top-5 for Middlemarch, confirm literary classics not just popular books
+    print("\n2. Sanity check — PPMI top-5 for Middlemarch:")
+    middlemarch = "OL:OL20867W"
+    if middlemarch in book_idx:
+        mm_voter = next(iter(voter_books))   # use any fold
+        ppmi_fold = fold_ppmi[mm_voter]
+        ranked = rank_ppmi_direct(ppmi_fold, book_list, book_idx,
+                                   [middlemarch], book_info, N=N, top_n=5)
+        # Also compute score for a very popular book to show PPMI suppression
+        ulysses = "OL:OL86318W"  # n=57
+        anna_k  = "OL:OL267096W"  # n=60
+        mm_idx  = book_idx[middlemarch]
+        ul_idx  = book_idx.get(ulysses)
+        ak_idx  = book_idx.get(anna_k)
+        print(f"   Top-5 recommendations:")
+        for i, cid in enumerate(ranked, 1):
+            t = book_info.get(cid, {}).get("title", cid)
+            n = book_info.get(cid, {}).get("n_voters", "?")
+            row = ppmi_fold.getrow(mm_idx).tocoo()
+            score = 0.0
+            for j_col, val in zip(row.col, row.data):
+                if book_list[j_col] == cid:
+                    score = val
+                    break
+            print(f"     {i}. {t[:40]:40}  n={n:>3}  PPMI={score:.4f}")
+        if ul_idx is not None:
+            ul_ppmi = ppmi_fold[mm_idx, ul_idx]
+            print(f"   Ulysses PPMI(Middlemarch,Ulysses)     = {ul_ppmi:.4f}")
+        if ak_idx is not None:
+            ak_ppmi = ppmi_fold[mm_idx, ak_idx]
+            print(f"   Anna Karenina PPMI(Middlemarch,AnnaK) = {ak_ppmi:.4f}")
+    else:
+        print("   Middlemarch not in book_idx — skip.")
+
+    # 3. Shift-k effect — compare nnz at k=0 vs k=1 on one fold
+    print(f"\n3. Shift-k effect (nnz at k=0 vs k=1 in one fold):")
+    sample_voter = list(voter_books.keys())[0]
+    cooc_sample = build_cooc(voter_books, book_list, exclude_voter=sample_voter)
+    ppmi_k0 = compute_ppmi(cooc_sample, shift_k=0.0)
+    ppmi_k1 = compute_ppmi(cooc_sample, shift_k=1.0)
+    print(f"   k=0: {ppmi_k0.nnz} non-zero entries")
+    print(f"   k=1: {ppmi_k1.nnz} non-zero entries  "
+          f"({100*(ppmi_k0.nnz-ppmi_k1.nnz)/max(ppmi_k0.nnz,1):.1f}% suppressed)")
+
+    # 4. Zero-row rate — should ≈ embedding harness 21.9%
+    print(f"\n4. Zero-row rate check (expect ≈21.9%, same as embedding harness):")
+    n_zero = n_total = 0
+    for voter, books in list(voter_books.items())[:30]:   # sample 30 voters for speed
+        ppm = fold_ppmi[voter]
+        bl  = list(books)
+        for h in bl:
+            n_total += 1
+            hi = book_idx.get(h)
+            if hi is None or _ppmi_row_zero(ppm, hi):
+                n_zero += 1
+    est_pct = 100 * n_zero / n_total if n_total else 0.0
+    ok = "✓" if abs(est_pct - 21.9) < 5 else "⚠"
+    print(f"   Estimated zero-row rate (30-voter sample): {est_pct:.1f}%  {ok}")
+
+
+def run_ppmi_direct_loo(voter_books, book_info, book_list, book_idx, fold_ppmi,
+                         input_rarity, N):
+    """Protocol A for PPMI-direct scorer: leave-one-out with per-fold PPMI rebuild."""
+    from embeddings import rank_ppmi_direct
+
+    trials  = []
+    n_zero  = 0
+
+    for voter, books in voter_books.items():
+        ppmi_fold = fold_ppmi[voter]
+        bl        = list(books)
+        for h in bl:
+            input_ids = [b for b in bl if b != h]
+            n_h       = book_info.get(h, {}).get("n_voters", 1)
+            h_idx     = book_idx.get(h)
+
+            # Zero-row check: book has no PPMI associations after voter excluded
+            if h_idx is None or _ppmi_row_zero(ppmi_fold, h_idx):
+                n_zero += 1
+                trials.append({"recommendable": True, "rank": None,
+                                "n_voters": n_h})
+                continue
+
+            ranked = rank_ppmi_direct(ppmi_fold, book_list, book_idx,
+                                       input_ids, book_info,
+                                       input_rarity_weight=input_rarity,
+                                       N=N, top_n=TOP_BOOKS)
+            r = rank_of(ranked, h)
+            trials.append({"recommendable": True, "rank": r, "n_voters": n_h})
+
+    return trials, n_zero
+
+
+def print_ppmi_direct_panel(shift_k, input_rarity, loo_trials, n_zero,
+                             cooc_trials, N, book_info):
+    """Print the PPMI-direct evaluation panel with co-occurrence reference row."""
+    n_total = len(loo_trials)
+    m_loo   = compute_metrics(loo_trials, N)
+    m_cooc  = compute_metrics(cooc_trials, N)
+
+    print(f"\n{'='*72}")
+    print(f"  PPMI-Direct Evaluation  |  k={shift_k}  α={input_rarity}")
+    print(f"  342 voters  |  1209 books  |  3525 trials in denominator")
+    print(f"  Zero-row in LOO: {n_zero}/{n_total} ({100*n_zero/n_total:.1f}%)"
+          f"  ← singletons of test voter")
+    print(f"  Note: k=0 includes every single-count accidental association —"
+          f" this is the floor, not the ceiling.")
+    print(f"{'='*72}")
+
+    bins_ordered = ["n=1", "n=2-5", "n=6-20", "n=21+"]
+
+    def print_metrics(m, label, trials):
+        strat = m.get("strat", {})
+        print(f"\n{label}")
+        if m["recall_10"] is None:
+            print("  (no trials)")
+            return
+        row = f"  {'Recall@10 [LEADING]:':33}  {100*m['recall_10']:>7.1f}%"
+        for b in bins_ordered:
+            row += f" {100*strat[b][0]:5.1f}%" if b in strat else "      --"
+        print(row)
+        row25 = f"  {'Recall@25:':33}  {100*m['recall_25']:>7.1f}%"
+        for b in bins_ordered:
+            bt = [t for t in trials if t["recommendable"]
+                  and popularity_bin(t["n_voters"]) == b]
+            if bt:
+                h25 = sum(1 for t in bt if t["rank"] is not None and t["rank"] <= 25)
+                row25 += f" {100*h25/len(bt):5.1f}%"
+            else:
+                row25 += "      --"
+        print(row25)
+        print(f"  {'RW-Recall@10 [PRIMARY TARGET]:':33}  {100*m['rw_recall_10']:>7.1f}%")
+        print(f"  {'RW-Recall@25:':33}  {100*m['rw_recall_25']:>7.1f}%")
+        print(f"  {'MRR:':33}  {m['mrr']:>8.4f}")
+        print(f"\n  Popularity-stratified Recall@10:")
+        for b in bins_ordered:
+            if b in strat:
+                r, cnt = strat[b]
+                print(f"    {b:>8}: {100*r:5.1f}%  ({cnt} trials)")
+            else:
+                print(f"    {b:>8}: --  (no trials)")
+
+    print_metrics(m_loo, "──── Protocol A: Leave-One-Out ─────────────────────────────────────", loo_trials)
+    print_metrics(m_cooc,
+                  "\n──── Co-occurrence reference (α=1.0, γ=1.0 — current production config,"
+                  " NOT harness-optimized) ────",
+                  cooc_trials)
+    print(f"  Note: α=1.0/γ=1.0 was eyeballed, never optimized on this harness."
+          f" Comparison is PPMI-direct vs an unoptimized co-occurrence config.")
+
+    rw_ppmi = m_loo["rw_recall_10"] or 0.0
+    rw_cooc = m_cooc["rw_recall_10"] or 0.0
+    diff    = rw_ppmi - rw_cooc
+    direction = "BEATS" if diff > 0 else "BELOW"
+    print(f"\n{'='*60}")
+    print(f"  HEADLINE: PPMI-direct (k={shift_k}/α={input_rarity})"
+          f" RW-recall@10 = {100*rw_ppmi:.1f}%")
+    print(f"            Co-occurrence (unoptimized) RW-recall@10 = {100*rw_cooc:.1f}%")
+    print(f"            → PPMI-direct {direction} co-occurrence by {abs(diff)*100:.1f}pp")
+    print(f"{'='*60}")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -925,6 +1156,11 @@ def main():
                         help="SVD dimensionality (default: 30)")
     parser.add_argument("--input-rarity",  type=float, default=0.0,
                         help="Input rarity weighting for query centroid (default: 0.0 = plain centroid)")
+    # PPMI-direct flags
+    parser.add_argument("--ppmi",          action="store_true",
+                        help="Run PPMI-direct scorer evaluation")
+    parser.add_argument("--shift-k",       type=float, default=0.0,
+                        help="Shifted PPMI constant k (default: 0.0 = standard PPMI)")
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -991,6 +1227,44 @@ def main():
 
         print_embedding_panel(d, input_rarity, loo_trials, n_zero_vec,
                                curve, train_r10, loo_r10_recov, N, book_info)
+
+    elif args.ppmi:
+        # ── PPMI-direct path ───────────────────────────────────────────────────
+        from embeddings import build_cooc, compute_ppmi
+
+        shift_k      = args.shift_k
+        input_rarity = args.input_rarity
+
+        book_list = sorted(book_info.keys())
+        book_idx  = {cid: i for i, cid in enumerate(book_list)}
+
+        print(f"Building per-fold PPMI matrices (k={shift_k}, 342 folds)…", flush=True)
+        fold_ppmi = {}
+        for i, voter in enumerate(voter_books.keys()):
+            if (i+1) % 50 == 0:
+                print(f"  fold {i+1}/342…", flush=True)
+            cooc = build_cooc(voter_books, book_list, exclude_voter=voter)
+            fold_ppmi[voter] = compute_ppmi(cooc, shift_k=shift_k)
+
+        # Validation always runs first
+        run_ppmi_direct_validation(voter_books, book_info, book_list, book_idx,
+                                    fold_ppmi, shift_k)
+
+        if args.validate_only:
+            return
+
+        # Co-occurrence reference (same all-in-denominator harness)
+        print("\nRunning co-occurrence reference (α=1.0, γ=1.0)…", flush=True)
+        cooc_trials = cooc_loo_all(model, alpha=1.0, gamma=1.0)
+
+        # PPMI-direct LOO
+        print(f"\nRunning PPMI-direct LOO (k={shift_k}, α={input_rarity})…", flush=True)
+        loo_trials, n_zero = run_ppmi_direct_loo(
+            voter_books, book_info, book_list, book_idx, fold_ppmi,
+            input_rarity, N)
+
+        print_ppmi_direct_panel(shift_k, input_rarity, loo_trials, n_zero,
+                                 cooc_trials, N, book_info)
 
     else:
         # ── Co-occurrence path (original harness) ───────────────────────────

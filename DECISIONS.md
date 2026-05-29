@@ -357,4 +357,26 @@ the prior one.
   Baseline gap = +30pp at d=30, which motivates a dimensionality sweep.
 
 - **Dependency on numpy/scipy**: appropriate for embedding work; not a stdlib-only regime
+
+## 2026-05-29 — PPMI-direct scorer design and baseline results
+
+- **Motivation**: SVD embeddings hit a data-sparsity ceiling (best RW-recall@10=6.7% at d=50,
+  co-occurrence=12.6%). PPMI itself is sound; the factorization was the problem. Use PPMI
+  associations directly: score(c) = Σᵢ PPMI_k(i,c) × raw_idf(nᵢ)^α.
+
+- **Shifted PPMI parameter k**: PPMI_k(a,b) = max(0, PMI(a,b) − k). k=0 is standard PPMI;
+  k>0 suppresses weak/accidental associations. At extreme sparsity (88.6% of pairs co-occur
+  exactly once), k=0 creates a singleton-flooding problem: rare books that happen to share a
+  list with an input book get high PMI because P(book) is tiny — Middlemarch's top-5 PPMI
+  neighbors at k=0 are all n=1 singletons with PPMI≈2.25. k is the sparse-data control.
+
+- **Baseline k=0/α=0 result**: PPMI-direct RW-recall@10=4.3% vs co-occurrence=12.6% (−8.3pp).
+  Zero-row rate=21.8% (matches embedding harness ✓ — same structural cause: singletons of
+  test voter). n=21+ recall collapses to 1.9% (vs 63.2% for co-occurrence) because PPMI
+  suppresses popular-book associations so aggressively. This is the floor of the approach —
+  k>0 is expected to improve things by suppressing accidental single-count associations.
+
+- **Random-score validation**: uses real per-fold PPMI matrix but assigns random candidate
+  scores, testing "does PPMI ranking beat random ranking?" Not index-scrambling (which would
+  relabel the same structure and pass vacuously).
   (that constraint applied to Phase 1 canonical pipeline only).

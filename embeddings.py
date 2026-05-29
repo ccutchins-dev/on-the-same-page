@@ -61,12 +61,17 @@ def build_cooc(voter_books, book_list, exclude_voter=None):
 
 # ── PPMI ──────────────────────────────────────────────────────────────────────
 
-def compute_ppmi(cooc_csr):
+def compute_ppmi(cooc_csr, shift_k=0.0):
     """
     Compute Positive Pointwise Mutual Information from a co-occurrence matrix.
 
-    PMI(a,b) = log2(C(a,b) · C_total / (C_row(a) · C_row(b)))
-    PPMI(a,b) = max(0, PMI(a,b))
+    PMI(a,b)      = log2(C(a,b) · C_total / (C_row(a) · C_row(b)))
+    PPMI_k(a,b)   = max(0, PMI(a,b) − shift_k)
+
+    shift_k=0 (default): standard PPMI — all positive-PMI pairs contribute.
+    shift_k>0: shifted PPMI — requires PMI > shift_k to contribute; suppresses
+               weak/accidental associations (pairs that co-occur once by chance).
+               This is the sparse-data control knob for the PPMI-direct scorer.
 
     Returns: scipy.sparse.csr_matrix (same shape, non-negative entries).
     """
@@ -87,8 +92,8 @@ def compute_ppmi(cooc_csr):
     pmi = np.zeros_like(data)
     pmi[valid] = np.log2(data[valid] * C_total / denom[valid])
 
-    # Positive clamp
-    ppmi_data = np.maximum(pmi, 0.0)
+    # Shifted positive clamp: max(0, PMI - shift_k)
+    ppmi_data = np.maximum(pmi - shift_k, 0.0)
     keep = ppmi_data > 0
 
     from scipy.sparse import csr_matrix as _csr
@@ -98,6 +103,49 @@ def compute_ppmi(cooc_csr):
         dtype=np.float64,
     )
     return result
+
+
+# ── PPMI-direct scorer ────────────────────────────────────────────────────────
+
+def rank_ppmi_direct(ppmi_csr, book_list, book_idx, input_cids, book_info,
+                     input_rarity_weight=0.0, N=342, top_n=50):
+    """
+    PPMI-direct recommender: rank candidates by summed PPMI association scores.
+
+    score(c) = Σᵢ∈input  PPMI_k(i, c)  ×  raw_idf(n_i)^α
+
+    Uses sparse row access for efficiency — O(nnz per input row), not O(n_books).
+
+    input_rarity_weight=0: all inputs weighted equally (plain PPMI sum).
+    input_rarity_weight>0: rare inputs weighted by raw_idf(n_i)^α.
+
+    Returns: list of cids sorted by score descending, length ≤ top_n.
+             Excludes input_cids and all-zero-row books.
+    """
+    input_set = set(input_cids)
+    scores    = {}
+
+    ppmi_csr_f = ppmi_csr.astype(np.float64)
+
+    for i_cid in input_cids:
+        i_idx = book_idx.get(i_cid)
+        if i_idx is None:
+            continue
+        nv_i = book_info.get(i_cid, {}).get("n_voters", 1)
+        w    = _raw_idf(nv_i, N) ** input_rarity_weight if input_rarity_weight != 0.0 else 1.0
+
+        # Sparse row: only iterate over non-zero PPMI entries (O(nnz/n) per row)
+        row = ppmi_csr_f.getrow(i_idx)
+        cx  = row.tocoo()
+        for j, val in zip(cx.col, cx.data):
+            c_cid = book_list[j]
+            if c_cid in input_set:
+                continue
+            scores[c_cid] = scores.get(c_cid, 0.0) + w * val
+
+    # Sort descending; tiebreak by book cid (deterministic)
+    ranked = sorted(scores.items(), key=lambda x: (-x[1], x[0]))
+    return [cid for cid, _ in ranked[:top_n]]
 
 
 # ── Truncated SVD + L2 normalisation ─────────────────────────────────────────
