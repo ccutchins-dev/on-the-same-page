@@ -418,8 +418,121 @@ def run(verify=False):
             "decision": accepted_decisions.get(pid, "pending"),
         })
 
+    # T7: blank-author cluster ↔ authored cluster with identical title_key.
+    # Phase 1 kept these separate by design; this tier proposes merging them for
+    # books with a single unambiguous author. Never auto-merged — requires human accept.
+    blank_reps = {}    # title_key → representative blank-author row
+    authored_reps = {} # title_key → representative authored row (first seen)
+    for r in rows:
+        tk = r["title_key"]
+        if not r["surname_key"] and tk and tk not in blank_reps:
+            blank_reps[tk] = r
+        elif r["surname_key"] and tk and tk not in authored_reps:
+            authored_reps[tk] = r
+    seen_t7 = set()
+    for tk in sorted(set(blank_reps) & set(authored_reps)):
+        bl = blank_reps[tk]
+        au = authored_reps[tk]
+        if uf.find(bl["row_id"]) == uf.find(au["row_id"]):
+            continue
+        pair = tuple(sorted([bl["row_id"], au["row_id"]]))
+        if pair in seen_t7:
+            continue
+        seen_t7.add(pair)
+        n_blank    = len(blank_title_groups.get(tk, []))
+        n_authored = len(exact_groups.get((tk, au["surname_key"]), []))
+        pid = make_proposal_id("T7", bl["row_id"], au["row_id"])
+        proposals.append({
+            "proposal_id": pid, "reason": "BLANK_AUTHORED_SAME_TITLE", "tier": "T7",
+            "left_row_id": bl["row_id"], "left_title": bl["book_title"],
+            "left_author": bl["book_author"], "left_olid": bl["openLibraryId"],
+            "right_row_id": au["row_id"], "right_title": au["book_title"],
+            "right_author": au["book_author"], "right_olid": au["openLibraryId"],
+            "similarity": "1.000",
+            "group_members": f"blank n={n_blank}, authored n={n_authored}",
+            "suggested_action": "merge — blank-author entry is same book as authored cluster",
+            "decision": accepted_decisions.get(pid, "pending"),
+        })
+
+    # T7b: blank-author ↔ authored near-title fuzzy match (≥0.85).
+    # Catches transliteration variants (Don Quijote/Quixote) and false-positive traps
+    # (Metamorphoses/Metamorphosis). Never auto-merged — requires human accept.
+    seen_t7b = set()
+    all_authored_reps = []  # (title_key, row) for all authored clusters
+    seen_au_tks = set()
+    for r in rows:
+        if r["surname_key"] and r["title_key"] and r["title_key"] not in seen_au_tks:
+            seen_au_tks.add(r["title_key"])
+            all_authored_reps.append((r["title_key"], r))
+    for bl_tk, bl in blank_reps.items():
+        if bl_tk in authored_reps:
+            continue  # already covered by T7
+        for au_tk, au in all_authored_reps:
+            ratio = SequenceMatcher(None, bl_tk, au_tk).ratio()
+            if ratio < 0.85:
+                continue
+            if uf.find(bl["row_id"]) == uf.find(au["row_id"]):
+                continue
+            pair = tuple(sorted([bl["row_id"], au["row_id"]]))
+            if pair in seen_t7b:
+                continue
+            seen_t7b.add(pair)
+            pid = make_proposal_id("T7b", bl["row_id"], au["row_id"])
+            proposals.append({
+                "proposal_id": pid, "reason": "BLANK_AUTHORED_TITLE_VARIANT", "tier": "T7",
+                "left_row_id": bl["row_id"], "left_title": bl["book_title"],
+                "left_author": bl["book_author"], "left_olid": bl["openLibraryId"],
+                "right_row_id": au["row_id"], "right_title": au["book_title"],
+                "right_author": au["book_author"], "right_olid": au["openLibraryId"],
+                "similarity": f"{ratio:.3f}",
+                "group_members": f"blank_tk='{bl_tk}', authored_tk='{au_tk}'",
+                "suggested_action": "review — near-title match; check if same work",
+                "decision": accepted_decisions.get(pid, "pending"),
+            })
+
+    # T8: title-variant proposals — one authored title is a prefix/subset of another,
+    # same surname. PROPOSAL-ONLY permanently; never promote to auto-merge. Containment
+    # is a weaker signal than T7 and requires human review on every re-run.
+    seen_t8 = set()
+    for surname, block in surname_blocks.items():
+        seen_tk8 = {}
+        for r in block:
+            if r["title_key"] not in seen_tk8:
+                seen_tk8[r["title_key"]] = r
+        tks8 = list(seen_tk8.keys())
+        for i in range(len(tks8)):
+            for j in range(i + 1, len(tks8)):
+                tka, tkb = tks8[i], tks8[j]
+                ra = seen_tk8[tka]["row_id"]
+                rb = seen_tk8[tkb]["row_id"]
+                if uf.find(ra) == uf.find(rb):
+                    continue
+                pair = tuple(sorted([tka, tkb]))
+                if pair in seen_t8:
+                    continue
+                is_prefix = (tka.startswith(tkb + " ") or tkb.startswith(tka + " ") or
+                             tka.endswith(" " + tkb) or tkb.endswith(" " + tka))
+                ratio = SequenceMatcher(None, tka, tkb).ratio()
+                if not is_prefix and ratio < 0.88:
+                    continue
+                seen_t8.add(pair)
+                pid = make_proposal_id("T8", min(tka, tkb), max(tka, tkb), surname)
+                proposals.append({
+                    "proposal_id": pid, "reason": "TITLE_VARIANT", "tier": "T8",
+                    "left_row_id": ra, "left_title": seen_tk8[tka]["book_title"],
+                    "left_author": seen_tk8[tka]["book_author"],
+                    "left_olid": seen_tk8[tka]["openLibraryId"],
+                    "right_row_id": rb, "right_title": seen_tk8[tkb]["book_title"],
+                    "right_author": seen_tk8[tkb]["book_author"],
+                    "right_olid": seen_tk8[tkb]["openLibraryId"],
+                    "similarity": f"{ratio:.3f}",
+                    "group_members": f"'{tka}' / '{tkb}'",
+                    "suggested_action": "review — title variant (short form / subtitle / punctuation)",
+                    "decision": accepted_decisions.get(pid, "pending"),
+                })
+
     # -----------------------------------------------------------------------
-    # 5. Apply accepted T3/T4 merges to union-find (pair-based accepts)
+    # 5. Apply accepted T3/T4/T7/T8 merges to union-find (pair-based accepts)
     # -----------------------------------------------------------------------
     for prop in proposals:
         if prop["decision"] == "accept" and prop["right_row_id"]:
@@ -561,6 +674,13 @@ def run(verify=False):
     for cid, auth in recovered_authors.items():
         if cid in canonical_meta:
             canonical_meta[cid]["canonical_author"] = auth
+
+    # Apply author_corrections (source-error corrections where an authored row
+    # carries a clearly wrong attribution; overrides canonical_author to the
+    # specified string, typically "" to restore author-less status).
+    for cid, corrected in regs.get("author_corrections", {}).items():
+        if cid in canonical_meta:
+            canonical_meta[cid]["canonical_author"] = corrected
 
     # -----------------------------------------------------------------------
     # 9. Build voter_books with explodes and drops applied

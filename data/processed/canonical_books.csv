@@ -1,25 +1,26 @@
 canonical_id,canonical_title,canonical_author,canonical_year,n_rows,n_voters,source_olids,derived_from
 OL:OL20867W,Middlemarch,George Eliot,1871,86,83,OL20867W;OL24357681W;OL25411286W;OL29850902W;OL30272167W;OL35863440W;OL40545731W,olid_anchor
 OL:OL267096W,Anna Karenina,Leo Tolstoy,1877,61,60,OL267096W,olid_anchor
-OL:OL86318W,Ulysses,James Joyce,1914,57,57,OL86318W,olid_anchor
+OL:OL86318W,Ulysses,James Joyce,1914,58,58,OL86318W,olid_anchor
 OL:OL19350876W,Madame Bovary,Gustave Flaubert,1857,53,52,OL19350876W;OL893707W,olid_anchor
 OL:OL50548W,Beloved,Toni Morrison,1987,52,52,OL50548W,olid_anchor
 OL:OL34381078W,The Great Gatsby,F. Scott Fitzgerald,1925,49,49,OL34381078W;OL468431W,olid_anchor
 OL:OL1190289W,In Search of Lost Time,Marcel Proust,,48,47,OL1190289W;OL27810496W;OL41312771W,olid_anchor
 OL:OL39396W,To the Lighthouse,Virginia Woolf,1927,47,46,OL39396W,olid_anchor
 OL:OL267171W,War and Peace,Leo Tolstoy,1869,45,45,OL267171W;OL36765642W,olid_anchor
-OL:OL102749W,Moby-Dick,Herman Melville,1851,42,41,OL102749W;OL26158026W,olid_anchor
+OL:OL102749W,Moby-Dick,Herman Melville,1851,43,42,OL102749W;OL26158026W,olid_anchor
 OL:OL274505W,One Hundred Years of Solitude,Gabriel García Márquez,1967,38,38,OL274505W,olid_anchor
 OL:OL1095427W,Jane Eyre,Charlotte Brontë,1847,37,37,OL1095427W;OL36754933W,olid_anchor
 OL:OL627084W,Lolita,Vladimir Nabokov,1955,36,36,OL627084W,olid_anchor
 OL:OL15165350W,Pride and Prejudice,Jane Austen,1710,34,33,OL15165350W;OL66554W,olid_anchor
+OL:OL53908W,Huckleberry Finn,Mark Twain,1884,31,30,OL53908W,olid_anchor
 OL:OL26733889W,Mrs Dalloway,Virginia Woolf,1925,30,30,OL26733889W;OL39349W,olid_anchor
 OL:OL190034W,Emma,Jane Austen,1815,29,29,OL190034W;OL20595207M;OL40587389W;OL66513W,olid_anchor
-K:696b5912f345,Adventures of Huckleberry Finn,Mark Twain,1884,28,28,,title_author_exact
+OL:OL32013322W,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,29,28,OL32013322W;OL40811147W;OL5475773W;OL679230W,olid_anchor
 OL:OL40756300W,Persuasion,Jane Austen,1817,26,26,OL40756300W;OL66544W,olid_anchor
 OL:OL14868508W,Bleak House,Charles Dickens,1853,27,26,OL14868508W;OL14868510W;OL40513281W,olid_anchor
 OL:OL276365W,The Portrait of a Lady,Henry James,1881,25,25,OL276365W;OL32387936W,olid_anchor
-OL:OL44222301W,Don Quixote,Miguel de Cervantes,,24,24,OL44222301W;OL503666W,olid_anchor
+OL:OL44222301W,Don Quixote,Miguel de Cervantes,,25,25,OL44222301W;OL503666W,olid_anchor
 OL:OL8721462W,Great Expectations,Charles Dickens,1861,23,23,OL8721462W,olid_anchor
 OL:OL21170W,Wuthering Heights,Emily Brontë,1847,23,22,OL21170W;OL21177W,olid_anchor
 OL:OL10432709W,The Brothers Karamazov,Fyodor Dostoevsky,1880,22,22,OL10432709W;OL28570167W;OL39092709W;OL39195597W,olid_anchor
@@ -40,25 +41,23 @@ OL:OL891786W,Things Fall Apart,Chinua Achebe,1958,15,15,OL891786W,olid_anchor
 OL:OL26437W,The Prime of Miss Jean Brodie,Muriel Spark,1961,14,14,OL26437W,olid_anchor
 OL:OL8662242W,David Copperfield,Charles Dickens,,14,14,OL8662242W,olid_anchor
 K:04ef5684be62,Dubliners,James Joyce,1916,13,13,,title_author_exact
-OL:OL42718662W,"Rabbit, Run",John Updike,1960,11,13,OL42718662W,olid_anchor
-OL:OL463820W,Rabbit Is Rich,John Updike,1981,11,13,OL463820W,olid_anchor
-OL:OL463809W,Rabbit at Rest,John Updike,1990,11,13,OL463809W,olid_anchor
+OL:OL42718662W,"Rabbit, Run",John Updike,1960,12,13,OL42718662W,olid_anchor
+OL:OL463820W,Rabbit Is Rich,John Updike,1981,12,13,OL463820W,olid_anchor
+OL:OL463809W,Rabbit at Rest,John Updike,1990,12,13,OL463809W,olid_anchor
 OL:OL40879W,Blood Meridian,Cormac McCarthy,1985,13,13,OL40879W,olid_anchor
 OL:OL38663W,Heart of Darkness,Joseph Conrad,1899,13,13,OL38663W,olid_anchor
-K:b36e75fbcafd,Tristram Shandy,Laurence Sterne,,12,12,,title_author_exact
-K:5fcc86b529ea,Rabbit Redux,John Updike,1971,10,12,,title_author_exact
+K:5fcc86b529ea,Rabbit Redux,John Updike,1971,11,12,,title_author_exact
 OL:OL98491W,The Age of Innocence,Edith Wharton,1920,12,12,OL98491W,olid_anchor
 OL:OL14866824W,The Magic Mountain,Thomas Mann,1924,12,12,OL14866824W,olid_anchor
 OL:OL50564W,Song of Solomon,Toni Morrison,1977,12,12,OL50564W,olid_anchor
 OL:OL675783W,The Handmaid's Tale,Margaret Atwood,1985,12,12,OL675783W,olid_anchor
-OL:OL679230W,"The Life and Opinions of Tristram Shandy, Gentleman",Laurence Sterne,1759,12,12,OL679230W,olid_anchor
+K:bc4aa7549271,King Lear,William Shakespeare,1605,11,11,,title_author_exact
 OL:OL3140822W,To Kill a Mockingbird,Harper Lee,1960,11,11,OL3140822W,olid_anchor
 OL:OL26860869W,Frankenstein,Mary Shelley,1818,11,11,OL26860869W;OL28730972W;OL36130812W;OL450063W,olid_anchor
 OL:OL509889W,The Good Soldier,Ford Madox Ford,1915,11,11,OL509889W,olid_anchor
 OL:OL1230613W,The Outsider,Albert Camus,1942,11,11,OL1230613W,olid_anchor
 OL:OL151411W,Alice's Adventures in Wonderland,Lewis Carroll,1865,10,10,OL151411W,olid_anchor
 OL:OL41225848W,A Portrait of the Artist as a Young Man,James Joyce,1916,10,10,OL41225848W;OL86343W,olid_anchor
-K:bc4aa7549271,King Lear,William Shakespeare,1605,10,10,,title_author_exact
 K:de8ae851971a,The Odyssey,Homer,,10,10,,title_author_exact
 OL:OL16313W,Vanity Fair,William Makepeace Thackeray,1848,10,10,OL16313W,olid_anchor
 OL:OL2386322W,The Leopard,Giuseppe Tomasi di Lampedusa,1958,10,10,OL2386322W;OL43043476W,olid_anchor
@@ -120,6 +119,7 @@ K:7d6f4598f836,Paradise Lost,John Milton,1667,5,5,,title_author_exact
 OL:OL2074162W,A Dance to the Music of Time,Anthony Powell,,5,5,OL2074162W,olid_anchor
 OL:OL466942W,The Radetzky March,Joseph Roth,1932,5,5,OL466942W,olid_anchor
 OL:OL27217159W,Robinson Crusoe,Daniel Defoe,1719,5,5,OL27217159W;OL33177088W;OL45089W,olid_anchor
+K:450eb07e587b,The Bible,,,5,5,,title_author_exact
 OL:OL1993508W,The Line of Beauty,Alan Hollinghurst,2004,5,5,OL1993508W,olid_anchor
 OL:OL509919W,Parade's End,Ford Madox Ford,1928,5,5,OL509919W,olid_anchor
 OL:OL15400582W,The Big Sleep,Raymond Chandler,1939,5,5,OL15400582W,olid_anchor
@@ -135,7 +135,6 @@ OL:OL500388W,Waiting for the Barbarians,J. M. Coetzee,1980,5,5,OL500388W,olid_an
 OL:OL50565W,The Bluest Eye,Toni Morrison,1970,5,5,OL50565W,olid_anchor
 OL:OL276386W,The Turn of the Screw,Henry James,1898,5,5,OL276386W,olid_anchor
 OL:OL63072W,A Farewell to Arms,Ernest Hemingway,1929,5,5,OL63072W,olid_anchor
-OL:OL32013322W,The Life and Opinions of Tristram Shandy,Laurence Sterne,,5,5,OL32013322W;OL40811147W;OL5475773W,olid_anchor
 OL:OL59038W,Never Let Me Go,Kazuo Ishiguro,2005,5,5,OL59038W,olid_anchor
 OL:OL39360W,Orlando,Virginia Woolf,1928,5,5,OL39360W,olid_anchor
 OL:OL5731542W,Half of a Yellow Sun,Chimamanda Ngozi Adichie,2006,5,5,OL5731542W,olid_anchor
@@ -147,19 +146,21 @@ OL:OL23166W,East of Eden,John Steinbeck,1952,4,4,OL23166W,olid_anchor
 K:da7daa0a88e4,Ask the Dust,John Fante,1939,4,4,,title_author_exact
 K:fa6d27467a77,The Long Goodbye,Raymond Chandler,1953,4,4,,title_author_exact
 K:ee34a6c50dbf,The Iliad,Homer,,4,4,,title_author_exact
-K:cb9d628dca7d,The Decameron,Giovanni Boccaccio,,4,4,,title_author_exact
+OL:OL7180368W,The Decameron of Boccaccio,Giovanni Boccaccio,,5,4,OL7180368W,olid_anchor
 K:906ffc5082cd,Stories of Alice Munro,Alice Munro,,4,4,,title_author_exact
 K:2ecba695b7ae,Stories of Ernest Hemingway,Ernest Hemingway,,4,4,,title_author_exact
 K:a7d082925dfc,Stories of Raymond Carver,Raymond Carver,,4,4,,title_author_exact
 K:751bbe356d28,Nine Stories,J. D. Salinger,1953,4,4,,title_author_exact
 OL:OL15859552W,Herzog,Saul Bellow,1964,4,4,OL15859552W,olid_anchor
+K:ef6aa2e15e06,The Tempest,William Shakespeare,1610,4,4,,title_author_exact
 K:6d7a4faa0e0d,"Winesburg, Ohio",Sherwood Anderson,1919,4,4,,title_author_exact
 OL:OL479009W,Love Medicine,Louise Erdrich,1984,4,4,OL479009W,olid_anchor
+K:969b47058d9c,Ficciones,Jorge Luis Borges,1944,4,4,,title_author_exact
 K:2484db8decc1,Jesus' Son,Denis Johnson,1992,4,4,,title_author_exact
+OL:OL505583W,Nightwood,Djuna Barnes,1936,4,4,OL505583W,olid_anchor
 OL:OL8193416W,The Picture of Dorian Gray,Oscar Wilde,1891,4,4,OL8193416W,olid_anchor
 OL:OL842158W,The Deptford Trilogy,Robertson Davies,1983,4,4,OL842158W,olid_anchor
 K:c70aa81a21ba,The Aeneid,Virgil,,4,4,,title_author_exact
-K:620bf0bababe,The Bible,,,4,4,,title_author_exact
 K:312f2e675a9c,Tom Jones,Henry Fielding,1749,4,4,,title_author_exact
 OL:OL1503886W,"So Long, See You Tomorrow",William Maxwell,1979,4,4,OL1503886W,olid_anchor
 K:bbf3fa01dd65,Leaves of Grass,Walt Whitman,,4,4,,title_author_exact
@@ -172,6 +173,7 @@ OL:OL66562W,Sense and Sensibility,Jane Austen,1811,4,4,OL66562W,olid_anchor
 K:d4f54d0b665c,Labyrinths,Jorge Luis Borges,1964,4,4,,title_author_exact
 OL:OL276470W,The Ambassadors,Henry James,1903,4,4,OL276470W,olid_anchor
 K:936c038de83f,The Things They Carried,Tim O'Brien,1990,4,4,,title_author_exact
+OL:OL1150725W,Clarissa Harlowe,Samuel Richardson,,4,4,OL1150725W;OL27742818W,olid_anchor
 OL:OL724067W,The Death of the Heart,Elizabeth Bowen,1938,4,4,OL724067W,olid_anchor
 OL:OL1921185W,Underworld,Don DeLillo,1997,5,4,OL1921185W,olid_anchor
 OL:OL2636675W,Gravity's Rainbow,Thomas Pynchon,1973,4,4,OL2636675W,olid_anchor
@@ -195,14 +197,13 @@ K:ca7944d7d49e,Mr. Bridge,Evan S. Connell,1969,3,3,,title_author_exact
 K:81ff245a8bfa,Death Comes for the Archbishop,Willa Cather,1927,3,3,,title_author_exact
 OL:OL697429W,Nights at the Circus,Angela Carter,1984,3,3,OL697429W,olid_anchor
 OL:OL43161739W,The Count of Monte Cristo,Alexandre Dumas,1844,3,3,OL43161739W,olid_anchor
-K:ef6aa2e15e06,The Tempest,William Shakespeare,1610,3,3,,title_author_exact
-K:969b47058d9c,Ficciones,Jorge Luis Borges,1944,3,3,,title_author_exact
-OL:OL505583W,Nightwood,Djuna Barnes,1936,3,3,OL505583W,olid_anchor
 K:338581d02713,The Wind-Up Bird Chronicle,Haruki Murakami,1994,3,3,,title_author_exact
 OL:OL5721561W,Vile Bodies,Evelyn Waugh,1930,3,3,OL5721561W,olid_anchor
+K:daa94665cde4,Metamorphoses,Ovid,,3,3,,title_author_exact
 K:93dc6897f134,Ship of Fools,Katherine Anne Porter,1962,3,3,,title_author_exact
 OL:OL103095W,The Enigma of Arrival,V. S. Naipaul,1988,3,3,OL103095W,olid_anchor
 OL:OL134601W,Lonesome Dove,Larry McMurtry,1985,3,3,OL134601W,olid_anchor
+OL:OL1715276W,"Life, a User's Manual",Georges Perec,1978,3,3,OL1715276W,olid_anchor
 OL:OL166973W,The Idiot,Fyodor Dostoevsky,1868,3,3,OL166973W,olid_anchor
 OL:OL38282W,The Moviegoer,Walker Percy,1961,3,3,OL38282W,olid_anchor
 OL:OL7972956W,Ceremony,Leslie Marmon Silko,1977,3,3,OL7972956W,olid_anchor
@@ -237,6 +238,7 @@ OL:OL5721565W,A Handful of Dust,Evelyn Waugh,1934,3,3,OL5721565W,olid_anchor
 OL:OL159382W,The Lover,Marguerite Duras,1984,3,3,OL159382W,olid_anchor
 OL:OL15026613W,A Visit From the Goon Squad,Jennifer Egan,2010,3,3,OL15026613W,olid_anchor
 OL:OL15202030W,The Hunchback of Notre-Dame,Victor Hugo,1831,3,3,OL15202030W,olid_anchor
+OL:OL1217995W,U.s.a.,John Dos Passos,1938,3,3,OL1217995W,olid_anchor
 OL:OL16246083W,Death in Venice,Thomas Mann,1912,3,3,OL16246083W,olid_anchor
 K:3d8256fe2668,Appointment in Samarra,John O'Hara,1934,3,3,,title_author_exact
 OL:OL2009202W,Light Years,James Salter,1975,3,3,OL2009202W,olid_anchor
@@ -255,7 +257,6 @@ OL:OL2943602W,Infinite Jest,David Foster Wallace,,3,3,OL2943602W,olid_anchor
 OL:OL27871634W,Septology,Jon Fosse,,3,3,OL27871634W,olid_anchor
 OL:OL44994W,The Return of the Native,Thomas Hardy,1878,3,3,OL44994W,olid_anchor
 OL:OL1731119W,Pedro Páramo,Juan Rulfo,1955,3,3,OL1731119W,olid_anchor
-OL:OL53908W,Huckleberry Finn,Mark Twain,,3,3,OL53908W,olid_anchor
 OL:OL17063057W,How to Be Both,Ali Smith,,3,3,OL17063057W,olid_anchor
 OL:OL17351965W,Drive Your Plow Over the Bones of the Dead,Olga Tokarczuk,,3,3,OL17351965W,olid_anchor
 OL:OL1095403W,Villette,Charlotte Brontë,,3,3,OL1095403W,olid_anchor
@@ -290,12 +291,12 @@ K:d269f3b1008d,The Importance of Being Earnest,Oscar Wilde,1895,2,2,,title_autho
 OL:OL1326348W,A Severed Head,Iris Murdoch,1961,2,2,OL1326348W,olid_anchor
 K:3370e18f51ca,His Dark Materials,Philip Pullman,,2,2,,title_author_exact
 K:af9b5d2a92ca,The Hours,Michael Cunningham,1998,2,2,,title_author_exact
-K:daa94665cde4,Metamorphoses,Ovid,,2,2,,title_author_exact
 K:2ba7f9e2d3da,The Untouchable,John Banville,1997,2,2,,title_author_exact
 K:19f63e640608,The Master,Colm Tóibín,2004,2,2,,title_author_exact
 K:f5a6ea3da198,Miss Lonelyhearts,Nathanael West,1933,2,2,,title_author_exact
 K:0cedd0859856,Stories of William Trevor,William Trevor,,2,2,,title_author_exact
 K:a66bfb050c76,The Oedipus trilogy,Sophocles,,2,2,,title_author_exact
+OL:OL7982392W,"The Story of the Stone, or the Dream of the Red Chamber",Cao Xueqin,,2,2,OL7982392W,olid_anchor
 OL:OL1337129W,"Right Ho, Jeeves",P. G. Wodehouse,1934,2,2,OL1337129W,olid_anchor
 K:c157e7e9d2a1,The Regeneration trilogy,Pat Barker,1995,2,2,,title_author_exact
 K:3dfab6fbfe3b,One Day in the Life of Ivan Denisovich,Alexander Solzhenitsyn,1962,2,2,,title_author_exact
@@ -329,7 +330,6 @@ OL:OL2096536W,Watership Down,Richard Adams,1972,2,2,OL2096536W,olid_anchor
 K:6782b3c089d0,The Screwtape Letters,C. S. Lewis,1942,2,2,,title_author_exact
 K:111bd5114ad8,Nothing,Henry Green,1926,2,2,,title_author_exact
 K:9a0ea9d7f91e,The Professor's House,Willa Cather,1925,2,2,,title_author_exact
-K:050b9552feae,Clarissa,Samuel Richardson,,2,2,,title_author_exact
 OL:OL1846845W,The Poisonwood Bible,Barbara Kingsolver,1998,2,2,OL1846845W,olid_anchor
 K:a54fc089b816,Stories of Mavis Gallant,Mavis Gallant,,2,2,,title_author_exact
 OL:OL39108W,The Secret Agent,Joseph Conrad,1907,2,2,OL39108W,olid_anchor
@@ -347,13 +347,13 @@ OL:OL506115W,Seize the Day,Saul Bellow,1956,2,2,OL506115W,olid_anchor
 OL:OL847902W,I Served the King of England,Bohumil Hrabal,1971,2,2,OL847902W,olid_anchor
 K:0ed1a323eb37,The Marquise of O— and Other Stories,Heinrich von Kleist,,2,2,,title_author_exact
 OL:OL98585W,The Custom of the Country,Edith Wharton,1913,2,2,OL98585W,olid_anchor
+K:58e8ae773c4c,A Midsummer Night’s Dream,William Shakespeare,1595,2,2,,title_author_exact
 K:fbee4c090e26,Stones for Ibarra,Harriet Doerr,1984,2,2,,title_author_exact
 K:028967a6b1e9,Alias Grace,Margaret Atwood,1996,2,2,,title_author_exact
 OL:OL1863530W,Lucky Jim,Kingsley Amis,1954,2,2,OL1863530W,olid_anchor
 K:096e7d480771,The Once and Future King,T.H. White,1958,2,2,,title_author_exact
 OL:OL5703422W,Jonathan Strange & Mr. Norrell,Susanna Clarke,2004,2,2,OL5703422W,olid_anchor
 OL:OL43037384W,A Suitable Boy,Vikram Seth,1993,2,2,OL43037384W,olid_anchor
-K:1cb501ee1776,The U.S.A. trilogy,John Dos Passos,1938,2,2,,title_author_exact
 OL:OL498434W,The Castle,Franz Kafka,1926,2,2,OL498434W,olid_anchor
 K:0bcd22fa5600,Hedda Gabler,Henrik Ibsen,1890,2,2,,title_author_exact
 OL:OL47266W,The Maltese Falcon,Dashiell Hammett,1930,2,2,OL47266W,olid_anchor
@@ -365,6 +365,7 @@ OL:OL17081245W,Those Who Leave and Those Who Stay,Elena Ferrante,2014,2,2,OL1708
 K:b21d24bb8eed,Either/Or: A Fragment of Life,Soren Kierkegaard,1843,2,2,,title_author_exact
 OL:OL19667678W,Wise Blood,Flannery O'Connor,1952,2,2,OL19667678W,olid_anchor
 OL:OL32195W,House of Leaves,Mark Z. Danielewski,2000,2,2,OL32195W,olid_anchor
+OL:OL118984W,Nana,Émile Zola,1880,2,2,OL118984W,olid_anchor
 OL:OL505439W,Under the Volcano,Malcolm Lowry,1947,2,2,OL505439W,olid_anchor
 OL:OL74676W,Portnoy's Complaint,Philip Roth,1969,2,2,OL74676W,olid_anchor
 OL:OL16547664W,Bring up the Bodies,Hilary Mantel,,2,2,OL16547664W,olid_anchor
@@ -422,7 +423,6 @@ OL:OL1103093W,Cranford,Elizabeth Gaskell,,2,2,OL1103093W,olid_anchor
 OL:OL506116W,The Adventures of Augie March,Saul Bellow,,2,2,OL506116W,olid_anchor
 OL:OL11728724W,Too Loud a Solitude,Bohumil Hrabal,,2,2,OL11728724W;OL25110842W,olid_anchor
 OL:OL11690127W,The Memory Police,Yoko Ogawa,,2,2,OL11690127W,olid_anchor
-OL:OL1715276W,"Life, a User's Manual",Georges Perec,,2,2,OL1715276W,olid_anchor
 OL:OL17370186W,A Little Life,Hanya Yanagihara,,2,2,OL17370186W,olid_anchor
 OL:OL27905681W,Siddhartha,Hermann Hesse,,2,2,OL27905681W;OL872932W,olid_anchor
 OL:OL112769W,"Lolly Willowes, Or, the Loving Huntsman",Sylvia Townsend Warner,,2,2,OL112769W,olid_anchor
@@ -527,9 +527,7 @@ K:0b6de2d1f716,The Adventures of Tom Sawyer,Mark Twain,1876,1,1,,title_author_ex
 K:d99a5155c78c,The Black Book,Orhan Pamuk,1990,1,1,,title_author_exact
 K:7218170b4f39,The haiku of Matsuo Basho,,,1,1,,title_author_exact
 K:980abe074752,"I, Claudius",Robert Graves,1934,1,1,,title_author_exact
-K:0fefe015723f,The Story of the Stone,Cao Xueqin,,1,1,,title_author_exact
 K:57af164fa280,Eleven Kinds of Loneliness,Richard Yates,1962,1,1,,title_author_exact
-K:9eeeeadbc8c1,Life: A User’s Manual,Georges Perec,1978,1,1,,title_author_exact
 K:22d8a45acf9c,The Three Musketeers,Alexandre Dumas,1844,1,1,,title_author_exact
 K:44a6e161192f,Mother's Milk,Edward St,2006,1,1,,title_author_exact
 K:e544d536217c,Patrimony,Philip Roth,1991,1,1,,title_author_exact
@@ -717,7 +715,6 @@ K:18a93d157004,The House of Breath,William Goyen,1950,1,1,,title_author_exact
 K:19d0058befb1,Sixty Stories,Donald Barthelme,1981,1,1,,title_author_exact
 K:1eb8c32d422e,The Street of Crocodiles,Bruno Schulz,1934,1,1,,title_author_exact
 K:20121da40aef,Amours de Voyage,Arthur Hugh Clough,1858,1,1,,title_author_exact
-K:58e8ae773c4c,A Midsummer Night’s Dream,William Shakespeare,1595,1,1,,title_author_exact
 K:4c52ca01da6f,The Woman in the Dunes,Kobo Abe,1962,1,1,,title_author_exact
 K:bf7805dad43e,Life & Times of Michael K,J. M. Coetzee,1983,1,1,,title_author_exact
 K:711ea85aabb6,A Man of the People,Chinua Achebe,1966,1,1,,title_author_exact
@@ -798,20 +795,11 @@ K:aa2ae157f2a5,Life on the Mississippi,Mark Twain,1883,1,1,,title_author_exact
 K:9c46bcbe4006,The White Tiger,Aravind Adiga,2008,1,1,,title_author_exact
 K:93056a9c86fa,The Book of Ebenezer Le Page,G. B. Edwards,1981,1,1,,title_author_exact
 K:b57874a47c85,Harold and the Purple Crayon,Crockett Johnson,1955,1,1,,title_author_exact
-K:450eb07e587b,The Bible,Homer,,1,1,,title_author_exact
 K:26a310599722,Essays,Michel de Montaigne,,1,1,,title_author_exact
 K:11db7aaa5eac,Little Women,Louisa May Alcott,1868,1,1,,title_author_exact
 K:a7c3b274f87c,The Love Song of J. Alfred Prufrock,T. S. Eliot,1915,1,1,,title_author_exact
 K:e0e175903a2c,The Epic of Gilgamesh,,,1,1,,title_author_exact
-K:b33847395a41,Metamorphoses,,,1,1,,title_author_exact
 K:ddf7db56b887,The Celestina,,1499,1,1,,title_author_exact
-K:28a2e6155f0c,Don Quijote,,,1,1,,title_author_exact
-K:dd5a8c858d90,The Tempest,,1610,1,1,,title_author_exact
-K:bf220e2eba48,King Lear,,1605,1,1,,title_author_exact
-K:a31ed17f6b68,A Midsummer Night's Dream,,1595,1,1,,title_author_exact
-K:5a6159046e9a,Moby-Dick,,1851,1,1,,title_author_exact
-K:7089b76ba44b,Ulysses,,1922,1,1,,title_author_exact
-K:84fc253521ec,Ficciones,,1944,1,1,,title_author_exact
 K:6a405b4c5ae0,Whoroscope,,,1,1,,title_author_exact
 K:0f8ff0529f09,El Señor Presidente,,,1,1,,title_author_exact
 K:0e16b3a111b7,This Side of Paradise,F. Scott Fitzgerald,1920,1,1,,title_author_exact
@@ -842,7 +830,6 @@ K:045ff572e567,The I Ching (Book of Changes),,,1,1,,title_author_exact
 K:dd91428bf960,Howl,Allen Ginsberg,1956,1,1,,title_author_exact
 K:9ee9a85c69af,She Had Some Horses,Joy Harjo,1983,1,1,,title_author_exact
 K:b76210de9d29,The Branch Will Not Break,James Wright,1963,1,1,,title_author_exact
-K:144b8fc80005,Nightwood,,,1,1,,title_author_exact
 K:30ead11b9ea3,Plays of Molière,Molière,,1,1,,title_author_exact
 K:5f36c5d443e5,The Golden Argosy,"Van H. Cartmell & Charles Grayson, editors",,1,1,,title_author_exact
 OL:OL1794911W,McTeague,Frank Norris,1899,2,1,OL1794911W,olid_anchor
@@ -864,7 +851,6 @@ K:ff6d975a1944,Paradise,Toni Morrison,1997,1,1,,title_author_exact
 K:c60a0eea87b7,End Zone,Don DeLillo,1972,1,1,,title_author_exact
 K:a1f43a005993,Père Goriot,Honoré de Balzac,1834,1,1,,title_author_exact
 K:492220bfdfb3,L'Assommoir (The Dram Shop),,1877,1,1,,title_author_exact
-K:bfe6fe716600,Nana,,1880,1,1,,title_author_exact
 K:f2fd0db8a049,Bel-Ami,Guy de Maupassant,1885,1,1,,title_author_exact
 K:06f29fad4727,BUtterfield 8,John O'Hara,1935,1,1,,title_author_exact
 K:8c937ec47a21,The Studs Lonigan trilogy,,1932,1,1,,title_author_exact
@@ -1041,7 +1027,6 @@ OL:OL7171684W,Europe After the Rain,Alan Burns,,1,1,OL7171684W,olid_anchor
 OL:OL27820956W,After Sappho,Selby Wynn Schwartz,,1,1,OL27820956W,olid_anchor
 OL:OL55221W,A Flag for Sunrise,Robert Stone,,1,1,OL55221W,olid_anchor
 OL:OL1855887W,The Child in Time,Ian McEwan,,1,1,OL1855887W,olid_anchor
-OL:OL7180368W,The Decameron of Boccaccio,Giovanni Boccaccio,,1,1,OL7180368W,olid_anchor
 OL:OL25687457W,Aubrey-Maturin Series,Patrick O'Brian,,1,1,OL25687457W,olid_anchor
 OL:OL20494708W,A Girl Is a Half-Formed Thing,Eimear McBride,,1,1,OL20494708W,olid_anchor
 OL:OL19344016W,Milkman,Anna Burns,,1,1,OL19344016W,olid_anchor
@@ -1111,7 +1096,6 @@ OL:OL16809803W,The Goldfinch,Donna Tartt,,1,1,OL16809803W,olid_anchor
 OL:OL37487420W,Cartucho,Nellie Campobello,,1,1,OL37487420W,olid_anchor
 OL:OL4100647W,The Empty Book,Josefina Vicens,,1,1,OL4100647W,olid_anchor
 OL:OL20942111W,Murphy,Samuel Beckett,,1,1,OL20942111W,olid_anchor
-OL:OL1150725W,Clarissa Harlowe,Samuel Richardson,,1,1,OL1150725W,olid_anchor
 OL:OL698192W,Memory of Fire,Eduardo Galeano,,1,1,OL698192W,olid_anchor
 OL:OL19670981W,The Moor's Account,Laila Lalami,,1,1,OL19670981W,olid_anchor
 OL:OL21364937W,Slave Old Man,Patrick Chamoiseau,,1,1,OL21364937W,olid_anchor
@@ -1132,7 +1116,6 @@ OL:OL86034W,Morvern Callar,Alan Warner,,1,1,OL86034W,olid_anchor
 OL:OL17792692W,Hurricane Season,Fernanda Melchor,,1,1,OL17792692W,olid_anchor
 OL:OL5869550W,Senseless,Paul Golding,,1,1,OL5869550W,olid_anchor
 OL:OL118276W,A Guest of Honour,Nadine Gordimer,,1,1,OL118276W,olid_anchor
-OL:OL27742818W,"Clarissa, Or, the History of a Young Lady",Samuel Richardson,,1,1,OL27742818W,olid_anchor
 OL:OL1937850W,A New Life,Bernard Malamud,,1,1,OL1937850W,olid_anchor
 OL:OL20509686W,"Ducks, Newburyport",Lucy Ellmann,,1,1,OL20509686W,olid_anchor
 OL:OL69271W,The Country Girls,Edna O'Brien,,1,1,OL69271W,olid_anchor
@@ -1152,7 +1135,6 @@ OL:OL42393484W,Tongues I,Anders Nilsen,,1,1,OL42393484W,olid_anchor
 OL:OL25803688W,The Employees,Olga Ravn,,1,1,OL25803688W,olid_anchor
 OL:OL17321997W,Here,Richard McGuire,,1,1,OL17321997W,olid_anchor
 OL:OL34388805W,The Maniac,Benjamín Labatut,,1,1,OL34388805W,olid_anchor
-OL:OL118984W,Nana,Émile Zola,,1,1,OL118984W,olid_anchor
 OL:OL21016756W,A Void,Georges Perec,,1,1,OL21016756W,olid_anchor
 OL:OL3820668W,Textermination,Christine Brooke-Rose,,1,1,OL3820668W,olid_anchor
 OL:OL19341943W,The City & the City,China Miéville,,1,1,OL19341943W,olid_anchor
@@ -1173,7 +1155,6 @@ OL:OL894246W,Grey King,Susan Cooper,,1,1,OL894246W,olid_anchor
 OL:OL27494639W,Under Milk Wood,Dylan Thomas,,1,1,OL27494639W,olid_anchor
 OL:OL45865W,Danny the Champion of the World,Roald Dahl,,1,1,OL45865W,olid_anchor
 OL:OL2233736W,The Pursuit of Love,Nancy Mitford,,1,1,OL2233736W,olid_anchor
-OL:OL1217995W,U.s.a.,John Dos Passos,,1,1,OL1217995W,olid_anchor
 OL:OL1921198W,Libra,Don DeLillo,,1,1,OL1921198W,olid_anchor
 OL:OL228720W,If Beale Street Could Talk,James Baldwin,,1,1,OL228720W,olid_anchor
 OL:OL1184856W,The Vagabond,Colette,,1,1,OL1184856W,olid_anchor
@@ -1183,7 +1164,6 @@ OL:OL4212427W,A Compass Error,Sybille Bedford,,1,1,OL4212427W,olid_anchor
 OL:OL3260491W,Waterland,Graham Swift,,1,1,OL3260491W,olid_anchor
 OL:OL2433540W,Tales of the City,Armistead Maupin,,1,1,OL2433540W,olid_anchor
 OL:OL166971W,Demons,Fyodor Dostoevsky,,1,1,OL166971W,olid_anchor
-OL:OL7982392W,"The Story of the Stone, or the Dream of the Red Chamber",Cao Xueqin,,1,1,OL7982392W,olid_anchor
 OL:OL42397165W,The Loneliness of Sonia and Sunny,Kiran Desai,,1,1,OL42397165W,olid_anchor
 OL:OL20044855W,Transit,Rachel Cusk,,1,1,OL20044855W,olid_anchor
 OL:OL6831429W,The Bloater,Rosemary Tonks,,1,1,OL6831429W,olid_anchor

@@ -107,3 +107,36 @@ b3bcafa535df8c83,accept,Poems of Emily Dickinson – author recovered from title
 6595af6e96ca363d,accept,The Selected Poems of Pablo Neruda – author recovered from title
 39c6eb2b826f51be,accept,The stories of Andre Dubus – author recovered from title
 4cc754c21f1dbd7d,accept,Works of William Shakespeare – author recovered from title
+8c2a4c7758b3d2ea,accept,A Midsummer Night's Dream – blank-author entry merged with Shakespeare canonical
+88e86fdb6cb7aaf0,accept,Ficciones – blank-author entry merged with Borges canonical
+74191b2810775707,accept,King Lear – blank-author entry merged with Shakespeare canonical
+d4eacbcbb847c5aa,accept,Metamorphoses – blank-author entry merged with Ovid canonical
+1a1aae0312708a16,accept,Moby-Dick – blank-author entry merged with Melville canonical
+0ca586647a4d9d4f,accept,Nana – blank-author entry merged with Zola canonical
+59836ea8f7d08fd7,accept,Nightwood – blank-author entry merged with Barnes canonical
+fda3b8a5187dd302,reject,Rabbit Angstrom omnibus – blank and authored both get series-exploded; merge not needed
+709db00d452b3a37,accept,Rabbit Is Rich – blank-author entry merged with Updike canonical (volume, not omnibus)
+5bac5a2d3f9e7c8c,accept,Rabbit Redux – blank-author entry merged with Updike canonical
+c81f50acc4eb0c69,accept,Rabbit at Rest – blank-author entry merged with Updike canonical
+4307b827188c410c,accept,Rabbit Run – blank-author entry merged with Updike canonical
+99613639e07ef39d,accept,The Bible – source-error correction: absorb misattributed "Bible by Homer" into author-less Bible canonical
+6050620738f26707,accept,The Tempest – blank-author entry merged with Shakespeare canonical
+9fa523b6d466e0bb,accept,Ulysses – blank-author entry merged with Joyce canonical
+a0ebd9d238ee4fc6,accept,Don Quijote – Spanish-title variant of Don Quixote (Cervantes); same book
+fa289159c2a19773,reject,Earthsea vs A Wizard of Earthsea – ambiguous scope (series vs first volume); keep distinct
+32debffde3269bf6,reject,Absalom Absalom typo – already merged via T3 proposal 0ff3a422a7c69892; T8 is redundant
+e3ad4a3b1b446f74,accept,Huckleberry Finn – short form of Adventures of Huckleberry Finn (Twain)
+bd2cccaa4ae4f182,accept,Clarissa Harlowe – same book as Clarissa (Richardson)
+79d1b6aa3a04c69a,accept,Clarissa Or the History of a Young Lady – full title of Clarissa (Richardson)
+d1b2dc0c974b8d83,reject,Fahrenheit typo – already merged via T3 proposal 888756892b024eb9; T8 is redundant
+57203dd1303ddc75,reject,Gormenghast vs The Gormenghast Novels (Peake) – book 2 vs omnibus; genuinely distinct
+4f9be12f79fb6052,reject,Independant People typo – already merged via T3 proposal 9349c6784e652588; T8 is redundant
+d693c347cc49e5c4,accept,Life A User's Manual – colon vs comma subtitle fragmented two entries for same Perec book
+9792cdae256591cf,reject,Molloy vs Molloy Malone Dies and the Unnamable – first volume vs trilogy omnibus; genuinely distinct
+0ad7d6f74d475c32,reject,Mr vs Mrs Bridge – known trap; different books (Connell); already rejected in Phase 1
+2cd43b475ac1d508,reject,Notes from the Underground – already merged via T3 proposal a728f2d9401b0331; T8 is redundant
+ce53a9f8562f433b,accept,The Decameron of Boccaccio – appended-author variant of The Decameron (Boccaccio)
+48570f15404783b4,accept,Tristram Shandy Gentleman vs Life and Opinions – same book different subtitle form (Sterne)
+186c2a66dbb79af9,accept,The Story of the Stone – subtitle variant of same Cao Xueqin novel
+593d2f4b7edd2c62,accept,The U.S.A. trilogy – same series-level entry as U.s.a. (Dos Passos); volumes absent from data so no explode target
+f083ade1d3c8aeaa,accept,Tristram Shandy short form – same book as The Life and Opinions of Tristram Shandy (Sterne)
