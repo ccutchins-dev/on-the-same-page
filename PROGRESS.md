@@ -34,6 +34,16 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — PPMI-direct shipped to site (feature/phase3-ppmi-live)
+
+- **Commit**: 7b8e7d8 on feature/phase3-ppmi-live (to be merged to main)
+- **How to run**: `python3 -m http.server 8000` → `http://localhost:8000/site/`
+- **Scorer swap**: `?scorer=cooc` activates co-occurrence for A/B; `?debug=1` shows co=/n= diagnostics
+- **Changes**: PPMI computed client-side from voter_books (no JSON growth); rarity dropdown removed;
+  parity verified (rank-parity ✓ score-parity ✓ for SET1/SET2/SET3 vs Python rank_ppmi_direct)
+- **Modeling arc complete**: co-occ → BETA → lift → embeddings → PPMI-direct (all tested; none beat
+  co-occ aggregate recall; PPMI-direct best on rare bins; shipped for live qualitative eval)
+
 ## 2026-05-29 — PPMI-direct scorer (feature/ppmi-direct-scorer)
 
 - **Commit**: fe444f1 on feature/ppmi-direct-scorer (to be merged to main)
