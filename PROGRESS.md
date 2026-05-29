@@ -34,6 +34,16 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — PPMI-direct scorer (feature/ppmi-direct-scorer)
+
+- **Commit**: fe444f1 on feature/ppmi-direct-scorer (to be merged to main)
+- **Usage**: `python3 evaluate.py --ppmi [--shift-k K] [--input-rarity α]`
+- **Baseline k=0/α=0**: PPMI-direct RW-recall@10=4.3% vs co-occurrence (unoptimized)=12.6%.
+  Zero-row rate=21.8% (matches embedding harness ✓). n=21+ recall collapses to 1.9% — PPMI
+  over-suppresses popular-book associations at k=0. k>0 sweep is the next tuning step.
+- **Key finding**: k=0 boosts singletons (Middlemarch top-5 are all n=1 books with PPMI≈2.25
+  from single-count accidental co-occurrences). This is the floor, not the ceiling.
+
 ## 2026-05-29 — PPMI+SVD embedding recommender (feature/embedding-recommender)
 
 - **Commit**: d1bbf1b on feature/embedding-recommender (to be merged to main)
