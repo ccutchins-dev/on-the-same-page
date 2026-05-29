@@ -518,6 +518,394 @@ def print_panel(alpha, gamma, n_voters_total, n_books, n_pairs,
     print(f"  (See full validation output above for spot-checks and unrecommendable check.)")
 
 
+# ── Embedding harness ─────────────────────────────────────────────────────────
+
+def _is_zero_vec(vec):
+    import numpy as np
+    return np.allclose(vec, 0)
+
+
+def run_embedding_validation(voter_books, book_info, book_list, book_idx, fold_vecs, d):
+    """Four embedding-specific validation checks."""
+    import numpy as np
+    from embeddings import embed_query, rank_by_embedding, build_embeddings
+
+    N = len(voter_books)
+    print("\n──── Embedding Harness Validation ──────────────────────────────────────")
+
+    # 1. Random-vector baseline
+    print("\n1. Random-vector baseline:")
+    rng = np.random.default_rng(42)
+    rnd_hits = rnd_total = 0
+    voters_list = list(voter_books.keys())
+    sample_v = voters_list[:min(200, len(voters_list))]
+    for voter in sample_v:
+        books_list = list(voter_books[voter])
+        if len(books_list) < 2:
+            continue
+        h = books_list[0]
+        inp = frozenset(b for b in books_list if b != h)
+        n_h = book_info.get(h, {}).get("n_voters", 1)
+        # Random unit vectors for this fold
+        rnd_vecs = rng.standard_normal((len(book_list), d)).astype(np.float32)
+        norms = np.linalg.norm(rnd_vecs, axis=1, keepdims=True)
+        norms[norms == 0] = 1.0
+        rnd_vecs /= norms
+        q = embed_query(list(inp), rnd_vecs, book_idx, book_info, N=N)
+        if q is None:
+            continue
+        ranked = rank_by_embedding(q, rnd_vecs, book_list, inp, top_n=50)
+        rank = rank_of(ranked, h)
+        rnd_hits += 1 if (rank is not None and rank <= 10) else 0
+        rnd_total += 1
+    rnd_r10 = rnd_hits / rnd_total if rnd_total else 0.0
+    ok = "✓" if rnd_r10 < 0.05 else "⚠"
+    print(f"   Random-vector R@10: {100*rnd_r10:.2f}%  (expected ~0.83%)  {ok}")
+
+    # 2. Singletons remain zero-vector
+    print("\n2. Singleton zero-vector check:")
+    confidence_man = "K:cc83b0188ed4"
+    kennedy = "A.L. Kennedy"
+    if kennedy in fold_vecs and confidence_man in book_idx:
+        cm_vec = fold_vecs[kennedy][book_idx[confidence_man]]
+        is_zero = _is_zero_vec(cm_vec)
+        print(f"   '{book_info.get(confidence_man,{}).get('title','The Confidence-Man')}' "
+              f"(n=1) in {kennedy} fold: zero_vector={is_zero}  {'✓' if is_zero else '✗'}")
+    else:
+        print("   A.L. Kennedy or The Confidence-Man not found — skip.")
+
+    # 3. Newly-reachable books (structural win proof)
+    print("\n3. Newly-reachable books (structural win):")
+    btv = build_book_to_voters(voter_books)
+    found = False
+    for voter in list(voter_books.keys())[:len(voter_books)]:
+        if found:
+            break
+        vb = list(voter_books[voter])
+        fold_v = fold_vecs[voter]
+        for h in vb:
+            inp = frozenset(b for b in vb if b != h)
+            n_h = book_info.get(h, {}).get("n_voters", 1)
+            if n_h < 2:
+                continue  # skip singletons
+            # Check if unrecommendable under old co-occurrence harness
+            if is_recommendable(btv, voter_books, voter, inp, h):
+                continue  # was recommendable; not a structural win case
+            # Check if now reachable with embedding
+            h_idx = book_idx.get(h)
+            if h_idx is None or _is_zero_vec(fold_v[h_idx]):
+                continue  # still zero-vector
+            q = embed_query(list(inp), fold_v, book_idx, book_info, N=N)
+            if q is None:
+                continue
+            ranked = rank_by_embedding(q, fold_v, book_list, inp, top_n=200)
+            rank = rank_of(ranked, h)
+            if rank is not None:
+                title = book_info.get(h, {}).get("title", h)
+                print(f"   Voter: {voter}")
+                print(f"   Book:  '{title}' (n_voters={n_h})")
+                print(f"   Previously unrecommendable (no co-voter of '{title}' shares "
+                      f"any input book with {voter})")
+                print(f"   Embedding rank: {rank}  ✓  (now reachable via latent proximity)")
+                found = True
+                break
+    if not found:
+        # Count total newly-reachable
+        newly_reachable = 0
+        total_non_singletons = 0
+        for voter in voter_books:
+            vb = list(voter_books[voter])
+            fold_v = fold_vecs[voter]
+            for h in vb:
+                n_h = book_info.get(h, {}).get("n_voters", 1)
+                if n_h < 2:
+                    continue
+                total_non_singletons += 1
+                inp = frozenset(b for b in vb if b != h)
+                if is_recommendable(btv, voter_books, voter, inp, h):
+                    continue
+                h_idx = book_idx.get(h)
+                if h_idx is not None and not _is_zero_vec(fold_v[h_idx]):
+                    newly_reachable += 1
+        print(f"   No single example shown (scan complete).")
+        print(f"   Newly-reachable trials (non-singleton, co-occ-disconnected, "
+              f"non-zero-vector): {newly_reachable}/{total_non_singletons}")
+
+    # 4. Per-fold rebuild excludes the right voter
+    print("\n4. Per-fold rebuild excludes test voter:")
+    # Find a book with n_voters=2
+    target_book = target_voter = co_voter = None
+    for cid, info in book_info.items():
+        if info["n_voters"] == 2:
+            owners = list(btv.get(cid, []))
+            if len(owners) == 2:
+                target_book, target_voter, co_voter = cid, owners[0], owners[1]
+                break
+    if target_book:
+        title = book_info[target_book].get("title", target_book)
+        # Fold excluding target_voter: co_voter still contributes → non-zero
+        vec_excl_tv = fold_vecs[target_voter][book_idx[target_book]]
+        # Fold excluding co_voter: target_voter still contributes → non-zero
+        vec_excl_cv = fold_vecs[co_voter][book_idx[target_book]]
+        # Rebuild excluding BOTH owners: no one contributes → zero vector
+        # Build a modified voter_books that excludes both owners
+        vbooks_neither = {v: b for v, b in voter_books.items()
+                          if v != target_voter and v != co_voter}
+        vecs_excl_both = build_embeddings(vbooks_neither, book_list, d)
+        vec_excl_both = vecs_excl_both[book_idx[target_book]]
+        non_zero_tv   = not _is_zero_vec(vec_excl_tv)
+        non_zero_cv   = not _is_zero_vec(vec_excl_cv)
+        zero_both     = _is_zero_vec(vec_excl_both)
+        ok_tv   = "✓" if non_zero_tv else "✗"
+        ok_cv   = "✓" if non_zero_cv else "✗"
+        ok_both = "✓" if zero_both   else "✗"
+        print(f"   '{title}' (n=2, owners: {target_voter[:20]} / {co_voter[:20]})")
+        print(f"   Fold excl. {target_voter[:20]}: non-zero? {non_zero_tv}  {ok_tv}")
+        print(f"   Fold excl. {co_voter[:20]}: non-zero? {non_zero_cv}  {ok_cv}")
+        print(f"   Rebuild excl. BOTH owners: zero vector? {zero_both}  {ok_both}")
+    else:
+        print("   No n=2 book found — skip.")
+
+
+def run_embedding_loo(voter_books, book_info, book_list, book_idx, fold_vecs,
+                      input_rarity, N):
+    """Protocol A for embedding model: leave-one-out with per-fold SVD rebuild."""
+    from embeddings import embed_query, rank_by_embedding
+
+    trials     = []
+    n_zero_vec = 0
+
+    for voter, books in voter_books.items():
+        fold_v = fold_vecs[voter]
+        books_list = list(books)
+        for h in books_list:
+            input_ids = [b for b in books_list if b != h]
+            n_h = book_info.get(h, {}).get("n_voters", 1)
+
+            h_idx = book_idx.get(h)
+            if h_idx is None or _is_zero_vec(fold_v[h_idx]):
+                n_zero_vec += 1
+                # Still counted in denominator (conservative, honest)
+                trials.append({"recommendable": True, "rank": None, "n_voters": n_h})
+                continue
+
+            q = embed_query(input_ids, fold_v, book_idx, book_info,
+                            input_rarity_weight=input_rarity, N=N)
+            if q is None:
+                n_zero_vec += 1
+                trials.append({"recommendable": True, "rank": None, "n_voters": n_h})
+                continue
+
+            ranked = rank_by_embedding(q, fold_v, book_list,
+                                        frozenset(input_ids), top_n=TOP_BOOKS)
+            r = rank_of(ranked, h)
+            trials.append({"recommendable": True, "rank": r, "n_voters": n_h})
+
+    return trials, n_zero_vec
+
+
+def run_embedding_curve(voter_books, book_info, book_list, book_idx, fold_vecs,
+                        input_rarity, N, k_range=K_RANGE, num_draws=NUM_DRAWS):
+    """Protocol B for embedding model: retained-input curve K=1..8."""
+    from embeddings import embed_query, rank_by_embedding
+
+    curve = {}
+    for K in k_range:
+        trials     = []
+        n_zero_vec = 0
+
+        for voter, books in voter_books.items():
+            fold_v    = fold_vecs[voter]
+            books_list = list(books)
+            if len(books_list) <= K:
+                continue
+
+            for _ in range(num_draws):
+                input_ids  = random.sample(books_list, K)
+                held_out   = [b for b in books_list if b not in set(input_ids)]
+                inp_set    = frozenset(input_ids)
+
+                q = embed_query(input_ids, fold_v, book_idx, book_info,
+                                input_rarity_weight=input_rarity, N=N)
+                ranked = [] if q is None else rank_by_embedding(
+                    q, fold_v, book_list, inp_set, top_n=TOP_BOOKS)
+
+                for h in held_out:
+                    n_h = book_info.get(h, {}).get("n_voters", 1)
+                    h_idx = book_idx.get(h)
+                    if h_idx is None or _is_zero_vec(fold_v[h_idx]) or q is None:
+                        n_zero_vec += 1
+                        trials.append({"recommendable": True, "rank": None,
+                                       "n_voters": n_h})
+                        continue
+                    r = rank_of(ranked, h)
+                    trials.append({"recommendable": True, "rank": r,
+                                   "n_voters": n_h})
+
+        curve[K] = (trials, n_zero_vec)
+
+    return curve
+
+
+def compute_reconstruction_recall(voter_books, book_info, book_list, book_idx,
+                                   fold_vecs, full_vecs, input_rarity, N,
+                                   n_sample=200, seed=0):
+    """
+    Overfitting guard: compare training (full-model) vs LOO recall@10 on the
+    SAME recoverable subset — (voter, held_out) pairs where h has n_voters≥2
+    (non-zero-vector after fold exclusion). Comparing on this subset ensures
+    the gap measures overfitting, not the structural singleton penalty.
+    """
+    from embeddings import embed_query, rank_by_embedding
+
+    rng = random.Random(seed)
+    voters_list = list(voter_books.keys())
+
+    # Build the recoverable-subset sample
+    sample_pairs = []
+    for voter in voters_list:
+        vb = list(voter_books[voter])
+        for h in vb:
+            if book_info.get(h, {}).get("n_voters", 1) >= 2:
+                sample_pairs.append((voter, h))
+
+    rng.shuffle(sample_pairs)
+    sample_pairs = sample_pairs[:n_sample]
+
+    train_hits = loo_hits = total = 0
+
+    for voter, h in sample_pairs:
+        vb = list(voter_books[voter])
+        inp = [b for b in vb if b != h]
+        inp_set = frozenset(inp)
+        n_h = book_info.get(h, {}).get("n_voters", 1)
+
+        # Training (full) recall
+        q_full = embed_query(inp, full_vecs, book_idx, book_info,
+                              input_rarity_weight=input_rarity, N=N)
+        if q_full is not None:
+            ranked_full = rank_by_embedding(q_full, full_vecs, book_list,
+                                             inp_set, top_n=TOP_BOOKS)
+            r_full = rank_of(ranked_full, h)
+            train_hits += 1 if (r_full is not None and r_full <= 10) else 0
+
+        # LOO recall
+        fold_v = fold_vecs[voter]
+        h_idx = book_idx.get(h)
+        if h_idx is not None and not _is_zero_vec(fold_v[h_idx]):
+            q_loo = embed_query(inp, fold_v, book_idx, book_info,
+                                input_rarity_weight=input_rarity, N=N)
+            if q_loo is not None:
+                ranked_loo = rank_by_embedding(q_loo, fold_v, book_list,
+                                                inp_set, top_n=TOP_BOOKS)
+                r_loo = rank_of(ranked_loo, h)
+                loo_hits += 1 if (r_loo is not None and r_loo <= 10) else 0
+
+        total += 1
+
+    if total == 0:
+        return 0.0, 0.0
+    return train_hits / total, loo_hits / total
+
+
+def print_embedding_panel(d, input_rarity, loo_trials, n_zero_vec,
+                          curve, train_r10, loo_r10_recov, N, book_info):
+    """Print the embedding evaluation panel."""
+    n_total = len(loo_trials)
+    m_loo   = compute_metrics(loo_trials, N)
+
+    print(f"\n{'='*72}")
+    print(f"  Embedding Evaluation  |  d={d}  input_rarity={input_rarity}")
+    print(f"  PPMI+SVD  |  342 voters  |  1209 books  |  3525 voter-book pairs")
+    print(f"  Zero-vector in LOO: {n_zero_vec}/{n_total} ({100*n_zero_vec/n_total:.1f}%)"
+          f"  ← singletons of test voter; all others get vectors")
+    print(f"{'='*72}")
+
+    gap = train_r10 - loo_r10_recov
+    print(f"\n  Overfitting check (recoverable subset, n_voters≥2):")
+    print(f"    Training R@10 (full model): {100*train_r10:.1f}%")
+    print(f"    LOO R@10     (per-fold):    {100*loo_r10_recov:.1f}%")
+    print(f"    Gap:                        {gap*100:+.1f}pp  "
+          f"{'[small = good generalization]' if gap < 0.10 else '[widening = check for overfitting]'}")
+
+    # Protocol A
+    print(f"\n──── Protocol A: Leave-One-Out ({n_total} trials, all in denominator) ───────")
+    if m_loo["recall_10"] is None:
+        print("  (no trials)")
+    else:
+        bins_ordered = ["n=1", "n=2-5", "n=6-20", "n=21+"]
+        strat = m_loo["strat"]
+
+        hdr = f"  {'':33}  {'Overall':>8}"
+        for b in bins_ordered:
+            hdr += f"  {b:>7}"
+        print(hdr)
+
+        # Recall@10 with stratification
+        row = f"  {'Recall@10 [LEADING]:':33}  {100*m_loo['recall_10']:>7.1f}%"
+        for b in bins_ordered:
+            row += f" {100*strat[b][0]:5.1f}%" if b in strat else "      --"
+        print(row)
+
+        # Recall@25 with stratification
+        row25 = f"  {'Recall@25:':33}  {100*m_loo['recall_25']:>7.1f}%"
+        for b in bins_ordered:
+            bt = [t for t in loo_trials if t["recommendable"]
+                  and popularity_bin(t["n_voters"]) == b]
+            if bt:
+                h25 = sum(1 for t in bt
+                          if t["rank"] is not None and t["rank"] <= 25) / len(bt)
+                row25 += f" {100*h25:5.1f}%"
+            else:
+                row25 += "      --"
+        print(row25)
+
+        print(f"  {'RW-Recall@10 [PRIMARY TUNING TARGET]:':33}  "
+              f"{100*m_loo['rw_recall_10']:>7.1f}%")
+        print(f"  {'RW-Recall@25:':33}  {100*m_loo['rw_recall_25']:>7.1f}%")
+        print(f"  {'MRR:':33}  {m_loo['mrr']:>8.4f}")
+
+        print()
+        print("  Popularity-stratified Recall@10:")
+        for b in bins_ordered:
+            if b in strat:
+                r, cnt = strat[b]
+                print(f"    {b:>8}: {100*r:5.1f}%  ({cnt} trials)")
+            else:
+                print(f"    {b:>8}: --  (no trials)")
+
+    # Protocol B
+    print(f"\n──── Protocol B: Retained-Input Curve ({NUM_DRAWS} draws, K=1..8) ────────")
+    print(f"  {'K':>2}  {'Trials':>7}  {'ZeroVec%':>9}  "
+          f"{'R@10':>7}  {'R@25':>7}  {'RW-R@10':>8}  {'MRR':>6}  "
+          f"  held-out composition")
+
+    for K in K_RANGE:
+        if K not in curve:
+            continue
+        trials_k, zero_k = curve[K]
+        n_total_k = len(trials_k)
+        if n_total_k == 0:
+            continue
+        m_k = compute_metrics(trials_k, N)
+        zero_pct = 100 * zero_k / n_total_k
+
+        comp_bins = defaultdict(int)
+        for t in trials_k:
+            comp_bins[popularity_bin(t["n_voters"])] += 1
+        comp_str = "  ".join(
+            f"{b}:{100*comp_bins.get(b,0)/n_total_k:.0f}%"
+            for b in ["n=1","n=2-5","n=6-20","n=21+"])
+
+        if m_k["recall_10"] is not None:
+            print(f"  {K:>2}  {n_total_k:>7}  {zero_pct:>8.1f}%  "
+                  f"{100*m_k['recall_10']:>6.1f}%  {100*m_k['recall_25']:>6.1f}%  "
+                  f"{100*m_k['rw_recall_10']:>7.1f}%  {m_k['mrr']:>6.4f}  "
+                  f"  {comp_str}")
+        else:
+            print(f"  {K:>2}  {n_total_k:>7}  {zero_pct:>8.1f}%  (no trials)")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -530,60 +918,108 @@ def main():
                         help="Run validation checks only, skip full protocols")
     parser.add_argument("--seed",          type=int,   default=0,
                         help="Random seed for reproducible draws (default: 0)")
+    # Embedding flags
+    parser.add_argument("--embed",         action="store_true",
+                        help="Run embedding (PPMI+SVD) evaluation instead of co-occurrence")
+    parser.add_argument("--d",             type=int,   default=30,
+                        help="SVD dimensionality (default: 30)")
+    parser.add_argument("--input-rarity",  type=float, default=0.0,
+                        help="Input rarity weighting for query centroid (default: 0.0 = plain centroid)")
     args = parser.parse_args()
 
     random.seed(args.seed)
     alpha, gamma = args.alpha, args.gamma
 
-    print(f"Loading model (α={alpha}, γ={gamma})…", flush=True)
-    model      = load_model()
+    print(f"Loading model…", flush=True)
+    model       = load_model()
     voter_books = model.voter_books
     book_info   = model.book_info
     N           = model.n_voters
 
     # Dataset statistics
-    n_books         = len(book_info)
-    n_pairs         = sum(len(b) for b in voter_books.values())
-    n_singletons    = sum(1 for info in book_info.values() if info["n_voters"] == 1)
-    singleton_pct   = 100 * n_singletons / n_books
-    sing_in_pairs   = sum(1 for books in voter_books.values()
-                          for b in books if book_info.get(b,{}).get("n_voters",0) == 1)
-    pair_sing_pct   = 100 * sing_in_pairs / n_pairs
+    n_books       = len(book_info)
+    n_pairs       = sum(len(b) for b in voter_books.values())
+    n_singletons  = sum(1 for info in book_info.values() if info["n_voters"] == 1)
+    singleton_pct = 100 * n_singletons / n_books
+    sing_in_pairs = sum(1 for books in voter_books.values()
+                        for b in books if book_info.get(b,{}).get("n_voters",0) == 1)
+    pair_sing_pct = 100 * sing_in_pairs / n_pairs
 
-    # Always run validation checks
-    run_validation_checks(model, alpha, gamma, book_info)
+    if args.embed:
+        # ── Embedding path ─────────────────────────────────────────────────────
+        from embeddings import build_embeddings
 
-    if args.validate_only:
-        return
+        d            = args.d
+        input_rarity = args.input_rarity
 
-    # Protocol A
-    print("\nRunning Protocol A (leave-one-out)…", flush=True)
-    loo_trials, loo_unrec = run_protocol_a(model, alpha, gamma)
+        # Fixed sorted book list (index ↔ cid)
+        book_list = sorted(book_info.keys())
+        book_idx  = {cid: i for i, cid in enumerate(book_list)}
 
-    # Protocol B
-    print(f"Running Protocol B (K=1..8, {NUM_DRAWS} draws each)…", flush=True)
-    curve = run_protocol_b(model, alpha, gamma)
+        print(f"Building per-fold embeddings (d={d}, 342 folds)…", flush=True)
+        fold_vecs = {}
+        for i, voter in enumerate(voter_books.keys()):
+            if (i+1) % 50 == 0:
+                print(f"  fold {i+1}/342…", flush=True)
+            fold_vecs[voter] = build_embeddings(voter_books, book_list, d,
+                                                exclude_voter=voter)
 
-    # Differentiation diagnostic
-    print("Running differentiation diagnostic…", flush=True)
-    diff = run_differentiation_diagnostic(model, alpha, gamma)
+        # Validation always runs first
+        run_embedding_validation(voter_books, book_info, book_list, book_idx,
+                                  fold_vecs, d)
 
-    # Random baseline
-    print("Running random baseline…", flush=True)
-    rand_r10 = run_random_baseline(model)
+        if args.validate_only:
+            return
 
-    # Print full panel
-    print_panel(
-        alpha=alpha, gamma=gamma,
-        n_voters_total=N, n_books=n_books, n_pairs=n_pairs,
-        n_singletons=n_singletons, singleton_pct=singleton_pct,
-        pair_singleton_pct=pair_sing_pct,
-        loo_trials=loo_trials, loo_unrec=loo_unrec,
-        curve=curve,
-        diff_diag=diff,
-        random_r10=rand_r10,
-        book_info_frozen=book_info,
-    )
+        # Full embeddings (for reconstruction recall / overfitting guard)
+        print("\nBuilding full embeddings (no exclusion)…", flush=True)
+        full_vecs = build_embeddings(voter_books, book_list, d)
+
+        print("\nRunning embedding Protocol A (leave-one-out)…", flush=True)
+        loo_trials, n_zero_vec = run_embedding_loo(
+            voter_books, book_info, book_list, book_idx, fold_vecs, input_rarity, N)
+
+        print(f"Running embedding Protocol B (K=1..8, {NUM_DRAWS} draws)…", flush=True)
+        curve = run_embedding_curve(
+            voter_books, book_info, book_list, book_idx, fold_vecs,
+            input_rarity, N)
+
+        print("Computing overfitting guard (reconstruction recall)…", flush=True)
+        train_r10, loo_r10_recov = compute_reconstruction_recall(
+            voter_books, book_info, book_list, book_idx,
+            fold_vecs, full_vecs, input_rarity, N)
+
+        print_embedding_panel(d, input_rarity, loo_trials, n_zero_vec,
+                               curve, train_r10, loo_r10_recov, N, book_info)
+
+    else:
+        # ── Co-occurrence path (original harness) ───────────────────────────
+        run_validation_checks(model, alpha, gamma, book_info)
+
+        if args.validate_only:
+            return
+
+        print(f"\nRunning Protocol A (α={alpha}, γ={gamma})…", flush=True)
+        loo_trials, loo_unrec = run_protocol_a(model, alpha, gamma)
+
+        print(f"Running Protocol B (K=1..8, {NUM_DRAWS} draws)…", flush=True)
+        curve = run_protocol_b(model, alpha, gamma)
+
+        print("Running differentiation diagnostic…", flush=True)
+        diff = run_differentiation_diagnostic(model, alpha, gamma)
+
+        print("Running random baseline…", flush=True)
+        rand_r10 = run_random_baseline(model)
+
+        print_panel(
+            alpha=alpha, gamma=gamma,
+            n_voters_total=N, n_books=n_books, n_pairs=n_pairs,
+            n_singletons=n_singletons, singleton_pct=singleton_pct,
+            pair_singleton_pct=pair_sing_pct,
+            loo_trials=loo_trials, loo_unrec=loo_unrec,
+            curve=curve, diff_diag=diff, random_r10=rand_r10,
+            book_info_frozen=book_info,
+        )
 
 
 if __name__ == "__main__":
