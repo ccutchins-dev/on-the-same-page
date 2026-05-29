@@ -1,0 +1,30 @@
+{
+  "author_aliases": {
+    "dostoyevsky": "dostoevsky",
+    "tolstoi": "tolstoy",
+    "tolstoj": "tolstoy"
+  },
+  "series_registry": {
+    "rabbit angstrom": {
+      "canonical_volumes": ["Rabbit, Run", "Rabbit Redux", "Rabbit Is Rich", "Rabbit at Rest"],
+      "canonical_author": "John Updike",
+      "note": "Updike Rabbit tetralogy. Omnibus entries (Rabbit Angstrom, A Rabbit Omnibus) explode to the 4 volumes."
+    },
+    "a rabbit omnibus": {
+      "canonical_volumes": ["Rabbit, Run", "Rabbit Redux", "Rabbit Is Rich", "Rabbit at Rest"],
+      "canonical_author": "John Updike",
+      "note": "Guardian omnibus edition — same tetralogy."
+    },
+    "sword of honour": {
+      "canonical_volumes": ["Men at Arms", "Officers and Gentlemen", "Unconditional Surrender"],
+      "canonical_author": "Evelyn Waugh",
+      "note": "Waugh Sword of Honour trilogy."
+    },
+    "the neapolitan novels": {
+      "canonical_volumes": ["My Brilliant Friend", "The Story of a New Name", "Those Who Leave and Those Who Stay", "The Story of a Lost Child"],
+      "canonical_author": "Elena Ferrante",
+      "note": "Ferrante Neapolitan Quartet — if a series-level entry appears."
+    }
+  },
+  "manual_canonical": {}
+}
