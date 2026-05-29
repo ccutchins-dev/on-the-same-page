@@ -379,4 +379,33 @@ the prior one.
 - **Random-score validation**: uses real per-fold PPMI matrix but assigns random candidate
   scores, testing "does PPMI ranking beat random ranking?" Not index-scrambling (which would
   relabel the same structure and pass vacuously).
-  (that constraint applied to Phase 1 canonical pipeline only).
+
+## 2026-05-29 — PPMI-direct shipped to live site (k=0, α=0)
+
+- **Decision**: Ship PPMI-direct (k=0, α=0) as the production scorer. Co-occurrence scorer
+  retained in code, swappable via `?scorer=cooc` URL param for silent A/B. Rarity-tuning
+  dropdown (α/γ controls) removed — PPMI-direct has no user-facing parameters.
+
+- **Rationale**: None of the scorers tested beat co-occurrence's aggregate recall on this
+  sparse corpus. The full modeling arc was exercised: co-occurrence → BETA normalization →
+  lift-with-shrinkage → PPMI+SVD embeddings → PPMI-direct. PPMI-direct is chosen because:
+  (1) it is the most differentiating at the data's sparsity ceiling — best on rare-book bins
+  (n=2–5 and n=6–20) where the interesting taste signal lives; (2) it is the conceptually
+  principled version of co-occurrence (popularity-corrected associations); (3) it has no
+  tuning knobs that need sweeping before shipping. Shipping for live qualitative evaluation.
+
+- **Client-side PPMI**: computed at startup from voter_books already in model_data.json —
+  no new JSON data. C_total verified exact match with Python (both = 33294). Parity gate:
+  rank-parity and score-parity exact for 3 input sets vs Python rank_ppmi_direct. The one
+  "score mismatch" flag was a tied-score artifact in the parity helper (not the scorer);
+  the actual ranked lists matched identically.
+
+- **Y-voters display with PPMI scoring**: `computeMatchedVoterCounts` stays unchanged. With
+  PPMI, a high-ranked result may have a low Y (PPMI surfaces books for association strength,
+  not corroboration count). This is correct behavior — Y is now informational, not the
+  rationale for the ranking. Verified: no Y=0 in results (a book with no matched-pool voters
+  can't have a PPMI score from those voters, so it won't appear).
+
+- **k=0 note**: ships the floor of the PPMI approach. k=0 includes all single-count
+  accidental associations; k>0 might improve things but the sweep showed no clear win
+  (n=21+ recall collapses monotonically with k). Shipping k=0 for feel-based evaluation.
