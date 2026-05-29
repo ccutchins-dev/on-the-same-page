@@ -34,6 +34,19 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 2: BETA scorer added (feature/phase2-beta-scorer)
+
+- **Commit**: acae4ff on feature/phase2-beta-scorer (to be merged to main)
+- **Notes**: Added BETA constant and `_norm_score()` to phase2_model.py. BETA=0 is the
+  exact raw-affinity baseline; BETA>0 divides affinity by n_voters^BETA to penalize popular
+  books. BETA sweep (0, 0.3, 0.5, 0.7, 1.0) run; Set 2/Set 3 divergence drops from 8→0
+  shared top-15 books at BETA=0.5. Anomaly: BETA≥0.5 on mixed inputs causes singleton
+  flooding (over-correction). BETA choice is still pending human review of sweep output.
+- **⚠ Open item — JS parity for BETA>0**: site/main.js still runs raw affinity (BETA=0).
+  If a non-zero BETA is chosen, main.js must be updated to apply the same normalization
+  and site/script parity must be re-confirmed before the site reflects the new default.
+  Until that lands, the live site serves BETA=0 regardless of what phase2_model.py uses.
+
 ## 2026-05-29 — Phase 1 cleanup complete (duplicate canonical merge)
 
 - **Commit**: fbf37cb on feature/phase1-cleanup (to be merged to main)
