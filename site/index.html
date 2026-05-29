@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kindred Lists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <button class="hamburger" aria-label="Menu (coming soon)" title="Menu (coming soon)">☰</button>
+    <span class="site-name">Kindred Lists</span>
+  </header>
+
+  <div id="loading" aria-live="polite">Loading…</div>
+
+  <main id="main" class="pre-run" hidden>
+
+    <div id="input-panel">
+      <h1>Books you love</h1>
+      <p class="subtitle">Select books and find the critics who share your taste.</p>
+
+      <div id="book-entries"></div>
+
+      <div id="search-container">
+        <div class="search-wrapper">
+          <input id="search-input" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="Search for a book…" aria-label="Search for a book">
+          <ul id="dropdown" class="dropdown" role="listbox" hidden></ul>
+        </div>
+      </div>
+
+      <div id="run-area">
+        <div id="stale-notice" hidden>Inputs changed — re-run to update results.</div>
+        <button id="run-btn" disabled>Find Books I Love</button>
+      </div>
+    </div>
+
+    <div id="results-panel" hidden>
+      <p id="results-header"></p>
+      <ol id="results-list"></ol>
+    </div>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

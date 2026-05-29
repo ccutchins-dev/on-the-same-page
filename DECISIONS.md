@@ -125,4 +125,18 @@ the prior one.
 - **Alternatives considered**: Bake into Model (parallel to RARITY_ALPHA) — would require reload to sweep values.
 - **Rationale**: Position weighting does not affect the precomputed IDF weights (only how they are combined at query time), so there is no reason to bake it into the Model. A kwarg enables sweeping without reloading, which the user explicitly wanted.
 - **Trigger**: Phase 2b plan review.
-- **Trigger**: Phase 2 plan review.
+
+## 2026-05-29 — Phase 3: plain HTML/CSS/JS, no framework
+
+- **Context**: PROJECT.md requires a static site. Stack choice was open.
+- **Decision**: Plain HTML/CSS/JS, no framework. Three files: `site/index.html`, `site/style.css`, `site/main.js`.
+- **Alternatives considered**: React, Alpine.js, Vue — all add build steps or CDN dependencies.
+- **Rationale**: One page, static data, no routing, no component reuse. ~300 lines of vanilla JS is simpler, faster to load, and requires nothing to install.
+- **Trigger**: Phase 3 implementation.
+
+## 2026-05-29 — Phase 3: round affinity to 6 decimals before sort (JS/Python parity)
+
+- **Context**: Python and JS accumulate floats in different internal orders, producing ~15th-decimal divergence that can flip near-tied books.
+- **Decision**: Round affinity to 6 decimal places before comparing in the sort key, in both `phase2_model.py` and `site/main.js`. Verified: 50-result parity check (same input in Python and Node.js) passes with exact order match.
+- **Alternatives considered**: Accept float divergence (could silently flip near-ties). No visible ordering change from the rounding in any existing verify case.
+- **Trigger**: Phase 3 plan review; user requirement to match exactly.

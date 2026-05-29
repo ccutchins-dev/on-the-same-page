@@ -176,9 +176,13 @@ def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
             if b not in input_set:
                 book_affinity[b] += sim
 
+    # Round to 6 decimals before sort so the JS client produces the same ordering.
+    # Python and JS can accumulate the same floats in different order, producing
+    # ~15th-decimal divergence that flips near-tied books. Rounding to 6 places
+    # makes both implementations provably identical.
     ranked_books = sorted(
         book_affinity,
-        key=lambda b: (-book_affinity[b], -book_info.get(b, {}).get("weight", 0.0)),
+        key=lambda b: (-round(book_affinity[b], 6), -book_info.get(b, {}).get("weight", 0.0)),
     )
 
     return ranked_books[:top_books], ranked_voters[:top_voters]
