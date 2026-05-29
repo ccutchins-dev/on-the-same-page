@@ -260,7 +260,31 @@ the prior one.
   input book i also read candidate c?" — a book-level question. The alpha parameter recovers
   the input-level rarity signal at the right abstraction. Per-voter weighting would conflate
   the two levels and recreate the opacity of the prior scorers.
-- **JS parity**: THREE unported Step-2 scorers now outstanding (BETA, lift, co-occurrence).
-  Site serves raw affinity until main.js is updated to whichever scorer is chosen.
+- **JS parity**: Previously THREE unported Step-2 scorers (BETA, lift, co-occurrence). The
+  co-occurrence scorer is now ported to main.js and verified. BETA and lift remain Python-only
+  by design — they were evaluation options, not shipped features.
 - **Trigger**: Lift-scorer sweep showed Set 3 is pool-size-limited, not scorer-limited;
   user requested a legible framework separating the two rarity effects.
+
+## 2026-05-29 — Co-occurrence scorer chosen as production default (α=γ=1.0)
+
+- **Context**: Five scorer sweeps converged on co-occurrence as the recommended model.
+  γ=1.0 from the gamma sweep (3 shared books between Set 2 and Set 3 top-15 — in the
+  target window). α sweep showed stable results across 0–2 for most sets; α=1.0 chosen
+  as the natural IDF unit weighting.
+- **Decision**: COOC_INPUT_EXP=1.0, COOC_OUTPUT_EXP=1.0 set as Python constants; JSON
+  re-exported as source of truth. main.js now implements the co-occurrence scorer, closing
+  the JS parity open item for this scorer. BETA and lift remain Python-only by design.
+- **Cid tiebreak added**: equal-score equal-idf ties (all n=1 singletons, identical IDF)
+  resolve by cid alphabetically in both Python and JS, ensuring deterministic ordering
+  regardless of dict/object iteration order. Parity gate confirmed: 9 input-set × parameter
+  combinations, 15 books each — all match exactly.
+- **IDF sources**: JS rawIdf(n, N) = Math.log((N+1)/(n+1)) matches Python _raw_idf exactly.
+  Tiebreak uses model.idf (stored) in JS and book_info["weight"] in Python — equal at
+  RARITY_ALPHA=1.0. See prior DECISIONS.md entry on RARITY_ALPHA dependency.
+- **co= display count**: distinct voter count (per voter, outside per-input loop), distinct
+  from the weighted edge sum used for scoring. Verified: 20 co= values match between Python
+  and JS in the parity gate.
+- **JS parity open item status**: co-occurrence scorer closed. BETA and lift unported by
+  design (evaluation tools, not shipping). No remaining unported scorer open items.
+- **Trigger**: Five scorer sweeps; user approved co-occurrence α=γ=1.0 for production.

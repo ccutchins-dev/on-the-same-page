@@ -228,40 +228,52 @@ h1 {
 .item-title { color: var(--text); }
 .item-author { color: var(--muted); font-size: 0.8rem; }
 
-/* ── Run area ──────────────────────────────────────────────────────────────── */
+/* ── Rarity controls ───────────────────────────────────────────────────────── */
 #run-area { margin-top: 1rem; }
 
-#stale-notice {
+#rarity-details { border: none; }
+
+.rarity-summary {
+  cursor: pointer;
   font-size: 0.8rem;
   color: var(--muted);
-  margin-bottom: 0.5rem;
-  font-style: italic;
+  list-style: none;
+  user-select: none;
+  padding: 0.25rem 0;
+}
+.rarity-summary::-webkit-details-marker { display: none; }
+.rarity-summary::marker { display: none; }
+
+.rarity-panel {
+  padding: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-#run-btn {
-  padding: 0.6rem 1.25rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
+.rarity-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.rarity-row label { flex: 1; }
+.rarity-row input {
+  width: 4.5rem;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   font-family: inherit;
-  font-size: 0.9rem;
-  cursor: pointer;
-  width: 100%;
-}
-#run-btn:hover:not(:disabled) { background: #1e3a63; }
-#run-btn:disabled {
-  background: var(--disabled-bg);
-  color: var(--disabled-fg);
-  cursor: default;
+  font-size: 0.8rem;
+  background: var(--surface);
+  color: var(--text);
 }
 
 /* ── Results panel ─────────────────────────────────────────────────────────── */
 #results-panel {
   transition: opacity 0.2s;
 }
-
-#results-panel.stale { opacity: 0.45; pointer-events: none; }
 
 #results-header {
   font-size: 0.85rem;
@@ -296,3 +308,4 @@ h1 {
 .result-title  { grid-column: 2; grid-row: 1; font-weight: bold; font-size: 0.95rem; }
 .result-author { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 0.85rem; }
 .result-count  { grid-column: 2; grid-row: 3; color: var(--muted); font-size: 0.8rem; margin-top: 0.05rem; }
+.result-diag   { grid-column: 2; grid-row: 4; color: var(--muted); font-size: 0.75rem; font-style: italic; margin-top: 0.05rem; }
