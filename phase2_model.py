@@ -35,6 +35,13 @@ SHRINK_K        = None  # Step 2 lift-with-shrinkage scorer (overrides BETA path
                         # None = disabled (use BETA scorer); 0 = pure lift baseline;
                         # >0 = score = 1 + (lift−1) × m_b/(m_b+K)
                         # lift = (matched_rate) / (population_rate) = (m_b/M) / (n_b/N)
+COOC_INPUT_EXP  = None  # Co-occurrence scorer — input-side rarity exponent (α):
+                        # None = scorer disabled; 0.0 = on, all inputs weighted equally;
+                        # >0 = rare input books weighted by raw_idf(i)^α
+COOC_OUTPUT_EXP = None  # Co-occurrence scorer — output-side rarity exponent (γ):
+                        # None = no output boost; 0.0 = on, no rarity boost applied;
+                        # >0 = candidate books boosted by raw_idf(c)^γ
+                        # Activation: scorer fires when either param is not None.
 DEFAULT_TOP_BOOKS  = 50
 DEFAULT_TOP_VOTERS = 20
 
@@ -144,6 +151,52 @@ def _count_voters(data_dir):
 
 # ── Core algorithm ────────────────────────────────────────────────────────────
 
+def _raw_idf(n_voters, N):
+    """Unraised IDF, decoupled from RARITY_ALPHA. When used as exponent base, 0^0=1 → off."""
+    return math.log((N + 1) / (n_voters + 1))
+
+
+def _cooc_score(model, input_set, alpha, gamma):
+    """
+    Transparent co-occurrence Step-2 scorer with two independent rarity dials.
+
+    score(c) = (Σᵢ co(i,c) × raw_idf(i)^alpha) × raw_idf(c)^gamma
+
+    co(i,c) = number of voter lists containing both input book i and candidate c,
+    counted over ALL voters who have any input book. Fully decoupled from Step-1
+    voter_sim — the scorer is a pure co-occurrence model. The input-side dial (alpha)
+    is where input-level rarity signal is recovered; no per-voter weighting is needed
+    because "how often do readers of i also read c?" is a book-level question.
+
+    alpha=0: all input books weighted equally (plain co-occurrence sum, off value).
+    gamma=0: no output-side rarity boost (off value).
+    Singleton-flood resistance is built-in: a singleton has base ≤ |input_set|,
+    so base × idf^gamma is dominated by any book with several co-occurrences at
+    moderate gamma. See DECISIONS.md for the worked numeric proof.
+    """
+    N  = model.n_voters
+    bi = model.book_info
+    book_scores = defaultdict(float)
+
+    for voter, books in model.voter_books.items():
+        voter_inputs = input_set & books
+        if not voter_inputs:
+            continue
+        voter_candidates = books - input_set
+        for i in voter_inputs:
+            n_i = bi.get(i, {}).get("n_voters", 1)
+            w_i = _raw_idf(n_i, N) ** alpha if alpha != 0.0 else 1.0
+            for c in voter_candidates:
+                book_scores[c] += w_i
+
+    if gamma != 0.0:
+        for c in list(book_scores):
+            n_c = bi.get(c, {}).get("n_voters", 1)
+            book_scores[c] *= _raw_idf(n_c, N) ** gamma
+
+    return book_scores
+
+
 def _lift_score(m_b, M, n_b, N, K):
     """
     Shrunk observed-vs-expected lift for Step 2 book scoring.
@@ -179,21 +232,24 @@ def _norm_score(affinity, n_voters, beta):
 
 def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
               top_voters=DEFAULT_TOP_VOTERS, position_weight=POSITION_WEIGHT,
-              beta=BETA, shrink_k=SHRINK_K):
+              beta=BETA, shrink_k=SHRINK_K,
+              cooc_input_exp=COOC_INPUT_EXP, cooc_output_exp=COOC_OUTPUT_EXP):
     """
     Stable interface:
-        input_ids       — iterable of 1–10 canonical_id strings
-        position_weight — overrides POSITION_WEIGHT; 0 recovers pre-position behavior
-        beta            — overrides BETA; 0 = raw affinity baseline;
-                          >0 = affinity / n_voters^beta (BETA scorer)
-        shrink_k        — overrides SHRINK_K; when not None, activates the lift scorer
-                          (overrides the beta path entirely):
-                          0 = pure lift; >0 = shrunk lift with this K
-        returns         — (ranked_book_ids, ranked_voter_names)
+        input_ids        — iterable of 1–10 canonical_id strings
+        position_weight  — overrides POSITION_WEIGHT; 0 recovers pre-position behavior
+        beta             — BETA scorer: 0 = raw affinity; >0 = affinity/n_voters^beta
+        shrink_k         — lift scorer: None=off; 0=pure lift; >0=shrunk lift
+        cooc_input_exp   — co-occurrence scorer input rarity (α): None=off; 0=equal inputs;
+                           >0=rare inputs weighted by raw_idf(i)^alpha
+        cooc_output_exp  — co-occurrence scorer output rarity (γ): None=no boost; 0=no boost;
+                           >0=candidates boosted by raw_idf(c)^gamma
+        returns          — (ranked_book_ids, ranked_voter_names)
 
-    Step 2 scorer selection (in priority order):
-        shrink_k is not None → lift-with-shrinkage scorer
-        else                 → BETA scorer (beta=0 is raw affinity)
+    Step 2 scorer selection (priority order):
+        cooc_input_exp or cooc_output_exp is not None → co-occurrence scorer
+        shrink_k is not None                          → lift-with-shrinkage scorer
+        else                                          → BETA scorer (beta=0 = raw affinity)
     """
     input_set     = frozenset(input_ids)
     book_info     = model.book_info
@@ -225,9 +281,19 @@ def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
 
     # Step 2 sort — branch on scorer selection.
     # Round to 6 decimals before sort.
-    # BETA=0 / shrink_k=None: JS parity preserved (site runs raw affinity).
-    # BETA>0 or shrink_k set: site cannot reproduce until main.js ported — see PROGRESS.md.
-    if shrink_k is not None:
+    # BETA=0 / both cooc params None / shrink_k=None: JS parity preserved.
+    # Any other scorer: site cannot reproduce until main.js ported — see PROGRESS.md.
+    use_cooc = (cooc_input_exp is not None) or (cooc_output_exp is not None)
+    if use_cooc:
+        alpha = cooc_input_exp  if cooc_input_exp  is not None else 0.0
+        gamma = cooc_output_exp if cooc_output_exp is not None else 0.0
+        book_scores = _cooc_score(model, input_set, alpha, gamma)
+        ranked_books = sorted(
+            book_scores,
+            key=lambda b: (-round(book_scores[b], 6),
+                           -book_info.get(b, {}).get("weight", 0.0)),
+        )
+    elif shrink_k is not None:
         M_matched = len(voter_sim)
         ranked_books = sorted(
             book_affinity,
@@ -303,7 +369,8 @@ def run_verify(model):
     bi = model.book_info
     pw = POSITION_WEIGHT
     print(f"Model: {model.n_voters} voters · {len(bi)} books")
-    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}  BETA={BETA}  SHRINK_K={SHRINK_K}\n")
+    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}  BETA={BETA}  "
+          f"SHRINK_K={SHRINK_K}  COOC_INPUT_EXP={COOC_INPUT_EXP}  COOC_OUTPUT_EXP={COOC_OUTPUT_EXP}\n")
 
     # ── Dominance invariant check ─────────────────────────────────────────────
     min_book_weight = min(info["weight"] for info in bi.values())
@@ -503,6 +570,8 @@ def export_model_data(model, out_path=None):
         "position_weight": POSITION_WEIGHT,
         "beta":           BETA,
         "shrink_k":       SHRINK_K,
+        "cooc_input_exp":  COOC_INPUT_EXP,
+        "cooc_output_exp": COOC_OUTPUT_EXP,
         "books": {
             cid: {
                 "title":    info["title"],
