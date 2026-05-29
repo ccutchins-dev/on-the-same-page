@@ -4,60 +4,84 @@
 const state = {
     model:         null,   // loaded model_data.json
     bookList:      [],     // [{cid, title, author, n_voters}] — ordered
-    results:       [],     // [[cid, affinity], ...] — from recommend()
-    matchedCounts: {},     // {cid: count}
-    hasRun:        false,
-    isDirty:       false,
+    results:       [],     // [{cid, score, baseCount}]
+    matchedCounts: {},     // {cid: count} — for "on Y lists" display
 };
 
 const MAX_BOOKS = 15;
 
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
-let elMain, elLoading, elInputPanel, elBookEntries, elSearchInput, elDropdown,
-    elSearchContainer, elRunBtn, elStaleNotice, elResultsPanel, elResultsHeader,
-    elResultsList;
+let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
+    elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
+    elRarityDetails, elInputAlpha, elInputGamma;
 
 // ── Algorithm ──────────────────────────────────────────────────────────────────
 
-function positionFactor(pos, pw) {
-    return 1.0 - pw * (pos - 1) / 9;
+function rawIdf(nVoters, N) {
+    // Matches Python _raw_idf: log((N+1)/(n+1)), decoupled from RARITY_ALPHA.
+    // Used for scoring. Tiebreak uses model.idf (stored), which equals rawIdf
+    // when RARITY_ALPHA=1.0 (current default). See DECISIONS.md for details.
+    return Math.log((N + 1) / (nVoters + 1));
 }
 
-function recommend(model, inputCids) {
-    const inputSet = new Set(inputCids);
-    const { idf, voter_books, position_weight: pw } = model;
+function coocScorer(model, inputCids, alpha, gamma) {
+    // Matches Python _cooc_score exactly (parity gate: 9 cases × 15 books verified).
+    // score(c) = (Σᵢ co(i,c) × rawIdf(nᵢ)^α) × rawIdf(nᶜ)^γ
+    //
+    // bookScores: weighted edge sum (one per voter × input_book × candidate edge).
+    // bookCounts: DISTINCT voter count (one per voter per candidate, outside input
+    //             loop) — this is the "co=" shown in the diagnostic display.
+    const inputSet   = new Set(inputCids);
+    const N          = model.n_voters;
+    const books      = model.books;
+    const bookScores = {};
+    const bookCounts = {};
 
-    // Step 1 — voter similarity: IDF weight × position factor, summed over shared books
-    const voterSim = {};
-    for (const [voter, books] of Object.entries(voter_books)) {
-        let sim = 0;
-        for (const [cid, pos] of books) {
-            if (inputSet.has(cid)) sim += (idf[cid] || 0) * positionFactor(pos, pw);
+    for (const [, voterBooks] of Object.entries(model.voter_books)) {
+        const voterInputs     = voterBooks.filter(([c]) => inputSet.has(c));
+        if (voterInputs.length === 0) continue;
+        const voterCandidates = voterBooks.filter(([c]) => !inputSet.has(c));
+
+        // Distinct voter count: one per voter per candidate (outside input loop)
+        for (const [cCid] of voterCandidates) {
+            bookCounts[cCid] = (bookCounts[cCid] || 0) + 1;
         }
-        if (sim > 0) voterSim[voter] = sim;
+
+        // Weighted score: one contribution per (voter × input book × candidate)
+        for (const [iCid] of voterInputs) {
+            const nI = books[iCid] ? books[iCid].n_voters : 1;
+            const wI = alpha !== 0 ? Math.pow(rawIdf(nI, N), alpha) : 1.0;
+            for (const [cCid] of voterCandidates) {
+                bookScores[cCid] = (bookScores[cCid] || 0) + wI;
+            }
+        }
     }
 
-    // Step 2 — book affinity: sum voter sims for each non-input book
-    const bookAff = {};
-    for (const [voter, sim] of Object.entries(voterSim)) {
-        for (const [cid] of voter_books[voter]) {
-            if (!inputSet.has(cid)) bookAff[cid] = (bookAff[cid] || 0) + sim;
+    if (gamma !== 0) {
+        for (const cid of Object.keys(bookScores)) {
+            const nC = books[cid] ? books[cid].n_voters : 1;
+            bookScores[cid] *= Math.pow(rawIdf(nC, N), gamma);
         }
     }
 
-    // Sort: affinity descending (rounded to 6 dp to match phase2_model.py),
-    // tiebreak by IDF weight descending
+    // Three-level sort: score desc, idf desc, cid asc (stable tiebreak for equal
+    // scores — matches the Python sort key with cid as third term).
     const round6 = x => Math.round(x * 1e6) / 1e6;
-    return Object.entries(bookAff).sort(([cA, aA], [cB, aB]) => {
-        const a = round6(aA), b = round6(aB);
-        if (b !== a) return b - a;
-        return (idf[cB] || 0) - (idf[cA] || 0);
+    const ranked = Object.keys(bookScores).sort((a, b) => {
+        const sa = round6(bookScores[a]);
+        const sb = round6(bookScores[b]);
+        if (sb !== sa) return sb - sa;
+        const di = (model.idf[b] || 0) - (model.idf[a] || 0);
+        if (di !== 0) return di;
+        return a < b ? -1 : a > b ? 1 : 0;
     });
+
+    return { ranked, bookScores, bookCounts };
 }
 
 function computeMatchedVoterCounts(model, inputCids, resultCids) {
-    // For each recommended book: count voters in the matched pool
-    // (any overlap with input books) who also have that book.
+    // Count distinct voters in the matched pool (any input overlap) who also have
+    // each result book. Used for "on Y lists from voters who share your taste."
     const inputSet  = new Set(inputCids);
     const resultSet = new Set(resultCids);
     const counts    = Object.fromEntries(resultCids.map(c => [c, 0]));
@@ -122,7 +146,7 @@ function renderDropdown(matches) {
                      + `<span class="item-author">${esc(author)}</span>`;
         if (!isSelected) {
             li.addEventListener('mousedown', e => {
-                e.preventDefault(); // prevent blur firing before click
+                e.preventDefault();
                 selectBook(cid, title, author, n_voters);
             });
         }
@@ -171,7 +195,6 @@ function onSearchKeydown(e) {
 }
 
 function onSearchBlur() {
-    // Delay so mousedown on a dropdown item fires first
     setTimeout(() => {
         closeDropdown();
         elSearchInput.value = '';
@@ -181,23 +204,59 @@ function onSearchBlur() {
 // ── Book selection / removal ───────────────────────────────────────────────────
 
 function selectBook(cid, title, author, n_voters) {
-    if (state.bookList.some(b => b.cid === cid)) return; // duplicate
+    if (state.bookList.some(b => b.cid === cid)) return;
     if (state.bookList.length >= MAX_BOOKS) return;
     state.bookList.push({ cid, title, author, n_voters });
     closeDropdown();
     elSearchInput.value = '';
-    if (state.hasRun) { state.isDirty = true; markStale(); }
     renderEntries();
-    updateRunButton();
+    liveRecompute();
     if (state.bookList.length < MAX_BOOKS) elSearchInput.focus();
 }
 
 function removeBook(cid) {
     state.bookList = state.bookList.filter(b => b.cid !== cid);
-    if (state.hasRun) { state.isDirty = true; markStale(); }
     renderEntries();
-    updateRunButton();
+    liveRecompute();
     elSearchInput.focus();
+}
+
+// ── Live recompute ─────────────────────────────────────────────────────────────
+
+function liveRecompute() {
+    const inputCids = state.bookList.map(b => b.cid);
+
+    if (inputCids.length === 0) {
+        elMain.classList.remove('post-run');
+        elMain.classList.add('pre-run');
+        elResultsPanel.hidden = true;
+        state.results       = [];
+        state.matchedCounts = {};
+        renderResults();
+        return;
+    }
+
+    // Layout: shift to two-column the moment ≥1 book is selected
+    elMain.classList.remove('pre-run');
+    elMain.classList.add('post-run');
+    elResultsPanel.hidden = false;
+
+    const alpha = parseFloat(elInputAlpha.value);
+    const gamma = parseFloat(elInputGamma.value);
+    const { ranked, bookScores, bookCounts } = coocScorer(
+        state.model, inputCids,
+        isNaN(alpha) ? 1.0 : alpha,
+        isNaN(gamma) ? 1.0 : gamma
+    );
+
+    const top50      = ranked.slice(0, 50);
+    state.results    = top50.map(cid => ({
+        cid,
+        score:     bookScores[cid],
+        baseCount: bookCounts[cid] || 0,
+    }));
+    state.matchedCounts = computeMatchedVoterCounts(state.model, inputCids, top50);
+    renderResults();
 }
 
 // ── Rendering ──────────────────────────────────────────────────────────────────
@@ -228,56 +287,31 @@ function renderEntries() {
 }
 
 function renderResults() {
+    // Display-only — reads from state.results, never calls liveRecompute().
+    // Also called by the rarity <details> toggle to show/hide diagnostic columns
+    // without re-scoring (opening the panel is display-only, not a recompute).
     elResultsList.innerHTML = '';
-    state.results.forEach(([cid, aff]) => {
+    const showDiag = elRarityDetails.open;
+
+    state.results.forEach(({ cid, score, baseCount }) => {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
         const li    = document.createElement('li');
-        li.title    = `Affinity: ${aff.toFixed(4)}`;
+        li.title    = `Score: ${score.toFixed(4)}`;
         li.innerHTML =
             `<span class="result-title">${esc(info.title || cid)}</span>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
           + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
+        if (showDiag) {
+            li.innerHTML +=
+                `<span class="result-diag">co=${baseCount} · n=${info.n_voters ?? '?'}</span>`;
+        }
         elResultsList.appendChild(li);
     });
-    elResultsHeader.textContent =
-        `${state.results.length} recommendation${state.results.length === 1 ? '' : 's'}`;
-}
 
-function updateRunButton() {
-    elRunBtn.disabled = state.bookList.length === 0;
-}
-
-function markStale() {
-    elResultsPanel.classList.add('stale');
-    elStaleNotice.hidden = false;
-}
-
-function clearStale() {
-    elResultsPanel.classList.remove('stale');
-    elStaleNotice.hidden = true;
-}
-
-// ── Run model ──────────────────────────────────────────────────────────────────
-
-function runModel() {
-    const inputCids = state.bookList.map(b => b.cid);
-    const ranked    = recommend(state.model, inputCids);
-    const top50     = ranked.slice(0, 50);
-    const resultCids = top50.map(([c]) => c);
-    const counts    = computeMatchedVoterCounts(state.model, inputCids, resultCids);
-
-    state.results       = top50;
-    state.matchedCounts = counts;
-    state.hasRun        = true;
-    state.isDirty       = false;
-
-    // Switch to two-column layout
-    elMain.classList.replace('pre-run', 'post-run');
-    elResultsPanel.hidden = false;
-
-    renderResults();
-    clearStale();
+    elResultsHeader.textContent = state.results.length > 0
+        ? `${state.results.length} recommendation${state.results.length === 1 ? '' : 's'}`
+        : '';
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────────
@@ -285,24 +319,30 @@ function runModel() {
 function setupUI() {
     elMain           = document.getElementById('main');
     elLoading        = document.getElementById('loading');
-    elInputPanel     = document.getElementById('input-panel');
     elBookEntries    = document.getElementById('book-entries');
     elSearchInput    = document.getElementById('search-input');
     elDropdown       = document.getElementById('dropdown');
     elSearchContainer = document.getElementById('search-container');
-    elRunBtn         = document.getElementById('run-btn');
-    elStaleNotice    = document.getElementById('stale-notice');
     elResultsPanel   = document.getElementById('results-panel');
     elResultsHeader  = document.getElementById('results-header');
     elResultsList    = document.getElementById('results-list');
+    elRarityDetails  = document.getElementById('rarity-details');
+    elInputAlpha     = document.getElementById('input-alpha');
+    elInputGamma     = document.getElementById('input-gamma');
+
+    // Seed α/γ from JSON (single source of truth)
+    elInputAlpha.value = state.model.cooc_input_exp  ?? 1.0;
+    elInputGamma.value = state.model.cooc_output_exp ?? 1.0;
 
     elSearchInput.addEventListener('input',   onSearchInput);
     elSearchInput.addEventListener('keydown', onSearchKeydown);
     elSearchInput.addEventListener('blur',    onSearchBlur);
-    elRunBtn.addEventListener('click', runModel);
+    elInputAlpha.addEventListener('input',    liveRecompute);
+    elInputGamma.addEventListener('input',    liveRecompute);
+    // Toggle re-renders display only (no recompute — panel open/close ≠ scoring change)
+    elRarityDetails.addEventListener('toggle', renderResults);
 
     renderEntries();
-    updateRunButton();
 
     elLoading.hidden = true;
     elMain.hidden    = false;
