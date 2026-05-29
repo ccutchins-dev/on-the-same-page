@@ -192,3 +192,22 @@ the prior one.
   voter from The Bible count); add Homer to author_aliases (would corrupt The Iliad/Odyssey).
 - **Trigger**: Phase 1 cleanup; discovered when the Homer attribution won the canonical_author
   slot after the T7 merge.
+
+## 2026-05-29 — Phase 2: BETA popularity-normalization for Step 2 book scoring
+
+- **Context**: The alpha (RARITY_ALPHA) sweep showed recommendations converge to the same popular
+  canon regardless of input set. Root cause: Step 2 raw affinity (Σ matched-voter similarity)
+  accumulates faster for books on more lists — a book on 83 lists accumulates affinity 83× faster
+  than a singleton per unit of voter signal. RARITY_ALPHA operates in Step 1 and cannot fix a
+  Step 2 structural bias.
+- **Decision**: Add `BETA` parameter: `score(book) = affinity / n_voters^BETA`. BETA=0 is the
+  exact raw-affinity baseline (no code-path branching needed; `n**0 = 1`). BETA>0 penalizes
+  popular books. Both modes selectable via `recommend(model, ids, beta=X)`.
+- **Known failure mode**: High BETA (≥0.5 on mixed inputs, ≥0.3 on rare inputs) causes singletons
+  to flood the top of results — over-correction where one weakly-matched voter's singleton
+  outranks a book loved by many strongly-matched voters. The BETA sweep output shows the
+  over-correction regime clearly.
+- **JS parity**: BETA>0 produces scores the static site (main.js) cannot reproduce. The site
+  serves BETA=0 (raw affinity) until main.js is ported and parity re-confirmed. Recorded as
+  open item in PROGRESS.md.
+- **Trigger**: Alpha sweep revealed structural Step 2 bias; BETA sweep to inform final choice.

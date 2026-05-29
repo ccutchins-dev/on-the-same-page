@@ -28,6 +28,9 @@ from pathlib import Path
 # ── Tuning parameters ────────────────────────────────────────────────────────
 RARITY_ALPHA    = 1.0   # IDF exponent: 0=uniform, 1=standard smoothed IDF, >1=stronger rarity
 POSITION_WEIGHT = 0.1   # position factor band: 1.0 at pos 1, (1-PW) at pos 10; 0=ignored
+BETA            = 0.0   # Step 2 popularity-normalization exponent:
+                        # 0 = raw affinity (current behavior); >0 penalizes popular books
+                        # score(book) = affinity / n_voters^BETA
 DEFAULT_TOP_BOOKS  = 50
 DEFAULT_TOP_VOTERS = 20
 
@@ -137,20 +140,34 @@ def _count_voters(data_dir):
 
 # ── Core algorithm ────────────────────────────────────────────────────────────
 
+def _norm_score(affinity, n_voters, beta):
+    """
+    Popularity-normalized affinity for Step 2 book ranking.
+    beta=0: returns affinity unchanged (exact current behavior).
+    beta>0: divides by n_voters^beta, penalizing books on many lists.
+    """
+    if beta == 0.0:
+        return affinity
+    return affinity / (n_voters ** beta) if n_voters > 0 else 0.0
+
+
 def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
-              top_voters=DEFAULT_TOP_VOTERS, position_weight=POSITION_WEIGHT):
+              top_voters=DEFAULT_TOP_VOTERS, position_weight=POSITION_WEIGHT,
+              beta=BETA):
     """
     Stable interface:
         input_ids       — iterable of 1–10 canonical_id strings
         position_weight — overrides POSITION_WEIGHT; 0 recovers pre-position behavior
+        beta            — overrides BETA; 0 = raw affinity (current baseline);
+                          >0 = affinity / n_voters^beta (popularity-normalized)
         returns         — (ranked_book_ids, ranked_voter_names)
 
     Algorithm (rarity-weighted soft-kNN with position factor):
         Step 1: score each voter by Σ IDF_weight(b) × position_factor(pos(b))
                 over shared books. position_factor = 1.0 at pos 1, (1-pw) at pos 10.
         Step 2: aggregate affinity for each candidate book by summing voter similarity
-                scores; tiebreak by rarity. Excludes books already in input_ids.
-        Step 2 is unchanged by position — position affects voter ranking only.
+                scores; apply popularity normalization via _norm_score(aff, n, beta);
+                tiebreak by rarity. Excludes books already in input_ids.
     """
     input_set     = frozenset(input_ids)
     book_info     = model.book_info
@@ -176,13 +193,17 @@ def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
             if b not in input_set:
                 book_affinity[b] += sim
 
-    # Round to 6 decimals before sort so the JS client produces the same ordering.
-    # Python and JS can accumulate the same floats in different order, producing
-    # ~15th-decimal divergence that flips near-tied books. Rounding to 6 places
-    # makes both implementations provably identical.
+    # Round to 6 decimals before sort. For BETA=0 this preserves JS parity (the
+    # site runs raw affinity). For BETA>0 the site cannot reproduce these scores
+    # until main.js is updated — see PROGRESS.md open item.
     ranked_books = sorted(
         book_affinity,
-        key=lambda b: (-round(book_affinity[b], 6), -book_info.get(b, {}).get("weight", 0.0)),
+        key=lambda b: (
+            -round(_norm_score(book_affinity[b],
+                               book_info.get(b, {}).get("n_voters", 1),
+                               beta), 6),
+            -book_info.get(b, {}).get("weight", 0.0),
+        ),
     )
 
     return ranked_books[:top_books], ranked_voters[:top_voters]
@@ -239,7 +260,7 @@ def run_verify(model):
     bi = model.book_info
     pw = POSITION_WEIGHT
     print(f"Model: {model.n_voters} voters · {len(bi)} books")
-    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}\n")
+    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}  BETA={BETA}\n")
 
     # ── Dominance invariant check ─────────────────────────────────────────────
     min_book_weight = min(info["weight"] for info in bi.values())
@@ -437,6 +458,7 @@ def export_model_data(model, out_path=None):
         "n_voters":       model.n_voters,
         "alpha":          model.alpha,
         "position_weight": POSITION_WEIGHT,
+        "beta":           BETA,
         "books": {
             cid: {
                 "title":    info["title"],
