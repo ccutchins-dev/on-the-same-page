@@ -102,3 +102,27 @@ the prior one.
 - **Alternatives considered**: Separate alpha for voter scoring vs book ranking; minimum overlap floor (rejected — would break the singleton case the user explicitly wanted to support).
 - **Rationale**: One knob is easy to sweep; the formula is already smoothed so no floor is needed; separating voter/book alphas would add complexity without clear benefit at this stage.
 - **Trigger**: Phase 2 plan review.
+
+## 2026-05-29 — Phase 2b: position factor edge-case rules
+
+- **Context**: voter_books.csv positions have three non-standard patterns from Phase 1 artifacts: compound 'a;b' (21 rows, cross-source merged voters), blank '' (48 rows, series_explode volumes), and out-of-range >10 (2 rows, Richard Powers Top Ten Books lists).
+- **Decision**: Compound 'a;b' → min(a, b). Blank → 10 (neutral-low). Out-of-range → clamp to 10.
+- **Rationale**: Compound: the voter ranked this book at their stated position on each list; min uses the most emphatic endorsement (the higher ranking). Blank: these volumes were listed without per-volume ranking — "unranked" maps to the low end of the band rather than neutral-middle (~5) because there is no signal favoring any particular position; erring low avoids over-crediting position where none was stated. Neutral-middle was the alternative; this is a deliberate choice. Out-of-range: clamping to 10 (neutral-low) is safe and affects only 2 rows.
+- **Trigger**: Phase 2b implementation.
+
+## 2026-05-29 — Phase 2b: dominance invariant for position weight
+
+- **Context**: The position factor ranges from 1.0 (pos 1) to (1-POSITION_WEIGHT) (pos 10), creating a risk that within-list rank could outweigh presence vs absence on a list.
+- **Decision**: Assert by construction that max position swing < cheapest book IDF weight. With POSITION_WEIGHT=0.1: max swing = 0.1 × 5.145 (singleton) = 0.514 < 1.407 (Middlemarch weight). Verified numerically in --verify output.
+- **Alternatives considered**: No invariant check — rely on intuition. Rejected: the invariant should be explicit and tested.
+- **Rationale**: Sharing one additional book (even the most common book, Middlemarch, weight 1.407) always outweighs the maximum position advantage (0.514). Presence dominates position by construction.
+- **Trigger**: Phase 2b plan review; user's explicit requirement.
+
+## 2026-05-29 — Phase 2b: POSITION_WEIGHT as recommend() kwarg, not baked into Model
+
+- **Context**: RARITY_ALPHA is precomputed into IDF weights at load_model() time and stored in Model. POSITION_WEIGHT could follow the same pattern (baked in) or be applied at inference time.
+- **Decision**: POSITION_WEIGHT is the default value of a `position_weight` kwarg on recommend(). It is not stored in Model and does not affect any precomputed data. Setting position_weight=0 exactly recovers pre-position behavior without reloading.
+- **Alternatives considered**: Bake into Model (parallel to RARITY_ALPHA) — would require reload to sweep values.
+- **Rationale**: Position weighting does not affect the precomputed IDF weights (only how they are combined at query time), so there is no reason to bake it into the Model. A kwarg enables sweeping without reloading, which the user explicitly wanted.
+- **Trigger**: Phase 2b plan review.
+- **Trigger**: Phase 2 plan review.

@@ -34,6 +34,12 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Phase 2b complete (position factor)
+
+- **Commit**: 8ac2398 on feature/phase2-position (to be merged to main)
+- **Branch**: feature/phase2-position
+- **Notes**: Added POSITION_WEIGHT=0.1 to voter similarity scoring. Position factor is a linear decay from 1.0 (pos 1) to 0.9 (pos 10), applied as a kwarg on recommend() so it can be swept without reloading. Edge cases: compound '1;5' → min=1 (21 rows, cross-source merges); blank → 10 neutral-low (48 rows, series_explode); out-of-range → clamp to 10. Dominance invariant confirmed: max swing (0.514) < cheapest book weight (1.407). PW=0 reproduces old numbers exactly. --verify covers 5 cases including compound-voter and explicit invariant demo. model_data.json updated with position_weight key and [[cid, pos]] pairs. Ready for Phase 3.
+
 ## 2026-05-28 — Phase 2 complete (matching model)
 
 - **Commit**: dcf8e67 on feature/phase2-model (to be merged to main)

@@ -7,7 +7,7 @@ Public interface (stable — algorithm is swappable behind it):
 
 Usage:
     python phase2_model.py              # load silently (import-safe; does nothing)
-    python phase2_model.py --verify     # run 4 sanity-check cases, print results
+    python phase2_model.py --verify     # run sanity-check cases, print results
     python phase2_model.py --export     # write data/model_data.json for Phase 3
 
 Inputs (read-only):
@@ -26,9 +26,10 @@ from collections import defaultdict
 from pathlib import Path
 
 # ── Tuning parameters ────────────────────────────────────────────────────────
-RARITY_ALPHA       = 1.0   # IDF exponent: 0=uniform, 1=standard smoothed IDF, >1=stronger rarity
-DEFAULT_TOP_BOOKS  = 50    # max book recommendations returned
-DEFAULT_TOP_VOTERS = 20    # max similar voters returned
+RARITY_ALPHA    = 1.0   # IDF exponent: 0=uniform, 1=standard smoothed IDF, >1=stronger rarity
+POSITION_WEIGHT = 0.1   # position factor band: 1.0 at pos 1, (1-PW) at pos 10; 0=ignored
+DEFAULT_TOP_BOOKS  = 50
+DEFAULT_TOP_VOTERS = 20
 
 DATA_DIR = Path("data/processed")
 
@@ -37,13 +38,50 @@ DATA_DIR = Path("data/processed")
 
 class Model:
     """Precomputed model state. Build once with load_model(); reuse for many recommend() calls."""
-    __slots__ = ("voter_books", "book_info", "n_voters", "alpha")
+    __slots__ = ("voter_books", "voter_positions", "book_info", "n_voters", "alpha")
 
-    def __init__(self, voter_books, book_info, n_voters, alpha):
-        self.voter_books = voter_books   # {voter_name: frozenset[canonical_id]}
-        self.book_info   = book_info     # {canonical_id: {"title","author","n_voters","weight"}}
-        self.n_voters    = n_voters      # int — total distinct voters
-        self.alpha       = alpha         # float — RARITY_ALPHA used at load time
+    def __init__(self, voter_books, voter_positions, book_info, n_voters, alpha):
+        self.voter_books     = voter_books      # {voter_name: frozenset[canonical_id]}
+        self.voter_positions = voter_positions  # {voter_name: {canonical_id: int 1-10}}
+        self.book_info       = book_info        # {canonical_id: {"title","author","n_voters","weight"}}
+        self.n_voters        = n_voters         # int — total distinct voters
+        self.alpha           = alpha            # float — RARITY_ALPHA used at load time
+
+
+# ── Position helpers ──────────────────────────────────────────────────────────
+
+def _parse_position(raw):
+    """
+    Parse voter_books.csv position string → effective int in [1, 10].
+
+    Rules (all are artifacts of Phase 1, not noise):
+      - Normal '1'–'10': use as-is.
+      - Compound 'a;b' (cross-source merged voters, 21 rows): take min(a, b) — the
+        voter ranked this book at #a on one list and #b on the other; min uses the
+        more emphatic endorsement.
+      - Blank '' (series_explode rows, 48 rows): return 10 (neutral-low). These
+        volumes were listed without per-volume ranking; 'unranked' → bottom of band
+        rather than middle (~5) because there is no signal favoring any position.
+      - Out-of-range (>10, e.g. Richard Powers pos 25/35): clamp to 10.
+      - Any other invalid value: 10 (neutral).
+    """
+    raw = raw.strip()
+    if not raw:
+        return 10
+    parts = [x.strip() for x in raw.split(";")]
+    nums = []
+    for x in parts:
+        try:
+            n = int(x)
+            nums.append(min(n, 10) if n >= 1 else 10)
+        except ValueError:
+            pass
+    return min(nums) if nums else 10
+
+
+def _position_factor(pos, pw):
+    """Linear decay: 1.0 at pos=1, (1-pw) at pos=10. pw=0 → always 1.0."""
+    return 1.0 - pw * (pos - 1) / 9
 
 
 # ── Loading ───────────────────────────────────────────────────────────────────
@@ -60,7 +98,7 @@ def load_model(data_dir=DATA_DIR, alpha=RARITY_ALPHA):
                 "title":    row["canonical_title"],
                 "author":   row["canonical_author"],
                 "n_voters": int(row["n_voters"]),
-                "weight":   0.0,   # filled below
+                "weight":   0.0,
             }
 
     n_voters = _count_voters(data_dir)
@@ -70,17 +108,23 @@ def load_model(data_dir=DATA_DIR, alpha=RARITY_ALPHA):
         raw = math.log((n_voters + 1) / (info["n_voters"] + 1))
         info["weight"] = raw ** alpha
 
-    # 3. voter_books.csv → voter → frozenset of canonical_ids
-    raw_voter_books = defaultdict(set)
+    # 3. voter_books.csv → voter → books + positions
+    raw_voter_books     = defaultdict(set)
+    raw_voter_positions = defaultdict(dict)
+
     with open(data_dir / "voter_books.csv", newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            cid = row["canonical_id"]
-            if cid in book_info:   # skip any orphaned ids (shouldn't exist)
-                raw_voter_books[row["voter_name"]].add(cid)
+            cid   = row["canonical_id"]
+            voter = row["voter_name"]
+            if cid not in book_info:
+                continue
+            raw_voter_books[voter].add(cid)
+            raw_voter_positions[voter][cid] = _parse_position(row["positions"])
 
-    voter_books = {v: frozenset(bs) for v, bs in raw_voter_books.items()}
+    voter_books     = {v: frozenset(bs) for v, bs in raw_voter_books.items()}
+    voter_positions = {v: dict(ps)      for v, ps in raw_voter_positions.items()}
 
-    return Model(voter_books, book_info, n_voters, alpha)
+    return Model(voter_books, voter_positions, book_info, n_voters, alpha)
 
 
 def _count_voters(data_dir):
@@ -93,38 +137,45 @@ def _count_voters(data_dir):
 
 # ── Core algorithm ────────────────────────────────────────────────────────────
 
-def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS, top_voters=DEFAULT_TOP_VOTERS):
+def recommend(model, input_ids, *, top_books=DEFAULT_TOP_BOOKS,
+              top_voters=DEFAULT_TOP_VOTERS, position_weight=POSITION_WEIGHT):
     """
     Stable interface:
-        input_ids  — iterable of 1–10 canonical_id strings
-        returns    — (ranked_book_ids, ranked_voter_names)
+        input_ids       — iterable of 1–10 canonical_id strings
+        position_weight — overrides POSITION_WEIGHT; 0 recovers pre-position behavior
+        returns         — (ranked_book_ids, ranked_voter_names)
 
-    Algorithm (rarity-weighted soft-kNN):
-        Step 1: score each voter by sum of IDF weights of shared books.
-        Step 2: aggregate affinity for each candidate book by summing
-                similarity scores of all voters who have it; tiebreak by
-                rarity. Excludes books already in input_ids.
+    Algorithm (rarity-weighted soft-kNN with position factor):
+        Step 1: score each voter by Σ IDF_weight(b) × position_factor(pos(b))
+                over shared books. position_factor = 1.0 at pos 1, (1-pw) at pos 10.
+        Step 2: aggregate affinity for each candidate book by summing voter similarity
+                scores; tiebreak by rarity. Excludes books already in input_ids.
+        Step 2 is unchanged by position — position affects voter ranking only.
     """
-    input_set = frozenset(input_ids)
-    book_info  = model.book_info
+    input_set     = frozenset(input_ids)
+    book_info     = model.book_info
+    voter_pos_map = model.voter_positions
 
-    # Step 1 — voter similarity
+    # Step 1 — voter similarity (position-weighted)
     voter_sim = {}
     for voter, books in model.voter_books.items():
         overlap = input_set & books
         if overlap:
-            voter_sim[voter] = sum(book_info[b]["weight"] for b in overlap if b in book_info)
+            vpos = voter_pos_map.get(voter, {})
+            voter_sim[voter] = sum(
+                book_info[b]["weight"] * _position_factor(vpos.get(b, 10), position_weight)
+                for b in overlap if b in book_info
+            )
 
     ranked_voters = sorted(voter_sim, key=lambda v: -voter_sim[v])
 
-    # Step 2 — book affinity (sum over all matched voters who love the book)
+    # Step 2 — book affinity (unchanged; position affects only voter_sim scores)
     book_affinity = defaultdict(float)
     for voter, sim in voter_sim.items():
         for b in model.voter_books[voter]:
             if b not in input_set:
                 book_affinity[b] += sim
 
-    # Primary: affinity descending. Secondary: rarity (IDF weight) descending.
     ranked_books = sorted(
         book_affinity,
         key=lambda b: (-book_affinity[b], -book_info.get(b, {}).get("weight", 0.0)),
@@ -151,30 +202,70 @@ _VERIFY_CASES = [
     {
         "label": (
             "4. Mixed 5-book list — Middlemarch (83) + Anna Karenina (60) + "
-            "Absalom, Absalom! (15) + The Third Policeman (4) + "
-            "The Confidence-Man (1)"
+            "Absalom, Absalom! (15) + The Third Policeman (4) + The Confidence-Man (1)"
         ),
         "ids": [
-            "OL:OL20867W",    # Middlemarch              83 voters
-            "OL:OL267096W",   # Anna Karenina             60 voters
-            "K:d2d9f9b0f145", # Absalom, Absalom!         15 voters
-            "OL:OL2005223W",  # The Third Policeman        4 voters
-            "K:cc83b0188ed4", # The Confidence-Man         1 voter
+            "OL:OL20867W",    # Middlemarch
+            "OL:OL267096W",   # Anna Karenina
+            "K:d2d9f9b0f145", # Absalom, Absalom!
+            "OL:OL2005223W",  # The Third Policeman
+            "K:cc83b0188ed4", # The Confidence-Man
         ],
     },
 ]
 
 
+def _voter_sim_detail(model, input_set, voter, pw):
+    """Return (sim, list of (book_title, pos, contribution))."""
+    bi   = model.book_info
+    vpos = model.voter_positions.get(voter, {})
+    overlap = input_set & model.voter_books[voter]
+    parts = []
+    for b in overlap:
+        if b not in bi:
+            continue
+        pos   = vpos.get(b, 10)
+        w     = bi[b]["weight"]
+        contrib = w * _position_factor(pos, pw)
+        parts.append((bi[b]["title"][:28], pos, contrib))
+    return sum(c for _, _, c in parts), parts
+
+
 def run_verify(model):
     bi = model.book_info
-    print(f"Model: {model.n_voters} voters · {len(bi)} books · RARITY_ALPHA={model.alpha}\n")
+    pw = POSITION_WEIGHT
+    print(f"Model: {model.n_voters} voters · {len(bi)} books")
+    print(f"RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={pw}\n")
 
+    # ── Dominance invariant check ─────────────────────────────────────────────
+    min_book_weight = min(info["weight"] for info in bi.values())
+    max_book_weight = max(info["weight"] for info in bi.values())
+    max_pos_swing   = pw * max_book_weight
+    print("── Dominance invariant ─────────────────────────────────────────────────")
+    print(f"  Cheapest book weight (Middlemarch, n=83) : {min_book_weight:.4f}")
+    print(f"  Priciest book weight (singleton)         : {max_book_weight:.4f}")
+    print(f"  Max position swing (PW × max_weight)     : {max_pos_swing:.4f}")
+    ok = "✓ PASS" if max_pos_swing < min_book_weight else "✗ FAIL"
+    print(f"  Invariant (max_swing < cheapest_weight)  : {ok}")
+    print()
+
+    # ── Before/after on case 4 ────────────────────────────────────────────────
+    case4_ids = _VERIFY_CASES[3]["ids"]
+    case4_set = frozenset(case4_ids)
+    print("── Before/after: case 4 with POSITION_WEIGHT=0 vs default ──────────────")
+    for label, kw in [("PW=0 (old behavior)", 0.0), (f"PW={pw} (default)", pw)]:
+        _, voters = recommend(model, case4_ids, top_voters=5, position_weight=kw)
+        print(f"  {label}:")
+        for v in voters:
+            sim, _ = _voter_sim_detail(model, case4_set, v, kw)
+            print(f"    {v[:35]:35} sim={sim:.4f}")
+    print()
+
+    # ── Cases 1–4 ─────────────────────────────────────────────────────────────
     for case in _VERIFY_CASES:
         print("=" * 72)
         print(case["label"])
         ids = case["ids"]
-
-        # Confirm input IDs are valid
         missing = [i for i in ids if i not in bi]
         if missing:
             print(f"  ERROR: unknown canonical_id(s): {missing}")
@@ -182,39 +273,148 @@ def run_verify(model):
 
         for cid in ids:
             info = bi[cid]
-            print(f"  INPUT: {info['title'][:50]}  [{info['n_voters']} voters, weight={info['weight']:.3f}]")
+            print(f"  INPUT: {info['title'][:50]}  [n={info['n_voters']}, w={info['weight']:.3f}]")
 
         books, voters = recommend(model, ids, top_books=10, top_voters=5)
+        input_set = frozenset(ids)
 
         print()
         print("  Top 5 voters by similarity:")
-        input_set = frozenset(ids)
         for rank, v in enumerate(voters, 1):
-            shared = input_set & model.voter_books[v]
-            sim = sum(bi[b]["weight"] for b in shared if b in bi)
-            shared_titles = ", ".join(bi[b]["title"][:25] for b in shared)
-            print(f"    {rank}. {v[:35]:35}  sim={sim:.3f}  shared=[{shared_titles}]")
+            sim, parts = _voter_sim_detail(model, input_set, v, pw)
+            detail = "  ".join(f"[{t} @{p} ={c:.3f}]" for t, p, c in parts)
+            print(f"    {rank}. {v[:32]:32} sim={sim:.4f}  {detail}")
 
         print()
         print("  Top 10 recommended books:")
-        # recompute affinity for display
         voter_sim = {}
         for voter, vbooks in model.voter_books.items():
             overlap = input_set & vbooks
             if overlap:
-                voter_sim[voter] = sum(bi[b]["weight"] for b in overlap if b in bi)
+                vpos = model.voter_positions.get(voter, {})
+                voter_sim[voter] = sum(
+                    bi[b]["weight"] * _position_factor(vpos.get(b, 10), pw)
+                    for b in overlap if b in bi
+                )
         book_aff = defaultdict(float)
         for voter, sim in voter_sim.items():
             for b in model.voter_books[voter]:
                 if b not in input_set:
                     book_aff[b] += sim
-
         for rank, cid in enumerate(books, 1):
             info = bi[cid]
-            aff  = book_aff[cid]
-            print(f"    {rank:2}. {info['title'][:45]:45}  "
-                  f"{info['author'][:22]:22}  n={info['n_voters']:3}  aff={aff:.3f}")
+            print(f"    {rank:2}. {info['title'][:45]:45}  {info['author'][:20]:20}"
+                  f"  n={info['n_voters']:3}  aff={book_aff[cid]:.3f}")
         print()
+
+    # ── Case 5: position-effect demonstration ─────────────────────────────────
+    print("=" * 72)
+    print("5. Position-effect demonstration")
+
+    ABSALOM    = "K:d2d9f9b0f145"
+    ANNA_K     = "OL:OL267096W"
+    MAD_BOV    = "OL:OL19350876W"
+    SHRIVER    = "Lionel Shriver"
+    CAPUTO     = "Philip Caputo"
+
+    # 5A — position ordering
+    print("\n  5A — Absalom, Absalom! solo (15 voters, pos range 2–10):")
+    print(f"  INPUT: {bi[ABSALOM]['title']}  [n={bi[ABSALOM]['n_voters']}, w={bi[ABSALOM]['weight']:.3f}]")
+    absalom_set = frozenset([ABSALOM])
+    av = {v: {} for v in model.voter_books if ABSALOM in model.voter_books[v]}
+    rows = []
+    for voter in av:
+        pos = model.voter_positions.get(voter, {}).get(ABSALOM, 10)
+        sim_pos  = bi[ABSALOM]["weight"] * _position_factor(pos, pw)
+        sim_flat = bi[ABSALOM]["weight"]
+        rows.append((voter, pos, sim_pos, sim_flat))
+    rows.sort(key=lambda r: -r[2])
+    print(f"  {'voter':32} {'pos':>4}  {'sim(PW=.1)':>10}  {'sim(PW=0)':>10}")
+    for voter, pos, sp, sf in rows:
+        print(f"    {voter:32} {pos:4}  {sp:10.4f}  {sf:10.4f}")
+
+    # 5B — extra book beats position advantage
+    print(f"\n  5B — Adding Madame Bovary (n=52) to show extra book beats position:")
+    print(f"  INPUT A: [Absalom, Absalom!] alone")
+    for voter in [SHRIVER, CAPUTO]:
+        vpos = model.voter_positions.get(voter, {})
+        pos  = vpos.get(ABSALOM, 10)
+        sim  = bi[ABSALOM]["weight"] * _position_factor(pos, pw)
+        print(f"    {voter:32} Absalom@pos{pos}  contrib={sim:.4f}")
+
+    shriver_absalom = bi[ABSALOM]["weight"] * _position_factor(
+        model.voter_positions.get(SHRIVER, {}).get(ABSALOM, 10), pw)
+    caputo_absalom  = bi[ABSALOM]["weight"] * _position_factor(
+        model.voter_positions.get(CAPUTO, {}).get(ABSALOM, 10), pw)
+    pos_advantage   = shriver_absalom - caputo_absalom
+    print(f"    Position advantage (Shriver over Caputo): {pos_advantage:.4f}")
+
+    print(f"\n  INPUT B: [Absalom + Madame Bovary ({bi[MAD_BOV]['title']}, n={bi[MAD_BOV]['n_voters']})]")
+    for voter in [SHRIVER, CAPUTO]:
+        books_set = frozenset([ABSALOM, MAD_BOV])
+        overlap   = books_set & model.voter_books[voter]
+        vpos      = model.voter_positions.get(voter, {})
+        sim       = sum(bi[b]["weight"] * _position_factor(vpos.get(b, 10), pw)
+                        for b in overlap if b in bi)
+        shared_fmt = "  ".join(
+            f"{bi[b]['title'][:25]}@pos{vpos.get(b,10)}:{bi[b]['weight']*_position_factor(vpos.get(b,10),pw):.3f}"
+            for b in overlap if b in bi)
+        has_extra = MAD_BOV in model.voter_books[voter]
+        print(f"    {voter:32} has Madame Bovary={has_extra}  sim={sim:.4f}  [{shared_fmt}]")
+
+    caputo_extra_contrib = bi[MAD_BOV]["weight"] * _position_factor(
+        model.voter_positions.get(CAPUTO, {}).get(MAD_BOV, 10), pw)
+    print(f"    Extra-book contribution (Caputo's Madame Bovary): {caputo_extra_contrib:.4f}")
+    print(f"    Ratio extra_book/pos_advantage: {caputo_extra_contrib/pos_advantage:.1f}×")
+    print(f"    Invariant: {caputo_extra_contrib:.4f} >> {pos_advantage:.4f} — presence dominates ✓")
+
+    # 5C — compound-position voter
+    print(f"\n  5C — Compound-position (cross-source merge): Anna Karenina input:")
+    print(f"  INPUT: {bi[ANNA_K]['title']}  [n={bi[ANNA_K]['n_voters']}, w={bi[ANNA_K]['weight']:.3f}]")
+    anna_voters = [(v, model.voter_positions.get(v, {}).get(ANNA_K, 10))
+                   for v in model.voter_books if ANNA_K in model.voter_books[v]]
+    anna_voters.sort(key=lambda x: x[1])
+
+    # Read raw positions directly to show compound annotation
+    raw_positions = {}
+    with open(DATA_DIR / "voter_books.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            if row["canonical_id"] == ANNA_K:
+                raw_positions[row["voter_name"]] = row["positions"].strip()
+
+    print(f"  {'voter':32} {'pos_raw':>10}  {'eff':>4}  {'sim':>8}  note")
+    focal = {"Claire Messud", "Alexander McCall Smith", "Bebe Moore Campbell",
+             "Ann Patchett", "Ha Jin"}
+    shown = set()
+    # Show the focal voters first, then a few others
+    for voter, eff in sorted(anna_voters, key=lambda x: x[1]):
+        if voter in focal or len(shown) < 5:
+            raw = raw_positions.get(voter, "?")
+            sim = bi[ANNA_K]["weight"] * _position_factor(eff, pw)
+            note = ""
+            if ";" in raw:
+                parts_v = [int(x) for x in raw.split(";") if x.strip().isdigit()]
+                note = f"compound → min({','.join(str(p) for p in parts_v)})={eff}"
+                if eff == 5:
+                    wrong_sim = bi[ANNA_K]["weight"] * _position_factor(5, pw)
+                    note += f" (if eff=5: sim would be {wrong_sim:.4f})"
+            print(f"    {voter:32} {raw:>10}  {eff:4}  {sim:8.4f}  {note}")
+            shown.add(voter)
+            if len(shown) >= 8:
+                break
+
+    # Explicitly annotate Claire Messud
+    cm_raw = raw_positions.get("Claire Messud", "?")
+    cm_eff = _parse_position(cm_raw)
+    cm_sim_correct = bi[ANNA_K]["weight"] * _position_factor(cm_eff, pw)
+    cm_sim_wrong   = bi[ANNA_K]["weight"] * _position_factor(5, pw)
+    if "Claire Messud" not in shown:
+        print(f"    {'Claire Messud':32} {cm_raw:>10}  {cm_eff:4}  {cm_sim_correct:8.4f}  "
+              f"compound → min → eff={cm_eff}")
+    print(f"\n  Claire Messud raw='{cm_raw}' → eff={cm_eff}  "
+          f"sim_correct={cm_sim_correct:.4f}  sim_if_eff5={cm_sim_wrong:.4f}  "
+          f"difference={cm_sim_correct-cm_sim_wrong:.4f}")
+    print()
 
 
 # ── Export ────────────────────────────────────────────────────────────────────
@@ -222,8 +422,7 @@ def run_verify(model):
 def export_model_data(model, out_path=None):
     """
     Write data/model_data.json for Phase 3 (static site).
-    Contains precomputed IDF weights so the browser runs the same algorithm
-    without re-implementing the formula.
+    voter_books is now [[cid, pos], ...] so Phase 3 can apply the same position factor.
     """
     if out_path is None:
         out_path = Path("data") / "model_data.json"
@@ -231,8 +430,9 @@ def export_model_data(model, out_path=None):
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     payload = {
-        "n_voters": model.n_voters,
-        "alpha":    model.alpha,
+        "n_voters":       model.n_voters,
+        "alpha":          model.alpha,
+        "position_weight": POSITION_WEIGHT,
         "books": {
             cid: {
                 "title":    info["title"],
@@ -245,8 +445,10 @@ def export_model_data(model, out_path=None):
             cid: round(info["weight"], 6)
             for cid, info in model.book_info.items()
         },
+        # voter_books: {voter: [[cid, effective_pos], ...]}
         "voter_books": {
-            voter: sorted(books)
+            voter: [[cid, model.voter_positions.get(voter, {}).get(cid, 10)]
+                    for cid in sorted(books)]
             for voter, books in model.voter_books.items()
         },
     }
@@ -257,6 +459,7 @@ def export_model_data(model, out_path=None):
     size_kb = out_path.stat().st_size / 1024
     print(f"Wrote {out_path}  ({size_kb:.1f} KB)")
     print(f"  {len(payload['books'])} books · {len(payload['voter_books'])} voters")
+    print(f"  voter_books format: [[cid, pos], ...] pairs")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -275,5 +478,6 @@ if __name__ == "__main__":
         export_model_data(model)
     if not args.verify and not args.export:
         print("Phase 2 model loaded OK.")
-        print(f"  {model.n_voters} voters · {len(model.book_info)} books · RARITY_ALPHA={model.alpha}")
+        print(f"  {model.n_voters} voters · {len(model.book_info)} books")
+        print(f"  RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={POSITION_WEIGHT}")
         print("Use --verify to run sanity checks, --export to write data/model_data.json.")
