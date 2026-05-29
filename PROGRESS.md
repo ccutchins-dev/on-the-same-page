@@ -34,6 +34,13 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-28 — Phase 2 complete (matching model)
+
+- **Commit**: dcf8e67 on feature/phase2-model (to be merged to main)
+- **Branch**: feature/phase2-model
+- **Tag**: (none yet)
+- **Notes**: `phase2_model.py` implements the stable `recommend()` interface from PROJECT.md §5. Algorithm: rarity-weighted soft-k-NN; IDF weight `log((N+1)/(n+1))^RARITY_ALPHA` (α=1.0 default); voter similarity = raw weighted sum; book affinity = sum of voter similarities, tiebroken by rarity. 4 sanity-check cases pass (--verify). `data/model_data.json` exported (193 KB) for Phase 3 static site use. Ready for Phase 3 (website).
+
 ## 2026-05-28 — Phase 1 complete (canonical book identity signed off)
 
 - **Commit**: 7b5c59d (main)

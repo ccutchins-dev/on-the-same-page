@@ -69,3 +69,36 @@ the prior one.
 - **Alternatives considered**: Trust OLID alone — would produce 7 separate "Middlemarch" canonical books.
 - **Rationale**: T0 + T1 together achieve "extremely confident" identity resolution without requiring OLID to be unique.
 - **Trigger**: Data exploration during Phase 1.
+
+## 2026-05-28 — Phase 2: soft k-NN (all matched voters) vs hard k cutoff
+
+- **Context**: PROJECT.md §5 says "k-nearest-neighbors approach" and lists k as an open question (§8). A hard cutoff at k would exclude voter k+1 entirely even if near-identical to voter k.
+- **Decision**: Use soft k-NN — all voters with positive overlap contribute to book affinity, weighted by their similarity score. There is no hard k cutoff; the `top_voters` parameter controls only how many voters appear in output (b), not which voters feed into book affinity.
+- **Alternatives considered**: Hard cutoff at k — simpler, matches the PROJECT.md label literally.
+- **Rationale**: Cleaner mathematically; avoids the cliff where voter k+1 has no contribution despite being highly similar. Equivalent to k=∞ with affinity decay to zero for non-overlapping voters. K can always be added later as a filter if needed.
+- **Trigger**: Phase 2 plan review.
+
+## 2026-05-28 — Phase 2: voter similarity = raw weighted sum (not cosine-normalized)
+
+- **Context**: Standard k-NN often normalizes by vector magnitude (cosine similarity) to remove length bias.
+- **Decision**: Use raw weighted sum. Normalization is unnecessary because (a) we rank voters against each other for a fixed input (relative order is what matters), and (b) the user's input set is bounded at 1–10 books.
+- **Known accepted bias**: The 32 voters with 11–18 books (cross-source merges and series-explode voters) have marginally more overlap surface than pure 10-book voters, so may score slightly higher when input books are on their extended lists. This is judged acceptable: a voter who genuinely read and loved 18 books has a broader overlapping surface, and a slight boost is arguably correct rather than a flaw.
+- **Alternatives considered**: Cosine normalization (divide by |voter_list| or by |input_set| × |voter_list|).
+- **Rationale**: Simplicity wins here; the bias is small and directionally reasonable.
+- **Trigger**: Phase 2 plan review.
+
+## 2026-05-28 — Phase 2: book aggregation = affinity-first, rarity tiebreaker only
+
+- **Context**: Two options for ranking recommended books: (a) sum voter similarity scores (affinity-first), or (b) rarity-weighted sum (rarity-first). The user explicitly stated the concern: "a book loved by one weakly-matched voter shouldn't outrank a book loved by several strongly-matched voters just because it's rarer."
+- **Decision**: Primary sort by affinity (sum of matched-voter similarity scores); secondary sort by IDF weight (rarity) as a tiebreaker only.
+- **Alternatives considered**: Rarity-first (multiply affinity by IDF weight) — amplifies rare books regardless of how many matched voters love them.
+- **Rationale**: Affinity directly captures "how much do the people who match you love this book?" Rarity is a secondary tie-breaker that surfaces more distinctive books when affinity is equal.
+- **Trigger**: Phase 2 plan review; user's explicit instruction.
+
+## 2026-05-28 — Phase 2: RARITY_ALPHA as the sole tuning parameter
+
+- **Context**: The IDF formula `log((N+1)/(n_voters+1))^alpha` has one free parameter (alpha). Multiple other tuning parameters were considered: a minimum overlap floor, a hard k cutoff, a separate rarity multiplier for book ranking.
+- **Decision**: Expose only `RARITY_ALPHA` as a top-level constant. At alpha=1.0: singleton weight ≈ 5.14, Middlemarch weight ≈ 1.41 (ratio ~3.6×). Alpha=0 gives uniform weighting; alpha>1 amplifies rarity further.
+- **Alternatives considered**: Separate alpha for voter scoring vs book ranking; minimum overlap floor (rejected — would break the singleton case the user explicitly wanted to support).
+- **Rationale**: One knob is easy to sweep; the formula is already smoothed so no floor is needed; separating voter/book alphas would add complexity without clear benefit at this stage.
+- **Trigger**: Phase 2 plan review.
