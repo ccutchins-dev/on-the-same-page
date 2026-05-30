@@ -556,7 +556,10 @@ function renderResults() {
         li.title    = `Blend rank: ${score.toFixed(2)}`;
         li.style.cursor = 'pointer';
         li.innerHTML =
-            `<span class="result-title">${esc(info.title || cid)}</span>`
+            `<div class="result-title-row">`
+          +   `<span class="result-title">${esc(info.title || cid)}</span>`
+          +   `<span class="result-chevron">›</span>`
+          + `</div>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
           + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
         if (DEBUG) {

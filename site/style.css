@@ -92,11 +92,22 @@ header {
 #input-panel {
   position: sticky;
   top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 #main.pre-run #input-panel {
   position: static;
 }
+
+/* Flex order: pre-run keeps slider below search (order 5 > 4).
+   Post-run: slider floats above book-entries (order 2 < 3). */
+h1             { order: 0; }
+.subtitle      { order: 1; }
+#book-entries  { order: 3; }
+#search-container { order: 4; }
+#run-area      { order: 5; }
+#main.post-run #run-area { order: 2; }
 
 h1 {
   font-size: 1.4rem;
@@ -245,6 +256,7 @@ h1 {
   font-size: 0.8rem;
   color: var(--muted);
   user-select: none;
+  text-align: center;
 }
 
 .blend-row {
@@ -302,7 +314,18 @@ h1 {
   grid-row: 1;
 }
 
-.result-title  { grid-column: 2; grid-row: 1; font-weight: bold; font-size: 0.95rem; }
+/* result-title-row wraps title + chevron in the same grid cell */
+.result-title-row {
+  grid-column: 2; grid-row: 1;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+}
+.result-title  { font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.result-chevron {
+  flex-shrink: 0; color: var(--muted); font-size: 1rem;
+  display: inline-block; transition: transform 0.15s ease;
+}
+#results-list li.result-expanded .result-chevron { transform: rotate(90deg); }
+
 .result-author { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 0.85rem; }
 .result-count  { grid-column: 2; grid-row: 3; color: var(--muted); font-size: 0.8rem; margin-top: 0.05rem; }
 .result-diag   { grid-column: 2; grid-row: 4; color: var(--muted); font-size: 0.75rem; font-style: italic; margin-top: 0.05rem; }
@@ -312,10 +335,12 @@ h1 {
 /* ── Detail panel ───────────────────────────────────────────────────────────── */
 .result-detail {
   grid-column: 1 / -1;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding: 0.75rem 0 0.5rem;
-  margin-top: 0.35rem;
+  background: var(--surface);          /* elevated above --bg */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 0.75rem 0.75rem;
+  margin: 0.35rem 0 0.75rem;          /* top gap + bottom separation from next row */
+  box-shadow: var(--shadow);
 }
 
 /* Scores row */
