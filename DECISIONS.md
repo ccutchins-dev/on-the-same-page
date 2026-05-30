@@ -443,3 +443,35 @@ the prior one.
 - **Endpoint guarantees verified**: t=0 top-15 = standalone coocScorer top-15 (identical);
   t=1 top-15 = standalone ppmiDirectScorer top-15 (identical). Any fusion bug that reorders
   at the extremes would have failed this check.
+
+## 2026-05-30 — Per-recommendation evidence expansion panel
+
+- **Evidence-not-rank framing**: the expansion headline explains who backs the recommendation
+  and how distinctive it is. It never claims to explain the rank, which comes from a blended
+  scorer (co-occ + PPMI) we deliberately do not narrate. All copy uses "readers who love it
+  also share your taste" framing, not "ranked first because of…".
+
+- **Bucket design**: matched voters (those who share ≥1 input book AND have the result book)
+  are grouped by overlap count (how many of the user's inputs they share). This directly
+  represents signal strength — a voter sharing 3 of your books is a stronger taste signal
+  than one sharing 1. Label states the overlap; explicit number beside the bar states the
+  voter count; bar encodes relative tier size. Avoiding "N readers share M books" in a
+  single sentence removes the ambiguity of two numbers competing.
+
+- **Distinctiveness badge thresholds** (based on 342 total voters):
+  n=1 → "Deep cut"; n=2–5 → "Distinctive pick"; n=6–20 → "Popular pick"; n=21+ → "Widely loved".
+  The n=1 "but" headline construction signals that rarity is notable; the n=21+ "and"
+  construction signals corroboration; mid-range is neutral.
+
+- **Name cap of 5 per tier**: balances personalisation (enough names to feel real) with
+  avoiding overwhelming long lists.
+
+- **"Most often listed alongside your X."** — plain co-occurrence fact, never "most connected
+  to your love of X" (which implied rank explanation). Omitted if inputs are tied or single.
+
+- **Accordion (one open)**: simpler than multi-open; re-clicking collapses.
+  `collapseAll()` called at the start of every `fuseAndRender()` and `liveRecompute()` so
+  evidence panels never show stale data after slider drag or book edits.
+
+- **Lazy computation**: computed on click only (~3,500 iterations per expansion; negligible).
+  No upfront cost for all 50 result rows.
