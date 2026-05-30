@@ -228,8 +228,40 @@ h1 {
 .item-title { color: var(--text); }
 .item-author { color: var(--muted); font-size: 0.8rem; }
 
-/* ── Run area (empty — no controls needed for PPMI-direct) ─────────────────── */
-#run-area { margin-top: 0; }
+/* ── Blend slider (Popular ↔ Distinctive) ───────────────────────────────────── */
+#run-area { margin-top: 1rem; }
+
+#blend-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.blend-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  user-select: none;
+}
+
+.blend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+#blend-slider {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+#blend-value {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5rem;
+  text-align: right;
+}
 
 /* ── Results panel ─────────────────────────────────────────────────────────── */
 #results-panel {
