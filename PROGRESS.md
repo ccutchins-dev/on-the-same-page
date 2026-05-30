@@ -34,6 +34,15 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-29 — Blend slider added (feature/blend-slider)
+
+- **Commit**: dd73c1b on feature/blend-slider (to be merged to main)
+- **Usage**: `python3 -m http.server 8000` → `http://localhost:8000/site/`; `?debug=1` for diagnostics
+- **Slider**: "Popular ↔ Distinctive", t=0–1, default 0.5. t=0=pure co-occ, t=1=pure PPMI.
+  Drag re-fuses precomputed ranks (32ms/21 moves); book add/remove re-runs both scorers.
+- **Verified**: t=0 top-15 identical to standalone co-occurrence; t=1 identical to standalone PPMI.
+  Full candidate pools: 438 (PPMI) and 469 (co-occ) for 2-book input — no cap lingering.
+
 ## 2026-05-29 — PPMI-direct shipped to site (feature/phase3-ppmi-live)
 
 - **Commit**: 7b8e7d8 on feature/phase3-ppmi-live (to be merged to main)

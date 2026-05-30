@@ -409,3 +409,37 @@ the prior one.
 - **k=0 note**: ships the floor of the PPMI approach. k=0 includes all single-count
   accidental associations; k>0 might improve things but the sweep showed no clear win
   (n=21+ recall collapses monotonically with k). Shipping k=0 for feel-based evaluation.
+
+## 2026-05-29 — Blend slider: rank fusion of co-occurrence ↔ PPMI
+
+- **Why rank fusion, not score blending**: the two scorers produce scores on incompatible
+  scales (co-occurrence scores are weighted edge sums; PPMI scores are PMI values). Blending
+  scores would require scale normalization, which introduces arbitrary choices. Blending ranks
+  is parameter-free and preserves each scorer's full ordering.
+
+- **Formula**: `blended_rank(c) = (1-t) × rank_cooc(c) + t × rank_ppmi(c)`
+  t=0 → pure co-occurrence; t=1 → pure PPMI. Default t=0.5.
+
+- **Shared sentinel `N_sentinel = max(|ppmi_pool|, |cooc_pool|) + 1`**: used for BOTH sides
+  when a book is absent from one scorer. A per-side max would be asymmetric — if co-occ
+  has 469 candidates and PPMI has 438, using different sentinels would put a thumb on the
+  scale for books exclusive to one scorer. Shared sentinel = equal penalty for absence,
+  regardless of which scorer dropped the book.
+
+- **Tie breaking**: equal blended rank → sort by cid alphabetically. Deterministic; no
+  hidden preference.
+
+- **Full candidate pools required**: both scorers called with `top_n=Infinity` to get
+  complete ranked lists. A lingering top-50 cap would break the endpoint guarantees:
+  t=0 would not reproduce the pure co-occurrence ranking for books ranked 51–N.
+  Verified: pools of 438 (PPMI) and 469 (co-occ) for Middlemarch+Anna Karenina.
+
+- **Score-display vs recompute separation**: `liveRecompute()` runs both scorers; slider
+  drag calls `fuseAndRender()` only (re-fuses precomputed ranks, no re-scoring).
+  Drag latency: 21 moves in 32ms.
+
+- **?scorer= URL param retired**: slider supersedes it. Both scorers always run.
+
+- **Endpoint guarantees verified**: t=0 top-15 = standalone coocScorer top-15 (identical);
+  t=1 top-15 = standalone ppmiDirectScorer top-15 (identical). Any fusion bug that reorders
+  at the extremes would have failed this check.
