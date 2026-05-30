@@ -1,18 +1,22 @@
-/* ── Variables ─────────────────────────────────────────────────────────────── */
+/* ── Variables (dark mode) ──────────────────────────────────────────────────── */
 :root {
-  --bg:          #fafaf8;
-  --surface:     #ffffff;
-  --border:      #e0ddd8;
-  --text:        #1a1a1a;
-  --muted:       #6b6560;
-  --accent:      #2b4c7e;
-  --accent-soft: #eef1f6;
-  --danger:      #c0392b;
-  --disabled-bg: #f0efed;
-  --disabled-fg: #aaa;
+  --bg:          #1e1e1e;    /* dark gray, not black */
+  --surface:     #2a2a2a;    /* cards, inputs, dropdown */
+  --border:      #3d3d3d;    /* subtle separators */
+  --text:        #e8e6e3;    /* warm near-white */
+  --muted:       #8a8480;    /* medium warm gray */
+  --accent:      #5b8ad9;    /* bright blue readable on dark bg */
+  --accent-soft: #1e3258;    /* dark navy tint for hovers */
+  --danger:      #e05c4a;    /* slightly brightened red */
+  --disabled-bg: #333333;
+  --disabled-fg: #666666;
   --radius:      6px;
-  --shadow:      0 2px 8px rgba(0,0,0,0.08);
+  --shadow:      0 2px 8px rgba(0,0,0,0.4);
 }
+/* accent-soft audit on dark (#1e3258):
+   dropdown-item:hover  → dark navy on surface #2a2a2a, near-white text legible ✓
+   results-list li:hover → dark navy on bg #1e1e1e, text #e8e6e3 readable ✓
+   voter-book.is-input  → dark navy bg + #5b8ad9 bright text (distinguishable from is-rec) ✓ */
 
 /* ── Reset / base ──────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
