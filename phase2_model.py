@@ -583,6 +583,22 @@ def export_model_data(model, out_path=None):
             for row in csv.DictReader(f):
                 if row["year"] and row["canonical_id"] not in year_lookup:
                     year_lookup[row["canonical_id"]] = row["year"]
+    # year_overrides.csv: highest priority — user's manual corrections.
+    overrides_path = DATA_DIR / "year_overrides.csv"
+    if overrides_path.exists():
+        with open(overrides_path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row["year"]:
+                    year_lookup[row["canonical_id"]] = row["year"]
+
+    # Build description lookup from descriptions.csv if present; else placeholder.
+    desc_lookup = {}
+    desc_path = DATA_DIR / "descriptions.csv"
+    if desc_path.exists():
+        with open(desc_path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row["description"]:
+                    desc_lookup[row["canonical_id"]] = row["description"]
 
     payload = {
         "n_voters":       model.n_voters,
@@ -594,10 +610,16 @@ def export_model_data(model, out_path=None):
         "cooc_output_exp": COOC_OUTPUT_EXP,
         "books": {
             cid: {
-                "title":    info["title"],
-                "author":   info["author"],
-                "n_voters": info["n_voters"],
-                "year":     year_lookup.get(cid, ""),
+                "title":       info["title"],
+                "author":      info["author"],
+                "n_voters":    info["n_voters"],
+                "year":        year_lookup.get(cid, ""),
+                "description": desc_lookup.get(
+                    cid,
+                    f"{info['title']}, by {info['author']}. Description coming soon."
+                    if info["author"]
+                    else f"{info['title']}. Description coming soon."
+                ),
             }
             for cid, info in model.book_info.items()
         },

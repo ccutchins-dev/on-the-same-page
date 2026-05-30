@@ -619,3 +619,22 @@ the prior one.
   never writes back to state.baseCounts/ppmiScores or any ranking input.
   Denominators calibrated to the 342-voter corpus: must be recomputed if the
   dataset changes significantly.
+
+## 2026-05-30 — Light UX + data batch (feature/light-ux-batch)
+
+- **Description field sourced from descriptions.csv-or-placeholder**: `data/processed/descriptions.csv`
+  (canonical_id, description) is read at export time if it exists; missing entries
+  get a lightly-templated placeholder ("{title}, by {author}. Description coming soon.").
+  Zero UI/code change on re-export: dropping in a real CSV and re-running
+  `python3 phase2_model.py --export` populates descriptions automatically.
+
+- **year_overrides.csv mechanism**: highest-priority year source at export time,
+  `data/processed/year_overrides.csv` (canonical_id, year). Overrides year_backfill.csv
+  and canonical_books.csv canonical_year. Created as header-only placeholder; the
+  30 lifespan-range books (author-birth ranges mistaken for publication years) and
+  448 OL-blocked blank-year books will be filled in a separate data session
+  alongside real descriptions. Priority: overrides > year_backfill > canonical_books.
+
+- **Byline left-grouped**: removed `flex: 1` from `.result-title`. Title now has
+  `flex: 0 1 auto` (default); byline follows immediately at natural width. Title
+  truncates before byline is squeezed (flex-shrink: 0 on byline preserved).
