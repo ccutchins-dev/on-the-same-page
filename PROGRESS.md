@@ -34,6 +34,13 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — UX cosmetic batch (feature/ux-batch)
+
+- **Commits**: e01f510 dark mode · e57de9e chevron/card/slider/label · 76657d6 dropdown · (slider default + docs)
+- **Dark mode**: CSS var palette only — all components use var(--*) already, no rewrites
+- **Browsable dropdown**: focus opens full catalog (n_voters desc); windowed render (100+50/scroll); title + "on N lists"; keyboard nav preserved including arrow-past-boundary window growth
+- **Other**: expansion chevron (› rotates), card-like expansion boundaries, slider above book list in post-run, label centered, t=0.25 default
+
 ## 2026-05-30 — Deterministic evidence view (feature/evidence-view)
 
 - **Commit**: 288a0dd on feature/evidence-view (to be merged to main)

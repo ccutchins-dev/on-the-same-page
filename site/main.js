@@ -20,7 +20,7 @@ const state = {
     ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
     results:       [],     // [{cid, score, baseCount}] — fused top-50
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
-    blendT:        0.5,    // current slider value
+    blendT:        0.25,   // current slider value
     expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
 };
 
