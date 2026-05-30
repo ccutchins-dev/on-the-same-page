@@ -16,7 +16,8 @@ const state = {
     bookList:      [],     // [{cid, title, author, n_voters}] — ordered
     ppmiRanked:    [],     // all PPMI-reachable candidates, full pool, ordered by PPMI rank
     coocRanked:    [],     // all co-occ-reachable candidates, full pool, ordered by co-occ rank
-    baseCounts:    {},     // {cid: co-occ count sum} — from PPMI scorer, for debug display
+    baseCounts:    {},     // {cid: co-occ count sum} — raw co-occ Σᵢ count(voters with input_i and rec)
+    ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
     results:       [],     // [{cid, score, baseCount}] — fused top-50
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
     blendT:        0.5,    // current slider value
@@ -180,108 +181,109 @@ function computeMatchedVoterCounts(model, inputCids, resultCids) {
 
 // ── Detail panel ──────────────────────────────────────────────────────────────
 
-function computeExpansionDetail(cid, inputCids, model) {
-    const inputSet  = new Set(inputCids);
-    const tiers     = {};   // sharedCount → [voter_name, ...]
-    const inputCooc = Object.fromEntries(inputCids.map(i => [i, 0]));
+function buildVoterCards(cid, inputCids, model) {
+    // Returns voter cards sorted by influence: shared-input-count desc → idfSum desc.
+    // pos values are already integers in model_data.json (_parse_position applied
+    // during Python export). Tied integers occur for cross-source voters (e.g. "1;5"
+    // and "1;6" both → 1); the n_voters-then-title tie-break handles these.
+    const N   = model.n_voters;
+    const cards = [];
 
     for (const [voter, books] of Object.entries(model.voter_books)) {
-        const voterSet = new Set(books.map(([c]) => c));
-        if (!voterSet.has(cid)) continue;
-        const shared = inputCids.filter(i => voterSet.has(i));
+        const bookSet = new Set(books.map(([c]) => c));
+        if (!bookSet.has(cid)) continue;
+        const shared = inputCids.filter(i => bookSet.has(i));
         if (!shared.length) continue;
-        const k = shared.length;
-        if (!tiers[k]) tiers[k] = [];
-        tiers[k].push(voter);
-        for (const i of shared) inputCooc[i]++;
+
+        const idfSum = shared.reduce((s, i) => {
+            const nv = (model.books[i] || {}).n_voters || 1;
+            return s + Math.log((N + 1) / (nv + 1));
+        }, 0);
+
+        // Within-card order: position asc → n_voters asc (rarer first) → title alpha
+        const bookList = books.map(([c, pos]) => ({
+            cid: c, pos,
+            nv:    (model.books[c] || {}).n_voters || 999,
+            title: (model.books[c] || {}).title    || c,
+        })).sort((a, b) =>
+            a.pos   !== b.pos   ? a.pos   - b.pos   :
+            a.nv    !== b.nv    ? a.nv    - b.nv    :
+            a.title < b.title   ? -1 : 1
+        );
+
+        cards.push({ voter, sharedCount: shared.length, idfSum, bookList });
     }
 
-    const sortedTiers = Object.entries(tiers)
-        .map(([k, voters]) => ({ k: +k, voters }))
-        .sort((a, b) => b.k - a.k);
-
-    // Top-2 connecting inputs (skip for single-input; omit if all tied)
-    let topInputs = [];
-    if (inputCids.length >= 2) {
-        const sorted = inputCids.slice().sort((a, b) => inputCooc[b] - inputCooc[a]);
-        topInputs = sorted.slice(0, 2);
-        // Suppress if top-2 are tied with each other (all equally connected)
-        if (inputCooc[topInputs[0]] === inputCooc[topInputs[topInputs.length - 1]]) {
-            topInputs = [];
-        }
-    }
-
-    return { sortedTiers, topInputs, inputCooc,
-             totalMatchedVoters: Object.values(tiers).flat().length };
+    // Card order: shared-count desc → idf-sum desc (slider-independent)
+    cards.sort((a, b) =>
+        b.sharedCount !== a.sharedCount ? b.sharedCount - a.sharedCount
+                                        : b.idfSum      - a.idfSum
+    );
+    return cards;
 }
 
-function renderDetailPanel(cid, detail, inputCids, model) {
-    const info   = model.books[cid] || {};
-    const nv     = info.n_voters || 0;
-    const total  = model.n_voters;
+function renderDetailPanel(cid, inputCids, model) {
+    const coocScore = state.baseCounts[cid]  || 0;
+    const ppmiScore = state.ppmiScores[cid]  || 0;
+    const cards     = buildVoterCards(cid, inputCids, model);
+    const inputSet  = new Set(inputCids);
 
-    // ── Badge and headline ────────────────────────────────────────────────────
-    let badge, headline;
-    if (nv === 1) {
-        badge    = 'Deep cut';
-        headline = `A rare deep cut — on just 1 of ${total} reader lists — but the reader who loves it shares your taste.`;
-    } else if (nv <= 5) {
-        badge    = 'Distinctive pick';
-        headline = `A distinctive pick — on ${nv} of ${total} reader lists — but the readers who love it also share your taste.`;
-    } else if (nv <= 20) {
-        badge    = 'Popular pick';
-        headline = `A well-regarded book — on ${nv} of ${total} reader lists — and shared by readers who match your taste.`;
+    // ── Scores ────────────────────────────────────────────────────────────────
+    const scoresEl = document.createElement('div');
+    scoresEl.className = 'detail-scores';
+    scoresEl.innerHTML =
+        `<div class="detail-score">`
+      +   `<span class="detail-score-label">Co-occurrence</span>`
+      +   `<span class="detail-score-value">${coocScore}</span>`
+      +   `<span class="detail-score-hint">higher = more co-occurrence with your books</span>`
+      + `</div>`
+      + `<div class="detail-score">`
+      +   `<span class="detail-score-label">Distinctiveness (PPMI)</span>`
+      +   `<span class="detail-score-value">${ppmiScore.toFixed(2)}</span>`
+      +   `<span class="detail-score-hint">higher = more distinctive association</span>`
+      + `</div>`;
+
+    // ── Voter strip ────────────────────────────────────────────────────────────
+    const wrapper = document.createElement('div');
+    wrapper.className = 'detail-strip-wrapper';
+
+    if (cards.length === 0) {
+        wrapper.innerHTML = `<div class="detail-empty">No voters matching your inputs have this book — surfaced by PPMI association.</div>`;
     } else {
-        badge    = 'Widely loved';
-        headline = `A widely-loved classic — on ${nv} of ${total} reader lists — and shared by readers with your taste.`;
-    }
+        const strip = document.createElement('div');
+        strip.className = 'detail-strip';
 
-    // ── Tier bars ─────────────────────────────────────────────────────────────
-    const maxTierSize = detail.sortedTiers.length
-        ? Math.max(...detail.sortedTiers.map(t => t.voters.length))
-        : 1;
-    const NAME_CAP = 5;
+        for (const { voter, bookList } of cards) {
+            const card = document.createElement('div');
+            card.className = 'voter-card';
 
-    const tiersHTML = detail.sortedTiers.length === 0
-        ? `<div class="detail-empty">No direct overlap in the data — surfaced by PPMI association.</div>`
-        : detail.sortedTiers.map(({ k, voters }) => {
-            const barPct  = Math.round(100 * voters.length / maxTierSize);
-            const shown   = voters.slice(0, NAME_CAP);
-            const extra   = voters.length - shown.length;
-            const nameStr = shown.join(', ') + (extra > 0 ? `, +${extra} more` : '');
-            const label   = inputCids.length === 1
-                ? 'Readers who share your book'
-                : `Readers who share ${k} of your book${k === 1 ? '' : 's'}`;
-            return `<div class="detail-tier">
-  <div class="detail-tier-label">${esc(label)}</div>
-  <div class="tier-bar-row">
-    <span class="tier-count">${voters.length}</span>
-    <div class="tier-bar-track"><div class="tier-bar-fill" style="width:${barPct}%"></div></div>
-  </div>
-  <div class="tier-voters">${esc(nameStr)}</div>
-</div>`;
-        }).join('');
+            const header = document.createElement('div');
+            header.className = 'voter-card-header';
+            header.title = voter;
+            header.textContent = voter;
+            card.appendChild(header);
 
-    // ── Connecting inputs ─────────────────────────────────────────────────────
-    let connectHTML = '';
-    if (detail.topInputs.length >= 2) {
-        const names = detail.topInputs.map(iCid => {
-            const t = (model.books[iCid] || {}).title || iCid;
-            return `<em>${esc(t)}</em>`;
-        });
-        connectHTML = `<div class="detail-connections">Most often listed alongside your ${names.join(' and ')}.</div>`;
-    } else if (detail.topInputs.length === 1) {
-        const t = (model.books[detail.topInputs[0]] || {}).title || detail.topInputs[0];
-        connectHTML = `<div class="detail-connections">Most often listed alongside your <em>${esc(t)}</em>.</div>`;
+            const booksEl = document.createElement('div');
+            booksEl.className = 'voter-card-books';
+            for (const { cid: bCid, title } of bookList) {
+                const row = document.createElement('div');
+                row.className = 'voter-book'
+                    + (bCid === cid        ? ' is-rec'   : '')
+                    + (inputSet.has(bCid)  ? ' is-input' : '');
+                row.title     = title;
+                row.textContent = title;
+                booksEl.appendChild(row);
+            }
+            card.appendChild(booksEl);
+            strip.appendChild(card);
+        }
+        wrapper.appendChild(strip);
     }
 
     const el = document.createElement('div');
     el.className = 'result-detail';
-    el.innerHTML =
-        `<div class="detail-headline">${esc(headline)}</div>`
-      + `<span class="detail-badge">${esc(badge)}</span>`
-      + `<div class="detail-tiers">${tiersHTML}</div>`
-      + connectHTML;
+    el.appendChild(scoresEl);
+    el.appendChild(wrapper);
     return el;
 }
 
@@ -303,8 +305,7 @@ function toggleExpansion(cid, li) {
     collapseAll();   // close any previously open
     state.expandedCid = cid;
     li.classList.add('result-expanded');
-    const detail = computeExpansionDetail(cid, inputCids, state.model);
-    const panel  = renderDetailPanel(cid, detail, inputCids, state.model);
+    const panel = renderDetailPanel(cid, inputCids, state.model);
     li.appendChild(panel);
 }
 
@@ -512,7 +513,8 @@ function liveRecompute() {
 
     state.ppmiRanked = ppmiRes.ranked;
     state.coocRanked = coocRes.ranked;
-    state.baseCounts = ppmiRes.bookCounts;   // raw co-occ sums for ?debug=1
+    state.baseCounts = ppmiRes.bookCounts;   // raw co-occ sums (Σᵢ co-count)
+    state.ppmiScores = ppmiRes.bookScores;   // PPMI sums (Σᵢ PPMI(input_i, rec))
 
     fuseAndRender();
 }
@@ -609,7 +611,7 @@ async function init() {
         state.model = await res.json();
         setupUI();
         // Expose internals for endpoint verification (?debug=1 or Playwright tests)
-        window._k = { state, ppmiDirectScorer, coocScorer };
+        window._k = { state, ppmiDirectScorer, coocScorer, buildVoterCards };
     } catch (e) {
         elLoading.textContent =
             'Could not load data. Start the server from the repo root: python3 -m http.server 8000';
