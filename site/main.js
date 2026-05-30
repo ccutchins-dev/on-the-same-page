@@ -20,6 +20,7 @@ const state = {
     results:       [],     // [{cid, score, baseCount}] — fused top-50
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
     blendT:        0.5,    // current slider value
+    expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
 };
 
 const MAX_BOOKS = 15;
@@ -177,9 +178,140 @@ function computeMatchedVoterCounts(model, inputCids, resultCids) {
     return counts;
 }
 
+// ── Detail panel ──────────────────────────────────────────────────────────────
+
+function computeExpansionDetail(cid, inputCids, model) {
+    const inputSet  = new Set(inputCids);
+    const tiers     = {};   // sharedCount → [voter_name, ...]
+    const inputCooc = Object.fromEntries(inputCids.map(i => [i, 0]));
+
+    for (const [voter, books] of Object.entries(model.voter_books)) {
+        const voterSet = new Set(books.map(([c]) => c));
+        if (!voterSet.has(cid)) continue;
+        const shared = inputCids.filter(i => voterSet.has(i));
+        if (!shared.length) continue;
+        const k = shared.length;
+        if (!tiers[k]) tiers[k] = [];
+        tiers[k].push(voter);
+        for (const i of shared) inputCooc[i]++;
+    }
+
+    const sortedTiers = Object.entries(tiers)
+        .map(([k, voters]) => ({ k: +k, voters }))
+        .sort((a, b) => b.k - a.k);
+
+    // Top-2 connecting inputs (skip for single-input; omit if all tied)
+    let topInputs = [];
+    if (inputCids.length >= 2) {
+        const sorted = inputCids.slice().sort((a, b) => inputCooc[b] - inputCooc[a]);
+        topInputs = sorted.slice(0, 2);
+        // Suppress if top-2 are tied with each other (all equally connected)
+        if (inputCooc[topInputs[0]] === inputCooc[topInputs[topInputs.length - 1]]) {
+            topInputs = [];
+        }
+    }
+
+    return { sortedTiers, topInputs, inputCooc,
+             totalMatchedVoters: Object.values(tiers).flat().length };
+}
+
+function renderDetailPanel(cid, detail, inputCids, model) {
+    const info   = model.books[cid] || {};
+    const nv     = info.n_voters || 0;
+    const total  = model.n_voters;
+
+    // ── Badge and headline ────────────────────────────────────────────────────
+    let badge, headline;
+    if (nv === 1) {
+        badge    = 'Deep cut';
+        headline = `A rare deep cut — on just 1 of ${total} reader lists — but the reader who loves it shares your taste.`;
+    } else if (nv <= 5) {
+        badge    = 'Distinctive pick';
+        headline = `A distinctive pick — on ${nv} of ${total} reader lists — but the readers who love it also share your taste.`;
+    } else if (nv <= 20) {
+        badge    = 'Popular pick';
+        headline = `A well-regarded book — on ${nv} of ${total} reader lists — and shared by readers who match your taste.`;
+    } else {
+        badge    = 'Widely loved';
+        headline = `A widely-loved classic — on ${nv} of ${total} reader lists — and shared by readers with your taste.`;
+    }
+
+    // ── Tier bars ─────────────────────────────────────────────────────────────
+    const maxTierSize = detail.sortedTiers.length
+        ? Math.max(...detail.sortedTiers.map(t => t.voters.length))
+        : 1;
+    const NAME_CAP = 5;
+
+    const tiersHTML = detail.sortedTiers.length === 0
+        ? `<div class="detail-empty">No direct overlap in the data — surfaced by PPMI association.</div>`
+        : detail.sortedTiers.map(({ k, voters }) => {
+            const barPct  = Math.round(100 * voters.length / maxTierSize);
+            const shown   = voters.slice(0, NAME_CAP);
+            const extra   = voters.length - shown.length;
+            const nameStr = shown.join(', ') + (extra > 0 ? `, +${extra} more` : '');
+            const label   = inputCids.length === 1
+                ? 'Readers who share your book'
+                : `Readers who share ${k} of your book${k === 1 ? '' : 's'}`;
+            return `<div class="detail-tier">
+  <div class="detail-tier-label">${esc(label)}</div>
+  <div class="tier-bar-row">
+    <span class="tier-count">${voters.length}</span>
+    <div class="tier-bar-track"><div class="tier-bar-fill" style="width:${barPct}%"></div></div>
+  </div>
+  <div class="tier-voters">${esc(nameStr)}</div>
+</div>`;
+        }).join('');
+
+    // ── Connecting inputs ─────────────────────────────────────────────────────
+    let connectHTML = '';
+    if (detail.topInputs.length >= 2) {
+        const names = detail.topInputs.map(iCid => {
+            const t = (model.books[iCid] || {}).title || iCid;
+            return `<em>${esc(t)}</em>`;
+        });
+        connectHTML = `<div class="detail-connections">Most often listed alongside your ${names.join(' and ')}.</div>`;
+    } else if (detail.topInputs.length === 1) {
+        const t = (model.books[detail.topInputs[0]] || {}).title || detail.topInputs[0];
+        connectHTML = `<div class="detail-connections">Most often listed alongside your <em>${esc(t)}</em>.</div>`;
+    }
+
+    const el = document.createElement('div');
+    el.className = 'result-detail';
+    el.innerHTML =
+        `<div class="detail-headline">${esc(headline)}</div>`
+      + `<span class="detail-badge">${esc(badge)}</span>`
+      + `<div class="detail-tiers">${tiersHTML}</div>`
+      + connectHTML;
+    return el;
+}
+
+function collapseAll() {
+    if (!state.expandedCid) return;
+    const open = elResultsList.querySelector('.result-detail');
+    if (open) open.remove();
+    const openLi = elResultsList.querySelector('.result-expanded');
+    if (openLi) openLi.classList.remove('result-expanded');
+    state.expandedCid = null;
+}
+
+function toggleExpansion(cid, li) {
+    const inputCids = state.bookList.map(b => b.cid);
+    if (state.expandedCid === cid) {
+        collapseAll();
+        return;
+    }
+    collapseAll();   // close any previously open
+    state.expandedCid = cid;
+    li.classList.add('result-expanded');
+    const detail = computeExpansionDetail(cid, inputCids, state.model);
+    const panel  = renderDetailPanel(cid, detail, inputCids, state.model);
+    li.appendChild(panel);
+}
+
 // ── Rank fusion ────────────────────────────────────────────────────────────────
 
 function fuseAndRender() {
+    collapseAll();   // collapse open expansion — re-ranking changes evidence
     const inputCids = state.bookList.map(b => b.cid);
     const t = parseFloat(elBlendSlider.value);
     state.blendT = t;
@@ -349,6 +481,7 @@ function removeBook(cid) {
 // ── Live recompute ─────────────────────────────────────────────────────────────
 
 function liveRecompute() {
+    collapseAll();   // book edits change both scores and evidence
     const inputCids = state.bookList.map(b => b.cid);
 
     if (inputCids.length === 0) {
@@ -419,6 +552,7 @@ function renderResults() {
         const count = state.matchedCounts[cid] || 0;
         const li    = document.createElement('li');
         li.title    = `Blend rank: ${score.toFixed(2)}`;
+        li.style.cursor = 'pointer';
         li.innerHTML =
             `<span class="result-title">${esc(info.title || cid)}</span>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
@@ -427,6 +561,7 @@ function renderResults() {
             li.innerHTML +=
                 `<span class="result-diag">co=${baseCount} · n=${info.n_voters ?? '?'}</span>`;
         }
+        li.addEventListener('click', () => toggleExpansion(cid, li));
         elResultsList.appendChild(li);
     });
 
