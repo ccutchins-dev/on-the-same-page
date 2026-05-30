@@ -111,10 +111,11 @@ def load_model(data_dir=DATA_DIR, alpha=RARITY_ALPHA):
     with open(data_dir / "canonical_books.csv", newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             book_info[row["canonical_id"]] = {
-                "title":    row["canonical_title"],
-                "author":   row["canonical_author"],
-                "n_voters": int(row["n_voters"]),
-                "weight":   0.0,
+                "title":         row["canonical_title"],
+                "author":        row["canonical_author"],
+                "canonical_year": row.get("canonical_year", ""),
+                "n_voters":      int(row["n_voters"]),
+                "weight":        0.0,
             }
 
     n_voters = _count_voters(data_dir)
@@ -570,6 +571,19 @@ def export_model_data(model, out_path=None):
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # Build year lookup: canonical_year from canonical_books (694 books) +
+    # additional backfill from year_backfill.csv (37 auto-resolved entries).
+    year_lookup = {}
+    for cid, info in model.book_info.items():
+        if info.get("canonical_year"):
+            year_lookup[cid] = info["canonical_year"]
+    backfill_path = DATA_DIR / "year_backfill.csv"
+    if backfill_path.exists():
+        with open(backfill_path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row["year"] and row["canonical_id"] not in year_lookup:
+                    year_lookup[row["canonical_id"]] = row["year"]
+
     payload = {
         "n_voters":       model.n_voters,
         "alpha":          model.alpha,
@@ -583,6 +597,7 @@ def export_model_data(model, out_path=None):
                 "title":    info["title"],
                 "author":   info["author"],
                 "n_voters": info["n_voters"],
+                "year":     year_lookup.get(cid, ""),
             }
             for cid, info in model.book_info.items()
         },

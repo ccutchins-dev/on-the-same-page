@@ -589,3 +589,33 @@ the prior one.
   Y of them share multiple" (Y clause dropped for single-input). This required extending
   computeMatchedVoterCounts to return both X and Y, and storing multiMatchCounts in
   state alongside matchedCounts.
+
+## 2026-05-30 — UX batch 2 (6 items)
+
+- **"Independent People" data fix**: corrected canonical_title in canonical_books.csv
+  (OL:OL757983W: "Independant" → "Independent"). combined_voters.csv and
+  row_to_canonical.csv retain the original spelling — they're Phase 1 source/output
+  files. Phase 2 export reads from canonical_books.csv only, so the re-exported
+  model_data.json is correct everywhere.
+
+- **Year field added to model_data.json export**: phase2_model.py now reads
+  canonical_year from canonical_books.csv (694 books) and merges with
+  year_backfill.csv (37 auto-resolved entries from the prior batch). 731/1209
+  books have a year in the current export; the remainder show year="" (not displayed).
+
+- **/10 score denominators — sqrt-compressed co-occ + linear PPMI**: replacing the
+  input-aware (n_voters sum) denominator that made Middlemarch's #1 recommendation
+  score 2.4/10. Co-occ uses min(10, sqrt(raw) / 5.5 × 10) — sqrt compression
+  spreads the popular cluster that would otherwise all pin at 10/10 (27/24/21 →
+  9.4/8.9/8.3 rather than all 10). D_COOC_SQRT=5.5 calibrated so the highest
+  observed n=2 co-occ (raw=27, Middlemarch+JE best) → ≈9.4/10; only raw ≥30
+  earns 10/10. PPMI is left linear (min(10, ppmi / (3.8 × n) × 10)) because it
+  already differentiates well — compressing it would flatten the 0.8–7.5 signal
+  seen for popular inputs. D_PPMI=3.8/input ≈ p99 of per-input PPMI distribution.
+  Verified across three test cases: popular pair shows gradient 9.4/8.9/8.7/8.3;
+  rare pair shows PPMI 3.2–10.0 with honest low co-occ; incoherent pair (zero
+  shared voters) tops at 3.1/10 co-occ and 9.3/10 PPMI — both below 10. The
+  transform is display-only: renderDetailPanel() reads raw scores from state but
+  never writes back to state.baseCounts/ppmiScores or any ranking input.
+  Denominators calibrated to the 342-voter corpus: must be recomputed if the
+  dataset changes significantly.

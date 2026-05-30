@@ -34,6 +34,22 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — UX batch 2 (feature/ux-batch-2)
+
+- **Data**: "Independant People" → "Independent People" in canonical_books.csv;
+  phase2_model.py now exports year per book (canonical_year + year_backfill.csv);
+  model_data.json re-exported at 220.4 KB, 731/1209 books with year.
+- **Item 1**: .result-detail grid-column 1/-1 → 2/-1; expansion now aligns under title.
+- **Item 2**: #main.post-run max-width 1200px → 1360px.
+- **Item 4**: Three result rows collapsed to two. Title+author·year on one flex line
+  (.result-byline), count on row 2. .result-chevron spans 2 rows (was 3).
+- **Item 5**: /10 scores: sqrt-compressed co-occ (D=5.5, not n-scaled) + linear PPMI
+  (D=3.8/input). Popular pair spreads 9.4/8.9/8.7/8.3; incoherent pair tops at
+  3.1/9.3 (both below 10).
+- **Item 6**: .result-chevron right padding 0.5rem → 0.75rem.
+- **Next**: merge to main; continue year gap resolution (openlibrary.org allowlist
+  or manual fill of year_gaps.csv).
+
 ## 2026-05-30 — UX + data batch (feature/ux-data-batch)
 
 - **Commits**: 6dbe85b backfill script · e170159 CSS layout · (JS display pending merge)

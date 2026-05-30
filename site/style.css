@@ -78,7 +78,7 @@ header {
   display: grid;
   grid-template-columns: minmax(220px, 280px) 1fr;
   gap: 2rem;
-  max-width: min(calc(100vw - 2.5rem), 1200px);
+  max-width: min(calc(100vw - 2.5rem), 1360px);
   align-items: start;
 }
 
@@ -318,31 +318,31 @@ h1 {
   grid-row: 1;
 }
 
-/* result-title-row: title only (chevron is a separate grid child in column 3) */
+/* result-title-row: title + author·year byline on one flex line */
 .result-title-row {
   grid-column: 2; grid-row: 1;
-  display: flex; align-items: center; gap: 0.4rem;
+  display: flex; align-items: baseline; gap: 0.4rem;
 }
 .result-title  { font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.result-byline { color: var(--muted); font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
 .result-chevron {
   grid-column: 3;
-  grid-row: 1 / span 3;   /* span title + author + count rows */
+  grid-row: 1 / span 2;   /* span title+byline and count rows */
   align-self: center;
-  padding: 0 0.5rem 0 0.25rem;
+  padding: 0 0.75rem 0 0.25rem;
   color: var(--muted); font-size: 1rem;
   display: inline-block; transition: transform 0.15s ease;
 }
 #results-list li.result-expanded .result-chevron { transform: rotate(90deg); }
 
-.result-author { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 0.85rem; }
-.result-count  { grid-column: 2; grid-row: 3; color: var(--muted); font-size: 0.8rem; margin-top: 0.05rem; }
-.result-diag   { grid-column: 2; grid-row: 4; color: var(--muted); font-size: 0.75rem; font-style: italic; margin-top: 0.05rem; }
+.result-count  { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 0.8rem; margin-top: 0.05rem; }
+.result-diag   { grid-column: 2; grid-row: 3; color: var(--muted); font-size: 0.75rem; font-style: italic; margin-top: 0.05rem; }
 
 #results-list li:hover { background: var(--accent-soft); }
 
 /* ── Detail panel ───────────────────────────────────────────────────────────── */
 .result-detail {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
   background: #252525;          /* subtle resting elevation: between --bg #1e1e1e and --surface #2a2a2a */
   border: 1px solid var(--border);
   border-radius: var(--radius);
