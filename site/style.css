@@ -20,6 +20,8 @@
 
 /* ── Reset / base ──────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Ensure [hidden] wins over any author display rules (e.g. #main.post-run {display:grid}) */
+[hidden] { display: none !important; }
 
 body {
   font-family: Georgia, 'Times New Roman', serif;
@@ -474,7 +476,7 @@ h1 {
   padding: 2rem 1.25rem 4rem;
 }
 .about-content {
-  max-width: 640px;
+  max-width: min(calc(100vw - 2.5rem), 820px);
   margin: 0 auto;
 }
 .about-content h2 {
