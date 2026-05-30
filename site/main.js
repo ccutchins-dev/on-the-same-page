@@ -8,6 +8,13 @@ const DEBUG = new URLSearchParams(window.location.search).get('debug') === '1';
 const COOC_ALPHA = 1.0;
 const COOC_GAMMA = 1.0;
 
+// /10 score display denominators (display-only — never feed into ranking)
+// Empirically calibrated from 300 stratified input pairs (100 popular, 100 mixed, 100 rare).
+// Co-occ: sqrt-compressed, not n-scaled. D=5.5 → Middlemarch+JE best book (raw=27) ≈ 9.4/10.
+// PPMI: linear, per-input (×n). D=3.8 ≈ p99 of per-input PPMI distribution.
+const SCORE_DENOM_COOC_SQRT = 5.5;
+const SCORE_DENOM_PPMI      = 3.8;
+
 // ── State ──────────────────────────────────────────────────────────────────────
 const state = {
     model:         null,   // loaded model_data.json
@@ -240,16 +247,9 @@ function renderDetailPanel(cid, inputCids, model) {
     const cards     = buildVoterCards(cid, inputCids, model);
     const inputSet  = new Set(inputCids);
 
-    // Input-aware denominators: max achievable score for this input set.
-    // Stable per (rec, inputs) pair — depends on inputs only, not on result set.
-    const denomCooc = inputCids.reduce((s, ic) => s + ((model.books[ic] || {}).n_voters || 0), 0);
-    const denomPpmi = inputCids.reduce((s, ic) => {
-        const row = state.ppmiMap[ic];
-        if (!row || row.size === 0) return s;
-        return s + Math.max(...row.values());
-    }, 0);
-    const coocNorm = Math.min(10, coocScore / (denomCooc || 1) * 10).toFixed(1);
-    const ppmiNorm = Math.min(10, ppmiScore / (denomPpmi || 1) * 10).toFixed(1);
+    const n        = inputCids.length;
+    const coocNorm = Math.min(10, Math.sqrt(coocScore) / SCORE_DENOM_COOC_SQRT * 10).toFixed(1);
+    const ppmiNorm = Math.min(10, ppmiScore / (SCORE_DENOM_PPMI * n) * 10).toFixed(1);
 
     // ── Scores ────────────────────────────────────────────────────────────────
     const scoresEl = document.createElement('div');
@@ -609,7 +609,8 @@ function renderResults() {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
         const multi = state.multiMatchCounts[cid] || 0;
-        const year  = info.year ? ` · ${info.year}` : '';
+        const bylineParts = [info.author, info.year].filter(Boolean);
+        const byline = bylineParts.length ? ` · ${bylineParts.join(' · ')}` : '';
         const multiClause = (state.bookList.length > 1 && multi > 0)
             ? ` — ${multi} of them share multiple`
             : '';
@@ -619,8 +620,8 @@ function renderResults() {
         li.innerHTML =
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
+          +   `<span class="result-byline">${esc(byline)}</span>`
           + `</div>`
-          + `<span class="result-author">${esc(info.author || '')}${esc(year)}</span>`
           + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share at least one input${multiClause}</span>`
           + `<span class="result-chevron">›</span>`;
         if (DEBUG) {
