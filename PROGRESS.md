@@ -34,6 +34,17 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — Per-recommendation evidence panel (feature/result-detail-panel)
+
+- **Commit**: 017fdd6 on feature/result-detail-panel (to be merged to main)
+- **Usage**: click any result row to expand; click again to collapse. Slider drag or book
+  edits collapse any open panel automatically.
+- **Content**: distinctiveness badge, evidence headline (never narrates rank), bucket
+  breakdown (matched voters by input-overlap tier with bar + count + names), "Most often
+  listed alongside your X" co-occurrence note.
+- **Verified**: badge/headline, accordion, collapse-on-re-rank, tier label wording, "listed
+  alongside" wording — all confirmed via Playwright.
+
 ## 2026-05-29 — Blend slider added (feature/blend-slider)
 
 - **Commit**: dd73c1b on feature/blend-slider (to be merged to main)
