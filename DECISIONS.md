@@ -638,3 +638,21 @@ the prior one.
 - **Byline left-grouped**: removed `flex: 1` from `.result-title`. Title now has
   `flex: 0 1 auto` (default); byline follows immediately at natural width. Title
   truncates before byline is squeezed (flex-shrink: 0 on byline preserved).
+
+## 2026-05-30 — Rename + About page (feature/about-page)
+
+- **Rename display-only scope**: "Kindred Lists" → "On the Same Page" changes only
+  the human-readable display string in `site/index.html` (`<title>`, `.site-name`) and
+  the `PROJECT.md` heading. No file renames, CSS class renames, JS variable names,
+  data keys, git artifacts, or historical doc entries changed.
+
+- **About page nav: view toggle (not hash routing)**: `#main` and `#about` coexist in
+  the DOM; navigation only toggles the `hidden` attribute. Chosen over hash routing
+  because this is a single-page app and the URL-state machinery adds complexity with
+  no benefit. State preservation is automatic — the main app's DOM and JS state are
+  never touched when switching views.
+
+- **Nav wired before model load**: `initNav()` runs before `init()` (the async model
+  fetch), so the About page is reachable even during a slow or failed load. About is
+  static content that requires no model data. `setupUI()` checks `#about.hidden` before
+  revealing `#main` to respect any mid-load navigation.

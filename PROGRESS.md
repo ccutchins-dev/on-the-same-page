@@ -34,6 +34,20 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — Rename + About page (feature/about-page)
+
+- **Rename**: "Kindred Lists" → "On the Same Page" in `<title>`, header `.site-name`,
+  and `PROJECT.md` heading. Display text only — no file, class, or identifier renames.
+- **About page**: new `#about` div with three sections (How to Use / Underlying Data /
+  Methodology), narrow 640px reading column, full dark-mode palette.
+- **Nav**: hamburger ☰ now opens a dropdown with Main + About items. Click-outside
+  uses explicit containment check. Header site-name navigates to Main.
+- **State preservation**: `#main` is hidden/shown only; all JS state and DOM content
+  survive navigation to About and back unchanged.
+- **Model-independent nav**: `initNav()` runs before `init()` so About is reachable
+  even during a slow or failed model load.
+- **Next**: supply `descriptions.csv` + `year_overrides.csv` data in a separate session.
+
 ## 2026-05-30 — Light UX + data batch (feature/light-ux-batch)
 
 - **Data plumbing**: descriptions.csv-or-placeholder + year_overrides.csv (header-only)
