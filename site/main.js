@@ -592,10 +592,10 @@ function renderResults() {
         li.innerHTML =
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
-          +   `<span class="result-chevron">›</span>`
           + `</div>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
-          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
+          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`
+          + `<span class="result-chevron">›</span>`;
         if (DEBUG) {
             li.innerHTML +=
                 `<span class="result-diag">co=${baseCount} · n=${info.n_voters ?? '?'}</span>`;

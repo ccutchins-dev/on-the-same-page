@@ -528,3 +528,33 @@ the prior one.
 
 - **Lazy computation**: computed on click only (~3,500 iterations per expansion; negligible).
   No upfront cost for all 50 result rows.
+## 2026-05-30 — UX follow-up batch (6 surface changes)
+
+- **Dropdown focus trigger**: added `click` listener on search input (alongside `focus`).
+  Root cause: after `selectBook()` calls `elSearchInput.focus()`, if the input was
+  already focused the browser treats it as a no-op — no `focus` event fires. The input
+  is stale-focused, so clicking it fires only `click` but `onSearchFocus` was only
+  wired to `focus`. Adding the `click` listener means clicking always opens the dropdown.
+  Guard `if (!elDropdown.hidden) return` prevents scroll-position resets mid-browse.
+  Also removed the `elSearchInput.focus()` call from `setupUI()` so the dropdown no
+  longer opens on page load before any user interaction.
+
+- **Voter strip width — CSS breakout over JS measurement**: strip uses
+  `width: min(calc(100vw - 360px), calc(8 * 170px + 1rem))`. Alternatives: (a) JS
+  `getBoundingClientRect()` + inline style — accurate but flaky on first render when
+  layout hasn't settled; requires `setTimeout(0)` or `requestAnimationFrame` and a
+  resize observer. (b) Pure CSS vw approximation — approximate (360px is estimated left
+  offset, not measured) but always in sync with viewport resize, no JS timing needed.
+  Chosen: CSS. Minor cosmetic gap (strip narrower than possible at small viewports with
+  a wide input panel) is acceptable; timing fragility is not.
+
+- **Chevron vertical centering**: moved chevron span from inside `.result-title-row`
+  to a direct `li` grid child in column 3, `grid-row: 1 / span 3`. `align-self: center`
+  centers it across all three content rows (title, author, count). Alternative: absolute
+  positioning inside the li — rejected because `li` is a grid container and absolute
+  children escape grid flow unpredictably.
+
+- **Slider order post-run**: changed from `order: 2` (above book-entries, below h1) to
+  `order: -1` (above everything including h1). The slider is the most-interactive
+  control post-run; floating it to the top of the sticky panel improves reach on mobile
+  and reduces scrolling.
