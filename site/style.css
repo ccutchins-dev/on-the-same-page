@@ -1,18 +1,22 @@
-/* ── Variables ─────────────────────────────────────────────────────────────── */
+/* ── Variables (dark mode) ──────────────────────────────────────────────────── */
 :root {
-  --bg:          #fafaf8;
-  --surface:     #ffffff;
-  --border:      #e0ddd8;
-  --text:        #1a1a1a;
-  --muted:       #6b6560;
-  --accent:      #2b4c7e;
-  --accent-soft: #eef1f6;
-  --danger:      #c0392b;
-  --disabled-bg: #f0efed;
-  --disabled-fg: #aaa;
+  --bg:          #1e1e1e;    /* dark gray, not black */
+  --surface:     #2a2a2a;    /* cards, inputs, dropdown */
+  --border:      #3d3d3d;    /* subtle separators */
+  --text:        #e8e6e3;    /* warm near-white */
+  --muted:       #8a8480;    /* medium warm gray */
+  --accent:      #5b8ad9;    /* bright blue readable on dark bg */
+  --accent-soft: #1e3258;    /* dark navy tint for hovers */
+  --danger:      #e05c4a;    /* slightly brightened red */
+  --disabled-bg: #333333;
+  --disabled-fg: #666666;
   --radius:      6px;
-  --shadow:      0 2px 8px rgba(0,0,0,0.08);
+  --shadow:      0 2px 8px rgba(0,0,0,0.4);
 }
+/* accent-soft audit on dark (#1e3258):
+   dropdown-item:hover  → dark navy on surface #2a2a2a, near-white text legible ✓
+   results-list li:hover → dark navy on bg #1e1e1e, text #e8e6e3 readable ✓
+   voter-book.is-input  → dark navy bg + #5b8ad9 bright text (distinguishable from is-rec) ✓ */
 
 /* ── Reset / base ──────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -88,11 +92,22 @@ header {
 #input-panel {
   position: sticky;
   top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 #main.pre-run #input-panel {
   position: static;
 }
+
+/* Flex order: pre-run keeps slider below search (order 5 > 4).
+   Post-run: slider floats above book-entries (order 2 < 3). */
+h1             { order: 0; }
+.subtitle      { order: 1; }
+#book-entries  { order: 3; }
+#search-container { order: 4; }
+#run-area      { order: 5; }
+#main.post-run #run-area { order: 2; }
 
 h1 {
   font-size: 1.4rem;
@@ -189,7 +204,7 @@ h1 {
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
-  right: 0;
+  min-width: max(100%, 320px);   /* wider than input; at least 320px */
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -205,8 +220,9 @@ h1 {
   cursor: pointer;
   font-size: 0.875rem;
   display: flex;
-  gap: 0.4rem;
-  align-items: baseline;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
 }
 .dropdown-item:hover,
 .dropdown-item.active { background: var(--accent-soft); }
@@ -225,8 +241,9 @@ h1 {
   list-style: none;
 }
 
-.item-title { color: var(--text); }
-.item-author { color: var(--muted); font-size: 0.8rem; }
+.item-title  { color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-author { display: none; }   /* replaced by item-count */
+.item-count  { font-size: 0.75rem; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
 
 /* ── Blend slider (Popular ↔ Distinctive) ───────────────────────────────────── */
 #run-area { margin-top: 1rem; }
@@ -241,6 +258,7 @@ h1 {
   font-size: 0.8rem;
   color: var(--muted);
   user-select: none;
+  text-align: center;
 }
 
 .blend-row {
@@ -298,7 +316,18 @@ h1 {
   grid-row: 1;
 }
 
-.result-title  { grid-column: 2; grid-row: 1; font-weight: bold; font-size: 0.95rem; }
+/* result-title-row wraps title + chevron in the same grid cell */
+.result-title-row {
+  grid-column: 2; grid-row: 1;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+}
+.result-title  { font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.result-chevron {
+  flex-shrink: 0; color: var(--muted); font-size: 1rem;
+  display: inline-block; transition: transform 0.15s ease;
+}
+#results-list li.result-expanded .result-chevron { transform: rotate(90deg); }
+
 .result-author { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 0.85rem; }
 .result-count  { grid-column: 2; grid-row: 3; color: var(--muted); font-size: 0.8rem; margin-top: 0.05rem; }
 .result-diag   { grid-column: 2; grid-row: 4; color: var(--muted); font-size: 0.75rem; font-style: italic; margin-top: 0.05rem; }
@@ -308,10 +337,12 @@ h1 {
 /* ── Detail panel ───────────────────────────────────────────────────────────── */
 .result-detail {
   grid-column: 1 / -1;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding: 0.75rem 0 0.5rem;
-  margin-top: 0.35rem;
+  background: var(--surface);          /* elevated above --bg */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 0.75rem 0.75rem;
+  margin: 0.35rem 0 0.75rem;          /* top gap + bottom separation from next row */
+  box-shadow: var(--shadow);
 }
 
 /* Scores row */

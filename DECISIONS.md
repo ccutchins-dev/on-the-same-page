@@ -498,6 +498,25 @@ the prior one.
   accent text (light blue); `.is-rec` = accent background + white text (dark blue).
   In-place — books are not reordered to float highlights.
 
+## 2026-05-30 — UX cosmetic batch (7 surface changes)
+
+- **Dark mode palette**: dark gray bg (#1e1e1e), surface (#2a2a2a), near-white text
+  (#e8e6e3), bright blue accent (#5b8ad9) readable on dark, dark navy hover tint
+  (#1e3258). accent-soft flips from light tint to dark navy — all three usages audited
+  (dropdown hover, result-row hover, .is-input highlight) and confirmed legible.
+  Voter-card highlights on dark: .is-input = dark navy bg + bright blue text;
+  .is-rec = bright blue bg + white text — clearly distinguishable from each other.
+
+- **Dropdown windowing approach**: WINDOW_INITIAL=100 items mounted on open,
+  WINDOW_PAGE=50 appended on scroll, lazy-loaded via scroll event listener. Keyboard
+  arrow-past-boundary grows the window before advancing selection.
+
+- **Autocomplete ordering**: always uses sortedBooks (n_voters desc, cid asc tiebreak)
+  as the base. On keystroke, filtering stays in this order — no text-match reordering,
+  no jarring reshuffle. scrollTop reset to 0 on each keystroke filter.
+
+- **Slider default**: t=0.25 (shifted toward co-occurrence / popular end).
+
 - **Uniform card height**: CSS `align-items: stretch` on the flex strip container —
   all cards grow to the height of the tallest card naturally. No hardcoded pixel constant.
   Avoids the failure mode where a wrong constant + `overflow: hidden` clips the last

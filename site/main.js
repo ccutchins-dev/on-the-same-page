@@ -20,11 +20,18 @@ const state = {
     ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
     results:       [],     // [{cid, score, baseCount}] — fused top-50
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
-    blendT:        0.5,    // current slider value
+    blendT:        0.25,   // current slider value
     expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
 };
 
-const MAX_BOOKS = 15;
+const MAX_BOOKS     = 15;
+
+// ── Browsable autocomplete state ───────────────────────────────────────────────
+let sortedBooks          = [];   // all books sorted n_voters desc, cid asc tiebreak
+let currentDropdownItems = [];   // current filtered list (all 1209 items or filtered subset)
+let dropdownWindow       = 0;    // items currently mounted in DOM
+const WINDOW_INITIAL     = 100;  // mount this many on first open
+const WINDOW_PAGE        = 50;   // append this many on scroll
 
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
@@ -365,52 +372,50 @@ function esc(s) {
 
 // ── Autocomplete ───────────────────────────────────────────────────────────────
 
-function getMatches(query) {
-    if (!query) return [];
-    const q = query.toLowerCase();
+function getDropdownItems(query) {
+    // Always uses sortedBooks (n_voters desc, cid asc) — no text-match reordering.
+    // On keystroke the list is filtered but stays in the same popularity order,
+    // so there's no jarring reshuffle as the user types.
+    const q        = query.toLowerCase();
     const selected = new Set(state.bookList.map(b => b.cid));
-    const starts = [], contains = [];
-    for (const [cid, info] of Object.entries(state.model.books)) {
-        const tl = info.title.toLowerCase();
-        const al = info.author.toLowerCase();
-        const match = { cid, title: info.title, author: info.author,
-                        n_voters: info.n_voters, isSelected: selected.has(cid) };
-        if (tl.startsWith(q) || al.startsWith(q)) {
-            starts.push(match);
-        } else if (tl.includes(q) || al.includes(q)) {
-            contains.push(match);
-        }
-        if (starts.length + contains.length >= 60) break;
-    }
-    return [...starts, ...contains].slice(0, 20);
+    const base     = q
+        ? sortedBooks.filter(b => b.title.toLowerCase().includes(q)
+                               || b.author.toLowerCase().includes(q))
+        : sortedBooks;
+    return base.map(b => ({ ...b, isSelected: selected.has(b.cid) }));
 }
 
-function renderDropdown(matches) {
+function renderDropdown(items, windowSize) {
     elDropdown.innerHTML = '';
-    if (matches.length === 0) {
+    const visible = items.slice(0, windowSize);
+    if (items.length === 0) {
         const li = document.createElement('li');
         li.className = 'dropdown-no-matches';
         li.textContent = 'No matches';
         elDropdown.appendChild(li);
-        elDropdown.hidden = false;
-        return;
+    } else {
+        visible.forEach(({ cid, title, n_voters, isSelected }) => {
+            const li = document.createElement('li');
+            li.className = 'dropdown-item' + (isSelected ? ' disabled' : '');
+            li.setAttribute('role', 'option');
+            li.dataset.cid = cid;
+            li.innerHTML = `<span class="item-title">${esc(title)}</span>`
+                         + `<span class="item-count">on ${n_voters} list${n_voters === 1 ? '' : 's'}</span>`;
+            if (!isSelected) {
+                li.addEventListener('mousedown', e => {
+                    e.preventDefault();
+                    const info = state.model.books[cid];
+                    selectBook(cid, title, info.author || '', n_voters);
+                });
+            }
+            elDropdown.appendChild(li);
+        });
     }
-    matches.forEach(({ cid, title, author, n_voters, isSelected }) => {
-        const li = document.createElement('li');
-        li.className = 'dropdown-item' + (isSelected ? ' disabled' : '');
-        li.setAttribute('role', 'option');
-        li.dataset.cid = cid;
-        li.innerHTML = `<span class="item-title">${esc(title)}</span>`
-                     + `<span class="item-author">${esc(author)}</span>`;
-        if (!isSelected) {
-            li.addEventListener('mousedown', e => {
-                e.preventDefault();
-                selectBook(cid, title, author, n_voters);
-            });
-        }
-        elDropdown.appendChild(li);
-    });
     elDropdown.hidden = false;
+}
+
+function renderDropdownWithWindow() {
+    renderDropdown(currentDropdownItems, dropdownWindow);
 }
 
 function closeDropdown() {
@@ -419,20 +424,37 @@ function closeDropdown() {
 }
 
 function activateItem(delta) {
-    const items = [...elDropdown.querySelectorAll('.dropdown-item:not(.disabled)')];
+    let items = [...elDropdown.querySelectorAll('.dropdown-item:not(.disabled)')];
     if (!items.length) return;
-    const cur  = elDropdown.querySelector('.dropdown-item.active');
-    const idx  = cur ? items.indexOf(cur) : -1;
+    const cur = elDropdown.querySelector('.dropdown-item.active');
+    const idx = cur ? items.indexOf(cur) : -1;
+
+    // Arrow down past last mounted item → grow window, re-render, then advance
+    if (delta > 0 && idx === items.length - 1 && dropdownWindow < currentDropdownItems.length) {
+        dropdownWindow = Math.min(dropdownWindow + WINDOW_PAGE, currentDropdownItems.length);
+        renderDropdownWithWindow();
+        items = [...elDropdown.querySelectorAll('.dropdown-item:not(.disabled)')];
+    }
+
     const next = items[Math.max(0, Math.min(idx + delta, items.length - 1))];
     if (cur) cur.classList.remove('active');
-    next.classList.add('active');
-    next.scrollIntoView({ block: 'nearest' });
+    if (next) { next.classList.add('active'); next.scrollIntoView({ block: 'nearest' }); }
+}
+
+function onSearchFocus() {
+    if (!state.model) return;
+    const q = elSearchInput.value.trim();
+    currentDropdownItems = getDropdownItems(q);
+    dropdownWindow = Math.min(WINDOW_INITIAL, Math.max(currentDropdownItems.length, 1));
+    renderDropdownWithWindow();
 }
 
 function onSearchInput() {
     const q = elSearchInput.value.trim();
-    if (!q) { closeDropdown(); return; }
-    renderDropdown(getMatches(q));
+    currentDropdownItems = getDropdownItems(q);
+    dropdownWindow = Math.min(WINDOW_INITIAL, Math.max(currentDropdownItems.length, 1));
+    renderDropdownWithWindow();
+    elDropdown.scrollTop = 0;   // reset scroll on keystroke so filtered list starts at top
 }
 
 function onSearchKeydown(e) {
@@ -457,6 +479,16 @@ function onSearchBlur() {
         closeDropdown();
         elSearchInput.value = '';
     }, 150);
+}
+
+function onDropdownScroll() {
+    if (elDropdown.hidden) return;
+    if (elDropdown.scrollTop + elDropdown.clientHeight >= elDropdown.scrollHeight - 80) {
+        if (dropdownWindow < currentDropdownItems.length) {
+            dropdownWindow = Math.min(dropdownWindow + WINDOW_PAGE, currentDropdownItems.length);
+            renderDropdownWithWindow();
+        }
+    }
 }
 
 // ── Book selection / removal ───────────────────────────────────────────────────
@@ -556,7 +588,10 @@ function renderResults() {
         li.title    = `Blend rank: ${score.toFixed(2)}`;
         li.style.cursor = 'pointer';
         li.innerHTML =
-            `<span class="result-title">${esc(info.title || cid)}</span>`
+            `<div class="result-title-row">`
+          +   `<span class="result-title">${esc(info.title || cid)}</span>`
+          +   `<span class="result-chevron">›</span>`
+          + `</div>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
           + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
         if (DEBUG) {
@@ -592,9 +627,16 @@ function setupUI() {
     state.ppmiMap    = ppmiMap;
     state.coocCounts = coocCounts;
 
+    // Pre-sort books for browsable dropdown (n_voters desc, cid asc tiebreak)
+    sortedBooks = Object.entries(state.model.books)
+        .sort(([cidA, a], [cidB, b]) => (b.n_voters - a.n_voters) || cidA.localeCompare(cidB))
+        .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
+
+    elSearchInput.addEventListener('focus',   onSearchFocus);
     elSearchInput.addEventListener('input',   onSearchInput);
     elSearchInput.addEventListener('keydown', onSearchKeydown);
     elSearchInput.addEventListener('blur',    onSearchBlur);
+    elDropdown.addEventListener('scroll',     onDropdownScroll, { passive: true });
     elBlendSlider.addEventListener('input',   fuseAndRender);  // drag only re-fuses, no re-scoring
 
     renderEntries();
