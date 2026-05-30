@@ -469,6 +469,40 @@ the prior one.
 - **"Most often listed alongside your X."** — plain co-occurrence fact, never "most connected
   to your love of X" (which implied rank explanation). Omitted if inputs are tied or single.
 
+## 2026-05-30 — Deterministic evidence view (replaced expansion panel prose)
+
+- **Replaced**: badge (Deep cut / Distinctive pick etc.), prose headline, tier bars with
+  voter names, and "most often listed alongside" connection note — all removed entirely.
+
+- **Two-score framing**: shows `state.baseCounts[cid]` (raw co-occurrence sum =
+  Σᵢ count(voter_lists with both input_i and rec)) and `state.ppmiScores[cid]` (PPMI sum
+  = Σᵢ PPMI(input_i, rec)). Both come directly from the live scorers; no re-computation.
+  Labelled as separate lenses with scale caveats — not comparable magnitudes.
+
+- **Voter strip**: every qualifying voter (has rec AND shares ≥1 input) gets a card.
+  No cap. Each card shows the voter's full list in reading order.
+
+- **Card influence order**: shared-input-count descending → raw_idf-sum of shared inputs
+  descending. Slider-independent (doesn't change when t moves).
+
+- **Within-card book order**: position ascending → n_voters ascending (rarer first) →
+  title alphabetical. Fully deterministic. Tied integer positions occur for cross-source
+  voters (compound positions like "1;5" and "1;6" both min-resolve to 1 in the JSON).
+  The n_voters → title tiebreak handles these correctly.
+
+- **Position format**: confirmed via data inspection — `pos` in model_data.json is always
+  a plain integer (0 non-integer entries across all 3525 voter-book pairs). Compound
+  strings were converted by `_parse_position()` during Python export.
+
+- **Highlight colors** (existing vars only): `.is-input` = accent-soft background +
+  accent text (light blue); `.is-rec` = accent background + white text (dark blue).
+  In-place — books are not reordered to float highlights.
+
+- **Uniform card height**: CSS `align-items: stretch` on the flex strip container —
+  all cards grow to the height of the tallest card naturally. No hardcoded pixel constant.
+  Avoids the failure mode where a wrong constant + `overflow: hidden` clips the last
+  (possibly highlighted) book of the tallest card.
+
 - **Accordion (one open)**: simpler than multi-open; re-clicking collapses.
   `collapseAll()` called at the start of every `fuseAndRender()` and `liveRecompute()` so
   evidence panels never show stale data after slider drag or book edits.

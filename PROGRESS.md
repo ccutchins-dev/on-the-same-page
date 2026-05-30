@@ -34,6 +34,16 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — Deterministic evidence view (feature/evidence-view)
+
+- **Commit**: 288a0dd on feature/evidence-view (to be merged to main)
+- **Replaces**: prose headline, badge, tier bars, connection note in expansion panel
+- **Shows**: co-occurrence score (int), PPMI score (2dp), full voter strip (horizontal scroll)
+- **Voter cards**: ordered by shared-count desc → idf-sum desc; books by pos→rarity→alpha
+- **Highlights**: .is-rec (dark blue) and .is-input (light blue) in-place, not reordered
+- **Height**: uniform via CSS flex stretch, no hardcoded pixel constant
+- **Verified**: score parity, voter count, card order, highlights, accordion, mobile
+
 ## 2026-05-30 — Per-recommendation evidence panel (feature/result-detail-panel)
 
 - **Commit**: 017fdd6 on feature/result-detail-panel (to be merged to main)
