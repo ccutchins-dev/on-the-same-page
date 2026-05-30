@@ -78,7 +78,7 @@ header {
   display: grid;
   grid-template-columns: minmax(220px, 280px) 1fr;
   gap: 2rem;
-  max-width: 960px;
+  max-width: min(calc(100vw - 2.5rem), 1200px);
   align-items: start;
 }
 
@@ -360,10 +360,6 @@ h1 {
 .detail-strip-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  /* Pure CSS breakout: strip right edge ≈ viewport right edge.
-     360px ≈ input panel (280px) + gap (32px) + detail padding/margin (~48px).
-     Cap at 8 cards wide (8 × 170px + 1rem gap). */
-  width: min(calc(100vw - 360px), calc(8 * 170px + 1rem));
 }
 .detail-strip {
   display: flex;
