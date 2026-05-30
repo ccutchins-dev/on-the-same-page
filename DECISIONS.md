@@ -558,3 +558,34 @@ the prior one.
   `order: -1` (above everything including h1). The slider is the most-interactive
   control post-run; floating it to the top of the sticky panel improves reach on mobile
   and reduces scrolling.
+
+## 2026-05-30 — UX + data batch (5 items)
+
+- **Year backfill — lifespan vs publication ranges**: auto-resolve range years only
+  when span ≤ 25 years (clear publication windows: LOTR 1954-56, Proust 1913-27,
+  Decameron 1351-53). Ranges > 25 years flagged as likely author lifespans (O'Connor
+  1925-64, Kafka 1883-1924, Shakespeare 1564-1616, etc.) — the first year of these
+  ranges is a birth year, not a publication date, so resolving automatically would be
+  confidently wrong. Ancient works with no year at all (Homer, Virgil, Aeschylus, etc.)
+  auto-labeled "pre-Renaissance" via keyword list. OpenLibrary API used for OL-prefixed
+  books if reachable; otherwise gap CSV output for domain-allowlist or manual resolution.
+
+- **/10 scores — input-aware denominators**: denomCooc = Σᵢ n_voters(input_i) (the
+  maximum co-occurrence achievable if all of each input book's voters also have the rec);
+  denomPpmi = Σᵢ max(ppmiMap[input_i].values()) (max PPMI sum achievable for this input
+  set). Both denominators are stable per (rec, inputs) pair — they depend only on the
+  inputs, not on what's in the result set. Verified spreads: Confidence-Man (1 voter)
+  shows 10.0 → 7.7 → 7.3 → 5.5 → 4.4 PPMI /10 across top results; Middlemarch (83
+  voters) shows 2.4/10 co-occ for Anna Karenina (honest: 24% of 83 voters have it)
+  with PPMI spread distinguishing Portrait of a Lady (7.0/10) from Ulysses (2.8/10).
+  Rejected fixed global denominators because they collapse niche-taste scores uniformly.
+
+- **Results column width**: increased #main.post-run max-width from 960px to
+  min(calc(100vw - 2.5rem), 1200px); removed CSS breakout (width: min(...)) from
+  .detail-strip-wrapper. The strip is now self-contained; expanded cards are the same
+  width as collapsed rows, with horizontal scroll within the wider column.
+
+- **Summary line** now reads "on X lists from voters who share at least one input —
+  Y of them share multiple" (Y clause dropped for single-input). This required extending
+  computeMatchedVoterCounts to return both X and Y, and storing multiMatchCounts in
+  state alongside matchedCounts.

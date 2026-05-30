@@ -78,7 +78,7 @@ header {
   display: grid;
   grid-template-columns: minmax(220px, 280px) 1fr;
   gap: 2rem;
-  max-width: 960px;
+  max-width: min(calc(100vw - 2.5rem), 1200px);
   align-items: start;
 }
 
@@ -241,8 +241,10 @@ h1 {
   list-style: none;
 }
 
-.item-title  { color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.item-author { display: none; }   /* replaced by item-count */
+.item-left   { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 0.25rem; overflow: hidden; }
+.item-title  { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-sep    { color: var(--muted); font-size: 0.85rem; flex-shrink: 0; }
+.item-author { color: var(--muted); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .item-count  { font-size: 0.75rem; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
 
 /* ── Blend slider (Popular ↔ Distinctive) ───────────────────────────────────── */
@@ -354,16 +356,11 @@ h1 {
 .detail-score  { display: flex; flex-direction: column; gap: 0.1rem; }
 .detail-score-label { font-size: 0.72rem; color: var(--muted); }
 .detail-score-value { font-size: 1.05rem; font-weight: bold; color: var(--text); }
-.detail-score-hint  { font-size: 0.68rem; color: var(--muted); font-style: italic; }
 
 /* Voter strip */
 .detail-strip-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  /* Pure CSS breakout: strip right edge ≈ viewport right edge.
-     360px ≈ input panel (280px) + gap (32px) + detail padding/margin (~48px).
-     Cap at 8 cards wide (8 × 170px + 1rem gap). */
-  width: min(calc(100vw - 360px), calc(8 * 170px + 1rem));
 }
 .detail-strip {
   display: flex;
