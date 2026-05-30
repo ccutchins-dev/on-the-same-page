@@ -34,6 +34,26 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — UX + data batch (feature/ux-data-batch)
+
+- **Commits**: 6dbe85b backfill script · e170159 CSS layout · (JS display pending merge)
+- **Year data**: backfill_years.py auto-resolves 22 publication ranges (≤25yr span)
+  + 15 ancient works → "pre-Renaissance". 478 remain in year_gaps.csv for human review
+  (29 lifespan ranges, 448 truly blank). Re-export of model_data.json blocked on gap
+  resolution; OL API fetch resolves 438 OL-prefixed books if openlibrary.org is allowlisted.
+- **Item 1**: results column max-width → min(100vw-2.5rem, 1200px); CSS strip breakout retired.
+- **Item 3**: summary line → "on X lists from voters who share at least one input —
+  Y of them share multiple" (Y clause dropped for 1-input). computeMatchedVoterCounts
+  now returns both counts; state.multiMatchCounts added.
+- **Item 4**: dropdown rows now show Title · Author on left, count right.
+- **Item 5**: scores shown as "N.N / 10" with input-aware denominators (n_voters sum
+  for co-occ, max-PPMI sum for distinctiveness). Hint text removed.
+- **Year display** (item 2): renderResults shows "Author · Year" when year field is
+  present in model_data.json; shows just author when blank. Requires re-export after
+  year gap resolution.
+- **Next**: resolve year_gaps.csv (allowlist openlibrary.org or fill manually) → re-export
+  model_data.json → merge to main.
+
 ## 2026-05-30 — UX follow-up batch (feature/ux-followup)
 
 - **Commits**: d914b2f focus-state fix · (layout+visual pending merge)

@@ -18,9 +18,10 @@ const state = {
     coocRanked:    [],     // all co-occ-reachable candidates, full pool, ordered by co-occ rank
     baseCounts:    {},     // {cid: co-occ count sum} — raw co-occ Σᵢ count(voters with input_i and rec)
     ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
-    results:       [],     // [{cid, score, baseCount}] — fused top-50
-    matchedCounts: {},     // {cid: count} — for "on Y lists" display
-    blendT:        0.25,   // current slider value
+    results:         [],   // [{cid, score, baseCount}] — fused top-50
+    matchedCounts:   {},   // {cid: count} — voters with ≥1 input and rec book
+    multiMatchCounts:{},   // {cid: count} — subset of matchedCounts with ≥2 inputs
+    blendT:          0.25, // current slider value
     expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
 };
 
@@ -173,17 +174,21 @@ function coocScorer(model, inputCids, alpha, gamma, top_n = 50) {
 }
 
 function computeMatchedVoterCounts(model, inputCids, resultCids) {
-    const inputSet  = new Set(inputCids);
-    const resultSet = new Set(resultCids);
-    const counts    = Object.fromEntries(resultCids.map(c => [c, 0]));
+    const inputSet    = new Set(inputCids);
+    const resultSet   = new Set(resultCids);
+    const counts      = Object.fromEntries(resultCids.map(c => [c, 0]));
+    const multiCounts = Object.fromEntries(resultCids.map(c => [c, 0]));
     for (const [, books] of Object.entries(model.voter_books)) {
-        const hasInput = books.some(([c]) => inputSet.has(c));
-        if (!hasInput) continue;
+        const sharedCount = books.filter(([c]) => inputSet.has(c)).length;
+        if (sharedCount === 0) continue;
         for (const [cid] of books) {
-            if (resultSet.has(cid)) counts[cid]++;
+            if (resultSet.has(cid)) {
+                counts[cid]++;
+                if (sharedCount >= 2) multiCounts[cid]++;
+            }
         }
     }
-    return counts;
+    return { matchedCounts: counts, multiMatchCounts: multiCounts };
 }
 
 // ── Detail panel ──────────────────────────────────────────────────────────────
@@ -235,19 +240,28 @@ function renderDetailPanel(cid, inputCids, model) {
     const cards     = buildVoterCards(cid, inputCids, model);
     const inputSet  = new Set(inputCids);
 
+    // Input-aware denominators: max achievable score for this input set.
+    // Stable per (rec, inputs) pair — depends on inputs only, not on result set.
+    const denomCooc = inputCids.reduce((s, ic) => s + ((model.books[ic] || {}).n_voters || 0), 0);
+    const denomPpmi = inputCids.reduce((s, ic) => {
+        const row = state.ppmiMap[ic];
+        if (!row || row.size === 0) return s;
+        return s + Math.max(...row.values());
+    }, 0);
+    const coocNorm = Math.min(10, coocScore / (denomCooc || 1) * 10).toFixed(1);
+    const ppmiNorm = Math.min(10, ppmiScore / (denomPpmi || 1) * 10).toFixed(1);
+
     // ── Scores ────────────────────────────────────────────────────────────────
     const scoresEl = document.createElement('div');
     scoresEl.className = 'detail-scores';
     scoresEl.innerHTML =
         `<div class="detail-score">`
       +   `<span class="detail-score-label">Co-occurrence</span>`
-      +   `<span class="detail-score-value">${coocScore}</span>`
-      +   `<span class="detail-score-hint">higher = more co-occurrence with your books</span>`
+      +   `<span class="detail-score-value">${coocNorm} / 10</span>`
       + `</div>`
       + `<div class="detail-score">`
       +   `<span class="detail-score-label">Distinctiveness (PPMI)</span>`
-      +   `<span class="detail-score-value">${ppmiScore.toFixed(2)}</span>`
-      +   `<span class="detail-score-hint">higher = more distinctive association</span>`
+      +   `<span class="detail-score-value">${ppmiNorm} / 10</span>`
       + `</div>`;
 
     // ── Voter strip ────────────────────────────────────────────────────────────
@@ -356,7 +370,10 @@ function fuseAndRender() {
         score:     rank,
         baseCount: state.baseCounts[cid] || 0,
     }));
-    state.matchedCounts = computeMatchedVoterCounts(state.model, inputCids, top50Cids);
+    const { matchedCounts, multiMatchCounts } =
+        computeMatchedVoterCounts(state.model, inputCids, top50Cids);
+    state.matchedCounts    = matchedCounts;
+    state.multiMatchCounts = multiMatchCounts;
     renderResults();
 }
 
@@ -394,13 +411,18 @@ function renderDropdown(items, windowSize) {
         li.textContent = 'No matches';
         elDropdown.appendChild(li);
     } else {
-        visible.forEach(({ cid, title, n_voters, isSelected }) => {
+        visible.forEach(({ cid, title, author, n_voters, isSelected }) => {
             const li = document.createElement('li');
             li.className = 'dropdown-item' + (isSelected ? ' disabled' : '');
             li.setAttribute('role', 'option');
             li.dataset.cid = cid;
-            li.innerHTML = `<span class="item-title">${esc(title)}</span>`
-                         + `<span class="item-count">on ${n_voters} list${n_voters === 1 ? '' : 's'}</span>`;
+            li.innerHTML =
+                `<span class="item-left">`
+              +   `<span class="item-title">${esc(title)}</span>`
+              +   `<span class="item-sep"> · </span>`
+              +   `<span class="item-author">${esc(author || '')}</span>`
+              + `</span>`
+              + `<span class="item-count">on ${n_voters} list${n_voters === 1 ? '' : 's'}</span>`;
             if (!isSelected) {
                 li.addEventListener('mousedown', e => {
                     e.preventDefault();
@@ -586,6 +608,11 @@ function renderResults() {
     state.results.forEach(({ cid, score, baseCount }) => {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
+        const multi = state.multiMatchCounts[cid] || 0;
+        const year  = info.year ? ` · ${info.year}` : '';
+        const multiClause = (state.bookList.length > 1 && multi > 0)
+            ? ` — ${multi} of them share multiple`
+            : '';
         const li    = document.createElement('li');
         li.title    = `Blend rank: ${score.toFixed(2)}`;
         li.style.cursor = 'pointer';
@@ -593,8 +620,8 @@ function renderResults() {
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
           + `</div>`
-          + `<span class="result-author">${esc(info.author || '')}</span>`
-          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`
+          + `<span class="result-author">${esc(info.author || '')}${esc(year)}</span>`
+          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share at least one input${multiClause}</span>`
           + `<span class="result-chevron">›</span>`;
         if (DEBUG) {
             li.innerHTML +=
