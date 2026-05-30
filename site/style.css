@@ -323,7 +323,7 @@ h1 {
   grid-column: 2; grid-row: 1;
   display: flex; align-items: baseline; gap: 0.4rem;
 }
-.result-title  { font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.result-title  { font-weight: bold; font-size: 0.95rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .result-byline { color: var(--muted); font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
 .result-chevron {
   grid-column: 3;
@@ -352,10 +352,19 @@ h1 {
 }
 
 /* Scores row */
-.detail-scores { display: flex; gap: 2rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
-.detail-score  { display: flex; flex-direction: column; gap: 0.1rem; }
+.detail-scores { display: flex; gap: 2rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.detail-score  { display: flex; align-items: baseline; gap: 0.4rem; }
 .detail-score-label { font-size: 0.72rem; color: var(--muted); }
 .detail-score-value { font-size: 1.05rem; font-weight: bold; color: var(--text); }
+
+/* Description */
+.detail-description {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
+  font-style: italic;
+}
 
 /* Voter strip */
 .detail-strip-wrapper {
@@ -366,7 +375,7 @@ h1 {
   display: flex;
   align-items: stretch;   /* uniform height: all cards = tallest card */
   gap: 0.6rem;
-  padding-bottom: 0.5rem;
+  padding: 0 0.5rem 0.5rem;
   min-width: min-content;
 }
 

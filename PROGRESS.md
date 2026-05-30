@@ -34,6 +34,21 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — Light UX + data batch (feature/light-ux-batch)
+
+- **Data plumbing**: descriptions.csv-or-placeholder + year_overrides.csv (header-only)
+  added to export; model_data.json re-exported at 313.7 KB with description field.
+  30 lifespan-range blank-year books + 448 OL-blocked books listed in PROGRESS for
+  the upcoming data session. year_overrides.csv mechanism tested and confirmed working.
+- **Item 1**: byline now left-grouped (Title · Author · Year inline); removed flex:1
+  from .result-title so byline follows immediately rather than floating right.
+- **Item 2**: blend-rank tooltip (li.title) removed from result rows.
+- **Item 3**: voter strip has 0.5rem breathing room on left/right inside scroll area.
+- **Item 4a**: scores inline in expanded panel (label + value on one line per score).
+- **Item 4b**: description renders in expanded panel between scores and voter strip.
+- **Next**: data session to supply descriptions.csv + year values for the 478 remaining
+  books (30 lifespan-range + 448 OL-blocked; use year_overrides.csv + re-export).
+
 ## 2026-05-30 — UX batch 2 (feature/ux-batch-2)
 
 - **Data**: "Independant People" → "Independent People" in canonical_books.csv;

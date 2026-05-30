@@ -264,6 +264,11 @@ function renderDetailPanel(cid, inputCids, model) {
       +   `<span class="detail-score-value">${ppmiNorm} / 10</span>`
       + `</div>`;
 
+    // ── Description ───────────────────────────────────────────────────────────
+    const descEl = document.createElement('p');
+    descEl.className = 'detail-description';
+    descEl.textContent = (model.books[cid] || {}).description || '';
+
     // ── Voter strip ────────────────────────────────────────────────────────────
     const wrapper = document.createElement('div');
     wrapper.className = 'detail-strip-wrapper';
@@ -304,6 +309,7 @@ function renderDetailPanel(cid, inputCids, model) {
     const el = document.createElement('div');
     el.className = 'result-detail';
     el.appendChild(scoresEl);
+    el.appendChild(descEl);
     el.appendChild(wrapper);
     return el;
 }
@@ -615,7 +621,6 @@ function renderResults() {
             ? ` — ${multi} of them share multiple`
             : '';
         const li    = document.createElement('li');
-        li.title    = `Blend rank: ${score.toFixed(2)}`;
         li.style.cursor = 'pointer';
         li.innerHTML =
             `<div class="result-title-row">`
