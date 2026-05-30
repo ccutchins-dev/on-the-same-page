@@ -1,4 +1,4 @@
-# PROJECT.md — Kindred Lists
+# PROJECT.md — On the Same Page
 
 ## 1. Premise
 
