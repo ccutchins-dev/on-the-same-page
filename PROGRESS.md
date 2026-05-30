@@ -34,6 +34,23 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — UX follow-up batch (feature/ux-followup)
+
+- **Commits**: d914b2f focus-state fix · (layout+visual pending merge)
+- **Focus-state bugs fixed**: (1) dropdown no longer opens on page load — removed
+  `elSearchInput.focus()` from `setupUI()`; (2) clicking the input after book selection
+  always opens dropdown — added `click` listener calling `onSearchFocus`; guard prevents
+  scroll reset mid-browse.
+- **Slider above title post-run**: `#main.post-run #run-area { order: -1 }` — floats
+  before h1 (order 0) in the sticky input panel.
+- **Chevron vertically centered**: moved chevron out of `.result-title-row` into grid
+  column 3, `grid-row: 1 / span 3`, `align-self: center`; right padding added.
+- **Voter strip breakout**: pure CSS `width: min(calc(100vw - 360px), calc(8 * 170px + 1rem))`
+  on `.detail-strip-wrapper` — no JS needed, responds to resize automatically.
+- **Resting background**: `.result-detail { background: #252525 }` — subtle elevation
+  over `--bg` (#1e1e1e), no hover rule added (existing li:hover keeps title-row blue).
+- **Next**: merge feature/ux-followup to main.
+
 ## 2026-05-30 — UX cosmetic batch (feature/ux-batch)
 
 - **Commits**: e01f510 dark mode · e57de9e chevron/card/slider/label · 76657d6 dropdown · (slider default + docs)

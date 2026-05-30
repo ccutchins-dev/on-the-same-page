@@ -107,7 +107,7 @@ h1             { order: 0; }
 #book-entries  { order: 3; }
 #search-container { order: 4; }
 #run-area      { order: 5; }
-#main.post-run #run-area { order: 2; }
+#main.post-run #run-area { order: -1; margin-bottom: 0.5rem; }
 
 h1 {
   font-size: 1.4rem;
@@ -299,7 +299,7 @@ h1 {
 
 #results-list li {
   display: grid;
-  grid-template-columns: 2rem 1fr;
+  grid-template-columns: 2rem 1fr auto;
   gap: 0.1rem 0.6rem;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--border);
@@ -316,14 +316,18 @@ h1 {
   grid-row: 1;
 }
 
-/* result-title-row wraps title + chevron in the same grid cell */
+/* result-title-row: title only (chevron is a separate grid child in column 3) */
 .result-title-row {
   grid-column: 2; grid-row: 1;
-  display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+  display: flex; align-items: center; gap: 0.4rem;
 }
 .result-title  { font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .result-chevron {
-  flex-shrink: 0; color: var(--muted); font-size: 1rem;
+  grid-column: 3;
+  grid-row: 1 / span 3;   /* span title + author + count rows */
+  align-self: center;
+  padding: 0 0.5rem 0 0.25rem;
+  color: var(--muted); font-size: 1rem;
   display: inline-block; transition: transform 0.15s ease;
 }
 #results-list li.result-expanded .result-chevron { transform: rotate(90deg); }
@@ -337,7 +341,7 @@ h1 {
 /* ── Detail panel ───────────────────────────────────────────────────────────── */
 .result-detail {
   grid-column: 1 / -1;
-  background: var(--surface);          /* elevated above --bg */
+  background: #252525;          /* subtle resting elevation: between --bg #1e1e1e and --surface #2a2a2a */
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.85rem 0.75rem 0.75rem;
@@ -353,7 +357,14 @@ h1 {
 .detail-score-hint  { font-size: 0.68rem; color: var(--muted); font-style: italic; }
 
 /* Voter strip */
-.detail-strip-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.detail-strip-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Pure CSS breakout: strip right edge ≈ viewport right edge.
+     360px ≈ input panel (280px) + gap (32px) + detail padding/margin (~48px).
+     Cap at 8 cards wide (8 × 170px + 1rem gap). */
+  width: min(calc(100vw - 360px), calc(8 * 170px + 1rem));
+}
 .detail-strip {
   display: flex;
   align-items: stretch;   /* uniform height: all cards = tallest card */

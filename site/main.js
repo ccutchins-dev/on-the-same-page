@@ -443,6 +443,8 @@ function activateItem(delta) {
 
 function onSearchFocus() {
     if (!state.model) return;
+    if (!elDropdown.hidden) return;   // already open — don't reset scroll mid-browse
+    elDropdown.scrollTop = 0;
     const q = elSearchInput.value.trim();
     currentDropdownItems = getDropdownItems(q);
     dropdownWindow = Math.min(WINDOW_INITIAL, Math.max(currentDropdownItems.length, 1));
@@ -590,10 +592,10 @@ function renderResults() {
         li.innerHTML =
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
-          +   `<span class="result-chevron">›</span>`
           + `</div>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
-          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`;
+          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share your taste</span>`
+          + `<span class="result-chevron">›</span>`;
         if (DEBUG) {
             li.innerHTML +=
                 `<span class="result-diag">co=${baseCount} · n=${info.n_voters ?? '?'}</span>`;
@@ -633,6 +635,7 @@ function setupUI() {
         .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
 
     elSearchInput.addEventListener('focus',   onSearchFocus);
+    elSearchInput.addEventListener('click',   onSearchFocus);  // handles stale-focus after book selection
     elSearchInput.addEventListener('input',   onSearchInput);
     elSearchInput.addEventListener('keydown', onSearchKeydown);
     elSearchInput.addEventListener('blur',    onSearchBlur);
@@ -643,7 +646,6 @@ function setupUI() {
 
     elLoading.hidden = true;
     elMain.hidden    = false;
-    elSearchInput.focus();
 }
 
 async function init() {
