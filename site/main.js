@@ -678,7 +678,11 @@ function setupUI() {
     renderEntries();
 
     elLoading.hidden = true;
-    elMain.hidden    = false;
+    // Respect user navigation during load: don't show #main if user has already
+    // navigated to About (initNav() runs before this and may have switched the view).
+    if (document.getElementById('about').hidden) {
+        elMain.hidden = false;
+    }
 }
 
 async function init() {
@@ -695,4 +699,64 @@ async function init() {
     }
 }
 
+// ── Nav ────────────────────────────────────────────────────────────────────────
+// Wire navigation before the model loads: About is static content that needs
+// no model, so it must be reachable even during a slow or failed load.
+
+function initNav() {
+    const elHamburger = document.querySelector('.hamburger');
+    const elSiteName  = document.querySelector('.site-name');
+    const elNavMenuEl = document.getElementById('nav-menu');
+    const elAboutEl   = document.getElementById('about');
+    const elMainEl    = document.getElementById('main');
+    const elLoadingEl = document.getElementById('loading');
+
+    function closeMenu() {
+        elNavMenuEl.hidden = true;
+        elHamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    function showView(view) {
+        closeMenu();
+        if (view === 'about') {
+            elLoadingEl.hidden = true;   // hide "Loading…" or error text if present
+            elMainEl.hidden    = true;
+            elAboutEl.hidden   = false;
+        } else {
+            elAboutEl.hidden = true;
+            // Show #main only when the model has already loaded (elLoadingEl.hidden = true).
+            // If still loading, just hide About and let the loader finish naturally.
+            if (elLoadingEl.hidden) elMainEl.hidden = false;
+        }
+    }
+
+    // Hamburger: toggle menu open/closed
+    elHamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = elNavMenuEl.hidden;   // true = currently hidden → about to open
+        elNavMenuEl.hidden = !willOpen;
+        elHamburger.setAttribute('aria-expanded', String(willOpen));
+        // willOpen=true → menu just became visible → aria-expanded="true" ✓
+    });
+
+    // Nav items: switch view
+    elNavMenuEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.nav-item');
+        if (btn) showView(btn.dataset.view);
+    });
+
+    // Site name: return to Main
+    elSiteName.addEventListener('click', () => showView('main'));
+
+    // Click outside: close menu (explicit containment check — no propagation dependency)
+    document.addEventListener('click', (e) => {
+        if (!elNavMenuEl.hidden
+            && !elNavMenuEl.contains(e.target)
+            && e.target !== elHamburger) {
+            closeMenu();
+        }
+    });
+}
+
+initNav();
 init();
