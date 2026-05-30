@@ -1,13 +1,10 @@
 'use strict';
 
-// ── Scorer selection ───────────────────────────────────────────────────────────
-// Default: 'ppmi'. Override via ?scorer=cooc for silent A/B comparison.
-// Debug diagnostic columns (co=N · n=M): add ?debug=1.
-const _params       = new URLSearchParams(window.location.search);
-const ACTIVE_SCORER = _params.get('scorer') || 'ppmi';
-const DEBUG         = _params.get('debug') === '1';
+// Debug diagnostic columns (co=N · n=M): add ?debug=1 to URL.
+// ?scorer= URL param retired — use the blend slider instead.
+const DEBUG = new URLSearchParams(window.location.search).get('debug') === '1';
 
-// Fallback co-occurrence params (used only when ACTIVE_SCORER === 'cooc')
+// Co-occurrence fallback params (always used for fusion)
 const COOC_ALPHA = 1.0;
 const COOC_GAMMA = 1.0;
 
@@ -15,31 +12,34 @@ const COOC_GAMMA = 1.0;
 const state = {
     model:         null,   // loaded model_data.json
     ppmiMap:       null,   // {cid → Map{cid → ppmi_value}} — built at startup
-    coocCounts:    null,   // {cid → Map{cid → count}}  — for debug display
+    coocCounts:    null,   // {cid → Map{cid → raw count}} — for debug display
     bookList:      [],     // [{cid, title, author, n_voters}] — ordered
-    results:       [],     // [{cid, score, baseCount}]
+    ppmiRanked:    [],     // all PPMI-reachable candidates, full pool, ordered by PPMI rank
+    coocRanked:    [],     // all co-occ-reachable candidates, full pool, ordered by co-occ rank
+    baseCounts:    {},     // {cid: co-occ count sum} — from PPMI scorer, for debug display
+    results:       [],     // [{cid, score, baseCount}] — fused top-50
     matchedCounts: {},     // {cid: count} — for "on Y lists" display
+    blendT:        0.5,    // current slider value
 };
 
 const MAX_BOOKS = 15;
 
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
-    elSearchContainer, elResultsPanel, elResultsHeader, elResultsList;
+    elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
+    elBlendSlider, elBlendValue;
 
 // ── PPMI-direct scorer ─────────────────────────────────────────────────────────
 
 function buildPPMILookup(voterBooks) {
     // Builds ppmiMap and coocCounts from voter_books already in model_data.json.
-    // Matches Python compute_ppmi(build_cooc(voter_books), shift_k=0) exactly.
-    // Parity verified: C_total identical, rank-parity and score-parity confirmed
-    // for 3 input sets (see parity gate run before this commit).
+    // Parity verified vs Python compute_ppmi(build_cooc(), shift_k=0):
+    // C_total exact match (33294), rank-parity and score-parity confirmed for 3 input sets.
     const coocMap = {};  // {cid_i: {cid_j: count}} — symmetric
     const rowSums = {};  // {cid: total directed co-occurrence count}
 
     for (const [, voterBooksEntry] of Object.entries(voterBooks)) {
-        // voterBooksEntry = [[cid, pos], ...]; deduplicate matching Python frozenset
-        const cids = [...new Set(voterBooksEntry.map(([c]) => c))];
+        const cids = [...new Set(voterBooksEntry.map(([c]) => c))];  // dedup (frozenset parity)
         for (let a = 0; a < cids.length; a++) {
             for (let b = a + 1; b < cids.length; b++) {
                 const ci = cids[a], cj = cids[b];
@@ -53,7 +53,6 @@ function buildPPMILookup(voterBooks) {
         }
     }
 
-    // C_total = Σ rowSums = 2 × undirected-pairs sum (matches Python mat.sum())
     let C_total = 0;
     for (const s of Object.values(rowSums)) C_total += s;
 
@@ -77,12 +76,12 @@ function buildPPMILookup(voterBooks) {
 }
 
 function ppmiDirectScorer(ppmiMap, coocCounts, inputCids, model, top_n = 50) {
-    // score(c) = Σᵢ∈input PPMI(i, c)   [k=0, α=0 — no parameters]
-    // Three-level sort: score desc → idf desc → cid asc (matches Python rank_ppmi_direct).
-    // 6-decimal rounding preserves parity with Python scorer.
+    // score(c) = Σᵢ∈input PPMI(i, c)   [k=0, α=0]
+    // Pass top_n=Infinity for fusion (full reachable pool, no cap).
+    // Three-level sort: score desc → idf desc → cid asc.
     const inputSet = new Set(inputCids);
     const scores   = {};
-    const baseCo   = {};  // raw co-occurrence sums per candidate (for debug display)
+    const baseCo   = {};
 
     for (const iCid of inputCids) {
         const ppmiRow = ppmiMap[iCid];
@@ -91,7 +90,6 @@ function ppmiDirectScorer(ppmiMap, coocCounts, inputCids, model, top_n = 50) {
             if (inputSet.has(cCid)) continue;
             scores[cCid] = (scores[cCid] || 0) + ppmiVal;
         }
-        // Also accumulate raw co-occ counts for debug display
         const coocRow = coocCounts[iCid];
         if (coocRow) {
             for (const [cCid, cnt] of coocRow) {
@@ -110,16 +108,18 @@ function ppmiDirectScorer(ppmiMap, coocCounts, inputCids, model, top_n = 50) {
         return a < b ? -1 : a > b ? 1 : 0;
     });
 
-    return { ranked: ranked.slice(0, top_n), bookScores: scores, bookCounts: baseCo };
+    const out = top_n === Infinity ? ranked : ranked.slice(0, top_n);
+    return { ranked: out, bookScores: scores, bookCounts: baseCo };
 }
 
-// ── Co-occurrence scorer (dormant; active only via ?scorer=cooc) ───────────────
+// ── Co-occurrence scorer ───────────────────────────────────────────────────────
 
 function rawIdf(nVoters, N) {
     return Math.log((N + 1) / (nVoters + 1));
 }
 
-function coocScorer(model, inputCids, alpha, gamma) {
+function coocScorer(model, inputCids, alpha, gamma, top_n = 50) {
+    // Pass top_n=Infinity for fusion (full reachable pool, no cap).
     const inputSet   = new Set(inputCids);
     const N          = model.n_voters;
     const books      = model.books;
@@ -159,13 +159,11 @@ function coocScorer(model, inputCids, alpha, gamma) {
         return a < b ? -1 : a > b ? 1 : 0;
     });
 
-    return { ranked: ranked.slice(0, 50), bookScores, bookCounts };
+    const out = top_n === Infinity ? ranked : ranked.slice(0, top_n);
+    return { ranked: out, bookScores, bookCounts };
 }
 
 function computeMatchedVoterCounts(model, inputCids, resultCids) {
-    // Count distinct matched-pool voters (any input overlap) who have each result book.
-    // With PPMI scoring a high-ranked result may have a low Y (PPMI surfaces books for
-    // association strength, not corroboration count — Y is informational, not the rank signal).
     const inputSet  = new Set(inputCids);
     const resultSet = new Set(resultCids);
     const counts    = Object.fromEntries(resultCids.map(c => [c, 0]));
@@ -177,6 +175,49 @@ function computeMatchedVoterCounts(model, inputCids, resultCids) {
         }
     }
     return counts;
+}
+
+// ── Rank fusion ────────────────────────────────────────────────────────────────
+
+function fuseAndRender() {
+    const inputCids = state.bookList.map(b => b.cid);
+    const t = parseFloat(elBlendSlider.value);
+    state.blendT = t;
+    elBlendValue.textContent = t.toFixed(2);
+
+    if (inputCids.length === 0) {
+        renderResults();
+        return;
+    }
+
+    const ppmiRankMap = new Map(state.ppmiRanked.map((cid, i) => [cid, i + 1]));
+    const coocRankMap = new Map(state.coocRanked.map((cid, i) => [cid, i + 1]));
+
+    // Single shared sentinel — symmetric penalty for absence from either scorer.
+    // A book absent from co-occurrence and one absent from PPMI both pay N_sentinel,
+    // so neither scorer gets a hidden advantage from pool size differences.
+    const N_sentinel = Math.max(state.ppmiRanked.length, state.coocRanked.length) + 1;
+
+    const allCands = new Set([...state.ppmiRanked, ...state.coocRanked]);
+    const fused    = [];
+    for (const cid of allCands) {
+        const rPpmi = ppmiRankMap.has(cid) ? ppmiRankMap.get(cid) : N_sentinel;
+        const rCooc = coocRankMap.has(cid) ? coocRankMap.get(cid) : N_sentinel;
+        fused.push({ cid, rank: (1 - t) * rCooc + t * rPpmi });
+    }
+
+    // Sort ascending by fused rank; break ties by cid alphabetically (deterministic)
+    fused.sort((a, b) => a.rank !== b.rank ? a.rank - b.rank : (a.cid < b.cid ? -1 : 1));
+
+    const top50 = fused.slice(0, 50);
+    const top50Cids = top50.map(f => f.cid);
+    state.results    = top50.map(({ cid, rank }) => ({
+        cid,
+        score:     rank,
+        baseCount: state.baseCounts[cid] || 0,
+    }));
+    state.matchedCounts = computeMatchedVoterCounts(state.model, inputCids, top50Cids);
+    renderResults();
 }
 
 // ── Utilities ──────────────────────────────────────────────────────────────────
@@ -314,9 +355,12 @@ function liveRecompute() {
         elMain.classList.remove('post-run');
         elMain.classList.add('pre-run');
         elResultsPanel.hidden = true;
+        state.ppmiRanked    = [];
+        state.coocRanked    = [];
+        state.baseCounts    = {};
         state.results       = [];
         state.matchedCounts = {};
-        renderResults();
+        fuseAndRender();   // clears header text via renderResults
         return;
     }
 
@@ -325,23 +369,19 @@ function liveRecompute() {
     elMain.classList.add('post-run');
     elResultsPanel.hidden = false;
 
-    let ranked, bookScores, bookCounts;
-    if (ACTIVE_SCORER === 'ppmi') {
-        ({ ranked, bookScores, bookCounts } = ppmiDirectScorer(
-            state.ppmiMap, state.coocCounts, inputCids, state.model));
-    } else {
-        ({ ranked, bookScores, bookCounts } = coocScorer(
-            state.model, inputCids, COOC_ALPHA, COOC_GAMMA));
-    }
+    // Both scorers run with full candidate pools (top_n=Infinity — no cap).
+    // Fusion correctness requires complete rank lists; a lingering top-50 cutoff
+    // would break the t=0 and t=1 endpoint guarantees.
+    const ppmiRes = ppmiDirectScorer(
+        state.ppmiMap, state.coocCounts, inputCids, state.model, Infinity);
+    const coocRes = coocScorer(
+        state.model, inputCids, COOC_ALPHA, COOC_GAMMA, Infinity);
 
-    const top50 = ranked.slice(0, 50);
-    state.results    = top50.map(cid => ({
-        cid,
-        score:     bookScores[cid],
-        baseCount: bookCounts[cid] || 0,
-    }));
-    state.matchedCounts = computeMatchedVoterCounts(state.model, inputCids, top50);
-    renderResults();
+    state.ppmiRanked = ppmiRes.ranked;
+    state.coocRanked = coocRes.ranked;
+    state.baseCounts = ppmiRes.bookCounts;   // raw co-occ sums for ?debug=1
+
+    fuseAndRender();
 }
 
 // ── Rendering ──────────────────────────────────────────────────────────────────
@@ -378,7 +418,7 @@ function renderResults() {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
         const li    = document.createElement('li');
-        li.title    = `Score: ${score.toFixed(4)}`;
+        li.title    = `Blend rank: ${score.toFixed(2)}`;
         li.innerHTML =
             `<span class="result-title">${esc(info.title || cid)}</span>`
           + `<span class="result-author">${esc(info.author || '')}</span>`
@@ -407,17 +447,18 @@ function setupUI() {
     elResultsPanel    = document.getElementById('results-panel');
     elResultsHeader   = document.getElementById('results-header');
     elResultsList     = document.getElementById('results-list');
+    elBlendSlider     = document.getElementById('blend-slider');
+    elBlendValue      = document.getElementById('blend-value');
 
-    // Build PPMI lookup once at startup from voter_books already in JSON
-    if (ACTIVE_SCORER === 'ppmi') {
-        const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
-        state.ppmiMap    = ppmiMap;
-        state.coocCounts = coocCounts;
-    }
+    // Build PPMI lookup once at startup (always needed for fusion)
+    const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
+    state.ppmiMap    = ppmiMap;
+    state.coocCounts = coocCounts;
 
     elSearchInput.addEventListener('input',   onSearchInput);
     elSearchInput.addEventListener('keydown', onSearchKeydown);
     elSearchInput.addEventListener('blur',    onSearchBlur);
+    elBlendSlider.addEventListener('input',   fuseAndRender);  // drag only re-fuses, no re-scoring
 
     renderEntries();
 
@@ -432,6 +473,8 @@ async function init() {
         if (!res.ok) throw new Error(res.status);
         state.model = await res.json();
         setupUI();
+        // Expose internals for endpoint verification (?debug=1 or Playwright tests)
+        window._k = { state, ppmiDirectScorer, coocScorer };
     } catch (e) {
         elLoading.textContent =
             'Could not load data. Start the server from the repo root: python3 -m http.server 8000';

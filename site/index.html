@@ -31,7 +31,15 @@
         </div>
       </div>
 
-      <div id="run-area"></div>
+      <div id="run-area">
+        <div id="blend-control">
+          <label class="blend-label">Popular ↔ Distinctive</label>
+          <div class="blend-row">
+            <input type="range" id="blend-slider" min="0" max="1" step="0.01" value="0.50">
+            <span id="blend-value">0.50</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="results-panel" hidden>
