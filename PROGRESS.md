@@ -34,6 +34,20 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — Slider polish + strip buffer fix (feature/slider-strip-polish)
+
+- **Strip buffer**: `.detail-strip::after { flex: 0 0 0.5rem }` trailing spacer — actual
+  content counted in scrollWidth, guarantees right-side buffer at scroll-end. Chrome's
+  overflow-padding asymmetry (left padding counted, right padding dropped) was the root
+  cause of two previous failed attempts.
+- **Slider default**: 0.25 → 0.20 (`BLEND_DEFAULT` constant).
+- **Bordered slider card**: `#blend-control` now has `border: 1px solid var(--border)` +
+  border-radius + padding.
+- **Reset button** (↺): replaces persistent `#blend-value` span; returns slider to 0.20.
+- **Delayed tooltip**: numeric value hidden by default; shown after 2s hover-pause (debounced)
+  or during active drag; hides on mouse-leave or 600ms after drag ends.
+- **Next**: continue with any remaining UX/data polish.
+
 ## 2026-05-30 — CSV source of truth + strip buffer (feature/csv-source-of-truth)
 
 - **Year resolution**: `resolve_years.py` applied 29 single-titled-work resolutions in
