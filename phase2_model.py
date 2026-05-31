@@ -623,21 +623,223 @@ def export_model_data(model, out_path=None):
     print(f"  voter_books format: [[cid, pos], ...] pairs")
 
 
+# ── Film mode ─────────────────────────────────────────────────────────────────
+
+def derive_film_positions(data_dir=DATA_DIR):
+    """
+    Write derived positions into voter_films.csv.
+
+    Film ballots (Sight & Sound 2022) are unranked — voters selected films but did not
+    rank them. This function assigns deterministic 1..N positions within each voter's
+    ballot so the film model has structural parity with the book model.
+
+    IMPORTANT: These positions are DERIVED, not observed preference order.
+    Unlike books (where pos=1 means the voter's top pick), here pos=1 means the
+    film the voter listed that is least-voted-for across all voters (i.e., the most
+    distinctive film on their list). The ordering is purely a display/structural
+    convention; the scorers (co-occurrence, PPMI) ignore position entirely.
+
+    Sort order within each voter's ballot:
+      1. vote_count ascending (rarest first — distinctive-first assumption)
+      2. resolved_year ascending (oldest first) among ties
+      3. blank year last (no resolved_year)
+      4. canonical_title alphabetical as final tiebreak
+    Then assign positions 1..N.
+    """
+    data_dir = Path(data_dir)
+
+    # Load vote counts and years from canonical_films.csv
+    film_meta = {}
+    with open(data_dir / "canonical_films.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            cid = row["canonical_id"]
+            try:
+                yr = int(row["resolved_year"]) if row.get("resolved_year", "").strip() else None
+            except ValueError:
+                yr = None
+            film_meta[cid] = {
+                "vote_count": int(row["vote_count"]),
+                "year":       yr,
+                "title":      row["canonical_title"],
+            }
+
+    # Load voter_films.csv, group by voter
+    rows = []
+    voters_films = defaultdict(list)
+    with open(data_dir / "voter_films.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            rows.append(row)
+            voters_films[row["voter_name"]].append(row["canonical_id"])
+
+    # Derive positions per voter
+    derived_pos = {}  # {(voter_name, canonical_id): position}
+    for voter, cids in voters_films.items():
+        meta = []
+        for cid in cids:
+            m = film_meta.get(cid, {"vote_count": 9999, "year": None, "title": cid})
+            # sort key: (vote_count asc, year_sort asc, title asc)
+            # blank year → sort after all dated films (use large sentinel)
+            yr_sort = m["year"] if m["year"] is not None else 9999
+            meta.append((m["vote_count"], yr_sort, m["title"], cid))
+        meta.sort()
+        for pos_idx, (_, _, _, cid) in enumerate(meta, start=1):
+            derived_pos[(voter, cid)] = pos_idx
+
+    # Write updated voter_films.csv
+    out_path = data_dir / "voter_films.csv"
+    with open(out_path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["voter_name", "canonical_id", "role", "position"])
+        w.writeheader()
+        for row in rows:
+            pos = derived_pos.get((row["voter_name"], row["canonical_id"]), 10)
+            w.writerow({
+                "voter_name":   row["voter_name"],
+                "canonical_id": row["canonical_id"],
+                "role":         row["role"],
+                "position":     pos,
+            })
+
+    print(f"derive_film_positions: wrote {len(rows)} rows to {out_path}")
+    sample = sorted(derived_pos.items())[:3]
+    for (v, c), p in sample:
+        print(f"  {v!r}  {c}  pos={p}")
+
+
+def load_model_films(data_dir=DATA_DIR, alpha=RARITY_ALPHA):
+    """Load film Phase 1 CSVs and precompute IDF weights. Film equivalent of load_model()."""
+    data_dir = Path(data_dir)
+
+    # canonical_films.csv → film metadata + voter counts
+    book_info = {}
+    with open(data_dir / "canonical_films.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            cid = row["canonical_id"]
+            try:
+                yr = str(int(row["resolved_year"])) if row.get("resolved_year", "").strip() else ""
+            except ValueError:
+                yr = row.get("resolved_year", "").strip()
+            book_info[cid] = {
+                "title":    row["canonical_title"],
+                "author":   row["canonical_director"],  # mapped to "author" for schema parity
+                "n_voters": int(row["vote_count"]),
+                "year":     yr,
+                "weight":   0.0,
+            }
+
+    n_voters = len({
+        row["voter_name"]
+        for row in csv.DictReader(open(data_dir / "voter_films.csv", newline="", encoding="utf-8"))
+    })
+
+    # Smoothed IDF weight per film
+    for cid, info in book_info.items():
+        raw = math.log((n_voters + 1) / (info["n_voters"] + 1))
+        info["weight"] = raw ** alpha
+
+    # voter_films.csv → voter → films + positions
+    raw_voter_books     = defaultdict(set)
+    raw_voter_positions = defaultdict(dict)
+
+    with open(data_dir / "voter_films.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            cid   = row["canonical_id"]
+            voter = row["voter_name"]
+            if cid not in book_info:
+                continue
+            raw_voter_books[voter].add(cid)
+            raw_voter_positions[voter][cid] = _parse_position(row["position"])
+
+    voter_books     = {v: frozenset(bs) for v, bs in raw_voter_books.items()}
+    voter_positions = {v: dict(ps)      for v, ps in raw_voter_positions.items()}
+
+    return Model(voter_books, voter_positions, book_info, n_voters, alpha)
+
+
+def export_model_data_films(model, out_path=None):
+    """
+    Write site/data/model_data_movies.json in the identical schema as model_data.json.
+
+    Uses "books" key (same as book export) — main.js reads model.books regardless of
+    content type. Field mapping: director→author, vote_count→n_voters, resolved_year→year.
+    Description is always blank (no film descriptions source yet).
+    Year is sourced directly from canonical_films.csv (stored in book_info["year"]).
+    """
+    if out_path is None:
+        out_path = Path("site") / "data" / "model_data_movies.json"
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    payload = {
+        "n_voters":        model.n_voters,
+        "alpha":           model.alpha,
+        "position_weight": POSITION_WEIGHT,
+        "beta":            BETA,
+        "shrink_k":        SHRINK_K,
+        "cooc_input_exp":  COOC_INPUT_EXP,
+        "cooc_output_exp": COOC_OUTPUT_EXP,
+        "books": {
+            cid: {
+                "title":       info["title"],
+                "author":      info["author"],
+                "n_voters":    info["n_voters"],
+                "year":        info.get("year", ""),
+                "description": "",  # no film descriptions yet
+            }
+            for cid, info in model.book_info.items()
+        },
+        "idf": {
+            cid: round(info["weight"], 6)
+            for cid, info in model.book_info.items()
+        },
+        "voter_books": {
+            voter: [[cid, model.voter_positions.get(voter, {}).get(cid, 10)]
+                    for cid in sorted(books)]
+            for voter, books in model.voter_books.items()
+        },
+    }
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+
+    size_kb = out_path.stat().st_size / 1024
+    print(f"Wrote {out_path}  ({size_kb:.1f} KB)")
+    print(f"  {len(payload['books'])} films · {len(payload['voter_books'])} voters")
+
+    # Sanity check: top-5 most-voted films
+    top5 = sorted(model.book_info.items(), key=lambda x: -x[1]["n_voters"])[:5]
+    print("  Top-5 films by vote count:")
+    for cid, info in top5:
+        print(f"    {info['n_voters']:3d}  {info['title']!r}  ({info['year'] or 'no year'})")
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--export", action="store_true")
+    parser.add_argument("--derive-positions", action="store_true",
+                        help="Derive film positions and rewrite voter_films.csv")
+    parser.add_argument("--mode", choices=["books", "films"], default="books",
+                        help="books (default) or films; only affects --export")
     args = parser.parse_args()
 
-    model = load_model()
+    if args.derive_positions:
+        derive_film_positions()
+
+    if args.mode == "films":
+        model = load_model_films()
+    else:
+        model = load_model()
 
     if args.verify:
         run_verify(model)
     if args.export:
-        export_model_data(model)
-    if not args.verify and not args.export:
+        if args.mode == "films":
+            export_model_data_films(model)
+        else:
+            export_model_data(model)
+    if not args.verify and not args.export and not args.derive_positions:
         print("Phase 2 model loaded OK.")
         print(f"  {model.n_voters} voters · {len(model.book_info)} books")
         print(f"  RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={POSITION_WEIGHT}")
