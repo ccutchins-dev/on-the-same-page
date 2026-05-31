@@ -34,6 +34,26 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Books/Movies mode toggle (feature/mode-toggle)
+
+- **Branch**: feature/mode-toggle (not yet merged — awaiting user review)
+- **UI**: Segmented control (Books | Movies, accent fill / muted inactive) above the h1 in
+  #input-panel via `order: -1`; "Switch to Movies/Books" button inline with the results count
+  header in a `.results-top` flex row
+- **Data loading**: Books JSON loaded at startup exactly as before; movie JSON lazy-loaded on
+  first "Movies" click and cached; subsequent mode switches use cached data
+- **No-leak core** (`switchMode`): `applyModel()` (shared path for model application — called
+  from both init and switchMode) + `Object.assign(state, makeEmptyRunState())` (single source
+  of truth for run-state reset). All scorer functions untouched.
+- **Books invariant verified**: fetch reverts to `model_data.json`; `applyModel` is an exact
+  extraction of the inline ppmiMap/sortedBooks build that was in setupUI — provably identical
+- **Structural checks**: 20/20 pass (HTML structure, JSON endpoints, JS function presence,
+  fetch URL, lazy-load path, console.warn, Object.assign reset)
+- **Deferred**: string generalization (book-worded copy stays in movies mode for now);
+  /10 score recalibration; per-mode slider defaults
+- **Next**: user review → merge → string generalization (search placeholder, badge copy,
+  result copy to read "film" in movies mode)
+
 ## 2026-05-31 — Film model data export (feature/film-export)
 
 - **Branch**: feature/film-export (not yet merged — awaiting review)
