@@ -36,23 +36,20 @@ Append in chronological order. Never edit prior entries.
 
 ## 2026-05-31 — Books/Movies mode toggle (feature/mode-toggle)
 
-- **Branch**: feature/mode-toggle (not yet merged — awaiting user review)
-- **UI**: Segmented control (Books | Movies, accent fill / muted inactive) above the h1 in
-  #input-panel via `order: -1`; "Switch to Movies/Books" button inline with the results count
-  header in a `.results-top` flex row
-- **Data loading**: Books JSON loaded at startup exactly as before; movie JSON lazy-loaded on
-  first "Movies" click and cached; subsequent mode switches use cached data
-- **No-leak core** (`switchMode`): `applyModel()` (shared path for model application — called
-  from both init and switchMode) + `Object.assign(state, makeEmptyRunState())` (single source
-  of truth for run-state reset). All scorer functions untouched.
-- **Books invariant verified**: fetch reverts to `model_data.json`; `applyModel` is an exact
-  extraction of the inline ppmiMap/sortedBooks build that was in setupUI — provably identical
-- **Structural checks**: 20/20 pass (HTML structure, JSON endpoints, JS function presence,
-  fetch URL, lazy-load path, console.warn, Object.assign reset)
-- **Deferred**: string generalization (book-worded copy stays in movies mode for now);
-  /10 score recalibration; per-mode slider defaults
-- **Next**: user review → merge → string generalization (search placeholder, badge copy,
-  result copy to read "film" in movies mode)
+- **Branch**: feature/mode-toggle → merging to main
+- **UI**: Segmented control (Books | Movies) above h1 via `order: -1`; post-run toggle
+  centered; slider→heading gap widened to 1rem; redundant "Switch to Movies" post-input
+  button removed (segmented control covers all switching paths)
+- **Data loading**: books JSON at startup; movie JSON lazy-loaded + cached on first switch
+- **No-leak core**: `applyModel()` (single shared rebuild path) + `makeEmptyRunState()`
+  (single source of truth for reset). `updateModeUI('books')` in `init()` single-sources
+  initial labels from `MODE_LABELS` map
+- **Director overflow fix**: `truncateCreator(s, maxLen=100)` applied in `renderResults`,
+  `renderEntries`, `renderDropdown`; title attr for full string on hover
+- **Language**: `MODE_LABELS` map drives subtitle + search placeholders per mode; About page
+  updated to cover both books and movies (static, mode-agnostic)
+- **Books invariant**: all books-mode strings/recs/scores functionally identical to pre-toggle
+- **Deferred**: /10 score recalibration for films; per-mode slider defaults
 
 ## 2026-05-31 — Film model data export (feature/film-export)
 
