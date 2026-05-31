@@ -58,39 +58,25 @@
   <div id="about" hidden>
     <div class="about-content">
 
-      <h1 class="about-title">About</h1>
-      <h2>How to Use</h2>
-      <ol class="about-steps">
-        <li>
-          Enter the books you love.
-          <ul>
-            <li>The method works best with four or more books.</li>
-            <li>It also works best with a mix of the relatively popular and relatively rare (among our dataset) books.</li>
-          </ul>
-        </li>
-        <li>
-          Use the slider to bias results toward more popular associations with your books, or rarer ones.
-          <ul>
-            <li>It defaults to the setting we've found most useful.</li>
-            <li>Read more about the Distinctiveness vs. Popularity slider in the Methodology section below.</li>
-          </ul>
-        </li>
-        <li>
-          Expand any entry in the results to see why that book was matched to yours.
+      <p class="about-lead">We are more interested in recommending &#x201C;books you will love&#x201D; rather than &#x201C;books you will like&#x201D;.</p>
+
+      <p>For this reason, we build our recommendations on top of deliberately-curated lists in the style of &#x201C;my ten favorite novels of all time&#x201D;. Hundreds of authors and critics have submitted similar lists to various publications. Any aggregation of these lists tends to converge on a small canon that &#x201C;averages out&#x201D; any unique tastes. Thankfully, many publications have been generous enough to publish the individual voter lists that make up their aggregate rankings.</p>
+
+      <p>&#x201C;On the Same Page&#x201D; aims to match you with individuals who share your unique preferences. As you might expect from the above description of our underlying data &#x2014; with apologies to the less pretentious among you &#x2014; we skew toward &#x201C;the classics&#x201D;.</p>
+
+      <p>A few tips:</p>
+
+      <ol class="about-tips">
+        <li>Enter books you truly love; perhaps those that would belong on your &#x201C;top ten&#x201D; list.</li>
+        <li>Our engine works best with 3+ of your own inputs. It also works best with a mix of more popular and more distinct inputs.</li>
+        <li>Expand any recommended result to see the voters&#x2019; lists that drive that recommendation.</li>
+        <li>Manipulate the &#x201C;Popular / Distinctive&#x201D; slider to steer your recommendations towards, well, more popular or more distinct results.
+          <ol class="about-tips-sub">
+            <li>Note that pure popularity (co-occurrence) would skew towards recommending the most frequently-occurring books, almost regardless of inputs.</li>
+            <li>It defaults to the setting we have found most helpful.</li>
+          </ol>
         </li>
       </ol>
-
-      <h2>The Underlying Data</h2>
-      <p>Several publications have asked authors and critics for their ten favorite novels of all time. We find these deliberate lists of "books I absolutely love" far more meaningful than more thorough ratings of every book someone has ever read.</p>
-
-      <h2>Methodology</h2>
-      <p>Those same publications tend to blend the individual lists into one overall ranking. Your good friends at On the Same Page do the opposite: we match you with the individual contributors who share your taste.</p>
-      <p>Your input books are compared against every contributor's list, and candidate books are scored on two signals:</p>
-      <ul class="about-signals">
-        <li><strong>Popularity (co-occurrence):</strong> how often a book appears on the same lists as the ones you chose. This leans toward widely loved, frequently listed books, no matter your inputs.</li>
-        <li><strong>Distinctiveness:</strong> how strongly a book is tied to your choices beyond what its general popularity would predict. This surfaces books that are specifically meaningful to readers like you, rather than books that simply appear everywhere.</li>
-      </ul>
-      <p>The slider manipulates the strength that these two signals are given in defining a single ranking.</p>
 
     </div>
   </div>

@@ -518,68 +518,49 @@ h1 {
 
 /* ── About page ─────────────────────────────────────────────────────────────── */
 #about {
-  padding: 2rem 1.25rem 4rem;
+  padding: 3rem 1.25rem 5rem;
 }
 .about-content {
   max-width: min(calc(100vw - 2.5rem), 820px);
   margin: 0 auto;
 }
-.about-title {
-  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-.about-content h2 {
-  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 2.75rem 0 0.9rem;
-}
-.about-content h2:first-of-type {
-  margin-top: 2.5rem;
-}
-.about-content p,
-.about-content li {
-  line-height: 1.7;
+.about-lead {
+  font-size: 1.35rem;
+  line-height: 1.6;
   color: var(--text);
+  margin-bottom: 2rem;
 }
 .about-content p {
-  margin-bottom: 0.75rem;
-}
-.about-steps {
-  margin: 0.5rem 0 0 1.5rem;
-  padding: 0;
-}
-.about-steps > li {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text);
   margin-bottom: 1.25rem;
 }
-.about-steps > li::marker {
-  color: var(--muted);
+.about-tips {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.25rem;
 }
-.about-steps > li > ul,
-.about-signals {
-  margin: 0.4rem 0 0 1.25rem;
-  padding: 0;
+.about-tips > li {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text);
+  margin-bottom: 1rem;
 }
-.about-content ul li::marker {
-  color: var(--muted);
+.about-tips > li::marker {
+  color: var(--text);
 }
-.about-steps > li > ul li {
-  color: var(--muted);
+.about-tips-sub {
+  list-style: lower-alpha;
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+}
+.about-tips-sub > li {
   font-size: 0.9rem;
-}
-.about-signals li { color: var(--muted); }         /* explanation gray, body size */
-.about-signals li::marker { color: var(--text); }  /* white bullet */
-.about-signals li strong { color: var(--text); }   /* white bold term */
-.about-content li {
+  line-height: 1.7;
+  color: var(--text);
   margin-bottom: 0.35rem;
+}
+.about-tips-sub > li::marker {
+  color: var(--text);
 }
