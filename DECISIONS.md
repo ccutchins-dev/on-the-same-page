@@ -760,3 +760,13 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   Main page `#results-header` raised to 1rem `var(--text)` to match post-run h1
   "Books you love" (matched UP, not down — input column header stays present).
   Site name promoted from `var(--muted)` to `var(--text)`, slight size/spacing bumps.
+
+## 2026-05-30 — About page typographic redesign (feature/about-redesign)
+
+- **About page redesign**: replaced the all-serif size-hierarchy with a typeface-contrast
+  approach. Small uppercase sans-serif (system-ui, 0.68rem/0.65rem, font-weight 600,
+  letter-spacing 0.12–0.14em, color var(--muted)) for both the page identifier and all
+  section labels. One hairline border-bottom under .about-title grounds the page.
+  Georgia serif body text unchanged — typeface contrast (sans labels / serif body) does
+  the hierarchical work, not size alone. Sub-bullet text (steps > li > ul li) muted to
+  0.9rem var(--muted) to visually recede from step text.
