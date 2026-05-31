@@ -702,3 +702,13 @@ the prior one.
   position without browser-specific thumb-offset corrections. Programmatic `.value`
   assignment (reset button) doesn't fire the `input` event, so `updateTooltipContent()`
   is called explicitly in the reset handler to avoid stale tooltip display.
+
+## 2026-05-30 — Strip buffer final fix + reset button (feature/strip-reset-fix)
+
+- **Strip buffer final root cause**: The missing gap was at the container level.
+  `.detail-strip-wrapper` filled `.result-detail`'s content box with no horizontal
+  margin, so wrapper edges were flush with content-box edges (0px inset). Fixed by
+  `margin: 0 0.5rem` on the wrapper. The Chrome overflow-padding asymmetry (previous
+  attempts) is a separate gap — between scroll content and the scroll viewport edge at
+  scroll-end; the `::after` spacer handles that correctly. These were two distinct gaps;
+  both are now addressed. Measurement: wrapper left offset from content-box = 8px (0.5rem).
