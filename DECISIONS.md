@@ -873,6 +873,26 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   `.detail-strip-wrapper { overflow-x: auto }` which is inside the expanded
   result-detail panel. The two overflow contexts don't interact.
 
+## 2026-05-31 — Film export: derived positions, not observed
+
+- **Context**: Film ballots (Sight & Sound 2022) are unranked — voters selected films but did not rank them. The book export encodes real position data (1=top pick); the film model needs position for structural parity and for the voter-strip within-card sort.
+- **Decision**: `derive_film_positions()` assigns deterministic 1..N positions within each voter's ballot: rarity ascending (least popular film first, reflecting "distinctive-first" assumption) → oldest year first → blank year last → title alphabetical. Result is written to `voter_films.csv` before the film model is built.
+- **Alternatives considered**: Uniform pos=10 for all (simpler; scorers ignore position anyway). Rejected because it leaves all films identically ordered in the voter strip — rarity-first gives a meaningful deterministic order that surfaces each voter's distinctive picks at top position. Also gives book/film structural parity without special-casing.
+- **Rationale**: Rarity-first is a reasonable proxy for "most distinctive personal choice" without requiring actual preference data. The `DECISIONS.md` entry and a function-level comment document that these are derived, not observed, so the distinction is never lost.
+- **Trigger**: Film export planning; user explicitly requested derived positions over uniform 10s.
+
+## 2026-05-31 — Film export: /10 score normalization deferred
+
+- **Context**: `renderDetailPanel()` in `main.js` scales scores to /10 using `D_COOC_SQRT=5.5` and `D_PPMI=3.8×n_inputs`. These constants were calibrated against the book corpus where the top book (Middlemarch) has 83 voters. The top film (Jeanne Dielman) has 261 voters — co-occ scores will cap at 10/10 more frequently for popular films, and the scaling will look miscalibrated.
+- **Decision**: Defer recalibration to the toggle/tuning step. Do not adjust the constants now — they remain book-calibrated, and the film JSON is generated and validated as-is. The /10 display oddity is a known cosmetic issue, not a data or scoring correctness issue.
+- **Trigger**: Film export planning; explicitly noted as deferred.
+
+## 2026-05-31 — Film export: default slider value deferred
+
+- **Context**: The blend slider default (`BLEND_DEFAULT = 0.20`, leaning toward co-occurrence) was tuned against book data feel. Film data (Sight & Sound critics) may respond differently to the co-occ ↔ PPMI blend.
+- **Decision**: Defer per-mode slider defaults to the toggle step, when film mode is live and qualitative testing can inform the calibration.
+- **Trigger**: Film export planning; explicitly noted as deferred.
+
 ## 2026-05-31 — Film adjudication override schema
 
 - **Context**: 146 review flags from film Phase 1 needed encoding as human decisions. The existing `overrides/film_overrides.csv` (header-only placeholder) could be extended, but the book pipeline's override format (merge_decisions.csv + registries.json) wasn't suitable for film's different action types.
