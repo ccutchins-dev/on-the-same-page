@@ -17,6 +17,19 @@ const SCORE_DENOM_PPMI      = 3.8;
 
 const BLEND_DEFAULT = 0.20;
 
+const MODE_LABELS = {
+    books:  {
+        subtitle:        'Select books and find the critics who share your taste.',
+        placeholder:     'Search for a book…',
+        placeholderMore: 'Search for another book…',
+    },
+    movies: {
+        subtitle:        'Select movies and find the critics who share your taste.',
+        placeholder:     'Search for a movie…',
+        placeholderMore: 'Search for another movie…',
+    },
+};
+
 // ── State ──────────────────────────────────────────────────────────────────────
 
 // Run-derived state fields — single source of truth used by makeEmptyRunState().
@@ -60,7 +73,7 @@ const WINDOW_PAGE        = 50;   // append this many on scroll
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
     elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
     elBlendSlider, elBlendTooltip, elBlendReset,
-    elModeHeading, elModeToggle;
+    elModeHeading, elModeSubtitle, elModeToggle;
 
 // ── Model application (shared path for init and mode switch) ─────────────────
 
@@ -641,8 +654,8 @@ function renderEntries() {
     });
 
     elSearchInput.placeholder = state.bookList.length === 0
-        ? 'Search for a book…'
-        : 'Search for another book…';
+        ? MODE_LABELS[currentMode].placeholder
+        : MODE_LABELS[currentMode].placeholderMore;
     elSearchContainer.hidden = state.bookList.length >= MAX_BOOKS;
 }
 
@@ -698,8 +711,9 @@ function setupUI() {
     elBlendSlider  = document.getElementById('blend-slider');
     elBlendTooltip = document.getElementById('blend-tooltip');
     elBlendReset   = document.getElementById('blend-reset');
-    elModeHeading = document.getElementById('mode-heading');
-    elModeToggle  = document.getElementById('mode-toggle');
+    elModeHeading  = document.getElementById('mode-heading');
+    elModeSubtitle = document.getElementById('mode-subtitle');
+    elModeToggle   = document.getElementById('mode-toggle');
 
     // sortedBooks already built by applyModel() — no rebuild needed here
 
@@ -777,6 +791,7 @@ async function init() {
         applyModel(bookModel);   // sets state.model + ppmiMap/coocCounts/sortedBooks
         setupUI();
         initModeToggle();
+        updateModeUI('books');   // drive initial labels from MODE_LABELS.books (single source)
         // Expose internals for endpoint verification (?debug=1 or Playwright tests)
         window._k = { state, ppmiDirectScorer, coocScorer, buildVoterCards };
     } catch (e) {
@@ -797,8 +812,8 @@ function updateModeUI(mode) {
     elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
         btn.classList.toggle('is-active', btn.dataset.mode === mode)
     );
-    elModeHeading.textContent =
-        mode === 'movies' ? 'Movies you love' : 'Books you love';
+    elModeHeading.textContent  = mode === 'movies' ? 'Movies you love' : 'Books you love';
+    elModeSubtitle.textContent = MODE_LABELS[mode].subtitle;
 }
 
 async function switchMode(newMode) {
