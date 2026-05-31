@@ -406,10 +406,11 @@ h1 {
 .detail-strip-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  /* Padding on the overflow container is OUTSIDE the scroll viewport — always
-     visible. Padding on the child (.detail-strip) is inside the scroll area
-     and right-side padding gets clipped by browsers at the scroll end. */
-  padding: 0 0.5rem 0.1rem;
+  /* Chrome/WebKit includes padding-left in scrollWidth but drops padding-right
+     when content overflows. Left padding works for left-side buffer; right
+     padding does not work at scroll-end. The ::after spacer on .detail-strip
+     handles the right buffer as actual scrollable content instead. */
+  padding: 0 0 0.1rem 0.5rem;
 }
 .detail-strip {
   display: flex;
@@ -417,6 +418,10 @@ h1 {
   gap: 0.6rem;
   padding-bottom: 0.4rem;   /* clears horizontal scrollbar appearance */
   min-width: min-content;
+}
+.detail-strip::after {
+  content: '';
+  flex: 0 0 0.5rem;   /* trailing spacer: guarantees right-side buffer at scroll-end */
 }
 
 .voter-card {
