@@ -34,6 +34,26 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Film model data export (feature/film-export)
+
+- **Branch**: feature/film-export (not yet merged — awaiting review)
+- **Inputs**: `data/processed/canonical_films.csv` (4,485 films) + `data/processed/voter_films.csv` (21,050 rows)
+- **Changes to `phase2_model.py`**:
+  - `derive_film_positions()` + `--derive-positions` flag: writes deterministic 1..N positions into `voter_films.csv` (rarity-first → year ascending → blank year last → title alpha). Positions are DERIVED, not observed.
+  - `load_model_films()`: film equivalent of `load_model()` (maps `canonical_director→author`, `vote_count→n_voters`, `resolved_year→year`)
+  - `export_model_data_films()`: film equivalent of `export_model_data()` (blank descriptions, year from canonical_films.csv directly)
+  - `--mode [books|films]` CLI flag (books is default; `--export` alone is unchanged)
+- **Byte-identical guardrail passed**: `python3 phase2_model.py --export --mode books` → diff against committed `model_data.json` → identical
+- **Output**: `site/data/model_data_movies.json` (1102.5 KB, 4,485 films, 2,115 voters)
+- **Top-5 sanity check**: Jeanne Dielman 261 · Vertigo 246 · Citizen Kane 215 · 2001 192 · Tokyo Story 191 ✓
+- **Deferred**: `/10` score normalization (calibrated against books, may cap for popular films); default slider value (may want per-mode tuning)
+- **How to eyeball film mode locally** (do NOT commit main.js with this change):
+  1. `python3 -m http.server 8020 --directory site/`
+  2. Edit `site/main.js` line 741: change `'data/model_data.json'` → `'data/model_data_movies.json'`
+  3. Browse http://localhost:8020; search a film, run recommendations
+  4. Revert: `git checkout site/main.js`
+- **Next**: user review → merge → build mode toggle (UI + label changes for film vs book mode)
+
 ## 2026-05-31 — Film adjudication phase (feature/film-adjudicate)
 
 - **Branch**: feature/film-adjudicate (not yet merged — awaiting review)
