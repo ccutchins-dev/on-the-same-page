@@ -521,19 +521,8 @@ h1 {
   padding: 3rem 1.25rem 5rem;
 }
 .about-content {
-  max-width: min(calc(100vw - 2.5rem), 640px);
+  max-width: min(calc(100vw - 2.5rem), 820px);
   margin: 0 auto;
-}
-.about-title {
-  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
 }
 .about-lead {
   font-size: 1.35rem;
@@ -559,7 +548,7 @@ h1 {
   margin-bottom: 1rem;
 }
 .about-tips > li::marker {
-  color: var(--accent);   /* the single accent moment */
+  color: var(--text);
 }
 .about-tips-sub {
   list-style: lower-alpha;
@@ -573,5 +562,5 @@ h1 {
   margin-bottom: 0.35rem;
 }
 .about-tips-sub > li::marker {
-  color: var(--muted);
+  color: var(--text);
 }
