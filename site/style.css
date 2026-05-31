@@ -574,11 +574,13 @@ h1 {
 .about-content ul li::marker {
   color: var(--muted);
 }
-.about-steps > li > ul li,
-.about-signals li {
+.about-steps > li > ul li {
   color: var(--muted);
   font-size: 0.9rem;
 }
+.about-signals li { color: var(--muted); }         /* explanation gray, body size */
+.about-signals li::marker { color: var(--text); }  /* white bullet */
+.about-signals li strong { color: var(--text); }   /* white bold term */
 .about-content li {
   margin-bottom: 0.35rem;
 }
