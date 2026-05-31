@@ -34,6 +34,18 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Mobile responsiveness (feature/mobile-responsive)
+
+- **Diagnosis**: viewport meta tag already correct (not a cause). Search input was
+  14.4px (0.9rem) → iOS Safari auto-zoom on focus. `#input-panel { position: sticky }`
+  in post-run state causes panel to overlay scrolling results on phones. The 768px
+  breakpoint already collapses the two-column grid to single-column.
+- **Fixes**: single additive `@media (max-width: 600px)` block; no base rules modified.
+  (1) Header: `display: flex; justify-content: space-between` → tabs left, title right.
+  (2) `#input-panel { position: static }` → panel scrolls away instead of pinning.
+  (3) `#search-input { font-size: 1rem }` → stops iOS auto-zoom (≥16px threshold).
+- **Desktop**: byte-for-byte unaffected — diff is 24 lines added inside the new block.
+
 ## 2026-05-31 — About page redesign (feature/about-redesign-v2)
 
 - **New copy**: replaced the three-section (How to Use / Underlying Data / Methodology)

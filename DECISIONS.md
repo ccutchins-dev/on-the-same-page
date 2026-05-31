@@ -828,3 +828,26 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   Earlier iterations tried --accent (blue) numbers and --muted letters; both read
   as deliberate styling imposed on the content. --text is invisible, which is correct
   — the numbers and letters are structural, not ornamental.
+
+## 2026-05-31 — Mobile responsive breakpoint strategy
+
+- **600px breakpoint**: chosen to sit comfortably above all phones (≤480px) and well
+  below tablets/desktop, with a wide safety gap. The 768px existing breakpoint already
+  handles the two-column→single-column collapse; 600px adds the phone-specific fixes
+  without touching that rule.
+
+- **display: flex on header at mobile**: the header is `display: grid` on desktop for
+  the centered-title layout. On mobile, flex + space-between is cleaner than trying to
+  reshape the grid — and neutralises the existing 480px `grid-template-columns` override
+  (grid properties have no effect on a flex container), so that block requires no
+  modification.
+
+- **position: static on #input-panel at mobile**: the base rule makes the panel sticky
+  in post-run so it doesn't scroll off on wide-screen side-by-side layouts. On mobile
+  (single column), sticky means the panel pins at the top and covers the results. Static
+  is the correct mobile behaviour; pre-run is already static via the existing base
+  override so this is only a change in practice for post-run.
+
+- **font-size 1rem on #search-input at mobile**: iOS Safari auto-zooms any focused
+  input below 16px. Base value is 0.9rem (14.4px). Bumping to exactly 1rem (16px) at
+  ≤600px meets the threshold without changing the desktop appearance.
