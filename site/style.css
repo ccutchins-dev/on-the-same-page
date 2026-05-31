@@ -652,6 +652,8 @@ h1 {
     flex: 0 1 auto;
   }
   .item-count::before {
-    content: ' \00b7 ';
+    content: '\00b7';       /* dot only; spacing via margin, not content whitespace */
+    margin: 0 0.25rem;      /* matches gap: 0.25rem inside .item-left */
+    color: var(--muted);
   }
 }
