@@ -34,6 +34,20 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Tab nav + concise summary (feature/tab-nav-summary)
+
+- **Tab nav**: replaced hamburger dropdown with always-visible Main/About tabs in the
+  header. Header is now a `1fr auto 1fr` grid — tabs left, title centered (balanced by
+  the empty 3rd column), no extra markup needed. Active tab gets a 2px accent underline.
+  Narrow-screen breakpoint (<480px) switches to `auto auto 1fr` so tabs and title don't
+  collide on phone widths. `initNav()` rewritten; `showView()` and state-preservation
+  logic unchanged.
+- **Summary line**: "on X lists from voters who share at least one input — Y of them
+  share multiple" → "X lists share at least one input; Y share multiple". Single-input
+  case: "X lists share at least one input" (no dangling semicolon).
+- **Verified**: localhost review passed before merge.
+- **Deployed**: merged to main and pushed; Cloudflare auto-redeploy triggered.
+
 ## 2026-05-31 — Cloudflare Pages deployment prep (feature/deploy-prep)
 
 - **Restructure**: `data/model_data.json` moved to `site/data/model_data.json`. The `site/`
