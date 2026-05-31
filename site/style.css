@@ -343,11 +343,12 @@ h1 {
   border: none;
   color: var(--muted);
   cursor: pointer;
-  font-size: 1rem;
-  padding: 0.1rem 0.3rem;
+  font-size: 1.15rem;
+  padding: 0.2rem 0.5rem;
   border-radius: var(--radius);
   line-height: 1;
   flex-shrink: 0;
+  align-self: center;
   font-family: sans-serif;
 }
 .blend-reset:hover { color: var(--text); }
@@ -439,11 +440,13 @@ h1 {
 .detail-strip-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  /* Chrome/WebKit includes padding-left in scrollWidth but drops padding-right
-     when content overflows. Left padding works for left-side buffer; right
-     padding does not work at scroll-end. The ::after spacer on .detail-strip
-     handles the right buffer as actual scrollable content instead. */
-  padding: 0 0 0.1rem 0.5rem;
+  /* margin: 0 0.5rem insets the wrapper within .result-detail's content box —
+     both wrapper edges are 0.5rem from the content-box edges (verifiable via
+     getBoundingClientRect). The ::after spacer on .detail-strip handles the
+     scroll-end right buffer within the scroll content. Chrome drops padding-right
+     from scrollWidth; margin sidesteps that entirely. */
+  margin: 0 0.5rem;
+  padding: 0 0 0.1rem;
 }
 .detail-strip {
   display: flex;
