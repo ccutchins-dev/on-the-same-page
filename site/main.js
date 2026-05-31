@@ -620,7 +620,7 @@ function renderResults() {
         const bylineParts = [info.author, info.year].filter(Boolean);
         const byline = bylineParts.length ? ` · ${bylineParts.join(' · ')}` : '';
         const multiClause = (state.bookList.length > 1 && multi > 0)
-            ? ` — ${multi} of them share multiple`
+            ? `; ${multi} share multiple`
             : '';
         const li    = document.createElement('li');
         li.style.cursor = 'pointer';
@@ -629,7 +629,7 @@ function renderResults() {
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
           +   `<span class="result-byline">${esc(byline)}</span>`
           + `</div>`
-          + `<span class="result-count">on ${count} list${count === 1 ? '' : 's'} from voters who share at least one input${multiClause}</span>`
+          + `<span class="result-count">${count} list${count === 1 ? '' : 's'} share${count === 1 ? 's' : ''} at least one input${multiClause}</span>`
           + `<span class="result-chevron">›</span>`;
         if (DEBUG) {
             li.innerHTML +=
@@ -755,20 +755,18 @@ async function init() {
 // no model, so it must be reachable even during a slow or failed load.
 
 function initNav() {
-    const elHamburger = document.querySelector('.hamburger');
     const elSiteName  = document.querySelector('.site-name');
-    const elNavMenuEl = document.getElementById('nav-menu');
     const elAboutEl   = document.getElementById('about');
     const elMainEl    = document.getElementById('main');
     const elLoadingEl = document.getElementById('loading');
 
-    function closeMenu() {
-        elNavMenuEl.hidden = true;
-        elHamburger.setAttribute('aria-expanded', 'false');
+    function updateActiveTab(view) {
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.classList.toggle('is-active', btn.dataset.view === view);
+        });
     }
 
     function showView(view) {
-        closeMenu();
         if (view === 'about') {
             elLoadingEl.hidden = true;   // hide "Loading…" or error text if present
             elMainEl.hidden    = true;
@@ -779,34 +777,19 @@ function initNav() {
             // If still loading, just hide About and let the loader finish naturally.
             if (elLoadingEl.hidden) elMainEl.hidden = false;
         }
+        updateActiveTab(view);
     }
 
-    // Hamburger: toggle menu open/closed
-    elHamburger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const willOpen = elNavMenuEl.hidden;   // true = currently hidden → about to open
-        elNavMenuEl.hidden = !willOpen;
-        elHamburger.setAttribute('aria-expanded', String(willOpen));
-        // willOpen=true → menu just became visible → aria-expanded="true" ✓
-    });
-
-    // Nav items: switch view
-    elNavMenuEl.addEventListener('click', (e) => {
-        const btn = e.target.closest('.nav-item');
-        if (btn) showView(btn.dataset.view);
+    // Tab buttons: switch view
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.addEventListener('click', () => showView(btn.dataset.view));
     });
 
     // Site name: return to Main
     elSiteName.addEventListener('click', () => showView('main'));
 
-    // Click outside: close menu (explicit containment check — no propagation dependency)
-    document.addEventListener('click', (e) => {
-        if (!elNavMenuEl.hidden
-            && !elNavMenuEl.contains(e.target)
-            && e.target !== elHamburger) {
-            closeMenu();
-        }
-    });
+    // Set initial active tab (Main is the default view)
+    updateActiveTab('main');
 }
 
 initNav();

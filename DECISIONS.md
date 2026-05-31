@@ -788,3 +788,24 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
 - **Private GitHub repo**: raw voter CSVs and pipeline code are private in the GitHub repo;
   `model_data.json` is publicly accessible via the browser regardless (it's loaded
   client-side). Cloudflare Pages connects to private repos on the free tier.
+
+## 2026-05-31 — Tab-style nav replacing hamburger dropdown
+
+- **Always-visible tabs over hamburger**: the hamburger hid About behind a click,
+  making it undiscoverable. Two always-visible tab buttons surface both views directly.
+  No behavior change — `showView()` is identical; only the trigger mechanism changed.
+
+- **1fr auto 1fr header grid for centering**: with tabs on the left and nothing on the
+  right, a flex layout would push the title off-center. A three-column grid
+  (`1fr auto 1fr`) guarantees the title (`auto` column) sits at the exact visual center
+  of the header because both flanking `1fr` columns share free space equally. No
+  balancing `<div>` is needed — the empty 3rd column definition provides the offset.
+
+- **Active-tab indicator**: 2px `--accent` border-bottom on the active tab; inactive
+  tabs are `--muted`; hover → `--text`. Consistent with the existing accent palette.
+  `updateActiveTab(view)` is called inside `showView()` so the indicator always tracks
+  the current view, including navigation during model load.
+
+- **Narrow-screen degradation (<480px)**: switches to `auto auto 1fr` so tabs take
+  their natural minimum width and the title follows without collision. Title is no
+  longer centered at phone widths, but the layout remains functional.
