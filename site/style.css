@@ -602,11 +602,42 @@ h1 {
      white-space: nowrap) forces result-title-row's min-content to ~302px, pushing
      1fr beyond the available ~236px and causing scrollWidth 646 per row. min-width: 0
      lets 1fr resolve correctly; overflow: hidden clips any byline edge case. */
+  /* min-width: 0 keeps 1fr grid track correct; overflow: visible overridden below */
   .result-title-row {
     min-width: 0;
     overflow: hidden;
   }
   .result-count {
     min-width: 0;
+  }
+
+  /* Fix 1: stack title on its own line, byline beneath — removes the single-line
+     clip that was showing only ~2 words. Byline becomes a block below the title. */
+  .result-title-row {
+    display: block;
+    overflow: visible;
+  }
+  .result-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .result-byline {
+    display: block;
+    white-space: normal;
+  }
+
+  /* Fix 2: expanded card spans full row (removes 41.6px desktop left indent +
+     12px right buffer that squeezes card to ~256px on mobile) */
+  .result-detail {
+    grid-column: 1 / -1;
+    margin-right: 0;
+  }
+
+  /* Fix 3: dropdown matches search input width exactly; removes the 320px
+     minimum-width floor that extends dropdown past viewport on 320px phones
+     (measured: count.right=327 > iw=320 at 320px with no fix) */
+  .dropdown {
+    min-width: 100%;
   }
 }
