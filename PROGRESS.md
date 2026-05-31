@@ -34,6 +34,27 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Mobile layout refinements (feature/mobile-layout-refinements)
+
+Five additive changes inside `@media (max-width: 600px)`. Desktop unchanged.
+
+1. **Result title stacking**: `result-title-row` changed to `display: block`; title
+   wraps at full column width; byline appears on its own line beneath. Overrides
+   `overflow: hidden` and `white-space: nowrap` that were clipping titles to ~2 words.
+
+2. **Expanded card full-width**: `result-detail { grid-column: 1/-1; margin-right: 0 }`
+   removes the desktop 41.6px left indent and 12px right buffer that squeezed the
+   expanded card to ~256px; now ~310px. Voter-strip sidescroll preserved.
+
+3. **Dropdown min-width**: `min-width: 100%` removes the fixed 320px floor that
+   extended the dropdown past the viewport on 320px phones (measured: right=340 > iw=320).
+   After: right=300 < 320 at 320px; count visible.
+
+4. **Dropdown count inline**: `justify-content: flex-start; gap: 0` on `.dropdown-item`
+   and `flex: 0 1 auto` on `.item-left` so "on N lists" flows inline after the author
+   instead of right-aligning. `::before { content: '·'; margin: 0 0.25rem }` adds
+   the separator with spacing matching the existing title/author dot.
+
 ## 2026-05-31 — Mobile horizontal overflow fix (feature/mobile-overflow)
 
 - **Diagnosis**: post-run state at 390px viewport showed scrollWidth=686px (+296px).

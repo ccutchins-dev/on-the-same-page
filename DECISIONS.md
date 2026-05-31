@@ -872,3 +872,25 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   (a flex container for the title/byline row), entirely separate from
   `.detail-strip-wrapper { overflow-x: auto }` which is inside the expanded
   result-detail panel. The two overflow contexts don't interact.
+
+## 2026-05-31 — Mobile layout refinements
+
+- **Result title stacking**: the previous mobile `overflow: hidden` on `result-title-row`
+  was added to prevent grid overflow, but it clipped titles to ~2 words on narrow screens.
+  Changed to `display: block` with `overflow: visible` and `white-space: normal` so titles
+  wrap naturally. The byline (`display: block`) moves to its own line beneath.
+
+- **Expanded card full-width on mobile**: `grid-column: 2/-1` (desktop "align under title"
+  indent of ~41.6px) and `margin-right: 0.75rem` waste too much width on a 310px mobile
+  column. Changed to `grid-column: 1/-1; margin-right: 0` — card spans full row (~310px).
+  Desktop keeps its intentional left indent and right buffer unchanged.
+
+- **Dropdown count inline on mobile**: right-aligning "on N lists" (`justify-content:
+  space-between`) can push it off-screen at narrow widths. On mobile, `justify-content:
+  flex-start; item-left: flex 0 1 auto` brings the count inline after the author text.
+  Separator uses `::before { margin: 0 0.25rem }` (explicit margins) rather than spaces
+  inside `content` — CSS content whitespace is unreliable for visual spacing vs. margin.
+
+- **Dropdown min-width**: fixed 320px floor (`max(100%, 320px)`) overflowed at ≤350px
+  viewports. Changed to `min-width: 100%` (match search input exactly). Measured before:
+  320px SE → dropdown right=340 > iw=320; after: right=300 < 320.
