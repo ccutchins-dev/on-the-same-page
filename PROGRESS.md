@@ -34,6 +34,20 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — About page redesign (feature/about-redesign-v2)
+
+- **New copy**: replaced the three-section (How to Use / Underlying Data / Methodology)
+  About page with a single-voice editorial layout. No section headers. Opening sentence
+  functions as a pull-quote lead-in; four numbered tips with lettered a/b asides for
+  slider caveats.
+- **Typography**: 820px column, 3rem/5rem vertical padding. Lead paragraph 1.35rem /
+  1.6 line-height. Body at 1.85 line-height and 1.25rem paragraph spacing. Numbered
+  and lettered markers in --text (no accent coloring). Lettered sub-items at 0.9rem,
+  same --text color.
+- **Removed**: "ABOUT" heading (redundant with active tab), all .about-steps /
+  .about-signals / h2 CSS rules.
+- **Deployed**: merged to main and pushed; Cloudflare auto-redeploy triggered.
+
 ## 2026-05-31 — Tab nav + concise summary (feature/tab-nav-summary)
 
 - **Tab nav**: replaced hamburger dropdown with always-visible Main/About tabs in the

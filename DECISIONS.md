@@ -809,3 +809,22 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
 - **Narrow-screen degradation (<480px)**: switches to `auto auto 1fr` so tabs take
   their natural minimum width and the title follows without collision. Title is no
   longer centered at phone widths, but the layout remains functional.
+
+## 2026-05-31 — About page editorial redesign
+
+- **Single-voice layout, no section headers**: the previous three-section structure
+  (How to Use / Underlying Data / Methodology) was markdown-y. New copy flows as
+  continuous prose with one numbered tips list, no structural labels. The "ABOUT"
+  heading was removed as redundant — the active tab communicates location.
+
+- **Lead pull-quote via size only**: opening sentence set at 1.35rem with no color
+  or weight change. Size alone at Georgia creates an editorial deck. More decoration
+  would compete; size is sufficient.
+
+- **Line-height 1.85 on body**: up from 1.7. At 820px column width and 16px base,
+  1.85 leading gives the page the "designed not typed" feel without excessive scrolling.
+
+- **Uniform --text markers**: numbered and lettered list markers both use --text.
+  Earlier iterations tried --accent (blue) numbers and --muted letters; both read
+  as deliberate styling imposed on the content. --text is invisible, which is correct
+  — the numbers and letters are structural, not ornamental.
