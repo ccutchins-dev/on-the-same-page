@@ -620,7 +620,7 @@ function renderResults() {
         const bylineParts = [info.author, info.year].filter(Boolean);
         const byline = bylineParts.length ? ` · ${bylineParts.join(' · ')}` : '';
         const multiClause = (state.bookList.length > 1 && multi > 0)
-            ? `; ${multi} share multiple`
+            ? `; ${multi} share${multi === 1 ? 's' : ''} multiple`
             : '';
         const li    = document.createElement('li');
         li.style.cursor = 'pointer';
