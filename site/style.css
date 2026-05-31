@@ -354,10 +354,55 @@ h1 {
 }
 .blend-reset:hover { color: var(--text); }
 
+/* ── Mode toggle (segmented control) ─────────────────────────────────────── */
+.mode-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  align-self: flex-start;
+  order: -1;
+  margin-bottom: 0.5rem;
+}
+.mode-btn {
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: 0.3rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-btn:last-child { border-right: none; }
+.mode-btn.is-active  { background: var(--accent); color: #fff; cursor: default; }
+.mode-btn:not(.is-active):hover { background: var(--accent-soft); color: var(--text); }
+
 /* ── Results panel ─────────────────────────────────────────────────────────── */
 #results-panel {
   transition: opacity 0.2s;
 }
+
+.results-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.results-top #results-header { margin-bottom: 0; }
+
+.mode-switch-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.mode-switch-btn:hover { color: var(--text); border-color: var(--muted); }
 
 #results-header {
   font-size: 1rem;

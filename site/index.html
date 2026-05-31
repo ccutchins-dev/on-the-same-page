@@ -21,7 +21,11 @@
   <main id="main" class="pre-run" hidden>
 
     <div id="input-panel">
-      <h1>Books you love</h1>
+      <div id="mode-toggle" class="mode-toggle">
+        <button class="mode-btn is-active" data-mode="books">Books</button>
+        <button class="mode-btn" data-mode="movies">Movies</button>
+      </div>
+      <h1 id="mode-heading">Books you love</h1>
       <p class="subtitle">Select books and find the critics who share your taste.</p>
 
       <div id="book-entries"></div>
@@ -49,7 +53,10 @@
     </div>
 
     <div id="results-panel" hidden>
-      <p id="results-header"></p>
+      <div class="results-top">
+        <p id="results-header"></p>
+        <button id="mode-switch-btn" class="mode-switch-btn">Switch to Movies</button>
+      </div>
       <ol id="results-list"></ol>
     </div>
 
