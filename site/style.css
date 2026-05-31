@@ -526,20 +526,27 @@ h1 {
   margin: 0 auto;
 }
 .about-title {
-  font-size: 2rem;
-  font-weight: normal;
-  margin: 0 0 2.5rem;
-  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
 }
 .about-content h2 {
-  font-size: 1.3rem;
-  font-weight: normal;
-  letter-spacing: 0.04em;
-  margin: 2.5rem 0 0.6rem;
-  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 2.75rem 0 0.9rem;
 }
 .about-content h2:first-of-type {
-  margin-top: 0;
+  margin-top: 2.5rem;
 }
 .about-content p,
 .about-content li {
@@ -566,6 +573,10 @@ h1 {
 }
 .about-content ul li::marker {
   color: var(--muted);
+}
+.about-steps > li > ul li {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 .about-content li {
   margin-bottom: 0.35rem;
