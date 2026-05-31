@@ -56,10 +56,10 @@ header {
 }
 
 .site-name {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: normal;
-  letter-spacing: 0.04em;
-  color: var(--muted);
+  letter-spacing: 0.06em;
+  color: var(--text);
   background: none;
   border: none;
   cursor: pointer;
@@ -361,8 +361,8 @@ h1 {
 }
 
 #results-header {
-  font-size: 0.85rem;
-  color: var(--muted);
+  font-size: 1rem;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -525,13 +525,20 @@ h1 {
   max-width: min(calc(100vw - 2.5rem), 820px);
   margin: 0 auto;
 }
-.about-content h2 {
-  font-size: 1.2rem;
+.about-title {
+  font-size: 2rem;
   font-weight: normal;
-  margin: 2rem 0 0.75rem;
+  margin: 0 0 2.5rem;
   color: var(--text);
 }
-.about-content h2:first-child {
+.about-content h2 {
+  font-size: 1.3rem;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  margin: 2.5rem 0 0.6rem;
+  color: var(--text);
+}
+.about-content h2:first-of-type {
   margin-top: 0;
 }
 .about-content p,
@@ -549,10 +556,16 @@ h1 {
 .about-steps > li {
   margin-bottom: 1.25rem;
 }
+.about-steps > li::marker {
+  color: var(--accent);
+}
 .about-steps > li > ul,
 .about-signals {
   margin: 0.4rem 0 0 1.25rem;
   padding: 0;
+}
+.about-content ul li::marker {
+  color: var(--muted);
 }
 .about-content li {
   margin-bottom: 0.35rem;

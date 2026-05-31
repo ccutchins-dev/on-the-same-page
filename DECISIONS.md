@@ -748,3 +748,15 @@ Strip-wrapper internal gutters confirmed unaffected: 8px/8px symmetric.
 Also bumped `.blend-reset` font-size from 1.15rem → 1.3rem (20.8px computed).
 
 Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8px/8px; reset=20.8px.
+
+## 2026-05-30 — Typographic polish (feature/type-polish)
+
+- **Typographic scale established**: About page uses 2rem page title / 1.3rem section
+  headers (letter-spacing: 0.04em, margin: 2.5rem above / 0.6rem below) / 1rem body.
+  Hierarchy via size + spacing, all normal weight, dark serif palette.
+  List markers via `::marker` pseudo-element: `--accent` for numbered steps, `--muted`
+  for disc sub-bullets. `h2:first-of-type { margin-top: 0 }` replaced the old
+  `h2:first-child` (selector broke when h1 page title was inserted before the first h2).
+  Main page `#results-header` raised to 1rem `var(--text)` to match post-run h1
+  "Books you love" (matched UP, not down — input column header stays present).
+  Site name promoted from `var(--muted)` to `var(--text)`, slight size/spacing bumps.
