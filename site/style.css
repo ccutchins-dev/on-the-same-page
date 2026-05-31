@@ -527,9 +527,9 @@ h1 {
 }
 .about-title {
   font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 0.68rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
   margin: 0;
@@ -538,9 +538,9 @@ h1 {
 }
 .about-content h2 {
   font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 0.65rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--muted);
   margin: 2.75rem 0 0.9rem;
@@ -564,7 +564,7 @@ h1 {
   margin-bottom: 1.25rem;
 }
 .about-steps > li::marker {
-  color: var(--accent);
+  color: var(--muted);
 }
 .about-steps > li > ul,
 .about-signals {
@@ -574,7 +574,8 @@ h1 {
 .about-content ul li::marker {
   color: var(--muted);
 }
-.about-steps > li > ul li {
+.about-steps > li > ul li,
+.about-signals li {
   color: var(--muted);
   font-size: 0.9rem;
 }
