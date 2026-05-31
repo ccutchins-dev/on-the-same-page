@@ -21,8 +21,12 @@
   <main id="main" class="pre-run" hidden>
 
     <div id="input-panel">
-      <h1>Books you love</h1>
-      <p class="subtitle">Select books and find the critics who share your taste.</p>
+      <div id="mode-toggle" class="mode-toggle">
+        <button class="mode-btn is-active" data-mode="books">Books</button>
+        <button class="mode-btn" data-mode="movies">Movies</button>
+      </div>
+      <h1 id="mode-heading">Books you love</h1>
+      <p class="subtitle" id="mode-subtitle">Select books and find the critics who share your taste.</p>
 
       <div id="book-entries"></div>
 
@@ -58,21 +62,21 @@
   <div id="about" hidden>
     <div class="about-content">
 
-      <p class="about-lead">We are more interested in recommending &#x201C;books you will love&#x201D; rather than &#x201C;books you will like&#x201D;.</p>
+      <p class="about-lead">We are more interested in recommending &#x201C;books &amp; movies you will love&#x201D; rather than &#x201C;books &amp; movies you will like&#x201D;.</p>
 
-      <p>For this reason, we build our recommendations on top of deliberately-curated lists in the style of &#x201C;my ten favorite novels of all time&#x201D;. Hundreds of authors and critics have submitted similar lists to various publications. Any aggregation of these lists tends to converge on a small canon that &#x201C;averages out&#x201D; any unique tastes. Thankfully, many publications have been generous enough to publish the individual voter lists that make up their aggregate rankings.</p>
+      <p>For this reason, we build our recommendations on top of deliberately-curated lists in the style of &#x201C;my ten favorite novels/films of all time&#x201D;. Hundreds of writers, directors, and critics have submitted similar lists to various publications. Any aggregation of these lists tends to converge on a small canon that &#x201C;averages out&#x201D; any unique tastes. Thankfully, many publications have been generous enough to publish the individual voter lists that make up their aggregate rankings. Movies are built on the most recent Sight &amp; Sound poll, while books pull from several sources.</p>
 
-      <p>&#x201C;On the Same Page&#x201D; aims to match you with individuals who share your unique preferences. As you might expect from the above description of our underlying data &#x2014; with apologies to the less pretentious among you &#x2014; we skew toward &#x201C;the classics&#x201D;.</p>
+      <p>&#x201C;On the Same Page&#x201D; aims to match you with individuals who share your unique preferences. As you might expect from the above description of our underlying data - with apologies to the less pretentious among you - we skew toward &#x201C;the classics&#x201D;.</p>
 
       <p>A few tips:</p>
 
       <ol class="about-tips">
-        <li>Enter books you truly love; perhaps those that would belong on your &#x201C;top ten&#x201D; list.</li>
+        <li>Enter books or movies you truly love; perhaps those that would belong on your &#x201C;top ten&#x201D; list.</li>
         <li>Our engine works best with 3+ of your own inputs. It also works best with a mix of more popular and more distinct inputs.</li>
         <li>Expand any recommended result to see the voters&#x2019; lists that drive that recommendation.</li>
         <li>Manipulate the &#x201C;Popular / Distinctive&#x201D; slider to steer your recommendations towards, well, more popular or more distinct results.
           <ol class="about-tips-sub">
-            <li>Note that pure popularity (co-occurrence) would skew towards recommending the most frequently-occurring books, almost regardless of inputs.</li>
+            <li>Note that pure popularity (co-occurrence) would skew towards recommending the most frequently-occurring books/movies, almost regardless of inputs.</li>
             <li>It defaults to the setting we have found most helpful.</li>
           </ol>
         </li>

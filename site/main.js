@@ -17,24 +17,50 @@ const SCORE_DENOM_PPMI      = 3.8;
 
 const BLEND_DEFAULT = 0.20;
 
-// ── State ──────────────────────────────────────────────────────────────────────
-const state = {
-    model:         null,   // loaded model_data.json
-    ppmiMap:       null,   // {cid → Map{cid → ppmi_value}} — built at startup
-    coocCounts:    null,   // {cid → Map{cid → raw count}} — for debug display
-    bookList:      [],     // [{cid, title, author, n_voters}] — ordered
-    ppmiRanked:    [],     // all PPMI-reachable candidates, full pool, ordered by PPMI rank
-    coocRanked:    [],     // all co-occ-reachable candidates, full pool, ordered by co-occ rank
-    baseCounts:    {},     // {cid: co-occ count sum} — raw co-occ Σᵢ count(voters with input_i and rec)
-    ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
-    results:         [],   // [{cid, score, baseCount}] — fused top-50
-    matchedCounts:   {},   // {cid: count} — voters with ≥1 input and rec book
-    multiMatchCounts:{},   // {cid: count} — subset of matchedCounts with ≥2 inputs
-    blendT:          0.20, // current slider value
-    expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
+const MODE_LABELS = {
+    books:  {
+        subtitle:        'Select books and find the critics who share your taste.',
+        placeholder:     'Search for a book…',
+        placeholderMore: 'Search for another book…',
+    },
+    movies: {
+        subtitle:        'Select movies and find the critics who share your taste.',
+        placeholder:     'Search for a movie…',
+        placeholderMore: 'Search for another movie…',
+    },
 };
 
+// ── State ──────────────────────────────────────────────────────────────────────
+
+// Run-derived state fields — single source of truth used by makeEmptyRunState().
+// Add any new dataset-derived field here (and nowhere else).
+function makeEmptyRunState() {
+    return {
+        bookList:         [],
+        ppmiRanked:       [],
+        coocRanked:       [],
+        baseCounts:       {},
+        ppmiScores:       {},
+        results:          [],
+        matchedCounts:    {},
+        multiMatchCounts: {},
+        expandedCid:      null,
+    };
+}
+
+const state = Object.assign({
+    model:      null,   // active model (books or movies)
+    ppmiMap:    null,   // {cid → Map{cid → ppmi_value}} — built via applyModel
+    coocCounts: null,   // {cid → Map{cid → raw count}} — for debug display
+    blendT:     0.20,   // current slider value
+}, makeEmptyRunState());
+
 const MAX_BOOKS     = 15;
+
+// ── Mode state ─────────────────────────────────────────────────────────────────
+let currentMode = 'books';
+let bookModel   = null;   // cached on init(); never re-fetched
+let movieModel  = null;   // lazy-loaded on first switch to movies
 
 // ── Browsable autocomplete state ───────────────────────────────────────────────
 let sortedBooks          = [];   // all books sorted n_voters desc, cid asc tiebreak
@@ -46,7 +72,20 @@ const WINDOW_PAGE        = 50;   // append this many on scroll
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
     elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
-    elBlendSlider, elBlendTooltip, elBlendReset;
+    elBlendSlider, elBlendTooltip, elBlendReset,
+    elModeHeading, elModeSubtitle, elModeToggle;
+
+// ── Model application (shared path for init and mode switch) ─────────────────
+
+function applyModel(model) {
+    state.model = model;
+    const { ppmiMap, coocCounts } = buildPPMILookup(model.voter_books);
+    state.ppmiMap    = ppmiMap;
+    state.coocCounts = coocCounts;
+    sortedBooks = Object.entries(model.books)
+        .sort(([cidA, a], [cidB, b]) => (b.n_voters - a.n_voters) || cidA.localeCompare(cidB))
+        .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
+}
 
 // ── PPMI-direct scorer ─────────────────────────────────────────────────────────
 
@@ -424,11 +463,14 @@ function renderDropdown(items, windowSize) {
             li.className = 'dropdown-item' + (isSelected ? ' disabled' : '');
             li.setAttribute('role', 'option');
             li.dataset.cid = cid;
+            const rawAuth  = author || '';
+            const dispAuth = truncateCreator(rawAuth);
+            const authTitle = rawAuth !== dispAuth ? ` title="${esc(rawAuth)}"` : '';
             li.innerHTML =
                 `<span class="item-left">`
               +   `<span class="item-title">${esc(title)}</span>`
               +   `<span class="item-sep"> · </span>`
-              +   `<span class="item-author">${esc(author || '')}</span>`
+              +   `<span class="item-author"${authTitle}>${esc(dispAuth)}</span>`
               + `</span>`
               + `<span class="item-count">on ${n_voters} list${n_voters === 1 ? '' : 's'}</span>`;
             if (!isSelected) {
@@ -585,16 +627,23 @@ function liveRecompute() {
 
 // ── Rendering ──────────────────────────────────────────────────────────────────
 
+function truncateCreator(s, maxLen = 100) {
+    if (!s || s.length <= maxLen) return s;
+    return s.slice(0, maxLen).trimEnd() + '…';
+}
+
 function renderEntries() {
     elBookEntries.innerHTML = '';
     state.bookList.forEach(({ cid, title, author, n_voters }) => {
+        const dispAuthor  = truncateCreator(author);
+        const authorTitle = author !== dispAuthor ? ` title="${esc(author)}"` : '';
         const div = document.createElement('div');
         div.className = 'book-entry';
         div.innerHTML =
             `<div class="book-main">`
           +   `<span class="book-title">${esc(title)}</span>`
           +   `<span class="book-sep"> · </span>`
-          +   `<span class="book-author">${esc(author)}</span>`
+          +   `<span class="book-author"${authorTitle}>${esc(dispAuthor)}</span>`
           + `</div>`
           + `<div class="book-meta">`
           +   `<span class="voter-count">on ${n_voters} voter list${n_voters === 1 ? '' : 's'}</span>`
@@ -605,8 +654,8 @@ function renderEntries() {
     });
 
     elSearchInput.placeholder = state.bookList.length === 0
-        ? 'Search for a book…'
-        : 'Search for another book…';
+        ? MODE_LABELS[currentMode].placeholder
+        : MODE_LABELS[currentMode].placeholderMore;
     elSearchContainer.hidden = state.bookList.length >= MAX_BOOKS;
 }
 
@@ -617,8 +666,11 @@ function renderResults() {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
         const multi = state.multiMatchCounts[cid] || 0;
-        const bylineParts = [info.author, info.year].filter(Boolean);
+        const rawAuthor  = info.author || '';
+        const dispAuthor = truncateCreator(rawAuthor);
+        const bylineParts = [dispAuthor, info.year].filter(Boolean);
         const byline = bylineParts.length ? ` · ${bylineParts.join(' · ')}` : '';
+        const bylineTitle = rawAuthor !== dispAuthor ? ` title="${esc(rawAuthor)}"` : '';
         const multiClause = (state.bookList.length > 1 && multi > 0)
             ? `; ${multi} share${multi === 1 ? 's' : ''} multiple`
             : '';
@@ -627,7 +679,7 @@ function renderResults() {
         li.innerHTML =
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
-          +   `<span class="result-byline">${esc(byline)}</span>`
+          +   `<span class="result-byline"${bylineTitle}>${esc(byline)}</span>`
           + `</div>`
           + `<span class="result-count">${count} list${count === 1 ? '' : 's'} share${count === 1 ? 's' : ''} at least one input${multiClause}</span>`
           + `<span class="result-chevron">›</span>`;
@@ -659,16 +711,11 @@ function setupUI() {
     elBlendSlider  = document.getElementById('blend-slider');
     elBlendTooltip = document.getElementById('blend-tooltip');
     elBlendReset   = document.getElementById('blend-reset');
+    elModeHeading  = document.getElementById('mode-heading');
+    elModeSubtitle = document.getElementById('mode-subtitle');
+    elModeToggle   = document.getElementById('mode-toggle');
 
-    // Build PPMI lookup once at startup (always needed for fusion)
-    const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
-    state.ppmiMap    = ppmiMap;
-    state.coocCounts = coocCounts;
-
-    // Pre-sort books for browsable dropdown (n_voters desc, cid asc tiebreak)
-    sortedBooks = Object.entries(state.model.books)
-        .sort(([cidA, a], [cidB, b]) => (b.n_voters - a.n_voters) || cidA.localeCompare(cidB))
-        .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
+    // sortedBooks already built by applyModel() — no rebuild needed here
 
     elSearchInput.addEventListener('focus',   onSearchFocus);
     elSearchInput.addEventListener('click',   onSearchFocus);  // handles stale-focus after book selection
@@ -740,14 +787,66 @@ async function init() {
     try {
         const res = await fetch('data/model_data.json');
         if (!res.ok) throw new Error(res.status);
-        state.model = await res.json();
+        bookModel = await res.json();
+        applyModel(bookModel);   // sets state.model + ppmiMap/coocCounts/sortedBooks
         setupUI();
+        initModeToggle();
+        updateModeUI('books');   // drive initial labels from MODE_LABELS.books (single source)
         // Expose internals for endpoint verification (?debug=1 or Playwright tests)
         window._k = { state, ppmiDirectScorer, coocScorer, buildVoterCards };
     } catch (e) {
         elLoading.textContent =
             'Could not load data. Start the server from the repo root: python3 -m http.server 8000';
     }
+}
+
+// ── Mode toggle ────────────────────────────────────────────────────────────────
+
+function initModeToggle() {
+    elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
+        btn.addEventListener('click', () => switchMode(btn.dataset.mode))
+    );
+}
+
+function updateModeUI(mode) {
+    elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
+        btn.classList.toggle('is-active', btn.dataset.mode === mode)
+    );
+    elModeHeading.textContent  = mode === 'movies' ? 'Movies you love' : 'Books you love';
+    elModeSubtitle.textContent = MODE_LABELS[mode].subtitle;
+}
+
+async function switchMode(newMode) {
+    if (newMode === currentMode) return;
+
+    // Lazy-load movie JSON on first switch to movies
+    if (newMode === 'movies' && !movieModel) {
+        try {
+            const res = await fetch('data/model_data_movies.json');
+            if (!res.ok) throw new Error(res.status);
+            movieModel = await res.json();
+        } catch (e) {
+            console.warn('switchMode: failed to load movie data', e);
+            return;   // don't flip mode if fetch failed
+        }
+    }
+
+    // Commit the mode change + rebuild all derived structures via shared path
+    currentMode = newMode;
+    applyModel(newMode === 'movies' ? movieModel : bookModel);
+
+    // Clear all run state — single source of truth
+    Object.assign(state, makeEmptyRunState());
+    collapseAll();
+    elSearchInput.value   = '';
+    elDropdown.hidden     = true;
+    elDropdown.innerHTML  = '';
+    elMain.classList.remove('post-run');
+    elMain.classList.add('pre-run');
+    elResultsPanel.hidden = true;
+
+    renderEntries();       // renders empty list, resets placeholder
+    updateModeUI(newMode); // flips heading, segment active state, switch-button label
 }
 
 // ── Nav ────────────────────────────────────────────────────────────────────────

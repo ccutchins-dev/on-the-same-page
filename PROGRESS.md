@@ -34,6 +34,23 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Books/Movies mode toggle (feature/mode-toggle)
+
+- **Branch**: feature/mode-toggle → merging to main
+- **UI**: Segmented control (Books | Movies) above h1 via `order: -1`; post-run toggle
+  centered; slider→heading gap widened to 1rem; redundant "Switch to Movies" post-input
+  button removed (segmented control covers all switching paths)
+- **Data loading**: books JSON at startup; movie JSON lazy-loaded + cached on first switch
+- **No-leak core**: `applyModel()` (single shared rebuild path) + `makeEmptyRunState()`
+  (single source of truth for reset). `updateModeUI('books')` in `init()` single-sources
+  initial labels from `MODE_LABELS` map
+- **Director overflow fix**: `truncateCreator(s, maxLen=100)` applied in `renderResults`,
+  `renderEntries`, `renderDropdown`; title attr for full string on hover
+- **Language**: `MODE_LABELS` map drives subtitle + search placeholders per mode; About page
+  updated to cover both books and movies (static, mode-agnostic)
+- **Books invariant**: all books-mode strings/recs/scores functionally identical to pre-toggle
+- **Deferred**: /10 score recalibration for films; per-mode slider defaults
+
 ## 2026-05-31 — Film model data export (feature/film-export)
 
 - **Branch**: feature/film-export (not yet merged — awaiting review)

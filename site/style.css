@@ -142,7 +142,7 @@ h1             { order: 0; }
 #book-entries  { order: 3; }
 #search-container { order: 4; }
 #run-area      { order: 5; }
-#main.post-run #run-area { order: -1; margin-bottom: 0.5rem; }
+#main.post-run #run-area { order: -1; margin-bottom: 1rem; }
 
 h1 {
   font-size: 1.4rem;
@@ -353,6 +353,31 @@ h1 {
   font-family: sans-serif;
 }
 .blend-reset:hover { color: var(--text); }
+
+/* ── Mode toggle (segmented control) ─────────────────────────────────────── */
+.mode-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  align-self: flex-start;
+  order: -1;
+  margin-bottom: 0.5rem;
+}
+.mode-btn {
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: 0.3rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-btn:last-child { border-right: none; }
+.mode-btn.is-active  { background: var(--accent); color: #fff; cursor: default; }
+.mode-btn:not(.is-active):hover { background: var(--accent-soft); color: var(--text); }
+#main.post-run .mode-toggle { align-self: center; }
 
 /* ── Results panel ─────────────────────────────────────────────────────────── */
 #results-panel {

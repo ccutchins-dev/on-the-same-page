@@ -873,6 +873,42 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   `.detail-strip-wrapper { overflow-x: auto }` which is inside the expanded
   result-detail panel. The two overflow contexts don't interact.
 
+## 2026-05-31 — Mode toggle: makeEmptyRunState as single reset source of truth
+
+- **Context**: switchMode() needs to clear all dataset-derived state fields when switching
+  modes. An explicit list of 8+ fields is a leak vector: a new field added to state later
+  might be forgotten in the reset list and persist across a mode switch.
+- **Decision**: `makeEmptyRunState()` is the authoritative definition of every run-derived
+  state field. The initial `const state = Object.assign({...persistentFields}, makeEmptyRunState())`
+  and `Object.assign(state, makeEmptyRunState())` in switchMode both call the same function —
+  no way for the two to drift.
+- **Rationale**: Matches the pattern the codebase uses for other "single source of truth"
+  decisions; a future developer adding a state field sees the factory and knows to add it there.
+- **Trigger**: Mode toggle planning; user explicitly required a single source of truth.
+
+## 2026-05-31 — Mode toggle: applyModel as shared derived-structure rebuild path
+
+- **Context**: Both init() (books load) and switchMode() need to set state.model,
+  build state.ppmiMap/coocCounts from voter_books, and rebuild sortedBooks. Having this
+  logic in two places risks the tiebreak sort or ppmiMap build diverging between a fresh
+  load and a round-trip.
+- **Decision**: `applyModel(model)` is the single implementation; called from both. If the
+  sort tiebreak ever changes, there is one place to update.
+- **Rationale**: Provably identical paths = no round-trip drift. Validated via books →
+  movies → books regression (same inputs produce same recs as fresh load).
+- **Trigger**: Mode toggle planning; user flagged the two-path drift risk.
+
+## 2026-05-31 — Mode toggle: book copy stays in movies mode (v1)
+
+- **Context**: In movies mode, UI copy still says "Search for a book…", "on N voter lists",
+  "N lists share at least one input" etc. Changing these now would require threading a mode
+  flag through renderEntries, renderResults, renderDropdown, and the detail panel.
+- **Decision**: Defer string generalization to the next step ("language step"). The toggle
+  ships with book-worded copy in both modes for now.
+- **Rationale**: The toggle itself (data loading, state management, no-leak switching) is
+  the meaningful deliverable. String generalization is additive and separable.
+- **Trigger**: Mode toggle planning; user explicitly deferred this.
+
 ## 2026-05-31 — Film export: derived positions, not observed
 
 - **Context**: Film ballots (Sight & Sound 2022) are unranked — voters selected films but did not rank them. The book export encodes real position data (1=top pick); the film model needs position for structural parity and for the voter-strip within-card sort.
