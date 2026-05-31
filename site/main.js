@@ -264,11 +264,6 @@ function renderDetailPanel(cid, inputCids, model) {
       +   `<span class="detail-score-value">${ppmiNorm} / 10</span>`
       + `</div>`;
 
-    // ── Description ───────────────────────────────────────────────────────────
-    const descEl = document.createElement('p');
-    descEl.className = 'detail-description';
-    descEl.textContent = (model.books[cid] || {}).description || '';
-
     // ── Voter strip ────────────────────────────────────────────────────────────
     const wrapper = document.createElement('div');
     wrapper.className = 'detail-strip-wrapper';
@@ -309,7 +304,13 @@ function renderDetailPanel(cid, inputCids, model) {
     const el = document.createElement('div');
     el.className = 'result-detail';
     el.appendChild(scoresEl);
-    el.appendChild(descEl);
+    const desc = (model.books[cid] || {}).description || '';
+    if (desc) {
+        const descEl = document.createElement('p');
+        descEl.className = 'detail-description';
+        descEl.textContent = desc;
+        el.appendChild(descEl);
+    }
     el.appendChild(wrapper);
     return el;
 }

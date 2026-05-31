@@ -406,12 +406,16 @@ h1 {
 .detail-strip-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  /* Padding on the overflow container is OUTSIDE the scroll viewport — always
+     visible. Padding on the child (.detail-strip) is inside the scroll area
+     and right-side padding gets clipped by browsers at the scroll end. */
+  padding: 0 0.5rem 0.1rem;
 }
 .detail-strip {
   display: flex;
   align-items: stretch;   /* uniform height: all cards = tallest card */
   gap: 0.6rem;
-  padding: 0 0.5rem 0.5rem;
+  padding-bottom: 0.4rem;   /* clears horizontal scrollbar appearance */
   min-width: min-content;
 }
 
