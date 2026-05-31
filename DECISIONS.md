@@ -770,3 +770,21 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   Georgia serif body text unchanged — typeface contrast (sans labels / serif body) does
   the hierarchical work, not size alone. Sub-bullet text (steps > li > ul li) muted to
   0.9rem var(--muted) to visually recede from step text.
+
+## 2026-05-31 — Cloudflare Pages deployment structure
+
+- **Publish directory**: `site/` is the Cloudflare Pages publish root. `model_data.json`
+  lives at `site/data/model_data.json` so it's reachable as `data/model_data.json` from
+  the page root. Pipeline scripts, CSVs, and docs stay at the repo root — Cloudflare
+  only serves `site/`. Alternatives considered: creating a separate `public/` dir (more
+  indirection) or putting the JSON flat in `site/` (slightly less organized). `site/data/`
+  mirrors the existing naming convention and matches the fetch path pattern.
+  
+- **No build step**: the site is plain HTML/CSS/JS with client-side JSON loading.
+  Cloudflare Pages build command is empty; the publish dir contents are committed directly
+  and served as-is. Re-export workflow: edit CSV → `python3 phase2_model.py --export` →
+  commit `site/data/model_data.json` → push → auto-redeploy (Cloudflare detects push).
+
+- **Private GitHub repo**: raw voter CSVs and pipeline code are private in the GitHub repo;
+  `model_data.json` is publicly accessible via the browser regardless (it's loaded
+  client-side). Cloudflare Pages connects to private repos on the free tier.

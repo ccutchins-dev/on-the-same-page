@@ -738,7 +738,7 @@ function setupUI() {
 
 async function init() {
     try {
-        const res = await fetch('../data/model_data.json');
+        const res = await fetch('data/model_data.json');
         if (!res.ok) throw new Error(res.status);
         state.model = await res.json();
         setupUI();
