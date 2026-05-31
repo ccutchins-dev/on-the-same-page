@@ -345,7 +345,7 @@ h1 {
   border: none;
   color: var(--muted);
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   padding: 0.2rem 0.5rem;
   border-radius: var(--radius);
   line-height: 1;
@@ -419,7 +419,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.85rem 0.75rem 0.75rem;
-  margin: 0.35rem 0 0.75rem;          /* top gap + bottom separation from next row */
+  margin: 0.35rem 0.75rem 0.75rem 0;  /* top/bottom gap; right=0.75rem containment buffer (left is 0 — grid-column handles the left indent) */
   box-shadow: var(--shadow);
 }
 

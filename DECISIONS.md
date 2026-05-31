@@ -733,3 +733,18 @@ Before-fix measurements (Chromium 1440×900, Middlemarch+Jane Eyre, result expan
   Post-fix delta = 0px. Tooltip still sits above the slider thumb (absolute positioning
   is out of flow; wrapper becoming flex doesn't affect it — confirmed tooltip.bottom <
   slider.top after fix).
+
+## 2026-05-30 — Expanded-card right gutter + reset button size (feature/detail-right-gutter)
+
+Before: `.result-detail { grid-column: 2 / -1 }` was flush right (0px gutter within `<li>`).
+The left indent (41.6px = counter col 32px + grid gap 9.6px) is deliberate — it aligns the
+content box under the title, clearing the number column. The right side has no alignment job;
+it only needs a containment buffer.
+
+Fixed with `margin-right: 0.75rem` (12px, matching the box's own horizontal padding) on
+`.result-detail`. Intentionally asymmetric: left=41.6px (alignment), right=12px (containment).
+Strip-wrapper internal gutters confirmed unaffected: 8px/8px symmetric.
+
+Also bumped `.blend-reset` font-size from 1.15rem → 1.3rem (20.8px computed).
+
+Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8px/8px; reset=20.8px.
