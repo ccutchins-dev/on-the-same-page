@@ -873,6 +873,28 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
   `.detail-strip-wrapper { overflow-x: auto }` which is inside the expanded
   result-detail panel. The two overflow contexts don't interact.
 
+## 2026-05-31 — Film adjudication override schema
+
+- **Context**: 146 review flags from film Phase 1 needed encoding as human decisions. The existing `overrides/film_overrides.csv` (header-only placeholder) could be extended, but the book pipeline's override format (merge_decisions.csv + registries.json) wasn't suitable for film's different action types.
+- **Decision**: New file `overrides/film_adjudications.csv` with schema `action, source, target, resolved_year, resolved_director, note`. Six actions: `merge`, `set_year`, `set_director`, `assign_unresolved`, `create_and_assign`, `explode`. Processing order: merges → setters → assignments → explosions.
+- **Alternatives considered**: Extending book-pipeline override format; encoding decisions directly in the script.
+- **Rationale**: Clean separation between book and film pipelines; action enum makes intent explicit; CSV is auditable. Processing order matters — assign_unresolved must run after merges so the target cluster exists.
+- **Trigger**: Film Phase 1 adjudication session.
+
+## 2026-05-31 — Director excluded from film canonical_id hash
+
+- **Context**: Initial implementation of `make_film_id` included director as a third argument. This caused the same film with different director spellings (e.g., "Krzyszof Kieślowski" vs "Krzysztof Kieślowski") to produce different canonical_ids, breaking cluster merging.
+- **Decision**: `make_film_id(norm_title, resolved_year)` — director excluded from hash. Director is recorded in `canonical[cid]["raw_directors"]` (Counter) and the most-common value is written to canonical_films.csv, but does not affect identity.
+- **Rationale**: Film identity is title + year. Director is a useful display attribute and disambiguation hint for review flags, but not a component of canonical identity. The merge step handles cross-cluster director-variant disambiguation; director normalization is handled by `set_director` adjudications.
+- **Trigger**: Bug discovered when 5 Twin Peaks: The Return spellings produced 3 canonical_ids due to director spelling variants.
+
+## 2026-05-31 — Explosion voter_films pairs tracked separately
+
+- **Context**: The explosion step added voters to `canonical[comp_cid]["voters"]` (for vote_count in canonical_films.csv) but voter_films.csv is built by iterating over `processed` rows only. Explosion-added voter×film pairs had no corresponding processed row, so they were silently absent from voter_films.
+- **Decision**: Accumulate `explosion_added_pairs: list[(voter_name, comp_cid)]` during explosion. After the main voter_films loop, emit rows for any (voter, comp_cid) pair not already in `voter_film_pairs` from processed rows.
+- **Rationale**: The processed-row loop is the canonical de-dup mechanism; the explosion pairs are a second pass through the same set. This ensures canonical_films.vote_count and voter_films row counts agree.
+- **Trigger**: Bug found during verification: My Ain Folk and My Way Home showed vote_count=1 in canonical_films but 0 rows in voter_films.
+
 ## 2026-05-31 — Mobile layout refinements
 
 - **Result title stacking**: the previous mobile `overflow: hidden` on `result-title-row`

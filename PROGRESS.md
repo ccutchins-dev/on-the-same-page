@@ -34,6 +34,26 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Film adjudication phase (feature/film-adjudicate)
+
+- **Branch**: feature/film-adjudicate (not yet merged — awaiting review)
+- **Inputs**: 146 review flags from Phase 1 film canonicalization; 79 human decisions encoded in `overrides/film_adjudications.csv`
+- **Script changes**: `phase1_canonicalize_films.py` extended with adjudication processing block (injected before write outputs). Key additions: merge loop, year/director setters, unresolved-row assignment, trilogy explosion with separate voter_films emission.
+- **Results**:
+  - canonical_films: 4,516 → 4,485 (−31 net: 37 merges removed, 4 create_and_assign + 2 explosion-new created)
+  - voter_films: 21,050 rows, 2,115 voters
+  - Explosions: 3 omnibus clusters ("Apu Trilogy", "The Apu Trilogy", "The Bill Douglas Trilogy") → components
+- **Verified decisions** (all pass):
+  - Dekalog: 4 source clusters merged → F:99525f6dd03f (Dekalog (Decalogue), 1989, 16 votes)
+  - Leviathan: F:214b96df970a (2012, doc) and F:0e802a09eb66 (2014, Zvyagintsev) remain distinct
+  - Week End / Weekend: F:ee860a1dac92 (Godard 1967) and F:9fec4fea25ca (Haigh 2011) remain distinct
+  - Twin Peaks: The Return 2018 NBSP variant merged into F:f00e3c45dd9d (2017); Fire Walk With Me and 1990 series stay distinct
+  - Apu Trilogy: 5 voter rows (3 "The Apu Trilogy" + 1 "Apu Trilogy" + 1 "The Apu trilogy") exploded; de-dup prevents duplicate Pather Panchali for voters who listed it separately
+  - Bill Douglas Trilogy: Adam Chodzko's row exploded → My Childhood (F:49a59167770c) + My Ain Folk (F:2d923d9ec318, new, 1973) + My Way Home (F:d73269047025, new, 1978)
+  - 7 new canonicals created: Andhaa Kaanoon (1983), The Prison in 12 Landscapes (2016), Looking for Mushrooms (1965), Gedächtnis (1981), Ceux de chez nous (1915), My Ain Folk (1973), My Way Home (1978)
+- **Bug fixed during implementation**: explosion added voters to `canonical[cid]["voters"]` but `voter_films.csv` is built from `processed` rows only — explosion-added pairs were never emitted. Fixed with `explosion_added_pairs` list fed into voter_films output loop.
+- **Next**: review diff and merge to main; then begin Phase 2 film pipeline (model_data.json equivalent for film mode).
+
 ## 2026-05-31 — Mobile layout refinements (feature/mobile-layout-refinements)
 
 Five additive changes inside `@media (max-width: 600px)`. Desktop unchanged.

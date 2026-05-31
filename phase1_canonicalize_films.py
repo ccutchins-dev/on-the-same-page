@@ -369,6 +369,176 @@ def run(verify=False):
                     "notes": "No director provided.",
                 })
 
+
+    # Build processed_dict for fast lookup
+    processed_dict = {p["row_idx"]: p for p in processed}
+
+    # --- Apply adjudications from overrides/film_adjudications.csv ---
+    adj_path = Path("overrides/film_adjudications.csv")
+    adjudications = []
+    if adj_path.exists():
+        with open(adj_path, newline="", encoding="utf-8") as f:
+            adjudications = list(csv.DictReader(f))
+
+    if adjudications:
+        print("  Applying {0} adjudications...".format(len(adjudications)))
+
+    # Step 1: Merges
+    merged_away = set()
+    for adj in adjudications:
+        if adj["action"] != "merge":
+            continue
+        src, tgt = adj["source"], adj["target"]
+        if src not in canonical or tgt not in canonical:
+            continue
+        for idx in list(row_to_cid):
+            if row_to_cid[idx] == src:
+                row_to_cid[idx] = tgt
+        cl = canonical[src]
+        canonical[tgt]["voters"] |= cl["voters"]
+        canonical[tgt]["raw_titles"].update(cl["raw_titles"])
+        canonical[tgt]["raw_directors"].update(cl["raw_directors"])
+        canonical[tgt]["raw_years"].update(cl["raw_years"])
+        canonical[tgt]["row_indices"].extend(cl["row_indices"])
+        del canonical[src]
+        merged_away.add(src)
+    if merged_away:
+        print("    Merged {0} source clusters".format(len(merged_away)))
+
+    # Step 2: set_year, set_director
+    for adj in adjudications:
+        if adj["action"] == "set_year" and adj["source"] in canonical:
+            canonical[adj["source"]]["resolved_year"] = adj["resolved_year"]
+        elif adj["action"] == "set_director" and adj["source"] in canonical:
+            dr = adj["resolved_director"]
+            canonical[adj["source"]]["raw_directors"][dr] = (
+                canonical[adj["source"]]["raw_directors"].get(dr, 0) + 1000
+            )
+
+    # Step 3: create_and_assign / assign_unresolved
+    def apply_assign(src_placeholder, target_cid, new_cid_args=None):
+        """Reassign rows matching src_placeholder to target_cid."""
+        created = False
+        if target_cid == "new" and new_cid_args:
+            title, year, director = new_cid_args
+            norm_t = normalize_title(title)
+            cid = make_film_id(norm_t, year)
+            if cid not in canonical:
+                canonical[cid] = {
+                    "canonical_id": cid, "norm_title": norm_t,
+                    "resolved_year": year,
+                    "raw_titles": Counter({title: 1}),
+                    "raw_directors": Counter({director: 1} if director else {}),
+                    "raw_years": Counter({year: 1}),
+                    "voters": set(), "row_indices": [],
+                }
+                created = True
+            target_cid = cid
+        if target_cid not in canonical:
+            return None, False
+        for idx in list(row_to_cid):
+            if row_to_cid.get(idx) == src_placeholder:
+                p = processed_dict[idx]
+                row_to_cid[idx] = target_cid
+                canonical[target_cid]["voters"].add(p["voter_name"])
+                canonical[target_cid]["row_indices"].append(idx)
+                canonical[target_cid]["raw_titles"][p["raw_title"]] += 1
+                canonical[target_cid]["raw_years"][p["raw_year"]] += 1
+        return target_cid, created
+
+    new_cids_from_adj = set()
+    for adj in adjudications:
+        if adj["action"] not in ("create_and_assign", "assign_unresolved"):
+            continue
+        src = adj["source"]
+        tgt = adj["target"]
+        yr = adj["resolved_year"]
+        dr = adj["resolved_director"]
+
+        if src.startswith("title:"):
+            # After merges, find UNRESOLVED rows whose norm_title matches
+            raw_title_pattern = src[6:]
+            target_norm = normalize_title(raw_title_pattern)
+            matching_clusters = [cid for cid, cl in canonical.items()
+                                  if cl["norm_title"] == target_norm]
+            for idx in list(row_to_cid):
+                cid = row_to_cid.get(idx, "")
+                if (cid == "UNRESOLVED" or cid.startswith("UNRESOLVED:")):
+                    p = processed_dict[idx]
+                    if p["norm_title"] == target_norm:
+                        if len(matching_clusters) == 1:
+                            row_to_cid[idx] = matching_clusters[0]
+                            canonical[matching_clusters[0]]["voters"].add(p["voter_name"])
+        else:
+            # Direct placeholder ID
+            new_cid_args = None
+            if tgt == "new":
+                raw_title = next((processed_dict[idx]["raw_title"]
+                                  for idx in row_to_cid if row_to_cid.get(idx) == src), "")
+                new_cid_args = (raw_title, yr, dr)
+            result_cid, created = apply_assign(src, tgt, new_cid_args)
+            if created and result_cid:
+                new_cids_from_adj.add(result_cid)
+
+    if new_cids_from_adj:
+        print("    Created {0} new canonical films".format(len(new_cids_from_adj)))
+
+    # Step 4: Explosions
+    exploded_cids = set()
+    explosion_added_pairs = []  # (voter_name, comp_cid) from explosions, for voter_films output
+    for adj in adjudications:
+        if adj["action"] != "explode":
+            continue
+        src = adj["source"]
+        raw_specs = [s.strip() for s in adj["target"].split(",")]
+
+        # Resolve component canonical_ids
+        component_cids = []
+        for spec in raw_specs:
+            if spec.startswith("new:"):
+                parts = spec.split(":", 3)
+                t, y = parts[1], parts[2]
+                dr2 = parts[3] if len(parts) > 3 else ""
+                nt = normalize_title(t)
+                cid2 = make_film_id(nt, y)
+                if cid2 not in canonical:
+                    canonical[cid2] = {
+                        "canonical_id": cid2, "norm_title": nt, "resolved_year": y,
+                        "raw_titles": Counter({t: 1}),
+                        "raw_directors": Counter({dr2: 1} if dr2 else {}),
+                        "raw_years": Counter({y: 1}),
+                        "voters": set(), "row_indices": [],
+                    }
+                    new_cids_from_adj.add(cid2)
+                component_cids.append(cid2)
+            else:
+                component_cids.append(spec)
+
+        # Find omnibus rows
+        norm_pat = normalize_title(src[6:]) if src.startswith("title:") else ""
+        omnibus_voters = set()
+        for idx in list(row_to_cid):
+            p = processed_dict[idx]
+            if norm_pat and p["norm_title"] == norm_pat:
+                omnibus_voters.add(p["voter_name"])
+                exploded_cids.add(row_to_cid.get(idx, ""))
+                row_to_cid[idx] = "EXPLODED"
+
+        # Add component films to omnibus voters; de-dup within voter ballot
+        for comp_cid in component_cids:
+            if comp_cid in canonical:
+                canonical[comp_cid]["voters"] |= omnibus_voters
+                for v in omnibus_voters:
+                    explosion_added_pairs.append((v, comp_cid))
+
+    # De-dup (voter_name, canonical_id) across all ballot rows including explosions
+    # (handled during voter_films output step below)
+
+    if exploded_cids:
+        print("    Exploded {0} omnibus cluster(s) into components".format(
+            len({c for c in exploded_cids if c and c != "EXPLODED"})))
+
+
     # --- Write outputs ---
 
     # canonical_films.csv
@@ -406,6 +576,19 @@ def run(verify=False):
             "canonical_id": cid,
             "role": p["role"],
             "position": "",  # blank = unranked; _parse_position("") -> 10 (neutral-low)
+        })
+
+    # Add explosion-added voter×component pairs (not present in processed rows)
+    for voter_name, comp_cid in explosion_added_pairs:
+        pair = (voter_name, comp_cid)
+        if pair in voter_film_pairs:
+            continue
+        voter_film_pairs.add(pair)
+        vf_rows.append({
+            "voter_name": voter_name,
+            "canonical_id": comp_cid,
+            "role": "",
+            "position": "",
         })
 
     with open(OUT_DIR / "voter_films.csv", "w", newline="", encoding="utf-8") as f:
