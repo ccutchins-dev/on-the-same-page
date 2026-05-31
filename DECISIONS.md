@@ -656,3 +656,26 @@ the prior one.
   fetch), so the About page is reachable even during a slow or failed load. About is
   static content that requires no model data. `setupUI()` checks `#about.hidden` before
   revealing `#main` to respect any mid-load navigation.
+
+## 2026-05-30 — CSV as single source of truth for year + description
+
+- **Curated CSV as single source of truth**: `data/processed/manually_filled_descriptions_and_years.csv`
+  replaces all prior year pipes (canonical_books canonical_year, year_backfill.csv,
+  year_overrides.csv) and the descriptions.csv lookup. The multi-source priority chain
+  is retired; editing this CSV + re-running `python3 phase2_model.py --export` is now
+  the complete workflow for both fields.
+
+- **Year range resolution — separately-titled vs. single-titled rule**: for plain
+  YYYY–YYYY dash-ranges, the deciding question is: separately-titled volumes (trilogies,
+  series, any set of distinct volumes each with its own title) → keep full range.
+  Single-titled work issued in installments, serialized parts, or cantos under one title
+  → replace with last year. Resolution baked into CSV once by `resolve_years.py` (29 rows
+  updated); thereafter years display verbatim with no runtime classification logic.
+  Examples: Middlemarch 1871–1872 → 1872; In Search of Lost Time 1913–1927 → kept;
+  Lord of the Rings 1954–1955 → kept (3 separately-titled volumes).
+
+- **Strip buffer root cause**: `padding` on the CHILD of `overflow-x: auto` is inside
+  the scrollable content area and unreliable for outer breathing room (right-side padding
+  is browser-clipped; left-side technically present but may not appear as outer gap).
+  Fixed by moving horizontal padding to `.detail-strip-wrapper` (the overflow container
+  itself), where it is always visible outside the scroll viewport.
