@@ -34,6 +34,22 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-30 — CSV source of truth + strip buffer (feature/csv-source-of-truth)
+
+- **Year resolution**: `resolve_years.py` applied 29 single-titled-work resolutions in
+  `manually_filled_descriptions_and_years.csv` (range → last year). 47 separately-titled
+  collections/series kept as ranges. Script is a one-time artifact.
+- **Export consolidation**: `phase2_model.py` now reads solely from the curated CSV for
+  both year and description. Old pipes (year_backfill, year_overrides, descriptions.csv,
+  canonical_year) retired. model_data.json re-exported at 597.4 KB.
+- **Description**: empty description → element omitted entirely from expanded panel (no
+  placeholder). `renderDetailPanel()` only creates `.detail-description` when non-empty.
+- **Strip buffer**: moved horizontal padding from `.detail-strip` (child of overflow
+  container — unreliable) to `.detail-strip-wrapper` (the container itself — always
+  visible outside scroll viewport).
+- **Next**: supply updated CSV edits; descriptions and year corrections go via CSV →
+  re-export workflow.
+
 ## 2026-05-30 — Rename + About page (feature/about-page)
 
 - **Rename**: "Kindred Lists" → "On the Same Page" in `<title>`, header `.site-name`,

@@ -571,34 +571,18 @@ def export_model_data(model, out_path=None):
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Build year lookup: canonical_year from canonical_books (694 books) +
-    # additional backfill from year_backfill.csv (37 auto-resolved entries).
-    year_lookup = {}
-    for cid, info in model.book_info.items():
-        if info.get("canonical_year"):
-            year_lookup[cid] = info["canonical_year"]
-    backfill_path = DATA_DIR / "year_backfill.csv"
-    if backfill_path.exists():
-        with open(backfill_path, newline="", encoding="utf-8") as f:
+    # Single source of truth: manually_filled_descriptions_and_years.csv
+    # Supersedes all prior year pipes (year_backfill.csv, year_overrides.csv,
+    # canonical_year from canonical_books) and the descriptions.csv lookup.
+    curated = {}
+    curated_path = DATA_DIR / "manually_filled_descriptions_and_years.csv"
+    if curated_path.exists():
+        with open(curated_path, newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
-                if row["year"] and row["canonical_id"] not in year_lookup:
-                    year_lookup[row["canonical_id"]] = row["year"]
-    # year_overrides.csv: highest priority — user's manual corrections.
-    overrides_path = DATA_DIR / "year_overrides.csv"
-    if overrides_path.exists():
-        with open(overrides_path, newline="", encoding="utf-8") as f:
-            for row in csv.DictReader(f):
-                if row["year"]:
-                    year_lookup[row["canonical_id"]] = row["year"]
-
-    # Build description lookup from descriptions.csv if present; else placeholder.
-    desc_lookup = {}
-    desc_path = DATA_DIR / "descriptions.csv"
-    if desc_path.exists():
-        with open(desc_path, newline="", encoding="utf-8") as f:
-            for row in csv.DictReader(f):
-                if row["description"]:
-                    desc_lookup[row["canonical_id"]] = row["description"]
+                curated[row["canonical_id"]] = {
+                    "year":        row.get("publication_year", "").strip(),
+                    "description": row.get("description",       "").strip(),
+                }
 
     payload = {
         "n_voters":       model.n_voters,
@@ -613,13 +597,8 @@ def export_model_data(model, out_path=None):
                 "title":       info["title"],
                 "author":      info["author"],
                 "n_voters":    info["n_voters"],
-                "year":        year_lookup.get(cid, ""),
-                "description": desc_lookup.get(
-                    cid,
-                    f"{info['title']}, by {info['author']}. Description coming soon."
-                    if info["author"]
-                    else f"{info['title']}. Description coming soon."
-                ),
+                "year":        curated.get(cid, {}).get("year", ""),
+                "description": curated.get(cid, {}).get("description", ""),
             }
             for cid, info in model.book_info.items()
         },
