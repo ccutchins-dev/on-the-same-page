@@ -8,14 +8,14 @@ Public interface (stable — algorithm is swappable behind it):
 Usage:
     python phase2_model.py              # load silently (import-safe; does nothing)
     python phase2_model.py --verify     # run sanity-check cases, print results
-    python phase2_model.py --export     # write data/model_data.json for Phase 3
+    python phase2_model.py --export     # write site/data/model_data.json for Phase 3
 
 Inputs (read-only):
     data/processed/canonical_books.csv
     data/processed/voter_books.csv
 
 Outputs:
-    data/model_data.json  (--export only)
+    site/data/model_data.json  (--export only)
 """
 
 import argparse
@@ -563,11 +563,11 @@ def run_verify(model):
 
 def export_model_data(model, out_path=None):
     """
-    Write data/model_data.json for Phase 3 (static site).
+    Write site/data/model_data.json for Phase 3 (static site / Cloudflare Pages).
     voter_books is now [[cid, pos], ...] so Phase 3 can apply the same position factor.
     """
     if out_path is None:
-        out_path = Path("data") / "model_data.json"
+        out_path = Path("site") / "data" / "model_data.json"
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -641,4 +641,4 @@ if __name__ == "__main__":
         print("Phase 2 model loaded OK.")
         print(f"  {model.n_voters} voters · {len(model.book_info)} books")
         print(f"  RARITY_ALPHA={model.alpha}  POSITION_WEIGHT={POSITION_WEIGHT}")
-        print("Use --verify to run sanity checks, --export to write data/model_data.json.")
+        print("Use --verify to run sanity checks, --export to write site/data/model_data.json.")

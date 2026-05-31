@@ -34,6 +34,23 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Cloudflare Pages deployment prep (feature/deploy-prep)
+
+- **Restructure**: `data/model_data.json` moved to `site/data/model_data.json`. The `site/`
+  directory is now a self-contained web root: index.html, main.js, style.css, data/model_data.json.
+- **Fetch path fix**: `main.js` fetch changed from `../data/model_data.json` → `data/model_data.json`
+  (relative to the page root, resolves correctly whether served locally or on Cloudflare).
+- **Export path fix**: `phase2_model.py` default out_path changed from `data/model_data.json`
+  → `site/data/model_data.json` so `--export` drops the file in the right place.
+- **Go-forward update workflow**: edit CSV → `python3 phase2_model.py --export` →
+  commit `site/data/model_data.json` → push → Cloudflare auto-redeploys.
+- **GitHub**: private repo `ccutchins-dev/on-the-same-page` created; full history pushed.
+- **Cloudflare Pages settings**: Framework: None, Build command: (empty),
+  Build output directory: `site`. No redirects needed (About is a JS view toggle).
+- **Verified locally**: served `site/` as root via `python3 -m http.server 8020 --directory site/`;
+  confirmed page renders, 50 recommendations loaded (JSON fetched), About toggle works,
+  zero console errors or 404s.
+
 ## 2026-05-30 — Slider polish + strip buffer fix (feature/slider-strip-polish)
 
 - **Strip buffer**: `.detail-strip::after { flex: 0 0 0.5rem }` trailing spacer — actual
