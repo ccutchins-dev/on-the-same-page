@@ -15,6 +15,8 @@ const COOC_GAMMA = 1.0;
 const SCORE_DENOM_COOC_SQRT = 5.5;
 const SCORE_DENOM_PPMI      = 3.8;
 
+const BLEND_DEFAULT = 0.20;
+
 // ── State ──────────────────────────────────────────────────────────────────────
 const state = {
     model:         null,   // loaded model_data.json
@@ -28,7 +30,7 @@ const state = {
     results:         [],   // [{cid, score, baseCount}] — fused top-50
     matchedCounts:   {},   // {cid: count} — voters with ≥1 input and rec book
     multiMatchCounts:{},   // {cid: count} — subset of matchedCounts with ≥2 inputs
-    blendT:          0.25, // current slider value
+    blendT:          0.20, // current slider value
     expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
 };
 
@@ -44,7 +46,7 @@ const WINDOW_PAGE        = 50;   // append this many on scroll
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
     elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
-    elBlendSlider, elBlendValue;
+    elBlendSlider, elBlendTooltip, elBlendReset;
 
 // ── PPMI-direct scorer ─────────────────────────────────────────────────────────
 
@@ -344,7 +346,6 @@ function fuseAndRender() {
     const inputCids = state.bookList.map(b => b.cid);
     const t = parseFloat(elBlendSlider.value);
     state.blendT = t;
-    elBlendValue.textContent = t.toFixed(2);
 
     if (inputCids.length === 0) {
         renderResults();
@@ -655,8 +656,9 @@ function setupUI() {
     elResultsPanel    = document.getElementById('results-panel');
     elResultsHeader   = document.getElementById('results-header');
     elResultsList     = document.getElementById('results-list');
-    elBlendSlider     = document.getElementById('blend-slider');
-    elBlendValue      = document.getElementById('blend-value');
+    elBlendSlider  = document.getElementById('blend-slider');
+    elBlendTooltip = document.getElementById('blend-tooltip');
+    elBlendReset   = document.getElementById('blend-reset');
 
     // Build PPMI lookup once at startup (always needed for fusion)
     const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
@@ -675,6 +677,54 @@ function setupUI() {
     elSearchInput.addEventListener('blur',    onSearchBlur);
     elDropdown.addEventListener('scroll',     onDropdownScroll, { passive: true });
     elBlendSlider.addEventListener('input',   fuseAndRender);  // drag only re-fuses, no re-scoring
+
+    // ── Blend slider tooltip + reset ──────────────────────────────────────────────
+
+    function updateTooltipContent() {
+        const val = parseFloat(elBlendSlider.value);
+        elBlendTooltip.textContent = val.toFixed(2);
+        // Rough thumb-tracking: left% ≈ value% (min=0, max=1)
+        elBlendTooltip.style.left = `${val * 100}%`;
+    }
+    function showTooltip() { updateTooltipContent(); elBlendTooltip.classList.add('visible'); }
+    function hideTooltip() { elBlendTooltip.classList.remove('visible'); }
+
+    // Show during drag
+    let isDragging = false, dragHideTimer = null;
+    elBlendSlider.addEventListener('pointerdown', () => {
+        isDragging = true;
+        clearTimeout(dragHideTimer);
+        showTooltip();
+    });
+    document.addEventListener('pointerup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        dragHideTimer = setTimeout(hideTooltip, 600);
+    });
+    // Keep tooltip text/position current during drag (alongside fuseAndRender on input)
+    elBlendSlider.addEventListener('input', updateTooltipContent);
+
+    // Show after 2s hover-pause; reset timer on movement; hide on leave
+    let hoverTimer = null;
+    elBlendSlider.addEventListener('mouseenter', () => {
+        hoverTimer = setTimeout(showTooltip, 2000);
+    });
+    elBlendSlider.addEventListener('mousemove', () => {
+        if (isDragging) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(showTooltip, 2000);
+    });
+    elBlendSlider.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimer);
+        if (!isDragging) hideTooltip();
+    });
+
+    // Reset: programmatic .value= doesn't fire input, so update tooltip explicitly
+    elBlendReset.addEventListener('click', () => {
+        elBlendSlider.value = BLEND_DEFAULT;
+        updateTooltipContent();
+        fuseAndRender();
+    });
 
     renderEntries();
 

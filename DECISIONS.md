@@ -679,3 +679,26 @@ the prior one.
   is browser-clipped; left-side technically present but may not appear as outer gap).
   Fixed by moving horizontal padding to `.detail-strip-wrapper` (the overflow container
   itself), where it is always visible outside the scroll viewport.
+
+## 2026-05-30 — Slider polish + strip buffer fix (feature/slider-strip-polish)
+
+- **Strip buffer true root cause**: Chrome/WebKit counts `padding-left` but NOT
+  `padding-right` in `scrollWidth` when flex content overflows. Attempt 1 (padding
+  on `.detail-strip` child) and attempt 2 (padding on `.detail-strip-wrapper`
+  container) both failed at scroll-end. Fixed with `.detail-strip::after { content:'';
+  flex: 0 0 0.5rem; }` — a real flex item IS counted in scrollWidth, guaranteeing
+  0.5rem visible space after the last card at any scroll position. Wrapper's
+  `padding-left` kept for left-side buffer (still works); right padding removed
+  since it doesn't help.
+
+- **Slider default 0.20**: changed from 0.25. `BLEND_DEFAULT` constant used in
+  both the HTML default value and the reset button handler.
+
+- **Reset button replaces persistent value display**: `#blend-value` span removed;
+  `↺` (U+21BA) reset button restores `BLEND_DEFAULT`. The value is now only shown
+  as a delayed hover tooltip (2s debounce) or during drag.
+
+- **Tooltip rough thumb-tracking**: `left: ${value * 100}%` gives approximate thumb
+  position without browser-specific thumb-offset corrections. Programmatic `.value`
+  assignment (reset button) doesn't fire the `input` event, so `updateTooltipContent()`
+  is called explicitly in the reset handler to avoid stale tooltip display.
