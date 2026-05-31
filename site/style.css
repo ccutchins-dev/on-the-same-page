@@ -587,4 +587,26 @@ h1 {
   #search-input {
     font-size: 1rem;
   }
+
+  /* Grid items default to min-width: auto, which prevents the 1fr track in
+     #main.post-run from shrinking below items' min-content (~646px), overflowing
+     the page by ~296px at 390px viewport. min-width: 0 lets the track resolve
+     correctly to the available ~310px. Voter-strip overflow-x: auto is unaffected. */
+  #input-panel,
+  #results-panel {
+    min-width: 0;
+  }
+
+  /* Inside each result <li> (grid: 2rem 1fr auto), result-title-row and result-count
+     sit in the 1fr column with min-width: auto. The byline (flex-shrink: 0,
+     white-space: nowrap) forces result-title-row's min-content to ~302px, pushing
+     1fr beyond the available ~236px and causing scrollWidth 646 per row. min-width: 0
+     lets 1fr resolve correctly; overflow: hidden clips any byline edge case. */
+  .result-title-row {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .result-count {
+    min-width: 0;
+  }
 }
