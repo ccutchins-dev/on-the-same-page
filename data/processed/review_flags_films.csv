@@ -1,0 +1,147 @@
+flag_id,flag_type,raw_titles,raw_years,raw_directors,row_count,notes
+DV-F:5e55d15a0567,DIRECTOR_VARIANT,Bound,1996,"Lana Wachowski, Lilly Wachowski | Lana and Lilly Wachowski",2,2 director spellings
+DV-F:8509b531b601,DIRECTOR_VARIANT,Dog Star Man,1964,Stan Brakhage | stan Brackage,5,2 director spellings
+DV-F:09a914de09e9,DIRECTOR_VARIANT,Fuses,1967,Carolee Scheemann | Carolee Schneemann,8,2 director spellings
+DV-F:933ec9beaa5b,DIRECTOR_VARIANT,Speed Racer,2008,"Lana Wachowski and Lilly Wachowski | Lana Wachowski, Lilly Wachowski | Lilly Wachowski, Lana Wachowski | The Wachowski Sisters | The Wachowskis",6,5 director spellings
+DV-F:a581deb99bff,DIRECTOR_VARIANT,The Decalogue,1989,Krzysztof  Kieslowski | Krzysztof Kieślowski,2,2 director spellings
+DV-F:f92de5796e6e,DIRECTOR_VARIANT,The Consequences of Feminism,1906,Alice Guy Blaché | Alice Guy-Blaché,2,2 director spellings
+DV-F:c3389fe02bf0,DIRECTOR_VARIANT,Bukchon Banghyang (The Day He Arrived),2011,Hong Sangsoo | Hong songsoo,4,2 director spellings
+DV-F:f00e3c45dd9d,DIRECTOR_VARIANT,Twin Peaks: The Return,2017,David Lynch | David Lynch and Mark Frost,14,2 director spellings
+DV-F:4326441d5975,DIRECTOR_VARIANT,Salesman,1969,"Albert Maysles, David Maysles, Charlotte Zwerin | Albert and David Maysles and Charlotte Zwerin",4,2 director spellings
+DV-F:8b59f9e5c592,DIRECTOR_VARIANT,All the President's Men,1976,Alan J Pakula | Alan J. Pakula,11,2 director spellings
+DV-F:5bf728a15019,DIRECTOR_VARIANT,The Vampires of Poverty (Agarrando Pueblo),1977,Carlos Mayolo and Luis Ospina | Luis Ospina & Carlos Mayolo,2,2 director spellings
+DV-F:e4d2292715f0,DIRECTOR_VARIANT,House of Hummingbird,2018,Bora Kim | Kim Bora,2,2 director spellings
+DV-F:c377da635a16,DIRECTOR_VARIANT,The Body Remembers When the World Broke Open,2019,"Elle-Máijá Tailfeathers and Kathleen Hepburn | Kathleen Hepburn, Elle-Máijá Tailfeathers",3,2 director spellings
+DV-F:5317f9778b06,DIRECTOR_VARIANT,Café Lumière,2003,Hou Hsaio-hsien | Hou Hsiao-hsien,3,2 director spellings
+DV-F:a8504c4c8cb8,DIRECTOR_VARIANT,Femmes Femmes,1974,Paul Vecchiali | Paul Vecchialli,4,2 director spellings
+DV-F:f6ad56cca563,DIRECTOR_VARIANT,Decalogue,1988,Krzystof Kieslowski | Krzysztof Kieslowski,2,2 director spellings
+DV-F:f8aceea338d4,DIRECTOR_VARIANT,The Woolworths Choir of 1979,2012,Elisabeth Price | Elizabeth Price,2,2 director spellings
+DV-F:569be7b19926,DIRECTOR_VARIANT,Reassemblage,1982,Trinh T Minh-ha | Trinh T. Minh-ha,5,2 director spellings
+DV-F:4e7bd8e303f8,DIRECTOR_VARIANT,Hat Wolff von Amerongen Konkursdelikte begangen?,2004,Gerhard Benedikt Friedl | Gerhard Friedl,2,2 director spellings
+DV-F:858143f278b6,DIRECTOR_VARIANT,"Naked Spaces, Living is Round",1985,Trinh T Minh-ha | Trinh T. Minh-ha,2,2 director spellings
+DV-F:780ddc442fac,DIRECTOR_VARIANT,Dekalog (decalogue),1988,Krzystzof Kieslowski | Krzysztof Kieślowski,2,2 director spellings
+DV-F:bd1eddc31e6d,DIRECTOR_VARIANT,YING XIONG (Hero),2002,Zhang  Yimou | Zhang Yimou,2,2 director spellings
+DV-F:0916add2163e,DIRECTOR_VARIANT,Anna,1975,"Alberto Grifi & Massimo Sarchielli | Alberto Grifi and Massimo Sarchielli | Alberto Grifi, Massimo Sarchielli",3,3 director spellings
+DV-F:d1d7e10932c7,DIRECTOR_VARIANT,"Nuestra Voz de Tierra, Memoria y Futuro",1981,Marta Rodriguez and Jorge Silva | Marta Rodríguez & Jorge Silva,2,2 director spellings
+DV-F:8e9147c99c70,DIRECTOR_VARIANT,Stars in Broad Daylight,1987,Ossama Mohammed | Oussama Mohammad,2,2 director spellings
+DV-F:901ab8f3201b,DIRECTOR_VARIANT,Other Men's Women,1931,William A. Wellman | William Wellman,3,2 director spellings
+DV-F:90b6388d5c80,DIRECTOR_VARIANT,L'homme Atlantique,1981,Marguerite Duras | Margueritte Duras,2,2 director spellings
+DV-F:cce8972d95be,DIRECTOR_VARIANT,Maya Bazaar,1957,K.V. Reddy | Kadiri Venkata Reddy,2,2 director spellings
+DV-F:1c5418a3c1af,DIRECTOR_VARIANT,Freeze Die Come to Life,1990,Vitali Kanevsky | Vitaly Kanevsky,2,2 director spellings
+PY-165,YEAR_ERROR,Gangs of Wasseypur,Anurag Kashyap,2012,1,Tentatively assigned to F:68833666b0ff (2012). Confirm.
+NY-1498,BLANK_YEAR,Le film est deja commence?,,Maurice Lemaître,1,No valid-year cluster exists for this title. Unresolved.
+NY-2878,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-2936,YEAR_AMBIGUOUS,Looking for Mushrooms,1959–67/1996,Bruce Conner,1,No valid-year cluster exists for this title. Unresolved.
+NY-3399,YEAR_AMBIGUOUS,The Bill Douglas Trilogy,"1972, 1973, 1978",Bill Douglas,1,No valid-year cluster exists for this title. Unresolved.
+AR-3770,BLANK_YEAR+AMBIGUOUS_YEAR_REMAKE,The Decalogue,,Krzysztof Kieślowski,1,Title matches 2 distinct films. Human must assign.
+NY-3835,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-3970,BLANK_YEAR,El romance del Aniceto y la Francisca,,Leonardo Favio,1,No valid-year cluster exists for this title. Unresolved.
+PY-3972,BLANK_YEAR,Reminiscences of a Journey to Lithuania,,Mekas,1,Tentatively assigned to F:091d6c34db3a (1972). Confirm.
+NY-3973,BLANK_YEAR,---,,---,1,No valid-year cluster exists for this title. Unresolved.
+NY-3974,BLANK_YEAR,---,,---,1,No valid-year cluster exists for this title. Unresolved.
+PY-5607,YEAR_AMBIGUOUS,Ceux de chez nous,1915 / 1952,Sacha GUITRY,1,Tentatively assigned to F:fd4bf297a220 (1952). Confirm.
+PY-6319,YEAR_ERROR,Dog Star Man,Stan Brakhage,1964,1,Tentatively assigned to F:8509b531b601 (1964). Confirm.
+NY-6692,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-6935,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-7244,YEAR_AMBIGUOUS,Apu Trilogy,"1955, 1956, 1959",Satyajit Ray,1,No valid-year cluster exists for this title. Unresolved.
+NY-7269,BLANK_YEAR,Great Freedom,,Sebastian Meise,1,No valid-year cluster exists for this title. Unresolved.
+PY-7649,BLANK_YEAR,La maison des bois,,Maurice Pialat,1,Tentatively assigned to F:a4fbb368886c (2000). Confirm.
+NY-8177,BLANK_YEAR,Songs 1-22,,Stan Brakhage,1,No valid-year cluster exists for this title. Unresolved.
+NY-8180,BLANK_YEAR,Inner and Outer Space,,Andy Warhol,1,No valid-year cluster exists for this title. Unresolved.
+PY-8784,YEAR_AMBIGUOUS,Why Is Yellow the Middle of the Rainbow?,1984/1994,Kidlat Tahimik,1,Tentatively assigned to F:c8e09f05e900 (1994). Confirm.
+NY-8930,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-10128,BLANK_YEAR,Great Freedom,,Sebastian Meise,1,No valid-year cluster exists for this title. Unresolved.
+PY-12420,BLANK_YEAR,Crip Camp,,,1,Tentatively assigned to F:a5114659ddc1 (2020). Confirm.
+NY-12624,BLANK_YEAR,Language Lessons,,Natalie Morales,1,No valid-year cluster exists for this title. Unresolved.
+NY-12892,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-12945,YEAR_AMBIGUOUS,Twin Peaks (TV series),"1990-1991, 2017",David Lynch and others,1,No valid-year cluster exists for this title. Unresolved.
+NY-13106,BLANK_YEAR,Hearts and Minds,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-13108,BLANK_YEAR,Borat,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-13315,BLANK_YEAR,Lago Gatún,,Kevin Jerome Everson,1,No valid-year cluster exists for this title. Unresolved.
+PY-13654,YEAR_ERROR,The Apu Trilogy,Satyajit Ray,1965-1969,1,Tentatively assigned to F:4700ead8b47d (1959). Confirm.
+PY-13825,BLANK_YEAR,Decalogue,,Krzysztof Kieslowski,1,Tentatively assigned to F:f6ad56cca563 (1988). Confirm.
+NY-14377,YEAR_AMBIGUOUS,Gedächtnis,1981/82,"Bruno Ganz, Otto Sander",1,No valid-year cluster exists for this title. Unresolved.
+NY-14602,BLANK_YEAR,All Lars von Trier‘s movies,,Lars von Trier,1,No valid-year cluster exists for this title. Unresolved.
+NY-14730,BLANK_YEAR,Living on the River Agano,,Sato Makoto,1,No valid-year cluster exists for this title. Unresolved.
+NY-14732,BLANK_YEAR,Avenge But One of My Two Eyes,,Avi Mograbi,1,No valid-year cluster exists for this title. Unresolved.
+PY-15384,BLANK_YEAR,The Apu trilogy,,Satyajit Ray,1,Tentatively assigned to F:4700ead8b47d (1959). Confirm.
+PY-16285,BLANK_YEAR,Notes for an African Oresteia,,Pier Paolo Pasolini,1,Tentatively assigned to F:91bbce13df74 (1969). Confirm.
+NY-16533,YEAR_ERROR,Andhaa Kaanoon,T. Rama Rao,1983,1,No valid-year cluster exists for this title. Unresolved.
+NY-17279,YEAR_AMBIGUOUS,Land Without Evil,n/d,Beatriz Palacios,1,No valid-year cluster exists for this title. Unresolved.
+NY-17339,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-17341,BLANK_YEAR,weak rangers,,lucia seles,1,No valid-year cluster exists for this title. Unresolved.
+PY-17345,BLANK_YEAR,vivir en sevilla,,gonzalo garcia-pelayo,1,Tentatively assigned to F:021d58f95670 (1978). Confirm.
+PY-17596,YEAR_AMBIGUOUS,Free Radicals,1958/1979,Len Lye,1,Tentatively assigned to F:9cf6e54aa851 (1958). Confirm.
+NY-18509,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+NY-18753,BLANK_YEAR,Berlin Alexanderplatz,,,1,No valid-year cluster exists for this title. Unresolved.
+AR-18830,YEAR_ERROR+AMBIGUOUS_YEAR_REMAKE,Eniaios,Ongoing,Gregory J. Markopoulos,1,Title matches 2 distinct films. Human must assign.
+NY-18959,BLANK_YEAR,Ng Long Pat Kua Khuan,,Liu Chiang-liang,1,No valid-year cluster exists for this title. Unresolved.
+AR-19375,YEAR_AMBIGUOUS+AMBIGUOUS_YEAR_REMAKE,Dekalog (decalogue),1988/1989,Krzysztof Kieślowski,1,Title matches 2 distinct films. Human must assign.
+NY-19642,BLANK_YEAR,Boot Das (1981),,,1,No valid-year cluster exists for this title. Unresolved.
+PY-19791,YEAR_AMBIGUOUS,The Ballad of Sexual Dependency,1981/5,Nan Goldin,1,Tentatively assigned to F:3e6184ad39d8 (1985). Confirm.
+NY-20094,BLANK_YEAR,Quick Billy,,Bruce Baillie,1,No valid-year cluster exists for this title. Unresolved.
+NY-20350,YEAR_ERROR,The Prison in 12 Landscapes,Brett Story,2016,1,No valid-year cluster exists for this title. Unresolved.
+PM-weekend,POTENTIAL_MERGE,Week End | Weekend,"{'week end': ['1967'], 'weekend': ['2011']}",,8,"Titles differ by space/concat: ['week end', 'weekend']. Same film?"
+PM-lebenbrd,POTENTIAL_MERGE,Leben - BRD | Leben BRD,"{'leben - brd': ['1990'], 'leben brd': ['1990']}",,2,"Titles differ by space/concat: ['leben - brd', 'leben brd']. Same film?"
+PM-ojmadeinamerica,POTENTIAL_MERGE,O. J.: Made in America | O.J. Made in America,"{'o j made in america': ['2016'], 'oj made in america': ['2016']}",,2,"Titles differ by space/concat: ['o j made in america', 'oj made in america']. Same film?"
+YP-dekalog decalogue-1988,YEAR_PROXIMITY,Dekalog (Decalogue),1988 vs 1989,,9,Years differ by 1. Remake or range error?
+YP-notebook-1962,YEAR_PROXIMITY,Notebook,1962 vs 1963,,3,Years differ by 1. Remake or range error?
+YP-leviathan-2012,YEAR_PROXIMITY,Leviathan,2012 vs 2014,,7,Years differ by 2. Remake or range error?
+YP-invasion-1968,YEAR_PROXIMITY,Invasión,1968 vs 1969,,6,Years differ by 1. Remake or range error?
+YP-superstar the karen -1987,YEAR_PROXIMITY,Superstar: The Karen Carpenter Story,1987 vs 1988,,4,Years differ by 1. Remake or range error?
+YP-superstar the karen -1988,YEAR_PROXIMITY,Superstar: The Karen Carpenter Story,1988 vs 1989,,3,Years differ by 1. Remake or range error?
+YP-the decalogue-1988,YEAR_PROXIMITY,The Decalogue,1988 vs 1989,,3,Years differ by 1. Remake or range error?
+YP-peggy and fred in he-2015,YEAR_PROXIMITY,Peggy and Fred in Hell,2015 vs 2016,,3,Years differ by 1. Remake or range error?
+YP-l cohen-2017,YEAR_PROXIMITY,L. Cohen,2017 vs 2018,,2,Years differ by 1. Remake or range error?
+YP-twin peaks the retur-2017,YEAR_PROXIMITY,Twin Peaks: The Return,2017 vs 2018,,15,Years differ by 1. Remake or range error?
+YP-salesman-1968,YEAR_PROXIMITY,Salesman,1968 vs 1969,,5,Years differ by 1. Remake or range error?
+YP-este es el romance d-1966,YEAR_PROXIMITY,"Este es el romance del Aniceto y la Francisca, de cómo quedó trunco, comenzó la tristeza y unas pocas cosas más...",1966 vs 1967,,2,Years differ by 1. Remake or range error?
+YP-eniaios-1991,YEAR_PROXIMITY,Eniaios,1991 vs 1992,,2,Years differ by 1. Remake or range error?
+YP-la canta delle maran-1961,YEAR_PROXIMITY,La canta delle marane,1961 vs 1962,,2,Years differ by 1. Remake or range error?
+YP-images of the world -1988,YEAR_PROXIMITY,Images of the World and the Inscription of War,1988 vs 1989,,4,Years differ by 1. Remake or range error?
+YP-agarrando pueblo-1977,YEAR_PROXIMITY,Agarrando pueblo,1977 vs 1978,,2,Years differ by 1. Remake or range error?
+YP-fuego en castilla-1960,YEAR_PROXIMITY,Fuego en Castilla,1960 vs 1961,,3,Years differ by 1. Remake or range error?
+YP-sortie dusine-1895,YEAR_PROXIMITY,Sortie d'usine,1895 vs 1896,,2,Years differ by 1. Remake or range error?
+YP-johnny flash-1986,YEAR_PROXIMITY,Johnny Flash,1986 vs 1987,,2,Years differ by 1. Remake or range error?
+YP-i am somebody-1969,YEAR_PROXIMITY,I Am Somebody,1969 vs 1970,,5,Years differ by 1. Remake or range error?
+YP-falling lessons-1992,YEAR_PROXIMITY,Falling Lessons,1992 vs 1993,,2,Years differ by 1. Remake or range error?
+YP-southland tales-2005,YEAR_PROXIMITY,Southland Tales,2005 vs 2006,,3,Years differ by 1. Remake or range error?
+YP-in the street-1946,YEAR_PROXIMITY,In the Street,1946 vs 1948,,2,Years differ by 2. Remake or range error?
+YP-le tempestaire-1947,YEAR_PROXIMITY,Le Tempestaire,1947 vs 1948,,2,Years differ by 1. Remake or range error?
+YP-perfect blue-1997,YEAR_PROXIMITY,Perfect Blue,1997 vs 1998,,4,Years differ by 1. Remake or range error?
+YP-still/here-2000,YEAR_PROXIMITY,still/here,2000 vs 2001,,2,Years differ by 1. Remake or range error?
+YP-sicilia-1998,YEAR_PROXIMITY,Sicilia!,1998 vs 1999,,4,Years differ by 1. Remake or range error?
+YP-kisap mata-1981,YEAR_PROXIMITY,Kisap Mata,1981 vs 1982,,2,Years differ by 1. Remake or range error?
+YP-winter ade-1988,YEAR_PROXIMITY,Winter Ade,1988 vs 1989,,2,Years differ by 1. Remake or range error?
+BD-263,BLANK_DIRECTOR,Saint Omer,2022,,1,No director provided.
+BD-2878,BLANK_DIRECTOR,Berlin Alexanderplatz,,,1,No director provided.
+BD-3407,BLANK_DIRECTOR,You Won't Be Alone,2022,,1,No director provided.
+BD-3633,BLANK_DIRECTOR,Nightcleaners,1975,,1,No director provided.
+BD-4290,BLANK_DIRECTOR,The Woman King,2021,,1,No director provided.
+BD-4647,BLANK_DIRECTOR,Dalla nube alla resistenza,1979,,1,No director provided.
+BD-4742,BLANK_DIRECTOR,Baby's Breakfast,1895,,1,No director provided.
+BD-6953,BLANK_DIRECTOR,Rebirth Is Necessary,2017,,1,No director provided.
+BD-7475,BLANK_DIRECTOR,German Concentration Camps Factual Survey,1945,,1,No director provided.
+BD-7547,BLANK_DIRECTOR,Give Us a Smile,1983,,1,No director provided.
+BD-7554,BLANK_DIRECTOR,A Bitter Taste of Freedom,2011,,1,No director provided.
+BD-8200,BLANK_DIRECTOR,A King in New York,1957,,1,No director provided.
+BD-11707,BLANK_DIRECTOR,Chee$e,2022,,1,No director provided.
+BD-12420,BLANK_DIRECTOR,Crip Camp,,,1,No director provided.
+BD-13106,BLANK_DIRECTOR,Hearts and Minds,,,1,No director provided.
+BD-13108,BLANK_DIRECTOR,Borat,,,1,No director provided.
+BD-13415,BLANK_DIRECTOR,Le chat qui joue,1897,,1,No director provided.
+BD-13644,BLANK_DIRECTOR,Burnham Beeches,1909,,1,No director provided.
+BD-13647,BLANK_DIRECTOR,The Battle of the Somme,1916,,1,No director provided.
+BD-15604,BLANK_DIRECTOR,The Sinking of the Lusitania,1918,,1,No director provided.
+BD-16278,BLANK_DIRECTOR,Rito y geografía del cante,1971,,1,No director provided.
+BD-17577,BLANK_DIRECTOR,The Whale,2022,,1,No director provided.
+BD-17780,BLANK_DIRECTOR,Think of Me First As a Person,1960,,1,No director provided.
+BD-18089,BLANK_DIRECTOR,Seven Up!,1964,,1,No director provided.
+BD-18372,BLANK_DIRECTOR,New York street scenes and noises--outtakes. Noise abatement,1929,,1,No director provided.
+BD-18374,BLANK_DIRECTOR,Qīngqí gūniáng,1980,,1,No director provided.
+BD-18846,BLANK_DIRECTOR,Eleven Miles,1992,,1,No director provided.
+BD-18949,BLANK_DIRECTOR,The Underground Railroad,2021,,1,No director provided.
+BD-19642,BLANK_DIRECTOR,Boot Das (1981),,,1,No director provided.
+BD-20001,BLANK_DIRECTOR,What About China?,2022,,1,No director provided.
+BD-20981,BLANK_DIRECTOR,Spartacus,2010,,1,No director provided.
+BD-20983,BLANK_DIRECTOR,Game of Thrones,2011,,1,No director provided.
