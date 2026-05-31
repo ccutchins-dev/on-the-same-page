@@ -34,6 +34,20 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-05-31 — Mobile horizontal overflow fix (feature/mobile-overflow)
+
+- **Diagnosis**: post-run state at 390px viewport showed scrollWidth=686px (+296px).
+  Two-layer cascade of CSS Grid `min-width: auto` defaults. Layer 1: `#input-panel`
+  and `#results-panel` (grid items in `#main.post-run`) pushed the `1fr` track to 646px
+  instead of ~310px. Layer 2: inside each result `<li>` (grid: `2rem 1fr auto`),
+  `result-title-row` (flex container with `flex-shrink:0` byline) pushed its `1fr`
+  column to ~302px instead of ~236px, adding 65px overflow per row.
+- **Fix**: additive rules inside `@media (max-width: 600px)`:
+  `min-width: 0` on `#input-panel`, `#results-panel`, `.result-title-row`,
+  `.result-count`; `overflow: hidden` on `.result-title-row`.
+- **Verified**: post-fix scrollWidth=390=innerWidth (0px overflow); voter strip
+  still sidescrolls (scrollWidth=2704 > clientWidth=214); desktop unchanged.
+
 ## 2026-05-31 — Mobile responsiveness (feature/mobile-responsive)
 
 - **Diagnosis**: viewport meta tag already correct (not a cause). Search input was

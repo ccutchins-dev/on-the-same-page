@@ -851,3 +851,24 @@ Measured post-fix: detailWithinLi left=41.6px, right=12px; wrapperWithinDetail 8
 - **font-size 1rem on #search-input at mobile**: iOS Safari auto-zooms any focused
   input below 16px. Base value is 0.9rem (14.4px). Bumping to exactly 1rem (16px) at
   ≤600px meets the threshold without changing the desktop appearance.
+
+## 2026-05-31 — Mobile horizontal overflow: min-width: 0 on nested grid items
+
+- **Two-layer cascade, not one**: fixing `#input-panel`/`#results-panel` (layer 1)
+  collapsed the top-level overflow but revealed a second layer inside each result
+  `<li>` (grid: `2rem 1fr auto`). The `result-title-row` flex container — whose
+  `result-byline { flex-shrink: 0; white-space: nowrap }` makes its min-content
+  the full byline width (~125px) rather than 0 — pushed `1fr` to ~302px instead
+  of the available ~236px, adding ~65px of overflow per row.
+
+- **Why `overflow: hidden` on `result-title-row`**: after setting `min-width: 0`,
+  the flex container can be narrowed to 236px. The byline (flex-shrink: 0) is
+  fine for typical content (< 200px). `overflow: hidden` is a safety clip for
+  extreme cases (very long author + year strings) that would otherwise overflow
+  the now-narrower column on phones. On desktop the column is wide enough that
+  this never fires.
+
+- **Voter strip sidescroll preserved**: `overflow: hidden` is on `result-title-row`
+  (a flex container for the title/byline row), entirely separate from
+  `.detail-strip-wrapper { overflow-x: auto }` which is inside the expanded
+  result-detail panel. The two overflow contexts don't interact.
