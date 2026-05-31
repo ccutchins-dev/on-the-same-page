@@ -640,4 +640,18 @@ h1 {
   .dropdown {
     min-width: 100%;
   }
+
+  /* Inline the list count with the author text instead of right-aligning.
+     Changes: item-left stops growing (flex: 0 1 auto) so item-count follows
+     immediately after it; gap removed; · separator added via ::before. */
+  .dropdown-item {
+    justify-content: flex-start;
+    gap: 0;
+  }
+  .item-left {
+    flex: 0 1 auto;
+  }
+  .item-count::before {
+    content: ' \00b7 ';
+  }
 }
