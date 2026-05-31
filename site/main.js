@@ -60,7 +60,7 @@ const WINDOW_PAGE        = 50;   // append this many on scroll
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
     elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
     elBlendSlider, elBlendTooltip, elBlendReset,
-    elModeHeading, elModeSwitchBtn, elModeToggle;
+    elModeHeading, elModeToggle;
 
 // ── Model application (shared path for init and mode switch) ─────────────────
 
@@ -450,11 +450,14 @@ function renderDropdown(items, windowSize) {
             li.className = 'dropdown-item' + (isSelected ? ' disabled' : '');
             li.setAttribute('role', 'option');
             li.dataset.cid = cid;
+            const rawAuth  = author || '';
+            const dispAuth = truncateCreator(rawAuth);
+            const authTitle = rawAuth !== dispAuth ? ` title="${esc(rawAuth)}"` : '';
             li.innerHTML =
                 `<span class="item-left">`
               +   `<span class="item-title">${esc(title)}</span>`
               +   `<span class="item-sep"> · </span>`
-              +   `<span class="item-author">${esc(author || '')}</span>`
+              +   `<span class="item-author"${authTitle}>${esc(dispAuth)}</span>`
               + `</span>`
               + `<span class="item-count">on ${n_voters} list${n_voters === 1 ? '' : 's'}</span>`;
             if (!isSelected) {
@@ -611,16 +614,23 @@ function liveRecompute() {
 
 // ── Rendering ──────────────────────────────────────────────────────────────────
 
+function truncateCreator(s, maxLen = 100) {
+    if (!s || s.length <= maxLen) return s;
+    return s.slice(0, maxLen).trimEnd() + '…';
+}
+
 function renderEntries() {
     elBookEntries.innerHTML = '';
     state.bookList.forEach(({ cid, title, author, n_voters }) => {
+        const dispAuthor  = truncateCreator(author);
+        const authorTitle = author !== dispAuthor ? ` title="${esc(author)}"` : '';
         const div = document.createElement('div');
         div.className = 'book-entry';
         div.innerHTML =
             `<div class="book-main">`
           +   `<span class="book-title">${esc(title)}</span>`
           +   `<span class="book-sep"> · </span>`
-          +   `<span class="book-author">${esc(author)}</span>`
+          +   `<span class="book-author"${authorTitle}>${esc(dispAuthor)}</span>`
           + `</div>`
           + `<div class="book-meta">`
           +   `<span class="voter-count">on ${n_voters} voter list${n_voters === 1 ? '' : 's'}</span>`
@@ -643,8 +653,11 @@ function renderResults() {
         const info  = state.model.books[cid] || {};
         const count = state.matchedCounts[cid] || 0;
         const multi = state.multiMatchCounts[cid] || 0;
-        const bylineParts = [info.author, info.year].filter(Boolean);
+        const rawAuthor  = info.author || '';
+        const dispAuthor = truncateCreator(rawAuthor);
+        const bylineParts = [dispAuthor, info.year].filter(Boolean);
         const byline = bylineParts.length ? ` · ${bylineParts.join(' · ')}` : '';
+        const bylineTitle = rawAuthor !== dispAuthor ? ` title="${esc(rawAuthor)}"` : '';
         const multiClause = (state.bookList.length > 1 && multi > 0)
             ? `; ${multi} share${multi === 1 ? 's' : ''} multiple`
             : '';
@@ -653,7 +666,7 @@ function renderResults() {
         li.innerHTML =
             `<div class="result-title-row">`
           +   `<span class="result-title">${esc(info.title || cid)}</span>`
-          +   `<span class="result-byline">${esc(byline)}</span>`
+          +   `<span class="result-byline"${bylineTitle}>${esc(byline)}</span>`
           + `</div>`
           + `<span class="result-count">${count} list${count === 1 ? '' : 's'} share${count === 1 ? 's' : ''} at least one input${multiClause}</span>`
           + `<span class="result-chevron">›</span>`;
@@ -685,9 +698,8 @@ function setupUI() {
     elBlendSlider  = document.getElementById('blend-slider');
     elBlendTooltip = document.getElementById('blend-tooltip');
     elBlendReset   = document.getElementById('blend-reset');
-    elModeHeading  = document.getElementById('mode-heading');
-    elModeSwitchBtn = document.getElementById('mode-switch-btn');
-    elModeToggle   = document.getElementById('mode-toggle');
+    elModeHeading = document.getElementById('mode-heading');
+    elModeToggle  = document.getElementById('mode-toggle');
 
     // sortedBooks already built by applyModel() — no rebuild needed here
 
@@ -779,9 +791,6 @@ function initModeToggle() {
     elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
         btn.addEventListener('click', () => switchMode(btn.dataset.mode))
     );
-    elModeSwitchBtn.addEventListener('click', () =>
-        switchMode(currentMode === 'books' ? 'movies' : 'books')
-    );
 }
 
 function updateModeUI(mode) {
@@ -790,8 +799,6 @@ function updateModeUI(mode) {
     );
     elModeHeading.textContent =
         mode === 'movies' ? 'Movies you love' : 'Books you love';
-    elModeSwitchBtn.textContent =
-        mode === 'movies' ? 'Switch to Books' : 'Switch to Movies';
 }
 
 async function switchMode(newMode) {
