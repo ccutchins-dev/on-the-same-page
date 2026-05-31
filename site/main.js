@@ -18,23 +18,36 @@ const SCORE_DENOM_PPMI      = 3.8;
 const BLEND_DEFAULT = 0.20;
 
 // ── State ──────────────────────────────────────────────────────────────────────
-const state = {
-    model:         null,   // loaded model_data.json
-    ppmiMap:       null,   // {cid → Map{cid → ppmi_value}} — built at startup
-    coocCounts:    null,   // {cid → Map{cid → raw count}} — for debug display
-    bookList:      [],     // [{cid, title, author, n_voters}] — ordered
-    ppmiRanked:    [],     // all PPMI-reachable candidates, full pool, ordered by PPMI rank
-    coocRanked:    [],     // all co-occ-reachable candidates, full pool, ordered by co-occ rank
-    baseCounts:    {},     // {cid: co-occ count sum} — raw co-occ Σᵢ count(voters with input_i and rec)
-    ppmiScores:    {},     // {cid: ppmi score sum} — Σᵢ PPMI(input_i, rec), for evidence display
-    results:         [],   // [{cid, score, baseCount}] — fused top-50
-    matchedCounts:   {},   // {cid: count} — voters with ≥1 input and rec book
-    multiMatchCounts:{},   // {cid: count} — subset of matchedCounts with ≥2 inputs
-    blendT:          0.20, // current slider value
-    expandedCid:   null,   // currently expanded result cid (accordion: one open at a time)
-};
+
+// Run-derived state fields — single source of truth used by makeEmptyRunState().
+// Add any new dataset-derived field here (and nowhere else).
+function makeEmptyRunState() {
+    return {
+        bookList:         [],
+        ppmiRanked:       [],
+        coocRanked:       [],
+        baseCounts:       {},
+        ppmiScores:       {},
+        results:          [],
+        matchedCounts:    {},
+        multiMatchCounts: {},
+        expandedCid:      null,
+    };
+}
+
+const state = Object.assign({
+    model:      null,   // active model (books or movies)
+    ppmiMap:    null,   // {cid → Map{cid → ppmi_value}} — built via applyModel
+    coocCounts: null,   // {cid → Map{cid → raw count}} — for debug display
+    blendT:     0.20,   // current slider value
+}, makeEmptyRunState());
 
 const MAX_BOOKS     = 15;
+
+// ── Mode state ─────────────────────────────────────────────────────────────────
+let currentMode = 'books';
+let bookModel   = null;   // cached on init(); never re-fetched
+let movieModel  = null;   // lazy-loaded on first switch to movies
 
 // ── Browsable autocomplete state ───────────────────────────────────────────────
 let sortedBooks          = [];   // all books sorted n_voters desc, cid asc tiebreak
@@ -46,7 +59,20 @@ const WINDOW_PAGE        = 50;   // append this many on scroll
 // ── DOM refs (set once in setupUI) ─────────────────────────────────────────────
 let elMain, elLoading, elBookEntries, elSearchInput, elDropdown,
     elSearchContainer, elResultsPanel, elResultsHeader, elResultsList,
-    elBlendSlider, elBlendTooltip, elBlendReset;
+    elBlendSlider, elBlendTooltip, elBlendReset,
+    elModeHeading, elModeSwitchBtn, elModeToggle;
+
+// ── Model application (shared path for init and mode switch) ─────────────────
+
+function applyModel(model) {
+    state.model = model;
+    const { ppmiMap, coocCounts } = buildPPMILookup(model.voter_books);
+    state.ppmiMap    = ppmiMap;
+    state.coocCounts = coocCounts;
+    sortedBooks = Object.entries(model.books)
+        .sort(([cidA, a], [cidB, b]) => (b.n_voters - a.n_voters) || cidA.localeCompare(cidB))
+        .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
+}
 
 // ── PPMI-direct scorer ─────────────────────────────────────────────────────────
 
@@ -659,16 +685,11 @@ function setupUI() {
     elBlendSlider  = document.getElementById('blend-slider');
     elBlendTooltip = document.getElementById('blend-tooltip');
     elBlendReset   = document.getElementById('blend-reset');
+    elModeHeading  = document.getElementById('mode-heading');
+    elModeSwitchBtn = document.getElementById('mode-switch-btn');
+    elModeToggle   = document.getElementById('mode-toggle');
 
-    // Build PPMI lookup once at startup (always needed for fusion)
-    const { ppmiMap, coocCounts } = buildPPMILookup(state.model.voter_books);
-    state.ppmiMap    = ppmiMap;
-    state.coocCounts = coocCounts;
-
-    // Pre-sort books for browsable dropdown (n_voters desc, cid asc tiebreak)
-    sortedBooks = Object.entries(state.model.books)
-        .sort(([cidA, a], [cidB, b]) => (b.n_voters - a.n_voters) || cidA.localeCompare(cidB))
-        .map(([cid, info]) => ({ cid, title: info.title, author: info.author, n_voters: info.n_voters }));
+    // sortedBooks already built by applyModel() — no rebuild needed here
 
     elSearchInput.addEventListener('focus',   onSearchFocus);
     elSearchInput.addEventListener('click',   onSearchFocus);  // handles stale-focus after book selection
@@ -740,14 +761,70 @@ async function init() {
     try {
         const res = await fetch('data/model_data.json');
         if (!res.ok) throw new Error(res.status);
-        state.model = await res.json();
+        bookModel = await res.json();
+        applyModel(bookModel);   // sets state.model + ppmiMap/coocCounts/sortedBooks
         setupUI();
+        initModeToggle();
         // Expose internals for endpoint verification (?debug=1 or Playwright tests)
         window._k = { state, ppmiDirectScorer, coocScorer, buildVoterCards };
     } catch (e) {
         elLoading.textContent =
             'Could not load data. Start the server from the repo root: python3 -m http.server 8000';
     }
+}
+
+// ── Mode toggle ────────────────────────────────────────────────────────────────
+
+function initModeToggle() {
+    elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
+        btn.addEventListener('click', () => switchMode(btn.dataset.mode))
+    );
+    elModeSwitchBtn.addEventListener('click', () =>
+        switchMode(currentMode === 'books' ? 'movies' : 'books')
+    );
+}
+
+function updateModeUI(mode) {
+    elModeToggle.querySelectorAll('.mode-btn').forEach(btn =>
+        btn.classList.toggle('is-active', btn.dataset.mode === mode)
+    );
+    elModeHeading.textContent =
+        mode === 'movies' ? 'Movies you love' : 'Books you love';
+    elModeSwitchBtn.textContent =
+        mode === 'movies' ? 'Switch to Books' : 'Switch to Movies';
+}
+
+async function switchMode(newMode) {
+    if (newMode === currentMode) return;
+
+    // Lazy-load movie JSON on first switch to movies
+    if (newMode === 'movies' && !movieModel) {
+        try {
+            const res = await fetch('data/model_data_movies.json');
+            if (!res.ok) throw new Error(res.status);
+            movieModel = await res.json();
+        } catch (e) {
+            console.warn('switchMode: failed to load movie data', e);
+            return;   // don't flip mode if fetch failed
+        }
+    }
+
+    // Commit the mode change + rebuild all derived structures via shared path
+    currentMode = newMode;
+    applyModel(newMode === 'movies' ? movieModel : bookModel);
+
+    // Clear all run state — single source of truth
+    Object.assign(state, makeEmptyRunState());
+    collapseAll();
+    elSearchInput.value   = '';
+    elDropdown.hidden     = true;
+    elDropdown.innerHTML  = '';
+    elMain.classList.remove('post-run');
+    elMain.classList.add('pre-run');
+    elResultsPanel.hidden = true;
+
+    renderEntries();       // renders empty list, resets placeholder
+    updateModeUI(newMode); // flips heading, segment active state, switch-button label
 }
 
 // ── Nav ────────────────────────────────────────────────────────────────────────
