@@ -712,3 +712,24 @@ the prior one.
   attempts) is a separate gap — between scroll content and the scroll viewport edge at
   scroll-end; the `::after` spacer handles that correctly. These were two distinct gaps;
   both are now addressed. Measurement: wrapper left offset from content-box = 8px (0.5rem).
+
+## 2026-05-30 — Strip spacer + slider alignment final fix (feature/strip-slider-final)
+
+Before-fix measurements (Chromium 1440×900, Middlemarch+Jane Eyre, result expanded):
+- External strip gap (content-box → wrapper): 8px each side ✓ (margin from prior batch working)
+- Internal right buffer at max scroll: 18.3px ✗ (flex gap 9.6px + spacer 8px stacked)
+- Reset/slider vertical delta: 2.8px ✗ (range input not centered in its wrapper)
+
+- **Strip ::after spacer removed**: the spacer was redundant — the wrapper's margin-right
+  already provides 8px external right buffer. The spacer created an additional 17.6px
+  internal buffer (0.6rem flex gap + 0.5rem spacer stacked), totaling 26px from last
+  card to card inner border vs 21px on the left. Removing it equalizes both sides at
+  ~21px (8px external only). Measured post-fix: internal buffer 0.3px, external 8px
+  each side (symmetric).
+
+- **Slider wrapper made flex**: `.blend-slider-wrapper { display: flex; align-items:
+  center }` was added. The range input wasn't auto-centered within its `position:
+  relative` block wrapper; making it a flex container centers the input explicitly.
+  Post-fix delta = 0px. Tooltip still sits above the slider thumb (absolute positioning
+  is out of flow; wrapper becoming flex doesn't affect it — confirmed tooltip.bottom <
+  slider.top after fix).
