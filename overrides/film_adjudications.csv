@@ -1,0 +1,80 @@
+action,source,target,resolved_year,resolved_director,note
+merge,F:780ddc442fac,F:99525f6dd03f,,,Dekalog(Decalogue) 1988→1989
+merge,F:f6ad56cca563,F:99525f6dd03f,,,Decalogue 1988→Dekalog 1989
+merge,F:a581deb99bff,F:99525f6dd03f,,,The Decalogue 1989→Dekalog 1989
+merge,F:fbc0a298a55d,F:99525f6dd03f,,,The Decalogue 1988→Dekalog 1989
+merge,F:02078981f277,F:f00e3c45dd9d,,,Twin Peaks NBSP 2018→2017
+merge,F:c8940e7b5b7b,F:67b0d09fb2d2,,,Superstar Karen 1988→1987
+merge,F:b946bcca33e1,F:67b0d09fb2d2,,,Superstar Karen 1989→1987
+merge,F:39f07eaab216,F:4326441d5975,,,Salesman 1968→1969
+merge,F:9b7509cd61ee,F:effdc0addc4c,,,Perfect Blue 1998→1997
+merge,F:cca9dd2d4fe7,F:251cd649f30e,,,Sortie D'Usine 1896→1895
+merge,F:0a2d5b8ece22,F:251cd649f30e,,,SORTIE D'USINE subtitle→Sortie d'usine 1895
+merge,F:3b4f98332fed,F:ee3f94828883,,,Southland Tales 2005→2006
+merge,F:880744029c38,F:e1ad66603213,,,In the Street 1946→1948
+merge,F:ea3d3687ca6a,F:a2edba29a3fd,,,Sicilia! 1998→1999
+merge,F:576a4ef96d73,F:a2edba29a3fd,,,Sicilia!/Sicily! title variant→Sicilia! 1999
+merge,F:18fbc7de3efc,F:73bc2b4ab8ea,,,Invasion 1968→Invasion 1969
+merge,F:0baa8d425a5d,F:498eeb20c2a6,,,Notebook 1963→1962
+merge,F:a5e277e0822c,F:e917fde84581,,,I Am Somebody 1969→1970
+merge,F:264e0315e984,F:d73f1decefd2,,,Kisap Mata 1982→1981
+merge,F:9c537db6d392,F:6236062c0bea,,,L. Cohen 2017→2018
+merge,F:67b0c6ab536b,F:de8e6242d3f5,,,Peggy and Fred 2015→2016
+merge,F:22dcb1a4f2bc,F:12e73f3b1da5,,,Eniaios 1991→1992
+merge,F:776be2d987a7,F:b012c8bfaaac,,,La canta 1961→1962
+merge,F:4b909e6ecb34,F:5edfe25197ef,,,Images of the World 1988→1989
+merge,F:59423d0404bc,F:5bf728a15019,,,Agarrando Pueblo 1977 variant→Vampires 1977
+merge,F:0c92f22311f6,F:5bf728a15019,,,Agarrando pueblo 1978→Vampires 1977
+merge,F:ac5abb1c3fff,F:5bf728a15019,,,Agarrando pueblo(Vampires) 1978→Vampires 1977
+merge,F:675368378cbd,F:e578639824f5,,,Fuego en Castilla 1961→1960
+merge,F:4c2d90fee5f1,F:04d1cfe35a66,,,Johnny Flash 1986→1987
+merge,F:eb6596b7e115,F:aff1a8e450e3,,,Falling Lessons 1992→1993
+merge,F:ccb09af574af,F:4eda2e0a99d2,,,Le Tempestaire 1947→1948
+merge,F:d60611622a69,F:dafc2d2e8fd7,,,still/here 2000→2001
+merge,F:b8959907b09a,F:2fa904267156,,,Winter Ade 1988→Winter ade 1989
+merge,F:988efbe18030,F:ddfa166f49af,,,Este es el romance 1966→1967
+merge,F:9bff7a337685,F:a839db59f170,,,Leben BRD→Leben - BRD
+merge,F:5c268feb5b22,F:a839db59f170,,,LEBEN BRD(HOW TO LIVE)→Leben - BRD
+merge,F:9edbef915952,F:39211f8461b7,,,O. J.: Made in America→O.J. Made in America
+set_year,F:fd4bf297a220,,1915,,Ceux de chez nous: 1915-1952 range rows → year=1915
+create_and_assign,UNRESOLVED:F:39a604c68698,new,1983,T. Rama Rao,Andhaa Kaanoon: director-in-year field transposition
+create_and_assign,UNRESOLVED:F:8e046f09abb7,new,2016,Brett Story,The Prison in 12 Landscapes: director-in-year
+create_and_assign,UNRESOLVED:F:b85b05044cc4,new,1965,Bruce Conner,Looking for Mushrooms: 1959-67/1996 → 1965
+create_and_assign,UNRESOLVED:F:69695f972111,new,1981,Harun Farocki,Gedachtnis: 1981/82 → 1981
+create_and_assign,UNRESOLVED:F:e2bbe7253ad2,F:13d89ea77046,1990,,"Twin Peaks (TV series): 1990-1991,2017 → 1990; distinct from The Return"
+assign_unresolved,title:Dekalog (decalogue),F:99525f6dd03f,,,Dekalog(decalogue) 1988/1989 UNRESOLVED→1989 after merges
+assign_unresolved,title:The Decalogue,F:99525f6dd03f,,,The Decalogue blank UNRESOLVED→1989 after merges
+assign_unresolved,title:Eniaios,F:12e73f3b1da5,,,Eniaios Ongoing UNRESOLVED→1992 after 1991 merge
+explode,title:Apu Trilogy,"F:cda1a8b3152c,F:9347a82e3372,F:c075ca5a9bd2",,,Apu/The Apu Trilogy → Pather Panchali(1955)+Aparajito(1956)+Apur Sansar(1958)
+explode,title:The Apu Trilogy,"F:cda1a8b3152c,F:9347a82e3372,F:c075ca5a9bd2",,,The Apu Trilogy (with The) → Pather Panchali+Aparajito+Apur Sansar
+explode,title:The Bill Douglas Trilogy,"F:49a59167770c,new:My Ain Folk:1973:Bill Douglas,new:My Way Home:1978:Bill Douglas",,,The Bill Douglas Trilogy → My Childhood+My Ain Folk+My Way Home
+set_director,F:5e55d15a0567,,,"Lana Wachowski, Lilly Wachowski",Bound
+set_director,F:8509b531b601,,,Stan Brakhage,Dog Star Man
+set_director,F:09a914de09e9,,,Carolee Schneemann,Fuses
+set_director,F:933ec9beaa5b,,,"Lana Wachowski, Lilly Wachowski",Speed Racer
+set_director,F:a581deb99bff,,,Krzysztof Kieślowski,The Decalogue 1989 (merging anyway)
+set_director,F:f92de5796e6e,,,Alice Guy-Blaché,The Consequences of Feminism
+set_director,F:c3389fe02bf0,,,Hong Sangsoo,Bukchon Banghyang
+set_director,F:f00e3c45dd9d,,,David Lynch,Twin Peaks: The Return
+set_director,F:4326441d5975,,,"Albert Maysles, David Maysles, Charlotte Zwerin",Salesman
+set_director,F:8b59f9e5c592,,,Alan J. Pakula,All the President's Men
+set_director,F:5bf728a15019,,,"Carlos Mayolo, Luis Ospina",The Vampires of Poverty
+set_director,F:e4d2292715f0,,,Bora Kim,House of Hummingbird
+set_director,F:c377da635a16,,,"Elle-Máijá Tailfeathers, Kathleen Hepburn",The Body Remembers
+set_director,F:5317f9778b06,,,Hou Hsiao-hsien,Café Lumière
+set_director,F:a8504c4c8cb8,,,Paul Vecchiali,Femmes Femmes
+set_director,F:f6ad56cca563,,,Krzysztof Kieślowski,Decalogue 1988 (merging)
+set_director,F:f8aceea338d4,,,Elizabeth Price,The Woolworths Choir of 1979
+set_director,F:569be7b19926,,,Trinh T. Minh-ha,Reassemblage
+set_director,F:4e7bd8e303f8,,,Gerhard Benedikt Friedl,Hat Wolff von Amerongen
+set_director,F:858143f278b6,,,Trinh T. Minh-ha,Naked Spaces
+set_director,F:780ddc442fac,,,Krzysztof Kieślowski,Dekalog(decalogue) 1988 (merging)
+set_director,F:bd1eddc31e6d,,,Zhang Yimou,YING XIONG (Hero)
+set_director,F:0916add2163e,,,"Alberto Grifi, Massimo Sarchielli",Anna
+set_director,F:d1d7e10932c7,,,"Marta Rodríguez, Jorge Silva",Nuestra Voz
+set_director,F:8e9147c99c70,,,Ossama Mohammed,Stars in Broad Daylight
+set_director,F:901ab8f3201b,,,William A. Wellman,Other Men's Women
+set_director,F:90b6388d5c80,,,Marguerite Duras,L'homme Atlantique
+set_director,F:cce8972d95be,,,K.V. Reddy,Maya Bazaar
+set_director,F:1c5418a3c1af,,,Vitaly Kanevsky,Freeze Die Come to Life
+set_director,F:99525f6dd03f,,,Krzysztof Kieślowski,Dekalog (Decalogue) canonical
