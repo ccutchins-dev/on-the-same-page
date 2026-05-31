@@ -564,3 +564,27 @@ h1 {
 .about-tips-sub > li::marker {
   color: var(--text);
 }
+
+/* ── Mobile (≤600px) ─────────────────────────────────────────────────────────── */
+/* Additive-only block. No base rules modified. Desktop (>600px) is byte-for-byte unaffected. */
+@media (max-width: 600px) {
+  /* Header: tabs left, title right (flex replaces grid; 480px grid-template-columns
+     override has no effect on a flex container, so existing 480px block is harmless) */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  /* Input panel: cancel sticky on mobile so it scrolls away instead of overlaying results */
+  #input-panel {
+    position: static;
+    top: auto;
+  }
+
+  /* Search input: ≥16px prevents iOS Safari auto-zoom on focus (was 0.9rem = 14.4px) */
+  #search-input {
+    font-size: 1rem;
+  }
+}
