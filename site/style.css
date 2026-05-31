@@ -311,6 +311,8 @@ h1 {
 .blend-slider-wrapper {
   position: relative;
   flex: 1;
+  display: flex;
+  align-items: center;   /* vertically center slider input within wrapper */
 }
 
 #blend-slider {
@@ -455,10 +457,9 @@ h1 {
   padding-bottom: 0.4rem;   /* clears horizontal scrollbar appearance */
   min-width: min-content;
 }
-.detail-strip::after {
-  content: '';
-  flex: 0 0 0.5rem;   /* trailing spacer: guarantees right-side buffer at scroll-end */
-}
+/* ::after spacer removed: wrapper margin-right already provides 8px right-side
+   buffer between scroll viewport and card inner border — spacer was redundant
+   and stacked with the flex gap to create 18px internal buffer vs 8px on left */
 
 .voter-card {
   flex-shrink: 0;
