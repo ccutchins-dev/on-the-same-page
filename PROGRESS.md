@@ -34,6 +34,28 @@ Append in chronological order. Never edit prior entries.
 
 ## Entries
 
+## 2026-09-04 — Real README (docs/readme)
+
+- **Branch**: docs/readme → merged to main (fast-forward, `c3ee258`)
+- **What**: replaced the stale template README (leftover "Generic Agentic Project
+  Scaffolding" text pointing at a nonexistent `START_HERE.md`) with a real one for
+  this project: premise, what the user does, how the matching works, the data
+  sources/counts, how the site is built, and a repo map. Written for a reader
+  outside the repo, since the user's goal is to send this to someone else.
+- **Live link included**: https://onthesamepage.pages.dev (confirmed reachable,
+  HTTP 200, at write time).
+- **Scope choices** (per user): overview only, no reproduction commands, no
+  status/roadmap section — `PROJECT.md`/`DECISIONS.md`/`PROGRESS.md` stay the
+  detail sources.
+- **Not done**: repo visibility. User wants the repo public so the README can be
+  shared directly; visibility is a GitHub setting the user must change themselves.
+  Flagged to the user that the full git history — including the raw voter CSVs in
+  `input_data/` — would become public too, per the existing private-repo rationale
+  in `DECISIONS.md` (2026-05-31, "Private GitHub repo"). Offered to scan history
+  for anything sensitive before that happens; awaiting a decision.
+- **Next**: if/when the user confirms going public, scan git history for secrets
+  or anything else that shouldn't ship before the visibility flip.
+
 ## 2026-05-31 — Books/Movies mode toggle (feature/mode-toggle)
 
 - **Branch**: feature/mode-toggle → merging to main
